@@ -5,6 +5,32 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+        .outer{
+            margin: auto; 
+            margin-top: 50px;
+            /* border: 1px solid black; */
+            text-align: center;
+            width: 1200px;
+        }
+        .outer>div{margin: 10px;}
+        .set{margin: 5px; float: left;}
+        #hashtag{font-size: 40px; font: bold;}
+
+        .style-img>img{width: 260px; height: 260px;}
+
+        .nickname{height: 40px; text-align: left;}
+        .nickname>img{width: 25px; height: 25px;}
+        .nickname>a{margin-left: 3px;}
+
+        .like{text-align: right;}
+        .like>a{padding: 0;}
+
+        .text{text-align: left;}
+
+        #tag-search{width: 300px;}
+        #standard>button{margin-left: 5px; margin-right: 5px;}
+    </style>
 </head>
 <body>
 
