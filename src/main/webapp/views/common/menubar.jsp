@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	String contextPath = request.getContextPath();
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +11,7 @@
 <style>
     div{
         box-sizing: border-box;
-        /*border: 1px solid lightgrey;*/
+        /*border: 1px solid lightgray;*/
     }
     .wrap{
         width: 1200px;
@@ -183,7 +186,7 @@
 	
 	    <div id="navigator">
 	        <ul id="navi">
-	            <li><a href="">STYLE</a></li>
+	            <li><a href="<%= contextPath %>/list.st">STYLE</a></li>
 	            <li><a href="">SHOP</a></li>
 	        </ul>
 	    </div>
