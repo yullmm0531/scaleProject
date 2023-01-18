@@ -163,7 +163,7 @@
 	    <div id="header">
 	        <br clear="both">
 	        <div id="header-1">
-	            <img src="../../resources/images/logo.png" alt="">
+	            <img src="/resources/images/logo.png">
 	        </div>
 	        <div id="header-2">
 	
@@ -176,8 +176,8 @@
 	        </div>
 	        <div id="header-3">
 	            <div id="login-etc">
-		            <a href="">로그인  &nbsp&nbsp</a> 
-		            <a href="">회원가입 &nbsp&nbsp </a> 
+		            <a href="">로그인  &nbsp;&nbsp;</a> 
+		            <a href="">회원가입 &nbsp;&nbsp; </a> 
 		            <a href="">고객센터 </a>
 	        	</div>
 	        </div>
