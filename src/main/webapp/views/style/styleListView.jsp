@@ -35,12 +35,12 @@
             <table class="set">
                 <tr>
                     <td colspan="2" class="style-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="style-img">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="style-img">
                     </td>
                 </tr>
                 <tr>
                     <td class="nickname">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="rounded-circle">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="rounded-circle">
                         <a href="">닉네임</a>
                     </td>
                     <td class="like">
@@ -60,12 +60,12 @@
             <table class="set">
                 <tr>
                     <td colspan="2" class="style-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="style-img">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="style-img">
                     </td>
                 </tr>
                 <tr>
                     <td class="nickname">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="rounded-circle">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="rounded-circle">
                         <a href="">닉네임</a>
                     </td>
                     <td class="like">
@@ -85,12 +85,12 @@
             <table class="set">
                 <tr>
                     <td colspan="2" class="style-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="style-img">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="style-img">
                     </td>
                 </tr>
                 <tr>
                     <td class="nickname">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="rounded-circle">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="rounded-circle">
                         <a href="">닉네임</a>
                     </td>
                     <td class="like">
@@ -110,12 +110,12 @@
             <table class="set">
                 <tr>
                     <td colspan="2" class="style-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="style-img">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="style-img">
                     </td>
                 </tr>
                 <tr>
                     <td class="nickname">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="rounded-circle">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="rounded-circle">
                         <a href="">닉네임</a>
                     </td>
                     <td class="like">
@@ -135,12 +135,12 @@
             <table class="set">
                 <tr>
                     <td colspan="2" class="style-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="style-img">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="style-img">
                     </td>
                 </tr>
                 <tr>
                     <td class="nickname">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="rounded-circle">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="rounded-circle">
                         <a href="">닉네임</a>
                     </td>
                     <td class="like">
@@ -160,12 +160,12 @@
             <table class="set">
                 <tr>
                     <td colspan="2" class="style-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="style-img">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="style-img">
                     </td>
                 </tr>
                 <tr>
                     <td class="nickname">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="rounded-circle">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="rounded-circle">
                         <a href="">닉네임</a>
                     </td>
                     <td class="like">
@@ -185,12 +185,12 @@
             <table class="set">
                 <tr>
                     <td colspan="2" class="style-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="style-img">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="style-img">
                     </td>
                 </tr>
                 <tr>
                     <td class="nickname">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="rounded-circle">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="rounded-circle">
                         <a href="">닉네임</a>
                     </td>
                     <td class="like">
@@ -210,12 +210,12 @@
             <table class="set">
                 <tr>
                     <td colspan="2" class="style-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="style-img">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="style-img">
                     </td>
                 </tr>
                 <tr>
                     <td class="nickname">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="rounded-circle">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="rounded-circle">
                         <a href="">닉네임</a>
                     </td>
                     <td class="like">
@@ -235,12 +235,12 @@
             <table class="set">
                 <tr>
                     <td colspan="2" class="style-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="style-img">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="style-img">
                     </td>
                 </tr>
                 <tr>
                     <td class="nickname">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="rounded-circle">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="rounded-circle">
                         <a href="">닉네임</a>
                     </td>
                     <td class="like">
@@ -260,12 +260,12 @@
             <table class="set">
                 <tr>
                     <td colspan="2" class="style-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="style-img">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="style-img">
                     </td>
                 </tr>
                 <tr>
                     <td class="nickname">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="rounded-circle">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="rounded-circle">
                         <a href="">닉네임</a>
                     </td>
                     <td class="like">
