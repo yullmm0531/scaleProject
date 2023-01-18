@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class StyleListController
  */
-@WebServlet("/StyleListController")
+@WebServlet("/list.st")
 public class StyleListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -26,7 +26,7 @@ public class StyleListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("views/styleListView.jsp").forward(request, response);
+		request.getRequestDispatcher("views/style/styleListView.jsp").forward(request, response);
 	}
 
 	/**
