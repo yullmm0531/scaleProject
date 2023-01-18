@@ -163,7 +163,7 @@
 	    <div id="header">
 	        <br clear="both">
 	        <div id="header-1">
-	            <img src="/resources/images/logo.png">
+	            <img src="<%= contextPath %>/resources/images/logo.png">
 	        </div>
 	        <div id="header-2">
 	
