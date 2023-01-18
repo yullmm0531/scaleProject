@@ -7,200 +7,145 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<style>
-    div{
-        box-sizing: border-box;
-        /*border: 1px solid lightgray;*/
-    }
-    .wrap{
-        width: 1200px;
-        margin: auto;
-        padding: auto;
-    }
-
-    .wrap>div{width: 100%;}
-
-    #header{height: 200px;}
-    #navigator{height: 3%;}
-
-    #header-1{width: 25%; position: relative;}
-    #header-2{width: 50%; position:relative}
-    #header-3{width: 25%;}
-
-    #header>div{
-        height: 100%;
-        float: left;
-    }
-
-    #header img{
-            width:80%;
-            height:100%;
-            position:absolute;
-            margin: auto;
-            top : 0;
-            bottom:0;
-            left: 0;
-            right: 0;
-        }
-
-    #login-etc{
-        text-align: center;
-        margin: auto;
-        margin-top: 30px;
-        color: gray;
-        
-       }
-    #login-etc a{
-        text-decoration: none;
-        margin: auto;
-        color: gray;
-        vertical-align:middle;
-        letter-spacing:1px;
-        font-size: 13px;
-        
-       
-        }
-     #login-etc a:hover{
-        color: rgb(1, 13, 50);
-        font-weight: 800;
-     }
-
-
-     #navigator{
-        margin: auto;
-
-     }
-
-    #navi{
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-        width: 100%;
-        height: 100%;
-
-    }
-    #navi>li{
-        float: left;
-        width: 4%;
-        height: 100%;
-        margin-left: 50px;
-        
-        
-       
-        }
-
-    #navi a{
-        font-family: 'Noto Sans KR', sans-serif;
-        text-decoration: none;
-        color: rgb(1, 13, 50);
-        font-size: 20px;
-        font-weight: 600;
-        width: 100%;
-        height: 100%;
-        display: block;
-        line-height: 35px;
-        letter-spacing:2px;
-        
-        
-    }
-    #navi a:hover{
-        font-weight: 800;
-        color: rgb(97, 97, 97);
-        }
-        
-    .search_box {
-    box-sizing: border-box;
-    width: 600px;
-    height: 40px rgb(255, 255, 255);
-    border: 2px solid #040116;
-    display: flex;
-    margin-top: 20px;
-    }
-    
-    .search_box input {
-        box-sizing: border-box;
-        width: 100%;
-        height: 40px;
-        padding-left: 12px;
-        padding-right: 12px;
-        border: none;
-        outline: none;
-        font-size: 18px;
-        
-    }
-
-    .search_box i {
-        box-sizing: border-box;
-        color: rgb(244, 244, 244);
-        font-size: 22px;
-        text-align: center;
-    }
-    
-    #keyboard {
-        box-sizing: border-box;
-        color: rgb(238, 238, 238);
-        font-size: 20px;
-        text-align: center;
-        width: 10%;
-        padding-top:12px;
-    }
-    
-    hr {
-    border: none;
-    border-top: 1px solid #E3E7EB;
-    overflow: visible;
-    text-align: center;
-    margin-top: 25px;
-    height: 11px;
-	}
-</style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<title>Scale</title>
+<!-- <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet"> -->
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<!-- jQuery library -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
 <!-- Popper JS -->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <!-- Latest compiled JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+
+    div{
+        box-sizing: border-box;
+    }
+
+    #header{
+        width:1200px;
+        margin:auto;
+        background:black;
+        color:white;
+        height:180px;
+    }
+    #logo, #searchBox, #utilities{
+        height:60%;
+        background:transparent;
+        float:left;
+    }
+    #logo{
+        width:20%;
+        text-align:center;
+        line-height:100px;
+    }
+    #searchBox{
+        width:60%;
+        padding:40px 150px
+
+    }
+    #utilities{
+        width:20%;
+        line-height:50px;
+    }
+
+    #searchInput{
+        width:400px;
+        height:40px;
+        border-radius:4px;
+        background:rgb(41,41,41);
+        border:none;
+        color:rgb(226, 226, 226);
+        padding-left:13px;
+    }
+    #searchInput:focus{
+        outline: 1px solid black;
+    } 
+    #searchInput::placeholder{
+        font-size:13px;
+        padding-left:2px;
+        color:gray;
+    }
+    #searchBox button{
+        /* width:60px;
+        height:44px; */
+        border-radius:4px;
+        font-size:13px;
+        background:rgb(41,41,41);
+        color:rgb(226, 226, 226);
+        display:none;
+    }
+
+    #utilities a{
+        color:rgb(212, 212, 212);
+        font-size:12px;
+        margin:10px;
+    }
+
+    #navigator{
+        clear:both;
+        width:100%;
+        height:40%;
+    }
+    #navi{
+        width:100%;
+        height:100%;
+        list-style-type:none;
+        padding:0;
+        margin:0;
+        border-top:1px solid rgb(41,41,41);
+    }
+    #navi>li{
+        width:14%;
+        height:100%;
+        float:left;
+    }
+    #navi a{
+        color:white;
+        text-decoration:none;
+        font-size:18px;
+        font-weight:700;
+        letter-spacing:1px;
+        display:block;
+        width:100%;
+        height:100%;
+        text-align:center;
+        line-height:64px;
+    }
+    #navi a:hover{
+        color:rgb(19, 0, 187);
+    }
+
+</style>
 </head>
 <body>
+        
+    <div id="header">
 
-	<div class="wrap">
-	    <div id="header">
-	        <br clear="both">
-	        <div id="header-1">
-	            <img src="<%= contextPath %>/resources/images/logo.png">
-	        </div>
-	        <div id="header-2">
-	
-	            <div class="search_box">
-	                
-	                <input type="text" maxlength="225"> <i id="keyboard" class="fa fa-keyboard-o"></i>
-	                <button type="submit" class="btn btn-light">search</button>
-	                </button>
-	            </div>
-	        </div>
-	        <div id="header-3">
-	            <div id="login-etc">
-		            <a href="">로그인  &nbsp;&nbsp;</a> 
-		            <a href="">회원가입 &nbsp;&nbsp; </a> 
-		            <a href="">고객센터 </a>
-	        	</div>
-	        </div>
-	    </div>
-	    <hr id="hr1">               
-	
-	    <div id="navigator">
-	        <ul id="navi">
-	            <li><a href="<%= contextPath %>/list.st">STYLE</a></li>
-	            <li><a href="">SHOP</a></li>
-	        </ul>
-	    </div>
-	    <hr>
-	
-	    <div id="content"></div>
-	    <div id="footer"></div>
-	</div>
+        <div id="logo">
+            <a href="<%=contextPath%>">
+                <img src="https://www.soldout.co.kr/_nuxt/img/logo-soldout-white.abfa821.svg">
+            </a>
+        </div>
 
-</body>
+        <div id="searchBox">
+            <input type="text" id="searchInput" placeholder="상품을 검색해보세요.">
+            <button type="submit"></button>
+        </div>
+
+        <div id="utilities">
+            <a href="">로그인</a> 
+            <a href="">회원가입</a> 
+            <a href="">고객센터</a>
+        </div>
+        
+        <div id="navigator">
+            <ul id="navi">
+                <li><a href="<%=contextPath%>/list.st">STYLE</a></li>
+                <li><a href="">SHOP</a></li>
+            </ul>
+        </div>
+    </div>
+</body>       
 </html>
