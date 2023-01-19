@@ -22,7 +22,11 @@
     div{
         box-sizing: border-box;
     }
-
+	
+	.wrap{
+		width:1920px;
+		background:black;
+	}
     #header{
         width:1200px;
         margin:auto;
@@ -120,12 +124,12 @@
 </style>
 </head>
 <body>
-        
+   <div class="wrap">
     <div id="header">
 
         <div id="logo">
             <a href="<%=contextPath%>">
-                <img src="https://www.soldout.co.kr/_nuxt/img/logo-soldout-white.abfa821.svg">
+                <img src="<%=contextPath %>/resources/images/logo.png" width="200">
             </a>
         </div>
 
@@ -147,5 +151,6 @@
             </ul>
         </div>
     </div>
+   </div>
 </body>       
 </html>
