@@ -76,7 +76,7 @@
         height:44px; */
         border-radius:4px;
         font-size:13px;
-        background:rgb(41,41,41);
+        background:rgb(104, 104, 104);
         color:rgb(226, 226, 226);
         display:none;
     }
@@ -139,8 +139,8 @@
         </div>
 
         <div id="utilities">
-            <a href="">로그인</a> 
-            <a href="">회원가입</a> 
+            <a href="<%=contextPath%>/login.us">로그인</a> 
+            <a href="<%=contextPath%>/join.us">회원가입</a> 
             <a href="">고객센터</a>
         </div>
         
