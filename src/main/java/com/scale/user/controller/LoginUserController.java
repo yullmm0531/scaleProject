@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class LoginUserFormController
+ * Servlet implementation class LoginUserController
  */
-@WebServlet("/loginForm.us")
-public class LoginUserFormController extends HttpServlet {
+@WebServlet("/login.us")
+public class LoginUserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginUserFormController() {
+    public LoginUserController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -26,7 +26,8 @@ public class LoginUserFormController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("views/user/loginUserForm.jsp").forward(request, response);
+		String userId = request.getParameter("userId");
+		String userPwd = request.getParameter("userPwd");
 	}
 
 	/**

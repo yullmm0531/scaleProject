@@ -139,7 +139,7 @@
         </div>
 
         <div id="utilities">
-            <a href="<%=contextPath%>/login.us">로그인</a> 
+            <a href="<%=contextPath%>/loginForm.us">로그인</a> 
             <a href="<%=contextPath%>/join.us">회원가입</a> 
             <a href="">고객센터</a>
         </div>

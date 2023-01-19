@@ -6,107 +6,87 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-	body{
-	     background-color: #f5f6f7;
-	     font-family: 'Noto Sans KR', sans-serif;
-	
-	        }
-	
-	.login-wrapper{
-	    width: 500px;
-	    height: 480px;
-	    padding: 40px;
-	    margin: auto;
-	    box-sizing: border-box;
-	    margin-top: 50px;
-	  
-	}
-	
-	.login-wrapper > h2{
-	    font-size: 24px;
-	    color: #071081;
-	    margin-bottom: 20px;
-	}
-	#login-form > input{
-	    font-family: 'Noto Sans KR', sans-serif;
-	
-	    width: 100%;
-	    height: 48px;
-	    padding: 0 10px;
-	    box-sizing: border-box;
-	    margin-bottom: 16px;
-	    border-radius: 6px;
-	    background-color: #F8F8F8;
-	    border: 1px solid lightgray;
-	    letter-spacing:1px;
-	}
-	#login-form > input::placeholder{
-	    color: #7e7c7c;
-	}
-	#login-form > input[type="submit"]{
-	    color: #fff;
-	    font-size: 16px;
-	    font-weight: 600;
-	    background-color: #0f0257;
-	    margin-top: 2px;
-	    letter-spacing:7px;
-	    cursor: pointer;
-	}
-	#enroll {
-	    text-align: center;
-	}
-	 
-	#enroll a{
-	    letter-spacing:2px;
-	    color: darkgray;
-	    text-decoration: none;
-	    padding: auto;
-	    margin: auto;
-	
-	}
-	
-	.login-wrapper img{
-	     margin-bottom: -5%;
-	     width:200px;
-	     display: block;
-	     margin-left: auto;
-	     margin-right: auto;
-	    
-	      }
-	      .form-check{
-	        display: flex;
-	        flex-direction: row;
-	        justify-content: center;
-	    }
+	.outer{
+        font-family: 'Noto Sans KR', sans-serif;
+        width:1200px;
+        min-width:650px;
+        margin:auto;
+        margin-top:100px;
+        margin-bottom:70px;
+    }
+    .login-wrapper{
+        width:25%;
+        margin:auto;
+        margin-top:50px;
+    }
+    .login-wrapper>img{
+        width:60%;
+        margin:30px;
+    }
+    #login-form>input, #login-form>button{
+        width:100%;
+        height:48px;
+        box-sizing:border-box;
+        margin-bottom:20px;
+        border-radius:6px;
+        border:none;
+        font-size:15px;
+    }
+    #login-form>input{
+        padding-left:23px;
+        outline:none;
+        background:#f7f7f7;
+    }
+    #login-form>input::placeholder{
+        font-weight:400;
+        color:darkgray;
+    }
+    #login-form>button{
+        margin-top:3px;
+        font-weight:900;
+        background:#0c033d;
+        color:#ffff;
+    }
+    .login-util-wrap{
+        margin:10px;
+        text-align:center;
+    }
+    #login-util>a{
+        margin:20px;
+        text-decoration:none;
+        color:black;
+        font-size:13px;
+        font-weight:500;
+    }
+    #login-util>p{
+        margin-top:35px;
+        color:rgb(166, 166, 166);
+        font-size:12px;
+    }
 
 </style>
 </head>
 <body>
 	<%@ include file="../common/menubar.jsp" %>
-    <div class="login-wrapper">
-        <h2 style="text-align: center;"><img src="<%=contextPath%>/resources/images/logo_navy.png"></h2>
-        <form action ="" form="" id="login-form">
-            <input type="text" name="userName" placeholder="아이디" required>
-            <input type="password" name="userPassword" placeholder="비밀번호" required>
-            <br>
-            <input type="submit" value="로그인"><br>
-            
-            <br clear="both">
-            <div id="enroll">
-            <a href="">회원가입   | </a> 
-            <a href="">아이디찾기 | </a> 
-            <a href="">비밀번호찾기</a>
+    <div class=".outer">
+        <div class="login-wrapper" align="center">
+        <img src="<%=contextPath%>/resources/images/logo_navy.png">
+            <form action="/login.us" method="post" id="login-form">
+                <input type="text" name="userId" placeholder="아이디" required>
+                <input type="password" name="userPwd" placeholder="비밀번호" required>
+                <br>
+                <button type="submit">로그인</button>
+                
+                <div class="login-util-wrap">
+                    <div id="login-util">
+                        <a href="">회원가입</a> 
+                        <a href="">아이디찾기</a> 
+                        <a href="">비밀번호찾기</a>
+                        <p>Copyright © Scale Corp. All Rights Reserved.</p>
+                    <div>
+                </div>
+            </form>
         </div>
-        <br clear="both">
-
-        <footer>
-            <div class="copyright-wrap" style="text-align: center;">
-            <span>Copyright © Scale Corp. All Rights Reserved.</span>
-            </div>
-            <br clear="both">
-        </footer>
-
-        </form>
     </div>
 </body>
 </html>
