@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>회원가입</title>
 <style>
 	.outer{
             font-family: 'Noto Sans KR', sans-serif;
@@ -14,53 +14,34 @@
             margin-top : 100px;
             margin-bottom : 70px;
         }
-
         h2{
             text-align:center;
             margin:50px 0px;
         }
-
         #joinForm{
-            width : 500px;
-            margin: auto;
+            width:500px;
+            margin:auto;
             margin-top:50px;
-            padding: 10px;
+            padding:10px;
             border:0.5px solid lightgray;
             border-radius:7px;
-            box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 8px 0px;
-            position:relative;
+            box-shadow:rgba(0, 0, 0, 0.05) 0px 0px 8px 0px;
         }
+        .form-fields{margin:40px;}
+
+        #userId, #postCode{width:300px;}
+
+        #joinForm input[type=checkbox]{margin-left: 20px;}
+
+        .rq-mark{color:red; margin:7px;}
         
-        .form-fields{
-            margin:40px;
-        }
-        #userId, #postCode{
-            width:300px;
-           
-        }
-        #joinForm input[type=checkbox]{
-            margin-left: 20px;
-        }
+        #userId, #postCode{display:inline-block;}
+       
+        ::placeholder{font-size:12px;}
 
-        .rq-mark{
-            color:red;
-            margin:7px;
-        }
-        #userId, #postCode{
-            display:inline-block;
-        }
-        
-        ::placeholder{
-            font-size:12px;
-        }
+        .policy-agree div{display:inline-block;}
 
-        .policy-agree div{
-            display:inline-block;
-        }
-
-        .policy{
-            width:85%;
-        }
+        .policy{width:85%;}
 
         .policy a{
             color:gray;
@@ -68,24 +49,25 @@
             text-decoration:underline;
             font-size:12px;
         }
-
         .policy-agree ul{
             list-style:none;
             padding-left:0px;
             line-height:35px;
         }
-
         #btn-area{
             text-align:center;
             padding : 30px;
         }
-
         .form-fields button{
             font-size: 14px;
         }
-
         .detail-addr-form{
             display:none;
+        }
+        .check-input{
+            color:red;
+            font-size:11px;
+            padding:3px 10px;
         }
 </style>
 </head>
@@ -94,44 +76,45 @@
 	<%@ include file="../common/menubar.jsp" %>
 	
 	<div class="outer">
-    <h2>회원가입</h2>
-        <form id="joinForm" action="" method="post">
+    <h2><b>회원가입</b></h2>
+        <form id="joinForm" action="<%=contextPath%>/" method="post">
             <div class="form-fields">
                 <div class="form-group">
                     <label for="userId"><span class="rq-mark">*</span>아이디</label> <br>
-                    <input type="text" class="form-control" id="userId" name="userId" placeholder="6자 이상의 영문 혹은 영문+숫자로 입력해주세요.">
+                    <input type="text" class="form-control" id="userId" name="userId" placeholder="6자 이상의 영문 혹은 영문+숫자로 입력해주세요." required>
                     <button type="button" id="idCheck" class="btn btn-dark">중복 확인</button>
                     <div class="check-input" id="check-input-id"></div>
                 </div>
                 
                 <div class="form-group">
                     <label for="pwd"><span class="rq-mark">*</span>비밀번호</label>
-                    <input type="password" class="form-control" id="pwd" name="userPwd" placeholder="영문+숫자를 조합하여 8자 이상으로 입력해주세요.">
-                    </div>
+                    <input type="password" class="form-control" id="userPwd" name="userPwd" placeholder="영문+숫자를 조합하여 8자 이상으로 입력해주세요." required>
+                    <div class="check-input" id="check-input-userPwd"></div>
+                </div>
                 
                 <div class="form-group">
                     <label for="pwdCheck"><span class="rq-mark">*</span>비밀번호 확인</label>
-                    <input type="password" class="form-control" id="pwdCheck" placeholder="입력한 비밀번호를 확인해주세요.">
+                    <input type="password" class="form-control" id="pwdCheck" placeholder="입력한 비밀번호를 확인해주세요." required>
                 </div>
 
                 <div class="form-group">
                     <label for="userName"><span class="rq-mark">*</span>이름</label>
-                    <input type="text" class="form-control" id="userName" placeholder="이름을 입력해주세요.">
+                    <input type="text" class="form-control" id="userName" placeholder="이름을 입력해주세요." required>
                 </div>
 
                 <div class="form-group">
                     <label for="userNickName"><span class="rq-mark">*</span>닉네임</label>
-                    <input type="text" class="form-control" id="userNickName" placeholder="닉네임을 입력해주세요.">
+                    <input type="text" class="form-control" id="userNickName" placeholder="닉네임을 입력해주세요." required>
                 </div>
                 
                 <div class="form-group">
                     <label for="phone"><span class="rq-mark">*</span>휴대폰번호</label>
-                    <input type="text" class="form-control" id="phone" placeholder="휴대폰번호 숫자만 입력해주세요." onKeyup ="addHypen(this);" required>
+                    <input type="text" class="form-control" id="phone" placeholder="휴대폰번호 숫자만 입력해주세요." onKeyup="addHypen(this);" required>
                 </div>
 
                 <div class="form-group">
                     <label for="email"><span class="rq-mark">*</span>이메일</label>
-                    <input type="email" class="form-control" id="email" placeholder="예) example@scale.com">
+                    <input type="email" class="form-control" id="email" placeholder="예) example@scale.com" required>
                 </div>
                 
                 <div class="form-group">
@@ -164,22 +147,6 @@
                         </ul>
                     </div>
                 </div>
-                <!-- <div class="policy-agree">
-                    <span>
-                        SCALE 서비스 이용약관 동의
-                    </span>
-                    <span>
-                        <input type="checkbox" class="" value="" id="policyCheck1">
-                    </span>
-                    <span>
-                        <label for="policyCheck">개인정보 수집 및 이용 동의</label>
-                        <input type="checkbox" class="" value="" id="policyCheck1">
-                    </span>
-                    <div>
-                        <label for="policyCheck">[선택] 광고성 정보 수신 동의</label>
-                        <input type="checkbox" class="" value="" id="policyCheck1">
-                    </div>
-                </div> -->
             </div>
             <div id="btn-area">
                 <button type="submit" class="btn btn-primary" onclick="return validate();">회원가입</button>
@@ -273,21 +240,45 @@
 <script>
 
     function validate(){
-        const idInput = document.getElementById("userId");
-        const pwdInput1 = document.getElementById("userPw1");
-        const pwdInput2 = document.getElementById("userPwd2");
-        const nameInput = document.getElementById("userName");
-        const nickNameInput = document.getElementById("userNickName");
+        const userId = $("#userId").val();
+        const userPwd = $("#userPwd").val();
+        const pwdCheck = $("#pwdCheck").val();
+        const userName = $("#userName").val();
+        const userNickName = $("#userNickName").val();
+        const phone = $("#phone").val();
+        const email = $("#email").val();
 
-        //1) 아이디검사
-        // 첫글자 영문자 + 영소문자 + 숫자 => 5~15자
-        
-        let regExp = /^[a-z][a-z\d]{4,14}$/;
-        if(!regExp.test(idInput.value)){
-            alert("첫글자는 영문자로 시작하며 숫자와 영소문자가 포함된 5~15자의 유효한 아이디를 입력해주세요.");
-            idInput.selet();
-            return false;
+       
+        if(userId == ""){
+            $("#check-input-id").html("아이디를 입력해주세요.");
+            $("#userId").focus();
+            return false
         }
+
+        let regExp = /^[a-z][a-z\d]{4,14}$/;
+        if(!regExp.test(userId)){
+            $("#check-input-id").html("아이디 형식을 확인해주세요.");
+            $("#userId").focus();
+            return false
+        }else{
+            $("#check-input-id").html("");
+        }
+
+        if(pwdInput1.val() == ""){
+            $("#check-input-userPwd").html("비밀번호를 입력해주세요.");
+            pwdInput1.focus();
+            return false
+        }
+
+
+
+        // 1) 아이디검사
+        // let regExp = /^[a-z][a-z\d]{4,14}$/;
+        // if(!regExp.test(idInput.value)){
+        //     alert("영문으로 시작하는 5~15자의 유효한 아이디를 입력해주세요.");
+        //     idInput.selet();
+        //     return false;
+        // }
     }
 </script>
 
