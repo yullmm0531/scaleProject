@@ -118,7 +118,7 @@
         line-height:64px;
     }
     #navi a:hover{
-        color:rgb(19, 0, 187);
+        color:rgb(80, 80, 80);
     }
 
 </style>
@@ -129,7 +129,7 @@
 
         <div id="logo">
             <a href="<%=contextPath%>">
-                <img src="<%=contextPath %>/resources/images/logo.png" width="200">
+                <img src="<%=contextPath %>/resources/images/logo.png" width="180">
             </a>
         </div>
 
