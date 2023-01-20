@@ -17,7 +17,7 @@
     .set{margin: 5px; float: left;}
     #hashtag{font-size: 40px; font: bold;}
 
-    .style-img>img{width: 260px; height: 260px;}
+    .style-img>img{width: 260px; height: 260px; border-radius: 0.5em;}
 
     .nickname{height: 40px; text-align: left;}
     .nickname>img{width: 25px; height: 25px;}
@@ -75,7 +75,7 @@
             <table class="set">
                 <tr>
                     <td colspan="2" class="style-img">
-                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="style-img">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg">
                     </td>
                 </tr>
                 <tr>
@@ -97,7 +97,281 @@
                     </td>
                 </tr>
             </table>
-            
+            <table class="set">
+                <tr>
+                    <td colspan="2" class="style-img">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="nickname">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="rounded-circle">
+                        <a href="">닉네임</a>
+                    </td>
+                    <td class="like">
+                        <a class="btn">😊</a>
+                        <span>200</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <div class="text">
+                            <a href="">#xxxxx</a>
+                            <a href="">#xxxxx</a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <table class="set">
+                <tr>
+                    <td colspan="2" class="style-img">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="nickname">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="rounded-circle">
+                        <a href="">닉네임</a>
+                    </td>
+                    <td class="like">
+                        <a class="btn">😊</a>
+                        <span>200</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <div class="text">
+                            <a href="">#xxxxx</a>
+                            <a href="">#xxxxx</a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <table class="set">
+                <tr>
+                    <td colspan="2" class="style-img">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="nickname">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="rounded-circle">
+                        <a href="">닉네임</a>
+                    </td>
+                    <td class="like">
+                        <a class="btn">😊</a>
+                        <span>200</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <div class="text">
+                            <a href="">#xxxxx</a>
+                            <a href="">#xxxxx</a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <table class="set">
+                <tr>
+                    <td colspan="2" class="style-img">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="nickname">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="rounded-circle">
+                        <a href="">닉네임</a>
+                    </td>
+                    <td class="like">
+                        <a class="btn">😊</a>
+                        <span>200</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <div class="text">
+                            <a href="">#xxxxx</a>
+                            <a href="">#xxxxx</a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <table class="set">
+                <tr>
+                    <td colspan="2" class="style-img">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="nickname">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="rounded-circle">
+                        <a href="">닉네임</a>
+                    </td>
+                    <td class="like">
+                        <a class="btn">😊</a>
+                        <span>200</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <div class="text">
+                            <a href="">#xxxxx</a>
+                            <a href="">#xxxxx</a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <table class="set">
+                <tr>
+                    <td colspan="2" class="style-img">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="nickname">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="rounded-circle">
+                        <a href="">닉네임</a>
+                    </td>
+                    <td class="like">
+                        <a class="btn">😊</a>
+                        <span>200</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <div class="text">
+                            <a href="">#xxxxx</a>
+                            <a href="">#xxxxx</a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <table class="set">
+                <tr>
+                    <td colspan="2" class="style-img">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="nickname">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="rounded-circle">
+                        <a href="">닉네임</a>
+                    </td>
+                    <td class="like">
+                        <a class="btn">😊</a>
+                        <span>200</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <div class="text">
+                            <a href="">#xxxxx</a>
+                            <a href="">#xxxxx</a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <table class="set">
+                <tr>
+                    <td colspan="2" class="style-img">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="nickname">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="rounded-circle">
+                        <a href="">닉네임</a>
+                    </td>
+                    <td class="like">
+                        <a class="btn">😊</a>
+                        <span>200</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <div class="text">
+                            <a href="">#xxxxx</a>
+                            <a href="">#xxxxx</a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <table class="set">
+                <tr>
+                    <td colspan="2" class="style-img">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="nickname">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="rounded-circle">
+                        <a href="">닉네임</a>
+                    </td>
+                    <td class="like">
+                        <a class="btn">😊</a>
+                        <span>200</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <div class="text">
+                            <a href="">#xxxxx</a>
+                            <a href="">#xxxxx</a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <table class="set">
+                <tr>
+                    <td colspan="2" class="style-img">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="nickname">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="rounded-circle">
+                        <a href="">닉네임</a>
+                    </td>
+                    <td class="like">
+                        <a class="btn">😊</a>
+                        <span>200</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <div class="text">
+                            <a href="">#xxxxx</a>
+                            <a href="">#xxxxx</a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <table class="set">
+                <tr>
+                    <td colspan="2" class="style-img">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="nickname">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="rounded-circle">
+                        <a href="">닉네임</a>
+                    </td>
+                    <td class="like">
+                        <a class="btn">😊</a>
+                        <span>200</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <div class="text">
+                            <a href="">#xxxxx</a>
+                            <a href="">#xxxxx</a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
     
