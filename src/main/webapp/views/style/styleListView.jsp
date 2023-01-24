@@ -14,7 +14,7 @@
         width: 1200px;
     }
     .outer>div{margin: 10px;}
-    .set{margin: 5px; float: left;}
+    .set{margin: 10px; float: left;}
     #hashtag{font-size: 40px; font: bold;}
 
     .style-img>img{width: 260px; height: 260px; border-radius: 0.5em;}
@@ -38,7 +38,19 @@
     #search-box>img{width: 20px; height: 20px;}
     #tag-search{width: 300px; border: 0px; margin-left: 2px;}
     #tag-search:focus {outline: none;}
-    #standard>button{margin-left: 5px; margin-right: 5px;}
+    #standard>button{
+    	margin-left: 5px; 
+    	margin-right: 5px; 
+    	background: lightgray; 
+    	color: white; 
+    	border:0px;
+    	width: 70px;
+    	height: 40px;
+    	font-size: 18px;
+    	border-radius: 0.4em;
+    }
+    #standard>button:hover{background: gray; color: white;}
+    
 </style>
 </head>
 <body>
@@ -47,8 +59,8 @@
 	
 	<div class="outer">
         <div id="standard">
-            <button type="button" class="btn btn-secondary">인기</button>
-            <button type="button" class="btn btn-secondary">최신</button>
+            <button type="button">인기</button>
+            <button type="button">최신</button>
         </div>
         
         <div>
@@ -375,7 +387,7 @@
         </div>
     </div>
     
-    <button id="up-btn" style="position: fixed; right: 50px; bottom: 20px;">올라가기</button>
+    <button id="up-btn" style="position: fixed; right: 100px; bottom: 50px;">글쓰기</button>
     <br><br>
 
 </body>
