@@ -207,12 +207,12 @@
                     <span class="btnBox" id="btnBox">
                         <button>버튼</button>
                     </span>
-                    <span> 
+                    <div class="sortbar" align="right"> 
                         <select name="sort" id="sort">
                             <option value="popular">인기순</option>
                             <option value="newest">최신순</option>
                         </select>
-                    </span>
+                    </div>
                 </div>
                     <div id="plist">
                         <ul class="row">
