@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.scale.user.model.vo.User" %>
 <%
 	String contextPath = request.getContextPath();
+
+	User loginUser = (User)session.getAttribute("loginUser");
+	
+	String alertMsg = (String)session.getAttribute("alertMsg");
 %>
 <!DOCTYPE html>
 <html>
@@ -124,6 +129,12 @@
 </style>
 </head>
 <body>
+	<% if(alertMsg != null){ %>
+		<script>
+			alert("<%=alertMsg%>");
+		</script>
+		<% session.removeAttribute("alertMsg"); %>
+	<% } %>
    <div class="wrap">
     <div id="header">
 
@@ -139,9 +150,17 @@
         </div>
 
         <div id="utilities">
-            <a href="<%=contextPath%>/loginForm.us">로그인</a> 
-            <a href="<%=contextPath%>/join.us">회원가입</a> 
-            <a href="">고객센터</a>
+        	<% if(loginUser == null){ %>
+        		<!-- 로그인 전 -->
+	            <a href="<%=contextPath%>/loginForm.us">로그인</a>
+	            <a href="<%=contextPath%>/join.us">회원가입</a>
+	            <a href="">고객센터</a>
+            <% }else { %>
+	            <!-- 로그인 후 -->
+	            <a href="">마이페이지</a>
+	            <a href="">고객센터</a>
+	            <a href="">로그아웃</a>
+            <% } %>
         </div>
         
         <div id="navigator">

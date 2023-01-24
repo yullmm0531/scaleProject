@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>로그인</title>
 <style>
 	.outer{
         font-family: 'Noto Sans KR', sans-serif;
@@ -71,7 +71,7 @@
     <div class=".outer">
         <div class="login-wrapper" align="center">
         <img src="<%=contextPath%>/resources/images/logo_navy.png">
-            <form action="/login.us" method="post" id="login-form">
+            <form action="<%=contextPath%>/login.us" method="post" id="login-form">
                 <input type="text" name="userId" placeholder="아이디" required>
                 <input type="password" name="userPwd" placeholder="비밀번호" required>
                 <br>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="userLogin">
+		SELECT 
+			   USER_NO
+			 , USER_ID
+			 , USER_PWD
+			 , USER_NAME
+			 , USER_NICKNAME
+			 , PHONE
+			 , EMAIL
+			 , ENROLL_DATE
+			 , STATUS
+			 , DELETE_DATE
+			 , MANAGER_CHECK
+			 , USER_ACC_BANK
+			 , USER_ACC_NUMBER
+			 , SHOP_BLOCK_DATE
+			 , STYLE_BLOCK_DATE
+			 , INTRODUCE
+			 , PROFILE_IMG
+		  FROM TB_USER
+		 WHERE USER_ID = ?
+		   AND USER_PWD = ?
+		   AND STATUS = 'Y'
+	</entry>
+</properties>
