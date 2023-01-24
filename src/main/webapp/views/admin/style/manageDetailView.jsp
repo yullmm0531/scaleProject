@@ -34,10 +34,8 @@
 </style>
 </head>
 <body>
+    <div class="outer">
 
-	<%@ include file="../common/menubar.jsp" %>
-	
-	<div class="outer">
         <table>
             <tr>
                 <td class="profile">
@@ -88,59 +86,13 @@
                 </td>
             </tr>
         </table>
-        <br>
-        <table>
-            <tr>
-                <td class="profile">
-                    <img src="resource/img/city1.jpg" class="rounded-circle">
-                </td>
-                <td class="n-d">
-                    <div class="nickname">닉네임</div>
-                    <div class="date">작성일</div>
-                </td>
-                <td class="report">
-                    <button type="button">!</button>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="3" class="style-img">
-                    <img src="resource/img/city1.jpg">
-                </td>
-            </tr>
-            <tr>
-                <td colspan="3" class="pd-tag">상품태그</td>
-            </tr>
-            <tr>
-                <td colspan="3">
-                    <div class="pd-img">
-                        <img src="resource/img/city1.jpg">
-                        <div>상품정보</div>
-                    </div>
-                    <div class="pd-img">
-                        <img src="resource/img/city1.jpg">
-                        <div>상품정보</div>
-                    </div>
-                    <div class="pd-img">
-                        <img src="resource/img/city1.jpg">
-                        <div>상품정보</div>
-                    </div>
-                    <div class="pd-img">
-                        <img src="resource/img/city1.jpg">
-                        <div>상품정보</div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="3" class="like">😊<span>좋아요 100개</span></td>
-            </tr>
-            <tr>
-                <td colspan="3">
-                    <div>올블랙 최고~! #결산템챌린지 #셋업코디</div>
-                </td>
-            </tr>
-        </table>
+
+        <br><br>
+
+        <div align="center">
+            <a href="" class="btn btn-secondary">목록 가기</a>
+        </div>
+
     </div>
-	
-
 </body>
 </html>
