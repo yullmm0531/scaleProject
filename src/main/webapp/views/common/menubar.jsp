@@ -154,13 +154,12 @@
         		<!-- 로그인 전 -->
 	            <a href="<%=contextPath%>/loginForm.us">로그인</a>
 	            <a href="<%=contextPath%>/join.us">회원가입</a>
-	            <a href="">고객센터</a>
             <% }else { %>
 	            <!-- 로그인 후 -->
 	            <a href="">마이페이지</a>
-	            <a href="">고객센터</a>
-	            <a href="">로그아웃</a>
+	            <a href="<%=contextPath%>/logout.us">로그아웃</a>
             <% } %>
+	            <a href="">고객센터</a>
         </div>
         
         <div id="navigator">
