@@ -252,14 +252,14 @@
         if(userId == ""){
             $("#check-input-id").html("아이디를 입력해주세요.");
             $("#userId").focus();
-            return false
+            return false;
         }
 
         let regExp = /^[a-z][a-z\d]{4,14}$/;
         if(!regExp.test(userId)){
             $("#check-input-id").html("아이디 형식을 확인해주세요.");
             $("#userId").focus();
-            return false
+            return false;
         }else{
             $("#check-input-id").html("");
         }
@@ -267,7 +267,7 @@
         if(pwdInput1.val() == ""){
             $("#check-input-userPwd").html("비밀번호를 입력해주세요.");
             pwdInput1.focus();
-            return false
+            return false;
         }
 
 

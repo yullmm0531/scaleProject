@@ -79,7 +79,7 @@
                 
                 <div class="login-util-wrap">
                     <div id="login-util">
-                        <a href="">회원가입</a> 
+                        <a href="<%=contextPath%>/join.us">회원가입</a> 
                         <a href="">아이디찾기</a> 
                         <a href="">비밀번호찾기</a>
                         <p>Copyright © Scale Corp. All Rights Reserved.</p>
