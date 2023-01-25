@@ -48,4 +48,26 @@
 				)
 		 WHERE RNUM BETWEEN 1 AND 6
 	</entry>
+	
+	<entry key="selectNewStyleList">
+		SELECT
+		       STYLE_NO
+		     , PROFILE_IMG
+		     , COUNT
+		     , USER_NICKNAME
+		     , HASHTAG
+		  FROM (SELECT
+		               STYLE_NO
+		             , COUNT(*) "COUNT"
+		          FROM TB_STYLE_LIKE
+		         GROUP
+		            BY STYLE_NO
+		        )
+		  RIGHT JOIN TB_STYLE S USING (STYLE_NO)
+		  JOIN TB_USER USING (USER_NO)
+		 WHERE S.STATUS = 'Y'
+		 ORDER
+		    BY STYLE_NO DESC
+	</entry>
+	
 </properties>

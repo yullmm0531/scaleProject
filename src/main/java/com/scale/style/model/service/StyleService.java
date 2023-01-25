@@ -33,5 +33,12 @@ public class StyleService {
 		close(conn);
 		return tag;
 	}
+	
+	public ArrayList<Style> selectNewStyleList(){
+		Connection conn = getConnection();
+		ArrayList<Style> list = new StyleDao().selectNewStyleList(conn);
+		close(conn);
+		return list;
+	}
 
 }
