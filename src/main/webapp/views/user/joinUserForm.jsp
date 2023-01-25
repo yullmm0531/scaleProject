@@ -81,7 +81,7 @@
             <div class="form-fields">
                 <div class="form-group">
                     <label for="userId"><span class="rq-mark">*</span>아이디</label> <br>
-                    <input type="text" class="form-control" id="userId" name="userId" placeholder="6자 이상의 영문 혹은 영문+숫자로 입력해주세요." required>
+                    <input type="text" class="form-control" id="userId" name="userId" placeholder="5자 이상의 영문 혹은 영문+숫자로 입력해주세요." required>
                     <button type="button" id="idCheck" class="btn btn-dark">중복 확인</button>
                     <div class="check-input" id="check-input-id"></div>
                 </div>
@@ -155,6 +155,18 @@
         </form>
 </div>
 
+<script>
+    $function(){
+        $("#userId").focusout(function(){
+            if($("#userId").val() == null){
+                $("#check-input-id").html("아이디를 입력해주세요.");
+                $("#userId").focus();
+            }else{
+                
+            }
+        })
+    }
+</script>
 
 <script>
     function addHypen(obj) {
@@ -255,7 +267,7 @@
             return false;
         }
 
-        let regExp = /^[a-z][a-z\d]{4,14}$/;
+        let regExp = /^[a-z][a-z\d]{5,14}$/;
         if(!regExp.test(userId)){
             $("#check-input-id").html("아이디 형식을 확인해주세요.");
             $("#userId").focus();
