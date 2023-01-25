@@ -6,7 +6,7 @@ public class Product {
 
 	private String productCode;
 	private String productNameKo;
-	private String productNameEn;
+	private String productNameEng;
 	private String modelCode;
 	private String blindCheck;
 	private String productImgM;
@@ -18,17 +18,28 @@ public class Product {
 	private Date releaseDate;
 	private int releasePrice;
 	
+	private String brandName;
 	
+	public String getBrandName() {
+		return brandName;
+	}
+
+
+	public void setBrandName(String brandName) {
+		this.brandName = brandName;
+	}
+
+
 	public Product() {}
 
 
-	public Product(String productCode, String productNameKo, String productNameEn, String modelCode, String blindCheck,
+	public Product(String productCode, String productNameKo, String productNameEng, String modelCode, String blindCheck,
 			String productImgM, Date enrollDate, String productCategory, String productSize, int brandCode,
 			String color, Date releaseDate, int releasePrice) {
 		super();
 		this.productCode = productCode;
 		this.productNameKo = productNameKo;
-		this.productNameEn = productNameEn;
+		this.productNameEng = productNameEng;
 		this.modelCode = modelCode;
 		this.blindCheck = blindCheck;
 		this.productImgM = productImgM;
@@ -62,13 +73,13 @@ public class Product {
 	}
 
 
-	public String getProductNameEn() {
-		return productNameEn;
+	public String getProductNameEng() {
+		return productNameEng;
 	}
 
 
-	public void setProductNameEn(String productNameEn) {
-		this.productNameEn = productNameEn;
+	public void setProductNameEng(String productNameEng) {
+		this.productNameEng = productNameEng;
 	}
 
 
@@ -174,12 +185,14 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return "Product [productCode=" + productCode + ", productNameKo=" + productNameKo + ", productNameEn="
-				+ productNameEn + ", modelCode=" + modelCode + ", blindCheck=" + blindCheck + ", productImgM="
+		return "Product [productCode=" + productCode + ", productNameKo=" + productNameKo + ", productNameEng="
+				+ productNameEng + ", modelCode=" + modelCode + ", blindCheck=" + blindCheck + ", productImgM="
 				+ productImgM + ", enrollDate=" + enrollDate + ", productCategory=" + productCategory + ", productSize="
 				+ productSize + ", brandCode=" + brandCode + ", color=" + color + ", releaseDate=" + releaseDate
 				+ ", releasePrice=" + releasePrice + "]";
 	}
+	
+	
 	
 	
 }

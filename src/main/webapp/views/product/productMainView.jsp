@@ -1,42 +1,55 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="java.util.ArrayList, com.scale.product.model.vo.Product"%>
+    
+<%
+	ArrayList<Product> list = (ArrayList<Product>)request.getAttribute("list");
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <style>
         div{
             box-sizing: border-box;
+            background-color: white;
+            margin:auto;
+
         }
-        div *{
-            list-style-type:none;
-        }
+
         .wrap{
-            width:1200px; 
+            width:1200px;
             height:1000px;
             margin:auto;
         }
         .wrap>div{width:100%;}
-        .header{height:25%;}
-        .banner{height:10%;}
-        .content{height:60%;}
-        .footer{height:5%;}
-        .header>div, .content>div{
-            width:100%;
+
+        #header{height:30%;}
+        #banner{height:10%;}
+        #content{height:50%;}
+        #footer{height:10%;}
+
+        #header>div{
+           width:100%;
+           float:left;
+        }
+
+        #content>div{
+            height:100%;
             float:left;
         }
-        .header-1{height:30%;}
-        .header-2{height:10%;}
-        .header-3{height:60%;}
-        
-        .content > .filterbox{
-            float: left;  margin:auto;
-        }
-        .content > .listbox > * {
-            width: 100%; float: left; margin:auto;
-        }
+
+        #header-1{height:25%;}
+        #header-2{height:20%;}
+        #header-3{height:55%;}
+
+        #content-1{width:20%;}
+        #content-2{width:80%;}
 
         .img-box > img {
             width:100px;
@@ -65,26 +78,29 @@
             font-weight:bold;
             margin-top:5px;
         }
+
         
   </style>
 </head>
 <body>
+	<%@ include file="../common/menubar.jsp" %>
 	  <div class="wrap">
-        <div class="header">
-            <div class="header-1" align="center">
-                <h1>SHOP</h1>
+        <div id="header">
+            <div id="header-1">
+                <div  id="header-1" align="center">
+                    <h1>SHOP</h1>
+                </div>
+                <div class="search-box" align="right">
+                    <input class="searchbox" type="text" placeholder="Search">
+                </div>
             </div>
-            <div class="search-box" align="right">
-            <input class="searchbox" type="text" placeholder="Search">
-            </div>
-            <br>
-            <div class="header-2">
+            <div id="header-2">
                 <button type="button" class="btn btn-secondary" id="topBtn">신발</button>
                 <button type="button" class="btn btn-secondary" id="topBtn1">지갑</button>
                 <button type="button" class="btn btn-secondary" id="topBtn2">테크</button>
             </div>
-            <br>
-            <div class="header-3">
+            <div id="header-3">
+                
                     <div class="thumbnail-1">	
                         <img src="" width="70" height="77">
                         <p>Nike</p>
@@ -92,20 +108,14 @@
             </div>
         </div>
 
-        <!--배너이미지-->
-        
-        <div class="banner">
+        <div id="banner">
             <img src="">
         </div>
-       
 
-        <!-- 필터 : 사이드바 -->
-        <div class="content">
-            <div class="filterbox" id="filterbox">
-                <div class="filter">
-                    <span><h3>필터</h3></span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  <span id="eraser"><u>모두지우기</u></span>
-                </div>
-                <div class="category-box">
+        <div id="content">
+            <div id="content-1">
+                 <span><h3>필터</h3></span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  <span id="eraser"><u>모두지우기</u></span>
+                 <div class="category-box">
                     <li class="cate" style="cursor:pointer">
                         카테고리
                         <ul class="sub" style="display:none">
@@ -146,63 +156,8 @@
                         </ul>
                     </li>
                 </div>
-
-                <!-- 필터바 -->
-                <script>
-                    $(".cate").click(function(){
-                        if($(".sub").is(":visible")){
-                            $(".sub").slideUp();
-                        }else{
-                            $(".sub").slideDown();
-                        }
-                    })
-                    $(".brand").click(function(){
-                        if($(".sub1").is(":visible")){
-                            $(".sub1").slideUp();
-                        }else{
-                            $(".sub1").slideDown();
-                        }
-                    })
-                    $(".size").click(function(){
-                        if($(".sub2").is(":visible")){
-                            $(".sub2").slideUp();
-                        }else{
-                            $(".sub2").slideDown();
-                        }
-                    })
-                    $(".price").click(function(){
-                        if($(".sub3").is(":visible")){
-                            $(".sub3").slideUp();
-                        }else{
-                            $(".sub3").slideDown();
-                        }
-                    })
-                </script>
-
-                <!-- 탑버튼 -->
-                <script>
-                    $(function(){
-                        $("#topBtn").click(function(){
-                            let check = $("ckb").is(":checked");
-                            $("#ckb").attr("checked", "checked");
-                        });
-                        $("#topBtn1").click(function(){
-                            let check = $("ckb1").is(":checked");
-                            $("#ckb1").attr("checked", "checked");
-                        });
-                        $("#topBtn2").click(function(){
-                            let check = $("ckb2").is(":checked");
-                            $("#ckb2").attr("checked", "checked");
-                        });
-                    });
-                </script>
-
-                <!-- 모두 지우기(체크박스 해제) -->
-                
-
-
-            
-            <div class="listbox" id="listbox">
+            </div>
+            <div id="content-2">
                 <div id="psort">
                     <span class="btnBox" id="btnBox">
                         <button>버튼</button>
@@ -214,52 +169,84 @@
                         </select>
                     </div>
                 </div>
-                    <div id="plist">
-                        <ul class="row">
-                            <li class="cell">
-                                <div class="img-box">
-                                    <img src="resources/s_sample.jpg">
-                                </div>
-                                <div class="brand-name">Jordan</div>
-                                <div class="product-name">Joradn Air 2022 </div>
-                                <div class="product-price">즉시구매가</div>
-                                <div class="p-like">♡</div>
-                            </li>
-                            <li class="cell">
-                                <div class="img-box">
-                                    <img src="resources/s_sample.jpg" alt="" >
-                                </div>
-                                <div class="brand-name">Jordan</div>
-                                <div class="product-name">Joradn Air 2022 </div>
-                                <div class="product-price">즉시구매가</div>
-                                <div class="p-like">♡</div>
-                            </li>
-                            <li class="cell">
-                                <div class="img-box">
-                                    <img src="resources/s_sample.jpg" alt="">
-                                </div>
-                                <div class="brand-name">Jordan</div>
-                                <div class="product-name">Joradn Air 2022 </div>
-                                <div class="product-price">즉시구매가</div>
-                                <div class="p-like">♡</div>
-                            </li>
-                            <li class="cell">
-                                <div class="img-box">
-                                    <img src="resources/s_sample.jpg" alt="">
-                                </div>
-                                <div class="brand-name">Jordan</div>
-                                <div class="product-name">Joradn Air 2022 </div>
-                                <div class="product-price">즉시구매가</div>
-                                <div class="p-like">♡</div>
-                            </li>
-                        </ul>
-                    </div>
+
+                <div id="plist">
+                    <ul class="row">
+                        <% for(Product p : list){ %>
+                        <li class="cell">
+                            <div class="img-box">
+                                <img src="<%= contextPath %>/<%=p.getProductImgM() %>">
+                            </div>
+                            <div class="brand-name"><%= p.getBrandName() %></div>
+                            <div class="product-name-eng"><%= p.getProductNameEng() %> </div>
+                            <div class="product-name-ko"><%= p.getProductNameKo() %> </div>
+                            <div class="product-price">즉시구매가</div>
+                            <div class="p-like"><a href="">♡</a></div>
+                        </li>
+                        <% } %>
+
+                    </ul>
                 </div>
             </div>
         </div>
-        <div class="footer">
+
+        <div id="footer">
             footer
         </div>
+
     </div>
+
+    <!-- 필터바 -->
+    <script>
+        $(".cate").click(function(){
+            if($(".sub").is(":visible")){
+                $(".sub").slideUp();
+            }else{
+                $(".sub").slideDown();
+            }
+        })
+        $(".brand").click(function(){
+            if($(".sub1").is(":visible")){
+                $(".sub1").slideUp();
+            }else{
+                $(".sub1").slideDown();
+            }
+        })
+        $(".size").click(function(){
+            if($(".sub2").is(":visible")){
+                $(".sub2").slideUp();
+            }else{
+                $(".sub2").slideDown();
+            }
+        })
+        $(".price").click(function(){
+            if($(".sub3").is(":visible")){
+                $(".sub3").slideUp();
+            }else{
+                $(".sub3").slideDown();
+            }
+        })
+    </script>
+
+    <!-- 탑버튼 -->
+    <script>
+        $(function(){
+            $("#topBtn").click(function(){
+                let check = $("ckb").is(":checked");
+                $("#ckb").attr("checked", "checked");
+            });
+            $("#topBtn1").click(function(){
+                let check = $("ckb1").is(":checked");
+                $("#ckb1").attr("checked", "checked");
+            });
+            $("#topBtn2").click(function(){
+                let check = $("ckb2").is(":checked");
+                $("#ckb2").attr("checked", "checked");
+            });
+        });
+    </script>
+
+    <!-- 모두 지우기(체크박스 해제) -->
+    
 </body>
 </html>
