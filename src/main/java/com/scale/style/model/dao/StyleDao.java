@@ -77,6 +77,7 @@ public class StyleDao {
 				img.setChangeName(rset.getString("change_name"));
 				img.setFilePath(rset.getString("file_path"));
 				img.setStyleNo(rset.getInt("style_no"));
+				img.setFileLevel(rset.getInt("file_level"));
 				
 				list.add(img);
 			}

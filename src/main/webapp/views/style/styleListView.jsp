@@ -22,7 +22,9 @@
     .set{margin: 10px; float: left;}
     #hashtag{font-size: 40px; font: bold;}
 
-    .style-img>img{width: 260px; height: 260px; border-radius: 0.5em;}
+	.carousel-inner{width: 260px; height: 260px;}
+	.carousel-item{width: 260px; height: 260px;}
+    .cimg{width: 260px; height: 260px; border-radius: 0.5em;}
 
     .nickname{height: 40px; text-align: left;}
     .nickname>img{width: 25px; height: 25px;}
@@ -55,42 +57,13 @@
     	border-radius: 0.4em;
     }
     #standard>button:hover{background: gray; color: white;}
-    
     .text{
     	text-overflow:ellipsis; 
-    	overflow:hidden; 
-    	width:260px; 
+    	overflow:hidden;
+    	width:260px;
     	white-space:nowrap;
     }
     
-    .carousel-wrap{
-        width: 260px; 
-        height:260px; 
-        overflow: hidden;
-    }
-
-    .carousel-content{
-        display: flex;
-        transform: translate3d(0, 0, 0);
-        transition: transform 0.2s;
-    }
-
-    .prev{
-        width: 25px;
-        height: 25px;
-        position: absolute;
-        top: 120px;
-        left: 5px;
-    }
-    .next{
-        width: 25px;
-        height: 25px;
-        position: absolute;
-        top: 120px;
-        right: 5px;
-    }
-    .style-img>div{position: relative;}
-
 </style>
 </head>
 <body>
@@ -124,71 +97,61 @@
 		
         <div>
         	<!-- 반복문 -->
-        	<% for(Style st : list) { %>
+        	<% for(int i=0; i<list.size(); i++) { %>
             <table class="set">
                 <tr>
                     <td colspan="2" class="style-img">
-                        <div>
-                            <!-- The slideshow -->
-                            <div class="carousel-wrap">
-                              	<% for(StyleImg img : ilist) { %>
-                              	<div class="carousel-content">
-                              		<% if(img.getStyleNo() == st.getStyleNo()) { %>
-                                	<img src="<%= contextPath %>/<%= img.getFilePath() %><%= img.getChangeName() %>" width="260" height="260">
-                                	<% } %>
-                                </div>
-                                <% } %>
-                            </div>
+                        <div id="demo<%= i %>" class="carousel" data-ride="carousel">
+
+                            <!-- Indicators -->
                             
-                            <!-- Left and right controls -->
-                            <img src="resources/images/style/좌.png" class="prev">
-                            <img src="resources/images/style/우.png" class="next">
-                          </div>
                           
-                          <script>
-                          	const arr = []
-                          	for(StyleImg img : ilist) {
-                          		if(<%= st.getStyleNo() %> == img.getStyleNo()){
-                          			arr += img
-                          		}
-                          	}
-                            const prevButton = document.querySelector('.prev');
-                            const nextButton = document.querySelector('.next');
-                            const carousel = document.querySelector('.carousel-content');
-
-                            let index = 0;
-
-                            prevButton.addEventListener('click', () => {
-                                if (index === 0) return;
-                                index -= 1;
-                                
-                                carousel.style.transform = `translate3d(-${260 * index}px, 0, 0)`;
-                            });
-
-                            nextButton.addEventListener('click', () => {
-                                if (index === <%=  %>) return;
-                                index += 1;
-                                
-                                carousel.style.transform = `translate3d(-${260 * index}px, 0, 0)`;
-                            });
-                        </script>
+                            <!-- The slideshow -->
+                            <div class="carousel-inner">
+                            	<% for(int l=0; l<ilist.size(); l++) { %>
+                            		<% if(list.get(i).getStyleNo() == ilist.get(l).getStyleNo()) { %>
+                            			<% if(ilist.get(l).getFileLevel() == 1) { %>
+											<div class="carousel-item active">
+											  <img class="cimg" src="<%= contextPath %>/<%= ilist.get(l).getFilePath() + ilist.get(l).getChangeName() %>">
+											</div>
+											<% System.out.println(ilist.get(l).getFilePath() + ilist.get(l).getChangeName()); %>
+		                            	<% } else { %>
+			                            	<div class="carousel-item">
+											  <img class="cimg" src="<%= contextPath %>/<%= ilist.get(l).getFilePath() + ilist.get(l).getChangeName() %>">
+											</div>
+											<% System.out.println(ilist.get(l).getFilePath() + ilist.get(l).getChangeName()); %>
+										<% } %>
+                              		<% } %>
+                              	<% } %>
+                            </div>
+                          	
+                            <!-- Left and right controls -->
+                            <a class="carousel-control-prev" href="#demo<%= i %>" data-slide="prev">
+                              <span class="carousel-control-prev-icon"></span>
+                            </a>
+                            <a class="carousel-control-next" href="#demo<%= i %>" data-slide="next">
+                              <span class="carousel-control-next-icon"></span>
+                            </a>
+                          
+                        </div>
+                            
                     </td>
                 </tr>
                 <tr>
                     <td class="nickname">
-                        <img src="<%= contextPath %>/<%= st.getProfileImg() %>" class="rounded-circle">
-                        <a href=""><%= st.getStyleWriter() %></a>
+                        <img src="<%= contextPath %>/<%= list.get(i).getProfileImg() %>" class="rounded-circle">
+                        <a href=""><%= list.get(i).getStyleWriter() %></a>
                     </td>
                     <td class="like">
                         <a class="btn">😊</a>
-                        <span><%= st.getCount() %></span>
+                        <span><%= list.get(i).getCount() %></span>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="5">
+                    <td colspan="2">
                         <div class="text">
-                        	<% for(int i=0; i<st.getHashtag().length; i++) { %>
-                            <a href=""><%= st.getHashtag()[i] %></a>
+                        	<% for(int j=0; j<list.get(j).getHashtag().length; j++) { %>
+                            <a href=""><%= list.get(j).getHashtag()[j] %></a>
                             <% } %>
                         </div>
                     </td>

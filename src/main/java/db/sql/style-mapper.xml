@@ -28,6 +28,7 @@
 		     , CHANGE_NAME
 		     , FILE_PATH
 		     , STYLE_NO
+		     , FILE_LEVEL
 		  FROM TB_STYLE_IMG
 		 WHERE STATUS = 'Y'
 	</entry>

@@ -11,11 +11,12 @@ public class StyleImg {
 	private Date uploadDate;
 	private String status;
 	private int styleNo;
+	private int fileLevel;
 
 	public StyleImg() {}
 
 	public StyleImg(int imgNo, String originName, String changeName, String filePath, Date uploadDate, String status,
-			int styleNo) {
+			int styleNo, int fileLevel) {
 		super();
 		this.imgNo = imgNo;
 		this.originName = originName;
@@ -24,6 +25,7 @@ public class StyleImg {
 		this.uploadDate = uploadDate;
 		this.status = status;
 		this.styleNo = styleNo;
+		this.fileLevel = fileLevel;
 	}
 
 	public int getImgNo() {
@@ -82,10 +84,21 @@ public class StyleImg {
 		this.styleNo = styleNo;
 	}
 
+	public int getFileLevel() {
+		return fileLevel;
+	}
+
+	public void setFileLevel(int fileLevel) {
+		this.fileLevel = fileLevel;
+	}
+
 	@Override
 	public String toString() {
 		return "StyleImg [imgNo=" + imgNo + ", originName=" + originName + ", changeName=" + changeName + ", filePath="
-				+ filePath + ", uploadDate=" + uploadDate + ", status=" + status + ", styleNo=" + styleNo + "]";
+				+ filePath + ", uploadDate=" + uploadDate + ", status=" + status + ", styleNo=" + styleNo
+				+ ", fileLevel=" + fileLevel + "]";
 	}
+
+	
 	
 }
