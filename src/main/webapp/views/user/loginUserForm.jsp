@@ -44,7 +44,7 @@
     #login-form>button{
         margin-top:3px;
         font-weight:900;
-        background:#0c033d;
+        background:#000000;
         color:#ffff;
     }
     .login-util-wrap{
@@ -70,7 +70,7 @@
 	<%@ include file="../common/menubar.jsp" %>
     <div class=".outer">
         <div class="login-wrapper" align="center">
-        <img src="<%=contextPath%>/resources/images/logo_navy.png">
+        <img src="<%=contextPath%>/resources/images/logo_black.png">
             <form action="<%=contextPath%>/login.us" method="post" id="login-form">
                 <input type="text" name="userId" placeholder="아이디" required>
                 <input type="password" name="userPwd" placeholder="비밀번호" required>

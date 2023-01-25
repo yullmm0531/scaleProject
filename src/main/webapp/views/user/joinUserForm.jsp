@@ -29,14 +29,12 @@
         }
         .form-fields{margin:40px;}
 
-        #userId, #zipCode{width:300px;}
+        #userId, #zipCode, #email{width:300px; display:inline-block;}
 
         #joinForm input[type=checkbox]{margin-left: 20px;}
 
         .rq-mark{color:red; margin:7px;}
         
-        #userId, #zipCode{display:inline-block;}
-       
         ::placeholder{font-size:12px;}
 
         .policy-agree div{display:inline-block;}
@@ -54,6 +52,7 @@
             padding-left:0px;
             line-height:35px;
         }
+        
         #btn-area{
             text-align:center;
             padding : 30px;
@@ -88,38 +87,44 @@
                 
                 <div class="form-group">
                     <label for="pwd"><span class="rq-mark">*</span>비밀번호</label>
-                    <input type="password" class="form-control" id="userPwd" name="userPwd" placeholder="영문+숫자를 조합하여 8자 이상으로 입력해주세요." required>
-                    <div class="check-input" id="check-input-userPwd"></div>
+                    <input type="password" class="form-control" id="userPwd" name="userPwd" placeholder="8자 이상의 영문+숫자+특수문자로 조합해주세요." required>
+                    <div class="check-input" id="check-input-pwd"></div>
                 </div>
                 
                 <div class="form-group">
                     <label for="pwdCheck"><span class="rq-mark">*</span>비밀번호 확인</label>
                     <input type="password" class="form-control" id="pwdCheck" placeholder="입력한 비밀번호를 확인해주세요." required>
+                    <div class="check-input" id="check-input-pwd2"></div>
                 </div>
 
                 <div class="form-group">
                     <label for="userName"><span class="rq-mark">*</span>이름</label>
                     <input type="text" class="form-control" name="userName" id="userName" placeholder="이름을 입력해주세요." required>
+                    <div class="check-input" id="check-input-name"></div>
                 </div>
 
                 <div class="form-group">
                     <label for="userNickName"><span class="rq-mark">*</span>닉네임</label>
                     <input type="text" class="form-control" name="userNickName" id="userNickName" placeholder="닉네임을 입력해주세요." required>
+                    <div class="check-input" id="check-input-nickName"></div>
                 </div>
                 
                 <div class="form-group">
                     <label for="phone"><span class="rq-mark">*</span>휴대폰번호</label>
                     <input type="text" class="form-control" name="phone" id="phone" placeholder="휴대폰번호 숫자만 입력해주세요." onKeyup="addHypen(this);" required>
+                    <div class="check-input" id="check-input-phone"></div>
                 </div>
 
                 <div class="form-group">
-                    <label for="email"><span class="rq-mark">*</span>이메일</label>
+                    <label for="email"><span class="rq-mark">*</span>이메일</label><br>
                     <input type="email" class="form-control" name="email" id="email" placeholder="예) example@scale.com" required>
+                    <button type="button" id="idCheck" class="btn btn-dark">메일 인증</button>
+                    <div class="check-input" id="check-input-email"></div>
                 </div>
                 
                 <div class="form-group">
                     <label for="zipCode"><span class="rq-mark">*</span>주소</label> <br>
-                    <input type="text" class="form-control" id="zipCode" name="zipCode" placeholder="주소를 검색해주세요." required>
+                    <input type="text" class="form-control" id="zipCode" name="zipCode" placeholder="주소를 검색해주세요." required readonly>
                     <button type="button" class="btn btn-dark" onclick="sample6_execDaumPostcode();">주소 검색</button>
                 </div>
 
@@ -149,25 +154,118 @@
                 </div>
             </div>
             <div id="btn-area">
-                <button type="submit" class="btn btn-primary" onclick="return validate();">회원가입</button>
+                <button type="submit" class="btn btn-primary" id="joinBtn">회원가입</button>
             </div>
 
         </form>
 </div>
 
 <script>
-    $function(){
-        $("#userId").focusout(function(){
-            if($("#userId").val() == null){
-                $("#check-input-id").html("아이디를 입력해주세요.");
-                $("#userId").focus();
-            }else{
-                
+    const $userId = $("#userId");
+    const $checkInputId = $("#check-input-id");
+    const $userPwd = $("#userPwd");
+    const $checkInputPwd = $("#check-input-pwd");
+    const $pwdCheck = $("#pwdCheck");
+    const $checkInputPwd2 = $("#check-input-pwd2");
+    const $userName = $("#userName");
+    const $checkInputName = $("#check-input-name");
+    const $userNickName = $("#userNickName");
+    const $checkInputNickName = $("#check-input-nickName");
+    const $phone = $("#phone");
+    const $checkInputPhone = $("#check-input-phone");
+    const $email = $("#email");
+    const $checkInputEmail = $("#check-input-email");
+
+    $(function(){
+        
+        // 아이디 유효성 체크
+        $userId.focusout(function(){
+            if($userId.val() == ""){
+                $checkInputId.html("아이디를 입력해주세요.");
+                // $userId.focus();
             }
         })
-    }
+
+        $userId.keyup(function(){
+            let regExp = /^[a-z][a-z\d]{4,14}$/;
+            if(!regExp.test($userId.val())){
+                $checkInputId.css("color", "red").html("아이디는 5자 이상의 영문, 영문+숫자 조합으로 입력해주세요.");
+            }else{
+                $checkInputId.css("color", "limegreen").html("사용 가능한 아이디입니다.");
+            }
+        })
+
+        // 비밀번호 유효성 체크
+        $userPwd.focusout(function(){
+            if($userPwd.val() == ""){
+                $checkInputPwd.html("비밀번호를 입력해주세요.");
+                // $userPwd.focus();
+            }
+        })
+
+        $userPwd.keyup(function(){
+            let regExp = /^[a-z\d!@#$%^&*]{8,15}$/i;
+            if(!regExp.test($userPwd.val())){
+                $checkInputPwd.css("color", "red").html("영문+숫자+특수문자(!@#$%^&*) 조합으로 8자 이상 입력해주세요.");
+            }else{
+                $checkInputPwd.html("");
+            }
+        })
+
+        $pwdCheck.focusout(function(){
+            if($userPwd.val() == ""){
+                $checkInputPwd2.html("비밀번호를 다시 입력해주세요.");
+            }else if($userPwd.val() != $pwdCheck.val()){
+                $checkInputPwd2.html("비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
+            }else{
+                $checkInputPwd2.html("");
+            }
+        })
+
+        // 이름 유효성 체크
+        $userName.focusout(function(){
+            if($userName.val() == ""){
+                $checkInputName.html("이름을 입력해주세요.");
+            }else{
+                $checkInputName.html("");
+            }
+        })
+
+        // 닉네임 유효성 체크
+        $userNickName.focusout(function(){
+            if($userNickName.val() == ""){
+                $checkInputNickName.html("닉네임을 입력해주세요.");
+            }else{
+                $checkInputNickName.html("");
+            }
+        })
+
+        // 휴대폰번호 유효성 체크
+        $phone.focusout(function(){
+            if($phone.val() == ""){
+                $checkInputPhone.html("휴대폰번호를 입력해주세요.");
+            }else{
+                $checkInputPhone.html("");
+            }
+        })
+
+        // 이메일 유효성 체크
+        $email.focusout(function(){
+            if($email.val() == ""){
+                $checkInputEmail.html("이메일 주소를 입력해주세요.");
+            }else{
+                $checkInputEmail.html("");
+            }
+        })
+
+        function checkInput(){
+
+        }
+
+    })
 </script>
 
+<!-- 휴대폰번호 하이픈 자동 추가 -->
 <script>
     function addHypen(obj) {
         var number = obj.value.replace(/[^0-9]/g, "");
@@ -196,6 +294,7 @@
 }
 </script>
 
+<!-- 주소 api -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     function sample6_execDaumPostcode() {
@@ -246,53 +345,6 @@
             }
         }).open();
     }
-
-</script>
-
-<script>
-    function validate(){
-        const userId = $("#userId").val();
-        const userPwd = $("#userPwd").val();
-        const pwdCheck = $("#pwdCheck").val();
-        const userName = $("#userName").val();
-        const userNickName = $("#userNickName").val();
-        const phone = $("#phone").val();
-        const email = $("#email").val();
-        const zipCode = $("#zipCode").val();
-
-       
-        if(userId == ""){
-            $("#check-input-id").html("아이디를 입력해주세요.");
-            $("#userId").focus();
-            return false;
-        }
-
-        let regExp = /^[a-z][a-z\d]{5,14}$/;
-        if(!regExp.test(userId)){
-            $("#check-input-id").html("아이디 형식을 확인해주세요.");
-            $("#userId").focus();
-            return false;
-        }else{
-            $("#check-input-id").html("");
-        }
-
-        if(pwdInput1.val() == ""){
-            $("#check-input-userPwd").html("비밀번호를 입력해주세요.");
-            pwdInput1.focus();
-            return false;
-        }
-
-
-
-        // 1) 아이디검사
-        // let regExp = /^[a-z][a-z\d]{4,14}$/;
-        // if(!regExp.test(idInput.value)){
-        //     alert("영문으로 시작하는 5~15자의 유효한 아이디를 입력해주세요.");
-        //     idInput.selet();
-        //     return false;
-        // }
-    }
-	*/
 </script>
 
 </body>
