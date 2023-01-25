@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import com.scale.style.model.vo.Hashtag;
 import com.scale.style.model.vo.Style;
 import com.scale.style.model.vo.StyleImg;
 
@@ -83,9 +84,40 @@ public class StyleDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
 		}
 		
 		return list;
+	}
+	
+	public ArrayList<Hashtag> selectTagList(Connection conn){
+		ArrayList<Hashtag> tag = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectTagList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				 Hashtag t = new Hashtag();
+				 t.setHashtagNo(rset.getInt("hashtag_no"));
+				 t.setKeyword(rset.getString("keyword"));
+				 
+				 tag.add(t);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return tag;
 	}
 
 }

@@ -33,4 +33,19 @@
 		 WHERE STATUS = 'Y'
 	</entry>
 	
+	<entry key="selectTagList">
+		SELECT *
+		  FROM (SELECT
+				       ROWNUM RNUM
+				     , A.*
+				  FROM (SELECT
+				               HASHTAG_NO
+				             , KEYWORD
+				          FROM TB_HASHTAG
+				         ORDER
+				            BY COUNT DESC
+				        ) A
+				)
+		 WHERE RNUM BETWEEN 1 AND 6
+	</entry>
 </properties>

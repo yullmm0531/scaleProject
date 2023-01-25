@@ -10,20 +10,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.scale.style.model.service.StyleService;
+import com.scale.style.model.vo.Hashtag;
 import com.scale.style.model.vo.Style;
 import com.scale.style.model.vo.StyleImg;
 
 /**
  * Servlet implementation class StyleListController
  */
-@WebServlet("/list.st")
-public class StyleListController extends HttpServlet {
+@WebServlet("/trendinglist.st")
+public class StyleTrendingListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public StyleListController() {
+    public StyleTrendingListController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,10 +35,12 @@ public class StyleListController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArrayList<Style> list = new StyleService().selectStyleList();
 		ArrayList<StyleImg> ilist = new StyleService().selectStyleImgList();
+		ArrayList<Hashtag> tag = new StyleService().selectTagList();
 		
 		request.setAttribute("list", list);
 		request.setAttribute("ilist", ilist);
-		request.getRequestDispatcher("views/style/styleListView.jsp").forward(request, response);
+		request.setAttribute("tag", tag);
+		request.getRequestDispatcher("views/style/styleTrendingListView.jsp").forward(request, response);
 	}
 
 	/**

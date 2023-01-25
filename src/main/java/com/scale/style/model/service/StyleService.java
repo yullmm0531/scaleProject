@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import com.scale.style.model.dao.StyleDao;
+import com.scale.style.model.vo.Hashtag;
 import com.scale.style.model.vo.Style;
 import com.scale.style.model.vo.StyleImg;
 
@@ -24,6 +25,13 @@ public class StyleService {
 		ArrayList<StyleImg> ilist = new StyleDao().selectStyleImgList(conn);
 		close(conn);
 		return ilist;
+	}
+	
+	public ArrayList<Hashtag> selectTagList(){
+		Connection conn = getConnection();
+		ArrayList<Hashtag> tag = new StyleDao().selectTagList(conn);
+		close(conn);
+		return tag;
 	}
 
 }

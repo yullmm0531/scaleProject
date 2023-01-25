@@ -4,6 +4,7 @@
 <%
 	ArrayList<Style> list = (ArrayList<Style>)request.getAttribute("list");
 	ArrayList<StyleImg> ilist = (ArrayList<StyleImg>)request.getAttribute("ilist");
+	ArrayList<Hashtag> tag = (ArrayList<Hashtag>)request.getAttribute("tag");
 %>
 <!DOCTYPE html>
 <html>
@@ -45,18 +46,28 @@
     #search-box>img{width: 20px; height: 20px;}
     #tag-search{width: 300px; border: 0px; margin-left: 2px;}
     #tag-search:focus {outline: none;}
-    #standard>button{
+    #trending{
     	margin-left: 5px; 
-    	margin-right: 5px; 
-    	background: lightgray; 
-    	color: white; 
-    	border:0px;
+    	margin-right: 5px;
+    	background-color: black;
+    	color: white;
     	width: 70px;
     	height: 40px;
-    	font-size: 18px;
-    	border-radius: 0.4em;
+    	font-size: 20px;
+    	font-weight : bold;
+    	border-radius: 1em;
     }
-    #standard>button:hover{background: gray; color: white;}
+    #newest{
+    	margin-left: 5px; 
+    	margin-right: 5px;
+    	background: none;
+    	border: 0px;
+    	color: black;
+    	width: 70px;
+    	height: 40px;
+    	font-size: 20px;
+    	border-radius: 1em;
+    }
     .text{
     	text-overflow:ellipsis; 
     	overflow:hidden;
@@ -72,8 +83,8 @@
 	
 	<div class="outer">
         <div id="standard">
-            <button type="button">인기</button>
-            <button type="button">최신</button>
+            <button type="button" id="trending">인기</button>
+            <button type="button" id="newest">최신</button>
         </div>
         
         <div>
@@ -85,12 +96,10 @@
         </div>
 
         <div>
-            <button type="button" class="hashtag btn btn-light btn-sm">#ooo</button>
-            <button type="button" class="hashtag btn btn-light btn-sm">#ooo</button>
-            <button type="button" class="hashtag btn btn-light btn-sm">#ooo</button>
-            <button type="button" class="hashtag btn btn-light btn-sm">#ooo</button>
-            <button type="button" class="hashtag btn btn-light btn-sm">#ooo</button>
-            <button type="button" class="hashtag btn btn-light btn-sm">#ooo</button>
+        	<% for(Hashtag t : tag){ %>
+            	<button type="button" class="hashtag btn btn-light btn-sm"><%= t.getKeyword() %></button>
+            	<% System.out.println(t.getKeyword()); %>
+            <% } %>
         </div>
 		
 		<br>
