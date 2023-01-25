@@ -107,6 +107,12 @@
             height: 300px;
             
         }
+        .carousel-control-prev-icon { 
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E"); 
+        }
+        .carousel-control-next-icon {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E"); 
+        }
     </style>
 </head>
 <body>
@@ -115,7 +121,37 @@
         <div class="product-header">
             <br><br>
             <div id="product-img">
-                <img src="<%= contextPath %>/resources/images/product/nike1.png" alt="">
+                <div id="demo" class="carousel" data-ride="carousel">
+
+                    <!-- Indicators -->
+                    <ul class="carousel-indicators">
+                      <li data-target="#demo" data-slide-to="0" class="active"></li>
+                      <li data-target="#demo" data-slide-to="1"></li>
+                      <li data-target="#demo" data-slide-to="2"></li>
+                    </ul>
+                  
+                    <!-- The slideshow -->
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                        <img src="<%= contextPath %>/resources/images/product/nike1.png">
+                      </div>
+                      <div class="carousel-item">
+                        <img src="<%= contextPath %>/resources/images/product/nike2.png">
+                      </div>
+                      <div class="carousel-item">
+                        <img src="<%= contextPath %>/resources/images/product/img10.jpg">
+                      </div>
+                    </div>
+                  
+                    <!-- Left and right controls -->
+                    <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                      <span class="carousel-control-prev-icon"></span>
+                    </a>
+                    <a class="carousel-control-next" href="#demo" data-slide="next">
+                      <span class="carousel-control-next-icon"></span>
+                    </a>
+                  
+                  </div>
             </div>
             <div id="product-info">
                 <div id="product-name">

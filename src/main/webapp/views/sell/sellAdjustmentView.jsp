@@ -248,8 +248,6 @@
 
 
 
-
-
                 <div class="line"></div>
                 <br>
                 <div class="shipping-address">
