@@ -20,6 +20,7 @@
         .outer{width: 600px; margin: auto; border: 1px solid gray; background-color: whitesmoke;}
         .product-info{height: 180px; padding-left: 30px; padding-top: 15px;}
         .product-info img{width: 150px;}
+        .product-img{text-align:right;}
         #product-brand{font-weight: bold;}
         #product-eng-name{font-size: 14px;}
         #product-kor-name{
