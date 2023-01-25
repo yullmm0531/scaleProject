@@ -71,4 +71,11 @@
 		  , SEQ_UNO.CURRVAL
 		  )
 	</entry>
+	
+	<entry key="idCheck">
+		SELECT
+			   COUNT (*) "COUNT"
+		  FROM TB_USER
+		 WHERE USER_ID = ?
+	</entry>
 </properties>

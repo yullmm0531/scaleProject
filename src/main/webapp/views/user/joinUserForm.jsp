@@ -81,7 +81,7 @@
                 <div class="form-group">
                     <label for="userId"><span class="rq-mark">*</span>아이디</label> <br>
                     <input type="text" class="form-control" id="userId" name="userId" placeholder="5자 이상의 영문 혹은 영문+숫자로 입력해주세요." required>
-                    <button type="button" id="idCheck" class="btn btn-dark">중복 확인</button>
+                    <button type="button" id="idCheck" class="btn btn-dark" onclick="checkId();">중복 확인</button>
                     <div class="check-input" id="check-input-id"></div>
                 </div>
                 
@@ -118,7 +118,7 @@
                 <div class="form-group">
                     <label for="email"><span class="rq-mark">*</span>이메일</label><br>
                     <input type="email" class="form-control" name="email" id="email" placeholder="예) example@scale.com" required>
-                    <button type="button" id="idCheck" class="btn btn-dark">메일 인증</button>
+                    <button type="button" id="emailCheck" class="btn btn-dark">메일 인증</button>
                     <div class="check-input" id="check-input-email"></div>
                 </div>
                 
@@ -154,7 +154,7 @@
                 </div>
             </div>
             <div id="btn-area">
-                <button type="submit" class="btn btn-primary" id="joinBtn">회원가입</button>
+                <button type="submit" class="btn btn-primary" id="joinBtn" onclick="return validate();">회원가입</button>
             </div>
 
         </form>
@@ -191,7 +191,7 @@
             if(!regExp.test($userId.val())){
                 $checkInputId.css("color", "red").html("아이디는 5자 이상의 영문, 영문+숫자 조합으로 입력해주세요.");
             }else{
-                $checkInputId.css("color", "limegreen").html("사용 가능한 아이디입니다.");
+                $checkInputId.html("");
             }
         })
 
@@ -258,13 +258,38 @@
             }
         })
 
-        function checkInput(){
-
-        }
-
     })
+
 </script>
 
+<script>
+	function checkId(){
+		if($userId.val() == ""){
+			$checkInputId.html("아이디를 입력해주세요.");
+            $userId.focus();
+		}else{
+			$.ajax({
+		        url:"<%=contextPath%>/check.id",
+		        data:{checkId:$userId.val()},
+		        success:function(result){
+		            if(result == "Y"){
+		            	$checkInputId.css("color", "red").html("이미 사용중인 아이디입니다.");
+		            }else if(result == "N"){
+		            	$checkInputId.css("color", "limegreen").html("사용 가능한 아이디입니다.");
+		            }
+		        }, error:function(){
+					console.log("중복확인 실패");
+		        }
+		    });
+		}
+	}
+</script>
+
+<script>
+    function validate(){
+        
+    }
+</script>
 <!-- 휴대폰번호 하이픈 자동 추가 -->
 <script>
     function addHypen(obj) {
