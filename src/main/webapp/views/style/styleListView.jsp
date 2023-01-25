@@ -101,29 +101,28 @@
             <table class="set">
                 <tr>
                     <td colspan="2" class="style-img">
-                        <div id="demo<%= i %>" class="carousel" data-ride="carousel">
+                        <div id="demo<%= i %>" class="carousel">
 
                             <!-- Indicators -->
                             
                           
                             <!-- The slideshow -->
                             <div class="carousel-inner">
-                            	<% for(int l=0; l<ilist.size(); l++) { %>
-                            		<% if(list.get(i).getStyleNo() == ilist.get(l).getStyleNo()) { %>
-                            			<% if(ilist.get(l).getFileLevel() == 1) { %>
+                            	<% for(StyleImg img : ilist) { %>
+                            		<% if(list.get(i).getStyleNo() == img.getStyleNo()) { %>
+                            			<% if(img.getFileLevel() == 1) { %>
 											<div class="carousel-item active">
-											  <img class="cimg" src="<%= contextPath %>/<%= ilist.get(l).getFilePath() + ilist.get(l).getChangeName() %>">
+											  <img class="cimg" src="<%= contextPath %>/<%= img.getFilePath() + img.getChangeName() %>">
 											</div>
-											<% System.out.println(ilist.get(l).getFilePath() + ilist.get(l).getChangeName()); %>
 		                            	<% } else { %>
 			                            	<div class="carousel-item">
-											  <img class="cimg" src="<%= contextPath %>/<%= ilist.get(l).getFilePath() + ilist.get(l).getChangeName() %>">
+											  <img class="cimg" src="<%= contextPath %>/<%= img.getFilePath() + img.getChangeName() %>">
 											</div>
-											<% System.out.println(ilist.get(l).getFilePath() + ilist.get(l).getChangeName()); %>
 										<% } %>
                               		<% } %>
                               	<% } %>
                             </div>
+                          	
                           	
                             <!-- Left and right controls -->
                             <a class="carousel-control-prev" href="#demo<%= i %>" data-slide="prev">
@@ -132,8 +131,13 @@
                             <a class="carousel-control-next" href="#demo<%= i %>" data-slide="next">
                               <span class="carousel-control-next-icon"></span>
                             </a>
-                          
                         </div>
+                        
+                        <script>
+						    $(document).ready(function() {      
+						        $('.carousel').carousel('pause');
+						    });
+						</script>
                             
                     </td>
                 </tr>
