@@ -8,6 +8,7 @@
 		     , PROFILE_IMG
 		     , COUNT
 		     , USER_NICKNAME
+		     , HASHTAG
 		  FROM (SELECT
 		               STYLE_NO
 		             , COUNT(*) "COUNT"
@@ -16,7 +17,7 @@
 		            BY STYLE_NO
 		         ORDER
 		            BY COUNT DESC)
-		  JOIN TB_STYLE S USING (STYLE_NO)
+		  RIGHT JOIN TB_STYLE S USING (STYLE_NO)
 		  JOIN TB_USER USING (USER_NO)
 		 WHERE S.STATUS = 'Y'
 	</entry>

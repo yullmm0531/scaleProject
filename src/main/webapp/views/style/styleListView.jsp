@@ -56,6 +56,41 @@
     }
     #standard>button:hover{background: gray; color: white;}
     
+    .text{
+    	text-overflow:ellipsis; 
+    	overflow:hidden; 
+    	width:260px; 
+    	white-space:nowrap;
+    }
+    
+    .carousel-wrap{
+        width: 260px; 
+        height:260px; 
+        overflow: hidden;
+    }
+
+    .carousel-content{
+        display: flex;
+        transform: translate3d(0, 0, 0);
+        transition: transform 0.2s;
+    }
+
+    .prev{
+        width: 25px;
+        height: 25px;
+        position: absolute;
+        top: 120px;
+        left: 5px;
+    }
+    .next{
+        width: 25px;
+        height: 25px;
+        position: absolute;
+        top: 120px;
+        right: 5px;
+    }
+    .style-img>div{position: relative;}
+
 </style>
 </head>
 <body>
@@ -89,55 +124,77 @@
 		
         <div>
         	<!-- 반복문 -->
+        	<% for(Style st : list) { %>
             <table class="set">
                 <tr>
                     <td colspan="2" class="style-img">
-                        <div id="demo" class="carousel">
-
-                            <!-- Indicators -->
-                            <ul class="carousel-indicators">
-                            	
-                              <li data-target="#demo" data-slide-to="0" class="active"></li>
-                              <li data-target="#demo" data-slide-to="1"></li>
-                              <li data-target="#demo" data-slide-to="2"></li>
-                            </ul>
-                            
+                        <div>
                             <!-- The slideshow -->
-                            <div class="carousel-inner">
-                              <div class="carousel-item active">
-                                <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" width="260" height="260">
-                              </div>
+                            <div class="carousel-wrap">
+                              	<% for(StyleImg img : ilist) { %>
+                              	<div class="carousel-content">
+                              		<% if(img.getStyleNo() == st.getStyleNo()) { %>
+                                	<img src="<%= contextPath %>/<%= img.getFilePath() %><%= img.getChangeName() %>" width="260" height="260">
+                                	<% } %>
+                                </div>
+                                <% } %>
                             </div>
                             
                             <!-- Left and right controls -->
-                            <a class="carousel-control-prev" href="#demo" data-slide="prev">
-                              <span class="carousel-control-prev-icon"></span>
-                            </a>
-                            <a class="carousel-control-next" href="#demo" data-slide="next">
-                              <span class="carousel-control-next-icon"></span>
-                            </a>
+                            <img src="resources/images/style/좌.png" class="prev">
+                            <img src="resources/images/style/우.png" class="next">
                           </div>
+                          
+                          <script>
+                          	const arr = []
+                          	for(StyleImg img : ilist) {
+                          		if(<%= st.getStyleNo() %> == img.getStyleNo()){
+                          			arr += img
+                          		}
+                          	}
+                            const prevButton = document.querySelector('.prev');
+                            const nextButton = document.querySelector('.next');
+                            const carousel = document.querySelector('.carousel-content');
+
+                            let index = 0;
+
+                            prevButton.addEventListener('click', () => {
+                                if (index === 0) return;
+                                index -= 1;
+                                
+                                carousel.style.transform = `translate3d(-${260 * index}px, 0, 0)`;
+                            });
+
+                            nextButton.addEventListener('click', () => {
+                                if (index === <%=  %>) return;
+                                index += 1;
+                                
+                                carousel.style.transform = `translate3d(-${260 * index}px, 0, 0)`;
+                            });
+                        </script>
                     </td>
                 </tr>
                 <tr>
                     <td class="nickname">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="rounded-circle">
-                        <a href="">닉네임</a>
+                        <img src="<%= contextPath %>/<%= st.getProfileImg() %>" class="rounded-circle">
+                        <a href=""><%= st.getStyleWriter() %></a>
                     </td>
                     <td class="like">
                         <a class="btn">😊</a>
-                        <span>200</span>
+                        <span><%= st.getCount() %></span>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="5">
                         <div class="text">
-                            <a href="">#xxxxx</a>
-                            <a href="">#xxxxx</a>
+                        	<% for(int i=0; i<st.getHashtag().length; i++) { %>
+                            <a href=""><%= st.getHashtag()[i] %></a>
+                            <% } %>
                         </div>
                     </td>
                 </tr>
             </table>
+            <% } %>
         </div>
     </div>
     
