@@ -42,17 +42,21 @@ public class InsertUserController extends HttpServlet {
 		String email = request.getParameter("email");
 		
 		User u = new User(userId, userPwd, userName, userNickName, phone, email);
+
+		System.out.println(u);
 		
 		String zipCode = request.getParameter("zipCode"); 
 		String address1 = request.getParameter("address");
 		String address2 = request.getParameter("detailAddress");
 		
 		Address add = new Address(zipCode, address1, address2);
+		System.out.println(add);
 		
 		int result = new UserService().insertUser(u, add);
 		
 		if(result > 0) {
-			response.sendRedirect(request.getContextPath());
+			request.getSession().setAttribute("alertMsg", "회원가입이 완료되었습니다. 로그인 후 이용해주세요.");
+			response.sendRedirect(request.getContextPath() + "/loginForm.us");
 		}else {
 			request.getSession().setAttribute("alertMsg", "회원가입 실패");
 			response.sendRedirect(request.getContextPath() + "/insert.us");

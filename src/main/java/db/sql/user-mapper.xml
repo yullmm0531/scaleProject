@@ -37,9 +37,6 @@
 		  , USER_NICKNAME
 		  , PHONE
 		  , EMAIL
-		  , ENROLL_DATE
-		  , STATUS
-		  , MANAGER_CHECK
 		  )
 		  VALUES
 		  (
@@ -50,9 +47,6 @@
 		  , ?
 		  , ?
 		  , ?
-		  , SYSDATE
-		  , 'Y'
-		  , 'N'
 		  )
 	</entry>
 	

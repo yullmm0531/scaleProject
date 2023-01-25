@@ -99,22 +99,22 @@
 
                 <div class="form-group">
                     <label for="userName"><span class="rq-mark">*</span>이름</label>
-                    <input type="text" class="form-control" id="userName" placeholder="이름을 입력해주세요." required>
+                    <input type="text" class="form-control" name="userName" id="userName" placeholder="이름을 입력해주세요." required>
                 </div>
 
                 <div class="form-group">
                     <label for="userNickName"><span class="rq-mark">*</span>닉네임</label>
-                    <input type="text" class="form-control" id="userNickName" placeholder="닉네임을 입력해주세요." required>
+                    <input type="text" class="form-control" name="userNickName" id="userNickName" placeholder="닉네임을 입력해주세요." required>
                 </div>
                 
                 <div class="form-group">
                     <label for="phone"><span class="rq-mark">*</span>휴대폰번호</label>
-                    <input type="text" class="form-control" id="phone" placeholder="휴대폰번호 숫자만 입력해주세요." onKeyup="addHypen(this);" required>
+                    <input type="text" class="form-control" name="phone" id="phone" placeholder="휴대폰번호 숫자만 입력해주세요." onKeyup="addHypen(this);" required>
                 </div>
 
                 <div class="form-group">
                     <label for="email"><span class="rq-mark">*</span>이메일</label>
-                    <input type="email" class="form-control" id="email" placeholder="예) example@scale.com" required>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="예) example@scale.com" required>
                 </div>
                 
                 <div class="form-group">
@@ -238,7 +238,6 @@
 </script>
 
 <script>
-
     function validate(){
         const userId = $("#userId").val();
         const userPwd = $("#userPwd").val();
@@ -247,6 +246,7 @@
         const userNickName = $("#userNickName").val();
         const phone = $("#phone").val();
         const email = $("#email").val();
+        const zipCode = $("#zipCode").val();
 
        
         if(userId == ""){
@@ -280,6 +280,7 @@
         //     return false;
         // }
     }
+	*/
 </script>
 
 </body>
