@@ -25,4 +25,56 @@
 		   AND USER_PWD = ?
 		   AND STATUS = 'Y'
 	</entry>
+	
+	<entry key="insertUser">
+		INSERT
+		  INTO TB_USER
+		  (
+		  	USER_NO
+		  , USER_ID
+		  , USER_PWD
+		  , USER_NAME
+		  , USER_NICKNAME
+		  , PHONE
+		  , EMAIL
+		  , ENROLL_DATE
+		  , STATUS
+		  , MANAGER_CHECK
+		  )
+		  VALUES
+		  (
+		  	SEQ_UNO.NEXTVAL
+		  , ?
+		  , ?
+		  , ?
+		  , ?
+		  , ?
+		  , ?
+		  , SYSDATE
+		  , 'Y'
+		  , 'N'
+		  )
+	</entry>
+	
+	<entry key="insertAdd">
+		INSERT
+		  INTO TB_ADDRESS
+		  (
+		  	ADDRESS_NO
+		  , ZIPCODE
+		  , ADDRESS1
+		  , ADDRESS2
+		  , DEFAULT_ADD
+		  , USER_NO
+		  )
+		  VALUES
+		  (
+		  	SEQ_ANO.NEXTVAL
+		  , ?
+		  , ?
+		  , ?
+		  , 'N'
+		  , SEQ_UNO.CURRVAL
+		  )
+	</entry>
 </properties>

@@ -29,13 +29,13 @@
         }
         .form-fields{margin:40px;}
 
-        #userId, #postCode{width:300px;}
+        #userId, #zipCode{width:300px;}
 
         #joinForm input[type=checkbox]{margin-left: 20px;}
 
         .rq-mark{color:red; margin:7px;}
         
-        #userId, #postCode{display:inline-block;}
+        #userId, #zipCode{display:inline-block;}
        
         ::placeholder{font-size:12px;}
 
@@ -77,7 +77,7 @@
 	
 	<div class="outer">
     <h2><b>회원가입</b></h2>
-        <form id="joinForm" action="<%=contextPath%>/" method="post">
+        <form id="joinForm" action="<%=contextPath%>/insert.us" method="post">
             <div class="form-fields">
                 <div class="form-group">
                     <label for="userId"><span class="rq-mark">*</span>아이디</label> <br>
@@ -118,8 +118,8 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="postCode"><span class="rq-mark">*</span>주소</label> <br>
-                    <input type="text" class="form-control" id="postCode" name="postCode" placeholder="주소를 검색해주세요." required>
+                    <label for="zipCode"><span class="rq-mark">*</span>주소</label> <br>
+                    <input type="text" class="form-control" id="zipCode" name="zipCode" placeholder="주소를 검색해주세요." required>
                     <button type="button" class="btn btn-dark" onclick="sample6_execDaumPostcode();">주소 검색</button>
                 </div>
 
@@ -226,7 +226,7 @@
                 }
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('postCode').value = data.zonecode;
+                document.getElementById('zipCode').value = data.zonecode;
                 document.getElementById('address').value = addr;
                 // 커서를 상세주소 필드로 이동한다.
                 document.getElementById('addrGroup').style.display = 'block';

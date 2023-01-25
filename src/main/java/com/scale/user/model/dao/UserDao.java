@@ -1,5 +1,7 @@
 package com.scale.user.model.dao;
 
+import static com.scale.common.JDBCTemplate.close;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -8,8 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import com.scale.user.model.vo.Address;
 import com.scale.user.model.vo.User;
-import static com.scale.common.JDBCTemplate.*;
 
 public class UserDao {
 
@@ -66,5 +68,51 @@ public class UserDao {
 		}
 		
 		return loginUser;
+	}
+	
+	public int insertUser(Connection conn, User u) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertUser");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, u.getUserId());
+			pstmt.setString(2, u.getUserPwd());
+			pstmt.setString(3, u.getUserName());
+			pstmt.setString(4, u.getUserNickName());
+			pstmt.setString(5, u.getPhone());
+			pstmt.setString(6, u.getEmail());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public int insertAdd(Connection conn, Address add) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertAdd");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, add.getZipCode());
+			pstmt.setString(2, add.getAddress1());
+			pstmt.setString(3, add.getAddress2());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
 	}
 }
