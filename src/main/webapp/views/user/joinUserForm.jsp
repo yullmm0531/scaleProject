@@ -83,6 +83,7 @@
                     <input type="text" class="form-control" id="userId" name="userId" placeholder="5자 이상의 영문 혹은 영문+숫자로 입력해주세요." required>
                     <button type="button" id="idCheck" class="btn btn-dark" onclick="checkId();">중복 확인</button>
                     <div class="check-input" id="check-input-id"></div>
+                    <input type="hidden" id="idChecked" name="idChecked" value="UnChecked">
                 </div>
                 
                 <div class="form-group">
@@ -131,7 +132,7 @@
                 <div class="form-group" id="addrGroup" style="display:none">
                     <input type="text" class="form-control" id="address" name="address" required><br>
                     <label for="detailAddress">상세주소</label> <br>
-                    <input type="text" class="form-control" id="detailAddress" name="detailAddress" placeholder="">
+                    <input type="text" class="form-control" id="detailAddress" name="detailAddress">
                 </div>
                 <br>
                 <hr>
@@ -165,6 +166,7 @@
     const $checkInputId = $("#check-input-id");
     const $userPwd = $("#userPwd");
     const $checkInputPwd = $("#check-input-pwd");
+    const $idChecked = $("#idChecked");
     const $pwdCheck = $("#pwdCheck");
     const $checkInputPwd2 = $("#check-input-pwd2");
     const $userName = $("#userName");
@@ -182,7 +184,6 @@
         $userId.focusout(function(){
             if($userId.val() == ""){
                 $checkInputId.html("아이디를 입력해주세요.");
-                // $userId.focus();
             }
         })
 
@@ -193,13 +194,13 @@
             }else{
                 $checkInputId.html("");
             }
+            $idChecked.val("UnChecked");
         })
 
         // 비밀번호 유효성 체크
         $userPwd.focusout(function(){
             if($userPwd.val() == ""){
                 $checkInputPwd.html("비밀번호를 입력해주세요.");
-                // $userPwd.focus();
             }
         })
 
@@ -274,11 +275,13 @@
 		        success:function(result){
 		            if(result == "Y"){
 		            	$checkInputId.css("color", "red").html("이미 사용중인 아이디입니다.");
+		            	$userId.select();
 		            }else if(result == "N"){
 		            	$checkInputId.css("color", "limegreen").html("사용 가능한 아이디입니다.");
+                        $idChecked.val("Checked");
 		            }
 		        }, error:function(){
-					console.log("중복확인 실패");
+					console.log("아이디 중복확인 실패");
 		        }
 		    });
 		}
@@ -288,6 +291,10 @@
 <script>
     function validate(){
         
+        if($idChecked.val() == "UnChecked"){
+            alert("아이디 중복 확인을 해주세요.");
+            $userId.focus();
+        }
     }
 </script>
 <!-- 휴대폰번호 하이픈 자동 추가 -->
