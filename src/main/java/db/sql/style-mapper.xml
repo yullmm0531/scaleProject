@@ -2,24 +2,40 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 
-	<entry key="selectStyleList">
+	<entry key="selectListCount">
 		SELECT
-		       STYLE_NO
-		     , PROFILE_IMG
-		     , COUNT
-		     , USER_NICKNAME
-		     , HASHTAG
-		  FROM (SELECT
-		               STYLE_NO
-		             , COUNT(*) "COUNT"
-		          FROM TB_STYLE_LIKE
-		         GROUP
-		            BY STYLE_NO
-		         ORDER
-		            BY COUNT DESC)
-		  RIGHT JOIN TB_STYLE S USING (STYLE_NO)
-		  JOIN TB_USER USING (USER_NO)
-		 WHERE S.STATUS = 'Y'
+		       COUNT(*) COUNT
+		  FROM TB_STYLE
+		 WHERE STATUS = 'Y'
+	</entry>
+
+	<entry key="selectStyleList">
+		SELECT *
+		  FROM (
+		        SELECT
+		               ROWNUM RNUM
+		             , A.*
+		          FROM (
+		                SELECT
+		                       STYLE_NO
+		                     , PROFILE_IMG
+		                     , COUNT
+		                     , USER_NICKNAME
+		                     , HASHTAG
+		                  FROM (SELECT
+		                               STYLE_NO
+		                             , COUNT(*) "COUNT"
+		                          FROM TB_STYLE_LIKE
+		                         GROUP
+		                            BY STYLE_NO
+		                         ORDER
+		                            BY COUNT DESC)
+		                  RIGHT JOIN TB_STYLE S USING (STYLE_NO)
+		                  JOIN TB_USER USING (USER_NO)
+		                 WHERE S.STATUS = 'Y'
+		                ) A
+		        )
+		 WHERE RNUM BETWEEN ? AND ?
 	</entry>
 	
 	<entry key="selectStyleImgList">
@@ -50,24 +66,33 @@
 	</entry>
 	
 	<entry key="selectNewStyleList">
-		SELECT
-		       STYLE_NO
-		     , PROFILE_IMG
-		     , COUNT
-		     , USER_NICKNAME
-		     , HASHTAG
-		  FROM (SELECT
-		               STYLE_NO
-		             , COUNT(*) "COUNT"
-		          FROM TB_STYLE_LIKE
-		         GROUP
-		            BY STYLE_NO
+		SELECT *
+		  FROM (
+		        SELECT
+				       ROWNUM RNUM
+				     , A.*
+				  FROM (
+				        SELECT
+				               STYLE_NO
+				             , PROFILE_IMG
+				             , COUNT
+				             , USER_NICKNAME
+				             , HASHTAG
+				          FROM (SELECT
+				                       STYLE_NO
+				                     , COUNT(*) "COUNT"
+				                  FROM TB_STYLE_LIKE
+				                 GROUP
+				                    BY STYLE_NO
+				                )
+				          RIGHT JOIN TB_STYLE S USING (STYLE_NO)
+				          JOIN TB_USER USING (USER_NO)
+				         WHERE S.STATUS = 'Y'
+				         ORDER
+				            BY STYLE_NO DESC
+				                ) A
 		        )
-		  RIGHT JOIN TB_STYLE S USING (STYLE_NO)
-		  JOIN TB_USER USING (USER_NO)
-		 WHERE S.STATUS = 'Y'
-		 ORDER
-		    BY STYLE_NO DESC
+		 WHERE RNUM BETWEEN ? AND ?
 	</entry>
 	
 </properties>

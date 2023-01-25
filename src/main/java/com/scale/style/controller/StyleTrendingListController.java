@@ -33,7 +33,17 @@ public class StyleTrendingListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Style> list = new StyleService().selectStyleList();
+		int listCount;
+		int currentPage;
+		int boardLimit;
+		int maxPage;
+		
+		listCount = new StyleService().selectListCount();
+		currentPage = Integer.parseInt(request.getParameter("cpage"));
+		boardLimit = 12;
+		maxPage = (int)Math.ceil((double)listCount / boardLimit);
+		
+		ArrayList<Style> list = new StyleService().selectStyleList(currentPage, boardLimit);
 		ArrayList<StyleImg> ilist = new StyleService().selectStyleImgList();
 		ArrayList<Hashtag> tag = new StyleService().selectTagList();
 		

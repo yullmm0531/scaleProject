@@ -13,9 +13,16 @@ import com.scale.style.model.vo.StyleImg;
 
 public class StyleService {
 	
-	public ArrayList<Style> selectStyleList(){
+	public int selectListCount() {
 		Connection conn = getConnection();
-		ArrayList<Style> list = new StyleDao().selectStyleList(conn);
+		int result = new StyleDao().selectListCount(conn);
+		close(conn);
+		return result;
+	}
+	
+	public ArrayList<Style> selectStyleList(int currentPage, int boardLimit){
+		Connection conn = getConnection();
+		ArrayList<Style> list = new StyleDao().selectStyleList(conn, currentPage, boardLimit);
 		close(conn);
 		return list;
 	}
@@ -34,9 +41,9 @@ public class StyleService {
 		return tag;
 	}
 	
-	public ArrayList<Style> selectNewStyleList(){
+	public ArrayList<Style> selectNewStyleList(int currentPage, int boardLimit){
 		Connection conn = getConnection();
-		ArrayList<Style> list = new StyleDao().selectNewStyleList(conn);
+		ArrayList<Style> list = new StyleDao().selectNewStyleList(conn, currentPage, boardLimit);
 		close(conn);
 		return list;
 	}

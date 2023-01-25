@@ -166,7 +166,7 @@
         
         <div id="navigator">
             <ul id="navi">
-                <li><a href="<%=contextPath%>/trendinglist.st">STYLE</a></li>
+                <li><a href="<%=contextPath%>/trendinglist.st?cpage=1">STYLE</a></li>
                 <li><a href="">SHOP</a></li>
             </ul>
         </div>

@@ -84,7 +84,7 @@
 	
 	<div class="outer">
         <div id="standard">
-            <button type="button" id="trending" onclick = "location.href = '<%= contextPath %>/trendinglist.st'">인기</button>
+            <button type="button" id="trending" onclick = "location.href = '<%= contextPath %>/trendinglist.st?cpage=1'">인기</button>
             <button type="button" id="newest">최신</button>
         </div>
         
