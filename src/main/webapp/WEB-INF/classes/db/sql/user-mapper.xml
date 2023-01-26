@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="userLogin">
+		SELECT 
+			   USER_NO
+			 , USER_ID
+			 , USER_PWD
+			 , USER_NAME
+			 , USER_NICKNAME
+			 , PHONE
+			 , EMAIL
+			 , ENROLL_DATE
+			 , STATUS
+			 , DELETE_DATE
+			 , MANAGER_CHECK
+			 , USER_ACC_BANK
+			 , USER_ACC_NUMBER
+			 , SHOP_BLOCK_DATE
+			 , STYLE_BLOCK_DATE
+			 , INTRODUCE
+			 , PROFILE_IMG
+		  FROM TB_USER
+		 WHERE USER_ID = ?
+		   AND USER_PWD = ?
+		   AND STATUS = 'Y'
+	</entry>
+	
+	<entry key="insertUser">
+		INSERT
+		  INTO TB_USER
+		  (
+		  	USER_NO
+		  , USER_ID
+		  , USER_PWD
+		  , USER_NAME
+		  , USER_NICKNAME
+		  , PHONE
+		  , EMAIL
+		  )
+		  VALUES
+		  (
+		  	SEQ_UNO.NEXTVAL
+		  , ?
+		  , ?
+		  , ?
+		  , ?
+		  , ?
+		  , ?
+		  )
+	</entry>
+	
+	<entry key="insertAdd">
+		INSERT
+		  INTO TB_ADDRESS
+		  (
+		  	ADDRESS_NO
+		  , ZIPCODE
+		  , ADDRESS1
+		  , ADDRESS2
+		  , DEFAULT_ADD
+		  , USER_NO
+		  )
+		  VALUES
+		  (
+		  	SEQ_ANO.NEXTVAL
+		  , ?
+		  , ?
+		  , ?
+		  , 'N'
+		  , SEQ_UNO.CURRVAL
+		  )
+	</entry>
+	
+	<entry key="idCheck">
+		SELECT
+			   COUNT (*) "COUNT"
+		  FROM TB_USER
+		 WHERE USER_ID = ?
+	</entry>
+</properties>

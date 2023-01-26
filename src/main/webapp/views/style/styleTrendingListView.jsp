@@ -24,7 +24,7 @@
     #hashtag{font-size: 40px; font: bold;}
 
 	.carousel-inner{width: 260px; height: 260px;}
-	.carousel-item{width: 260px; height: 260px;}
+	.carousel-item{width: 260px; height: 260px; clear:both;}
     .cimg{width: 260px; height: 260px; border-radius: 0.5em;}
 
     .nickname{height: 40px; text-align: left;}
@@ -104,7 +104,7 @@
 		
 		<br>
 		
-        <div>
+        <div id="table-container">
         	<!-- 반복문 -->
         	<% for(int i=0; i<list.size(); i++) { %>
             <table class="set">
@@ -177,6 +177,40 @@
     <button id="up-btn" style="position: fixed; right: 50px; bottom: 30px;">UP</button>
     <button id="up-btn" style="position: fixed; right: 120px; bottom: 30px;">+</button>
     <br><br>
+    
+	<script type="text/javascript">
+		var cpage = 1;  //페이징과 같은 방식이라고 생각하면 된다. 
+	 
+		$(function(){  //페이지가 로드되면 데이터를 가져오고 page를 증가시킨다.
+		     getList(cpage);
+		     page++;
+		}); 
+	 
+		$(window).scroll(function(){   //스크롤이 최하단 으로 내려가면 리스트를 조회하고 page를 증가시킨다.
+			if($(window).scrollTop() >= $(document).height() - $(window).height()){
+				getList(cpage);
+				 cpage++;   
+			} 
+		});
+	 
+		function getList(cpage){
+		 
+			$.ajax({
+				type : 'POST',  
+				dataType : 'json', 
+				data : {"cpage" : cpage},
+				url : '<%= contextPath %>/trendinglist.ajax',
+				success : function(returnData) {
+					console.log(returnData.list);
+				},
+				error:function(e){
+					if(e.status==300){
+						alert("데이터를 가져오는데 실패하였습니다.");
+					};
+				}
+			}); 
+		}
+	</script>
 
-</body>
+	</body>
 </html>

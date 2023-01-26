@@ -24,7 +24,7 @@
     #hashtag{font-size: 40px; font: bold;}
 
 	.carousel-inner{width: 260px; height: 260px;}
-	.carousel-item{width: 260px; height: 260px;}
+	.carousel-item{width: 260px; height: 260px; clear:both;}
     .cimg{width: 260px; height: 260px; border-radius: 0.5em;}
 
     .nickname{height: 40px; text-align: left;}

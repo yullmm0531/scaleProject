@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<entry key="selectListCount">
+		SELECT
+		       COUNT(*) COUNT
+		  FROM TB_STYLE
+		 WHERE STATUS = 'Y'
+	</entry>
+
+	<entry key="selectStyleList">
+		SELECT *
+		  FROM (
+		        SELECT
+		               ROWNUM RNUM
+		             , A.*
+		          FROM (
+		                SELECT
+		                       STYLE_NO
+		                     , PROFILE_IMG
+		                     , COUNT
+		                     , USER_NICKNAME
+		                     , HASHTAG
+		                  FROM (SELECT
+		                               STYLE_NO
+		                             , COUNT(*) "COUNT"
+		                          FROM TB_STYLE_LIKE
+		                         GROUP
+		                            BY STYLE_NO
+		                         ORDER
+		                            BY COUNT DESC)
+		                  RIGHT JOIN TB_STYLE S USING (STYLE_NO)
+		                  JOIN TB_USER USING (USER_NO)
+		                 WHERE S.STATUS = 'Y'
+		                ) A
+		        )
+		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="selectStyleImgList">
+		SELECT
+		       IMG_NO
+		     , CHANGE_NAME
+		     , FILE_PATH
+		     , STYLE_NO
+		     , FILE_LEVEL
+		  FROM TB_STYLE_IMG
+		 WHERE STATUS = 'Y'
+	</entry>
+	
+	<entry key="selectTagList">
+		SELECT *
+		  FROM (SELECT
+				       ROWNUM RNUM
+				     , A.*
+				  FROM (SELECT
+				               HASHTAG_NO
+				             , KEYWORD
+				          FROM TB_HASHTAG
+				         ORDER
+				            BY COUNT DESC
+				        ) A
+				)
+		 WHERE RNUM BETWEEN 1 AND 6
+	</entry>
+	
+	<entry key="selectNewStyleList">
+		SELECT *
+		  FROM (
+		        SELECT
+				       ROWNUM RNUM
+				     , A.*
+				  FROM (
+				        SELECT
+				               STYLE_NO
+				             , PROFILE_IMG
+				             , COUNT
+				             , USER_NICKNAME
+				             , HASHTAG
+				          FROM (SELECT
+				                       STYLE_NO
+				                     , COUNT(*) "COUNT"
+				                  FROM TB_STYLE_LIKE
+				                 GROUP
+				                    BY STYLE_NO
+				                )
+				          RIGHT JOIN TB_STYLE S USING (STYLE_NO)
+				          JOIN TB_USER USING (USER_NO)
+				         WHERE S.STATUS = 'Y'
+				         ORDER
+				            BY STYLE_NO DESC
+				                ) A
+		        )
+		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+</properties>
