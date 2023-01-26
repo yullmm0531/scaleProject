@@ -1,23 +1,27 @@
 package com.scale.product.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.scale.product.model.service.ProductService;
+import com.scale.product.model.vo.Product;
+
 /**
- * Servlet implementation class BrandListController
+ * Servlet implementation class ProductSearchController
  */
-@WebServlet("/blist.do")
-public class BrandListController extends HttpServlet {
+@WebServlet("/psearch.pd")
+public class ProductSearchController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BrandListController() {
+    public ProductSearchController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -26,7 +30,7 @@ public class BrandListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		request.setCharacterEncoding("UTF-8");
 		
 		
 	}

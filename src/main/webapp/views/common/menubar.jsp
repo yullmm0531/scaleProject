@@ -167,7 +167,7 @@
         <div id="navigator">
             <ul id="navi">
                 <li><a href="<%=contextPath%>/trendinglist.st?cpage=1">STYLE</a></li>
-                <li><a href="<%=contextPath%>/plist.do">SHOP</a></li>
+                <li><a href="<%=contextPath%>/plist.pd">SHOP</a></li>
             </ul>
         </div>
     </div>
