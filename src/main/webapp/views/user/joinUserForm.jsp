@@ -29,15 +29,16 @@
         }
         .form-fields{margin:40px;}
 
-        #userId, #zipCode, #email{width:300px; display:inline-block;}
-
-        #joinForm input[type=checkbox]{margin-left: 20px;}
+        #userId, #zipCode, #email, #emailCode-input{width:300px; display:inline-block;}
 
         .rq-mark{color:red; margin:7px;}
         
         ::placeholder{font-size:12px;}
 
-        .policy-agree div{display:inline-block;}
+        .emailVerify-area{display:none;}
+
+        .policy-agree{border:1px solid lightgray; margin-top:10px;}
+        .policy-agree div{display:inline-block; margin-top:10px;}
 
         .policy{width:85%;}
 
@@ -48,17 +49,20 @@
             font-size:12px;
         }
         .policy-agree ul{
+            padding-left:20px;
             list-style:none;
-            padding-left:0px;
             line-height:35px;
+            font-size:14px;
         }
+        .policy-agree input[type=checkbox]{margin-left:0px; width:16px; height:16px;}
         
         #btn-area{
             text-align:center;
             padding : 30px;
         }
         .form-fields button{
-            font-size: 14px;
+            font-size:14px;
+            width:90px;
         }
         .detail-addr-form{
             display:none;
@@ -83,7 +87,7 @@
                     <input type="text" class="form-control" id="userId" name="userId" placeholder="5자 이상의 영문 혹은 영문+숫자로 입력해주세요." required>
                     <button type="button" id="idCheck" class="btn btn-dark" onclick="checkId();">중복 확인</button>
                     <div class="check-input" id="check-input-id"></div>
-                    <input type="hidden" id="idChecked" name="idChecked" value="UnChecked">
+                    <input type="hidden" id="idChecked" value="UnChecked">
                 </div>
                 
                 <div class="form-group">
@@ -119,8 +123,14 @@
                 <div class="form-group">
                     <label for="email"><span class="rq-mark">*</span>이메일</label><br>
                     <input type="email" class="form-control" name="email" id="email" placeholder="예) example@scale.com" required>
-                    <button type="button" id="emailCheck" class="btn btn-dark">메일 인증</button>
+                    <button type="button" id="sendEmail-btn" class="btn btn-dark" onclick="sendEmail();">메일 인증</button>
                     <div class="check-input" id="check-input-email"></div>
+                </div>
+                <div class="form-group emailVerify-area">
+                    <input type="text" class="form-control" id="emailCode-input" placeholder="인증코드 입력해주세요." required>
+                    <button type="button" id="codeCheck-btn" class="btn btn-dark">인증 완료</button>
+                    <div class="check-input" id="check-input-emailCode"></div>
+                    <input type="hidden" id="emailVerified" value="unverified">
                 </div>
                 
                 <div class="form-group">
@@ -136,23 +146,24 @@
                 </div>
                 <br>
                 <hr>
-
-                <div class="policy-agree">
-                    <div class="policy">
-                        <ul>
-                            <li>SCALE 서비스 이용약관 동의 <a href="">내용보기</a></li>
-                            <li>개인정보 수집 및 이용 동의 <a href="">내용보기</a></li>
-                            <li>[선택] 광고성 정보 수신동의 <a href="">내용보기</a></li>
-                        </ul>
-                    </div>
-                    <div class="agree">
-                        <ul>
-                            <li><input type="checkbox"></li>
-                            <li><input type="checkbox"></li>
-                            <li><input type="checkbox"></li>
-                        </ul>
-                    </div>
-                </div>
+                    <fieldset class="policy-agree">
+                        <div class="policy">
+                            <ul>
+                                <li style="font-size:15px"><b>전체 동의</b></li>
+                                <li>SCALE 서비스 이용약관 동의 <a href="">내용보기</a></li>
+                                <li>개인정보 수집 및 이용 동의 <a href="">내용보기</a></li>
+                                <li>[선택] 광고성 정보 수신동의 <a href="">내용보기</a></li>
+                            </ul>
+                        </div>
+                        <div class="agree">
+                            <ul>
+                                <li><input type="checkbox" id="checkAll"></li>
+                                <li><input type="checkbox" id="terms" class="checkPo"></li>
+                                <li><input type="checkbox" id="privacy" class="checkPo"></li>
+                                <li><input type="checkbox" id="ad" class="checkPo"></li>
+                            </ul>
+                        </div>
+                    </fieldset>
             </div>
             <div id="btn-area">
                 <button type="submit" class="btn btn-primary" id="joinBtn" onclick="return validate();">회원가입</button>
@@ -176,8 +187,13 @@
     const $phone = $("#phone");
     const $checkInputPhone = $("#check-input-phone");
     const $email = $("#email");
-    const $checkInputEmail = $("#check-input-email");
-
+    const $emailCheckMsg = $("#check-input-email");
+    const $sendEmailBtn = $("#sendEmail-btn"); // 메일 인증 버튼
+    const $emailCode = $("#emailCode-input"); // 인증코드 인풋
+    const $codeCheckBtn = $("#codeCheck-btn"); // 인증완료 버튼
+    const $emailCodeMsg = $("#check-input-emailCode"); // 인증번호 유효성검사메세지
+    const $emailVerified = $("#emailVerified"); // 이메일 인증 여부
+    
     $(function(){
         
         // 아이디 유효성 체크
@@ -252,11 +268,34 @@
 
         // 이메일 유효성 체크
         $email.focusout(function(){
+            let regExp = /@/g;
             if($email.val() == ""){
-                $checkInputEmail.html("이메일 주소를 입력해주세요.");
+                $emailCheckMsg.html("이메일 주소를 입력해주세요.");
+            }else if(!regExp.test($email.val())){
+                $emailCheckMsg.html("올바른 이메일 주소를 입력해주세요.");
             }else{
-                $checkInputEmail.html("");
+                $emailCheckMsg.html("");
             }
+        })
+
+        // 약관 전체동의
+        $("#checkAll").click(function(){
+            if($(this).is(":checked")){
+                $(".agree input").prop("checked", true)
+            }else {
+                $(".agree input").prop("checked", false);
+            }
+        });
+
+        // 약관 개별 체크에 따른 전체동의 체크여부
+        $(function(){
+            $(".checkPo").click(function(){
+                if($(".checkPo:checked").length == 3){
+                    $("#checkAll").prop("checked", true);
+                }else{
+                    $("#checkAll").prop("checked", false);
+                }
+            })
         })
 
     })
@@ -265,8 +304,9 @@
 
 <script>
 	function checkId(){
-		if($userId.val() == ""){
-			$checkInputId.html("아이디를 입력해주세요.");
+        let regExp = /^[a-z][a-z\d]{4,14}$/;
+		if($userId.val() == "" || !regExp.test($userId.val())){
+			$checkInputId.html("아이디는 5자 이상의 영문, 영문+숫자 조합으로 입력해주세요.");
             $userId.focus();
 		}else{
 			$.ajax({
@@ -289,12 +329,69 @@
 </script>
 
 <script>
+	function sendEmail(){
+        let regExp = /@/g;
+		if($email.val() == ""){
+            $emailCheckMsg.html("이메일 주소를 입력해주세요.");
+            $email.focus();
+            $emailVerified.val("unverified");
+        }else if(!regExp.test($email.val())){
+            $emailCheckMsg.html("올바른 이메일 주소를 입력해주세요.");
+            $email.focus();
+            $emailVerified.val("unverified");
+        }else {
+            $sendEmailBtn.html("재인증");
+            $(".emailVerify-area").css("display", "block");
+            $emailCode.focus();
+            $emailCheckMsg.html("");
+            $emailCodeMsg.html("");
+            $emailVerified.val("unverified");
+            $.ajax({
+                url:"<%=contextPath%>/sendEmail.us",
+                data:{email:$email.val()},
+                success:function(code){
+                    $("#codeCheck-btn").click(function(){
+                        if($emailCode.val() == code){
+                            $emailCheckMsg.css("color", "limegreen").html("인증되었습니다.");
+                            $(".emailVerify-area").css("display", "none");
+                            $emailCode.val("");
+                            $emailVerified.val("verified");
+                        }else{
+                            $emailCodeMsg.css("color", "red").html("인증코드가 일치하지 않습니다. 다시 입력해주세요.");
+                        }
+                    })
+                }, error:function(){
+                    console.log("이메일 인증 실패");
+                }
+            })
+        }
+	}
+</script>
+
+<script>
     function validate(){
         
+        // 아이디 중복체크 여부
         if($idChecked.val() == "UnChecked"){
             alert("아이디 중복 확인을 해주세요.");
             $userId.focus();
+            return false;
         }
+
+        // 이메일 인증여부
+        if($("#emailVerified").val() == "unverified"){
+            alert("이메일 인증을 진행해주세요.");
+            $email.focus();
+            return false;
+        }
+
+        // 약관 동의여부
+        if(!($("#terms").is(":checked") && $("#privacy").is(":checked"))){
+            alert("약관에 동의해주세요.");
+            return false;
+        }
+        
+
     }
 </script>
 <!-- 휴대폰번호 하이픈 자동 추가 -->
