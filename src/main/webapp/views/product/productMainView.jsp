@@ -9,51 +9,46 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+	
 <style>
-        div{
+        div *{
             box-sizing: border-box;
-            background-color: white;
             margin:auto;
-
+          
         }
 
-        .wrap{
+        .pwrap{
             width:1200px;
             height:1000px;
             margin:auto;
         }
-        .wrap>div{width:100%;}
+        .pwrap>div{width:100%;}
 
-        #header{height:30%;}
-        #banner{height:10%;}
-        #content{height:50%;}
-        #footer{height:10%;}
+        #pheader{height:30%;}
+        #pcontent{height:60%;}
+        #pfooter{height:10%;}
 
-        #header>div{
+        #pheader>div{
            width:100%;
            float:left;
         }
-
-        #content>div{
+		
+        #pcontent>div{
             height:100%;
             float:left;
         }
 
-        #header-1{height:25%;}
-        #header-2{height:20%;}
-        #header-3{height:55%;}
+        #pheader-1{height:20%; line-height:10px;}
+        #pheader-2{height:60%;}
+        #pheader-3{height:20%;}
 
-        #content-1{width:20%;}
-        #content-2{width:80%;}
+        #pcontent-1{width:20%;}
+        #pcontent-2{width:80%;}
 
         .img-box > img {
             width:100px;
             display:block;
+            
         }
         .row::after {
             content:"";
@@ -83,37 +78,64 @@
   </style>
 </head>
 <body>
-	<%@ include file="../common/menubar.jsp" %>
-	  <div class="wrap">
-        <div id="header">
-            <div id="header-1">
-                <div  id="header-1" align="center">
-                    <h1>SHOP</h1>
-                </div>
-                <div class="search-box" align="right">
-                    <input class="searchbox" type="text" placeholder="Search">
-                </div>
-            </div>
-            <div id="header-2">
+	 <%@ include file="../common/menubar.jsp" %> 
+	  <div class="pwrap">
+        <div id="pheader">
+            <div id="pheader-1">
+            	<br>
                 <button type="button" class="btn btn-secondary" id="topBtn">신발</button>
                 <button type="button" class="btn btn-secondary" id="topBtn1">지갑</button>
                 <button type="button" class="btn btn-secondary" id="topBtn2">테크</button>
             </div>
-            <div id="header-3">
-                
-                    <div class="thumbnail-1">	
+            <div id="pheader-2">
+         		 <div class="thumbnail-1">	
                         <img src="" width="70" height="77">
                         <p>Nike</p>
                     </div>
             </div>
+            <div id="pheader-3">
+            
+                <img src="" alt="">배너
+                   
+            </div>
+        </div>
+        <!-- 검색 -->
+        	<script>
+        		function search(){
+        			$ajax({
+        				url:
+        			})
+        		}
+        	
+        	
+        	</script>
+        <!-- 브랜드 이미지  -->
+        	<script>
+        		$(function(){
+        			$(".btn btn-secodary").click(function(){
+        				$ajax({
+        					url:"/scale/plist.do",
+        					data:{
+        						image:$().val(),
+        						name:$().val()
+        					},
+        					type:"post",
+        					success:function(a){
+        						const value = 
+        					}
+        				})
+        			})
+        		})
+        	</script>
+       
+        
+
+        <div id="pbanner">
+            
         </div>
 
-        <div id="banner">
-            <img src="">
-        </div>
-
-        <div id="content">
-            <div id="content-1">
+        <div id="pcontent">
+            <div id="pcontent-1">
                  <span><h3>필터</h3></span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  <span id="eraser"><u>모두지우기</u></span>
                  <div class="category-box">
                     <li class="cate" style="cursor:pointer">
@@ -157,7 +179,7 @@
                     </li>
                 </div>
             </div>
-            <div id="content-2">
+            <div id="pcontent-2">
                 <div id="psort">
                     <span class="btnBox" id="btnBox">
                         <button>버튼</button>
@@ -190,8 +212,8 @@
             </div>
         </div>
 
-        <div id="footer">
-            footer
+        <div id="pfooter">
+           
         </div>
 
     </div>
@@ -247,6 +269,11 @@
     </script>
 
     <!-- 모두 지우기(체크박스 해제) -->
+    <script>
+    	$(function(){
+    		$(document)onc
+    	})
+    </script>
     
 </body>
 </html>
