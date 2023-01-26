@@ -18,4 +18,16 @@ public class ProductService {
 		return list;
 	}
 	
+	
+	public Product selectProduct(String pCode) {
+		
+		Connection conn = getConnection();
+		Product p = new ProductService().selectProduct(conn, pCode);
+		
+		close(conn);
+		
+		return p;
+		
+	}
+	
 }

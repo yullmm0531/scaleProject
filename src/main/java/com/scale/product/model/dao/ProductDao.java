@@ -57,4 +57,15 @@ private Properties prop = new Properties();
 	}
 	
 	
+	public Product selectProduct(Connection conn, String pCode) {
+		
+		Product p = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectProduct");
+		
+	}
+	
+	
 }
