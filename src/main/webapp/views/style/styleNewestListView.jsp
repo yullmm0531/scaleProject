@@ -36,16 +36,15 @@
 
     .text{text-align: left;}
 
-    #search-box{
-        display: inline-block;
-        width: 330px;
+    
+    #tag-search{
+    	width: 330px;
         height: 32px;
         border: 1px solid gray;
         border-radius: 0.3em;
-    }
-    #search-box>img{width: 20px; height: 20px;}
-    #tag-search{width: 300px; border: 0px; margin-left: 2px;}
-    #tag-search:focus {outline: none;}
+        padding-left: 10px;
+   	}
+   	#tag-search:focus {outline:none;}
     #trending{
     	margin-left: 5px; 
     	margin-right: 5px;
@@ -89,9 +88,9 @@
         </div>
         
         <div>
-            <form action="" method="get">
-                <div id="search-box">
-                    <img src="<%= contextPath %>/resources/images/style/search.svg"><input type="search" placeholder="해쉬태그 검색" id="tag-search">
+            <form action="<%= contextPath %>/search.st" method="get">
+                <div>
+                    <input type="search" placeholder="해쉬태그 검색" id="tag-search" name="keyword">
                 </div>
             </form>
         </div>
@@ -164,7 +163,11 @@
                     <td colspan="2" class="tag-area">
                         <div class="text">
                         	<% for(String str : list.get(i).getHashtag()) { %>
-                            <a href=""><%= str %></a>
+	                        	<% if(!str.isEmpty()){ %>
+	                            	<a href="<%= contextPath %>/search.st?keyword=<%= str.substring(1) %>"><%= str %></a>
+	                            <% } else { %>
+	                            	<a href=""><%= str %></a>
+	                            <% } %>
                             <% } %>
                         </div>
                     </td>
@@ -175,7 +178,7 @@
     </div>
     
     <button id="up-btn" style="position: fixed; right: 50px; bottom: 30px;">UP</button>
-    <button id="up-btn" style="position: fixed; right: 120px; bottom: 30px;">+</button>
+    <button id="insert-btn" style="position: fixed; right: 120px; bottom: 30px;">+</button>
     <br><br>
 
 </body>

@@ -47,5 +47,12 @@ public class StyleService {
 		close(conn);
 		return list;
 	}
+	
+	public ArrayList<Style> selectSearchList(String keyword){
+		Connection conn = getConnection();
+		ArrayList<Style> list = new StyleDao().selectSearchList(conn, keyword);
+		close(conn);
+		return list;
+	}
 
 }

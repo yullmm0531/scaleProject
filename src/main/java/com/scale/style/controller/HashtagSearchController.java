@@ -9,24 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONObject;
-
 import com.scale.style.model.service.StyleService;
-import com.scale.style.model.vo.Hashtag;
 import com.scale.style.model.vo.Style;
 import com.scale.style.model.vo.StyleImg;
 
 /**
- * Servlet implementation class AjaxTrendingListController
+ * Servlet implementation class HashtagSearchController
  */
-@WebServlet("/trendinglist.ajax")
-public class AjaxTrendingListController extends HttpServlet {
+@WebServlet("/search.st")
+public class HashtagSearchController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AjaxTrendingListController() {
+    public HashtagSearchController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,27 +32,21 @@ public class AjaxTrendingListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int listCount;
-		int currentPage;
-		int boardLimit;
-		int maxPage;
+		request.setCharacterEncoding("UTF-8");
 		
-		listCount = new StyleService().selectListCount();
-		currentPage = Integer.parseInt(request.getParameter("cpage"));
-		boardLimit = Integer.parseInt(request.getParameter("pageListSize"));
-		maxPage = (int)Math.ceil((double)listCount / boardLimit);
+		String keyword = request.getParameter("keyword");
+		String key = keyword;
+		if(keyword.charAt(0) == '#') {
+			key = keyword.substring(1);
+		}
 		
-		ArrayList<Style> list = new StyleService().selectStyleList(currentPage, boardLimit);
+		ArrayList<Style> list = new StyleService().selectSearchList(key);
 		ArrayList<StyleImg> ilist = new StyleService().selectStyleImgList();
-		ArrayList<Hashtag> tag = new StyleService().selectTagList();
 		
-		JSONObject jObj = new JSONObject();
-		jObj.put("list", list);
-		jObj.put("ilist", ilist);
-		jObj.put("tag", tag);
-		
-		response.setContentType("application/json; charset=UTF-8");
-		response.getWriter().print(jObj);
+		request.setAttribute("keyword", key);
+		request.setAttribute("list", list);
+		request.setAttribute("ilist", ilist);
+		request.getRequestDispatcher("views/style/hashtagSearchView.jsp").forward(request, response);
 	}
 
 	/**

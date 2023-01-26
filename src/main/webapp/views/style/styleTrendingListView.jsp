@@ -20,11 +20,9 @@
         width: 1200px;
     }
     .outer>div{margin: 10px;}
-    .set{margin: 10px; float: left;}
+    .set{margin: 15px; float: left;}
     #hashtag{font-size: 40px; font: bold;}
 
-	.carousel-inner{width: 260px; height: 260px;}
-	.carousel-item{width: 260px; height: 260px; clear:both;}
     .cimg{width: 260px; height: 260px; border-radius: 0.5em;}
 
     .nickname{height: 40px; text-align: left;}
@@ -36,16 +34,14 @@
 
     .text{text-align: left;}
 
-    #search-box{
-        display: inline-block;
-        width: 330px;
+    #tag-search{
+    	width: 330px;
         height: 32px;
         border: 1px solid gray;
         border-radius: 0.3em;
-    }
-    #search-box>img{width: 20px; height: 20px;}
-    #tag-search{width: 300px; border: 0px; margin-left: 2px;}
-    #tag-search:focus {outline: none;}
+        padding-left: 10px;
+   	}
+   	#tag-search:focus {outline:none;}
     #trending{
     	margin-left: 5px; 
     	margin-right: 5px;
@@ -76,8 +72,17 @@
     }
     .tag-area{height: 27px;}
     
+    #up-btn{
+    	position: fixed; 
+    	right: 50px; 
+    	bottom: 30px;
+    }
+    #insert-btn{
+    	position: fixed; 
+    	right: 120px; 
+    	bottom: 30px;
+    }
 </style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
 
@@ -86,20 +91,20 @@
 	<div class="outer">
         <div id="standard">
             <button type="button" id="trending">인기</button>
-            <button type="button" id="newest" onclick = "location.href = '<%= contextPath %>/newestlist.st?cpage=1'">최신</button>
+            <button type="button" id="newest" onclick="location.href='<%= contextPath %>/newestlist.st?cpage=1'">최신</button>
         </div>
         
         <div>
-            <form action="" method="get">
-                <div id="search-box">
-                    <img src="<%= contextPath %>/resources/images/style/search.svg"><input type="search" placeholder="해쉬태그 검색" id="tag-search">
+            <form action="<%= contextPath %>/search.st" method="get">
+                <div>
+                    <input type="search" placeholder="해쉬태그 검색" id="tag-search" name="keyword">
                 </div>
             </form>
         </div>
 
         <div>
         	<% for(Hashtag t : tag){ %>
-            	<button type="button" class="hashtag btn btn-light btn-sm"><%= t.getKeyword() %></button>
+            	<button type="button" class="hashtag btn btn-light btn-sm" onclick="search(this);"><%= t.getKeyword() %></button>
             <% } %>
         </div>
 		
@@ -118,18 +123,16 @@
                           
                             <!-- The slideshow -->
                             <div class="carousel-inner">
-                            	<% for(StyleImg img : ilist) { %>
-                            		<% if(list.get(i).getStyleNo() == img.getStyleNo()) { %>
-                            			<% if(img.getFileLevel() == 1) { %>
+                            	<% for(int j=0; j<ilist.size(); j++) { %>
+                            		<% if(list.get(i).getStyleNo() == ilist.get(j).getStyleNo() && ilist.get(j).getFileLevel() == 1) { %>
 											<div class="carousel-item active">
-											  <img class="cimg" src="<%= contextPath %>/<%= img.getFilePath() + img.getChangeName() %>">
+											  <img class="cimg" src="<%= contextPath %>/<%= ilist.get(j).getFilePath() + ilist.get(j).getChangeName() %>">
 											</div>
-		                            	<% } else { %>
+		                            <% } else if(list.get(i).getStyleNo() == ilist.get(j).getStyleNo() && ilist.get(j).getFileLevel() == 2) { %>
 			                            	<div class="carousel-item">
-											  <img class="cimg" src="<%= contextPath %>/<%= img.getFilePath() + img.getChangeName() %>">
+											  <img class="cimg" src="<%= contextPath %>/<%= ilist.get(j).getFilePath() + ilist.get(j).getChangeName() %>">
 											</div>
-										<% } %>
-                              		<% } %>
+									<% } %>
                               	<% } %>
                             </div>
                           	
@@ -165,7 +168,11 @@
                     <td colspan="2" class="tag-area">
                         <div class="text">
                         	<% for(String str : list.get(i).getHashtag()) { %>
-                            <a href=""><%= str %></a>
+	                        	<% if(!str.isEmpty()){ %>
+	                            	<a href="<%= contextPath %>/search.st?keyword=<%= str.substring(1) %>"><%= str %></a>
+	                            <% } else { %>
+	                            	<a href=""><%= str %></a>
+	                            <% } %>
                             <% } %>
                         </div>
                     </td>
@@ -175,43 +182,29 @@
         </div>
     </div>
     
-    <button id="up-btn" style="position: fixed; right: 50px; bottom: 30px;">UP</button>
-    <button id="up-btn" style="position: fixed; right: 120px; bottom: 30px;">+</button>
+    <button id="up-btn">UP</button>
+    <button id="insert-btn">+</button>
     <br><br>
     
-	<script type="text/javascript">
-		var cpage = 1;  //페이징과 같은 방식이라고 생각하면 된다. 
-	 
-		$(function(){  //페이지가 로드되면 데이터를 가져오고 page를 증가시킨다.
-		     getList(cpage);
-		     page++;
-		}); 
-	 
-		$(window).scroll(function(){   //스크롤이 최하단 으로 내려가면 리스트를 조회하고 page를 증가시킨다.
-			if($(window).scrollTop() >= $(document).height() - $(window).height()){
-				getList(cpage);
-				 cpage++;   
-			} 
-		});
-	 
-		function getList(cpage){
-		 
-			$.ajax({
-				type : 'POST',  
-				dataType : 'json', 
-				data : {"cpage" : cpage},
-				url : '<%= contextPath %>/trendinglist.ajax',
-				success : function(returnData) {
-					console.log(returnData.list);
-				},
-				error:function(e){
-					if(e.status==300){
-						alert("데이터를 가져오는데 실패하였습니다.");
-					};
-				}
-			}); 
-		}
-	</script>
+    <script>
+    	function search(btn){
+    		const text = encodeURIComponent(btn.innerText);
+    		location.href = "<%= contextPath %>/search.st?keyword=" + text;
+    	}
+    	
+    	$(function(){
+    		$("#insert-btn").click(function(){
+        		if(<%= loginUser %> != null){
+        			location.href = "<%= contextPath %>/enrollForm.st";
+        		} else {
+        			
+        			alert("로그인 후 이용가능한 서비스입니다.");
+        			location.href = "<%= contextPath %>/loginForm.us";
+        		}
+        	})
+    	})
+    	
+    </script>
 
 	</body>
 </html>

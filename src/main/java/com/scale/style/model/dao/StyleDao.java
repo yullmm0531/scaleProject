@@ -187,4 +187,38 @@ public class StyleDao {
 		return list; 
 	}
 	
+	public ArrayList<Style> selectSearchList(Connection conn, String keyword){
+		ArrayList<Style> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectSearchList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, keyword);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Style st = new Style();
+				st.setStyleNo(rset.getInt("style_no"));
+				st.setProfileImg(rset.getString("profile_img"));
+				st.setCount(rset.getInt("count"));
+				st.setStyleWriter(rset.getString("user_nickname"));
+				if(rset.getString("hashtag") != null) {
+					st.setHashtag(rset.getString("hashtag").split(" "));
+				} else {
+					st.setHashtag(new String[0]);
+				}
+				
+				list.add(st);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list; 
+	}
 }

@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.scale.style.model.vo.*, java.util.ArrayList" %>
+<%
+	String keyword = String.valueOf(request.getAttribute("keyword"));
+	ArrayList<Style> list = (ArrayList<Style>)request.getAttribute("list");
+	ArrayList<StyleImg> ilist = (ArrayList<StyleImg>)request.getAttribute("ilist");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,30 +13,44 @@
 <title>Insert title here</title>
 <style>
     .outer{
-        margin: auto; 
+    	margin: auto; 
         margin-top: 50px;
-        /* border: 1px solid black; */
-        text-align: center;
         width: 1200px;
     }
-    .outer>div{margin: 10px;}
-    .set{margin: 20px; float: left;}
+    .set{
+    	margin: 15px;
+    	float: left;
+    }
+    
 
-    .style-img>img{width: 250px; height: 250px;}
+    .cimg{width: 260px; height: 260px; border-radius: 0.5em;}
 
-    .profile-img{height: 40px;}
-    .profile-img>img{width: 25px; height: 25px;}
+    .nickname{height: 40px; text-align: left;}
+    .nickname>img{width: 25px; height: 25px;}
+    .nickname>a{margin-left: 3px;}
+    
+    .like{text-align: right;}
+    .like>a{padding: 0;}
 
     .text{text-align: left;}
-
-    .nickname{text-align: left;}
-    .smile{text-align: right;}
-    .smile>a{padding: 0%;}
-    .like{text-align: left;}
-    .report>a{padding: 0px;}
-
-    #tag-search{width: 300px;}
-    #standard>button{margin-left: 5px; margin-right: 5px;}
+    
+    .text{
+    	text-overflow:ellipsis; 
+    	overflow:hidden;
+    	width:260px;
+    	white-space:nowrap;
+    }
+    .tag-area{height: 27px;}
+    #keyword{
+    	font-size: 30px;
+    	font-weight: bold;
+    }
+    
+    #nothing{
+    	text-align: center;
+    	font-size: 20px;
+    	font-weight: bold;
+    }
 </style>
 </head>
 <body>
@@ -38,275 +58,94 @@
 	<%@ include file="../common/menubar.jsp" %>
 	
     <div class="outer">
-        <h1>#오뭐신</h1>
-        <br><br>
+    	<div align="center" id="keyword">
+    		#<%= keyword %>
+    	</div>
+    	
+    	<br><br><br>
+    	
         <div>
-            <table class="set">
-                <tr>
-                    <td colspan="5" class="style-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="style-img">
-                    </td>        
-                </tr>
-                <tr>
-                    <td class="profile-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="rounded-circle">
-                    </td>
-                    <td class="nickname">
-                        <a href="">닉네임</a>
-                    </td>
-                    <td class="smile">
-                        <a class="btn">😊</a>
-                    </td>
-                    <td class="like">
-                        <div>200</div>
-                    </td>
-                    <td class="report">
-                        <a class="btn">❕</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="5">
-                        <div class="text">색감대박 #xxxxx #xxxxx</div>
-                    </td>
-                </tr>
-            </table>
-            <table class="set">
-                <tr>
-                    <td colspan="5" class="style-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="style-img">
-                    </td>        
-                </tr>
-                <tr>
-                    <td class="profile-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="rounded-circle">
-                    </td>
-                    <td class="nickname">
-                        <a href="">닉네임</a>
-                    </td>
-                    <td class="smile">
-                        <a class="btn">😊</a>
-                    </td>
-                    <td class="like">
-                        <div>200</div>
-                    </td>
-                    <td class="report">
-                        <a class="btn">❕</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="5">
-                        <div class="text">색감대박 #xxxxx #xxxxx</div>
-                    </td>
-                </tr>
-            </table>
-            <table class="set">
-                <tr>
-                    <td colspan="5" class="style-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="style-img">
-                    </td>        
-                </tr>
-                <tr>
-                    <td class="profile-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="rounded-circle">
-                    </td>
-                    <td class="nickname">
-                        <a href="">닉네임</a>
-                    </td>
-                    <td class="smile">
-                        <a class="btn">😊</a>
-                    </td>
-                    <td class="like">
-                        <div>200</div>
-                    </td>
-                    <td class="report">
-                        <a class="btn">❕</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="5">
-                        <div class="text">색감대박 #xxxxx #xxxxx</div>
-                    </td>
-                </tr>
-            </table>
-            <table class="set">
-                <tr>
-                    <td colspan="5" class="style-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="style-img">
-                    </td>        
-                </tr>
-                <tr>
-                    <td class="profile-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="rounded-circle">
-                    </td>
-                    <td class="nickname">
-                        <a href="">닉네임</a>
-                    </td>
-                    <td class="smile">
-                        <a class="btn">😊</a>
-                    </td>
-                    <td class="like">
-                        <div>200</div>
-                    </td>
-                    <td class="report">
-                        <a class="btn">❕</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="5">
-                        <div class="text">색감대박 #xxxxx #xxxxx</div>
-                    </td>
-                </tr>
-            </table>
-            <table class="set">
-                <tr>
-                    <td colspan="5" class="style-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="style-img">
-                    </td>        
-                </tr>
-                <tr>
-                    <td class="profile-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="rounded-circle">
-                    </td>
-                    <td class="nickname">
-                        <a href="">닉네임</a>
-                    </td>
-                    <td class="smile">
-                        <a class="btn">😊</a>
-                    </td>
-                    <td class="like">
-                        <div>200</div>
-                    </td>
-                    <td class="report">
-                        <a class="btn">❕</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="5">
-                        <div class="text">색감대박 #xxxxx #xxxxx</div>
-                    </td>
-                </tr>
-            </table>
-            <table class="set">
-                <tr>
-                    <td colspan="5" class="style-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="style-img">
-                    </td>        
-                </tr>
-                <tr>
-                    <td class="profile-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="rounded-circle">
-                    </td>
-                    <td class="nickname">
-                        <a href="">닉네임</a>
-                    </td>
-                    <td class="smile">
-                        <a class="btn">😊</a>
-                    </td>
-                    <td class="like">
-                        <div>200</div>
-                    </td>
-                    <td class="report">
-                        <a class="btn">❕</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="5">
-                        <div class="text">색감대박 #xxxxx #xxxxx</div>
-                    </td>
-                </tr>
-            </table>
-            <table class="set">
-                <tr>
-                    <td colspan="5" class="style-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="style-img">
-                    </td>        
-                </tr>
-                <tr>
-                    <td class="profile-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="rounded-circle">
-                    </td>
-                    <td class="nickname">
-                        <a href="">닉네임</a>
-                    </td>
-                    <td class="smile">
-                        <a class="btn">😊</a>
-                    </td>
-                    <td class="like">
-                        <div>200</div>
-                    </td>
-                    <td class="report">
-                        <a class="btn">❕</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="5">
-                        <div class="text">색감대박 #xxxxx #xxxxx</div>
-                    </td>
-                </tr>
-            </table>
-            <table class="set">
-                <tr>
-                    <td colspan="5" class="style-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="style-img">
-                    </td>        
-                </tr>
-                <tr>
-                    <td class="profile-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="rounded-circle">
-                    </td>
-                    <td class="nickname">
-                        <a href="">닉네임</a>
-                    </td>
-                    <td class="smile">
-                        <a class="btn">😊</a>
-                    </td>
-                    <td class="like">
-                        <div>200</div>
-                    </td>
-                    <td class="report">
-                        <a class="btn">❕</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="5">
-                        <div class="text">색감대박 #xxxxx #xxxxx</div>
-                    </td>
-                </tr>
-            </table>
-            <table class="set">
-                <tr>
-                    <td colspan="5" class="style-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="style-img">
-                    </td>        
-                </tr>
-                <tr>
-                    <td class="profile-img">
-                        <img src="C:\workspaces\04_front-workspace\01_HTML5\resources\image/city1.jpg" class="rounded-circle">
-                    </td>
-                    <td class="nickname">
-                        <a href="">닉네임</a>
-                    </td>
-                    <td class="smile">
-                        <a class="btn">😊</a>
-                    </td>
-                    <td class="like">
-                        <div>200</div>
-                    </td>
-                    <td class="report">
-                        <a class="btn">❕</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="5">
-                        <div class="text">색감대박 #xxxxx #xxxxx</div>
-                    </td>
-                </tr>
-            </table>
+        	<% if(list.isEmpty()) { %>
+        		<div id="nothing">
+        			검색된 스타일이 없습니다.
+        		</div>
+        	<% } else { %>
+        		<% for(int i=0; i<list.size(); i++) { %>
+            <div class="table-container">
+            	<table class="set">
+	                <tr>
+	                    <td colspan="2" class="style-img">
+	                        <div id="demo<%= i %>" class="carousel">
+	                          	
+	                            <!-- The slideshow -->
+	                            <div class="carousel-inner">
+	                            	<% for(StyleImg img : ilist) { %>
+	                            		<% if(list.get(i).getStyleNo() == img.getStyleNo()) { %>
+	                            			<% if(img.getFileLevel() == 1) { %>
+												<div class="carousel-item active">
+												  <img class="cimg" src="<%= contextPath %>/<%= img.getFilePath() + img.getChangeName() %>">
+												</div>
+			                            	<% } else { %>
+				                            	<div class="carousel-item">
+												  <img class="cimg" src="<%= contextPath %>/<%= img.getFilePath() + img.getChangeName() %>">
+												</div>
+											<% } %>
+	                              		<% } %>
+	                              	<% } %>
+	                            </div>
+	                          	
+	                          	
+	                            <!-- Left and right controls -->
+	                            <a class="carousel-control-prev" href="#demo<%= i %>" data-slide="prev">
+	                              <span class="carousel-control-prev-icon"></span>
+	                            </a>
+	                            <a class="carousel-control-next" href="#demo<%= i %>" data-slide="next">
+	                              <span class="carousel-control-next-icon"></span>
+	                            </a>
+	                        </div>
+	                        
+	                        <script>
+							    $(document).ready(function() {      
+							        $('.carousel').carousel('pause');
+							    });
+							</script>
+	                            
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td class="nickname">
+	                        <img src="<%= contextPath %>/<%= list.get(i).getProfileImg() %>" class="rounded-circle">
+	                        <a href=""><%= list.get(i).getStyleWriter() %></a>
+	                    </td>
+	                    <td class="like">
+	                        <a class="btn">😊</a>
+	                        <span><%= list.get(i).getCount() %></span>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td colspan="2" class="tag-area">
+	                        <div class="text">
+	                        	<% for(String str : list.get(i).getHashtag()) { %>
+		                        	<% if(!str.isEmpty()){ %>
+		                            	<a href="<%= contextPath %>/search.st?keyword=<%= str.substring(1) %>"><%= str %></a>
+		                            <% } else { %>
+		                            	<a href=""><%= str %></a>
+		                            <% } %>
+	                            <% } %>
+	                        </div>
+	                    </td>
+	                </tr>
+	            </table>
+	            </div>
+	            <% } %>
+        	<% } %>
+        	
         </div>
     </div>
     
     <button id="up-btn" style="position: fixed; right: 50px; bottom: 20px;">올라가기</button>
     <br><br>
+    
 
 </body>
 </html>

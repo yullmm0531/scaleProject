@@ -95,4 +95,27 @@
 		 WHERE RNUM BETWEEN ? AND ?
 	</entry>
 	
+	<entry key="selectSearchList">
+		SELECT
+		       STYLE_NO
+		     , COUNT
+		     , PROFILE_IMG
+		     , USER_NICKNAME
+		     , HASHTAG
+		  FROM (
+		        SELECT
+		               STYLE_NO
+		             , COUNT(*) COUNT
+		          FROM TB_STYLE_LIKE
+		         GROUP
+		            BY STYLE_NO
+		         ORDER
+		            BY COUNT DESC
+		        )
+		  RIGHT JOIN TB_STYLE S USING (STYLE_NO)
+		  JOIN TB_USER USING (USER_NO)
+		 WHERE HASHTAG LIKE '%' || ? || '%'
+		   AND S.STATUS = 'Y'
+	</entry>
+	
 </properties>
