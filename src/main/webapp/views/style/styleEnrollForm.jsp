@@ -11,14 +11,55 @@
         margin: auto;
         margin-top: 50px;
     }
-    .outer>form>table{width: 400px; height: 600px}
+    .outer>form>table{width: 1000px;}
 
+    #style-img{
+        width: 300px;
+        height: 300px;
+        border: 1px solid lightgray;
+    }
     #style-img>img{width: 300px; height: 300px; box-sizing: border-box;}
-    #style-img{width: 300px;}
-    #input-box{height: 70px; padding: 15px;}
-    #thumbnail-td{vertical-align: top; padding-left: 15px;}
-    #thumbnail-td>div{width: 420px; height: 165px; border: 1px solid lightgray;}
+    #input-td{height: 70px; padding: 15px;}
     #content{border-top: 1px solid lightgray;}
+
+    #thumbnail-td{
+        width: 700px;
+        height: 230px;
+    }
+    #thumbnail-td>div{
+        width: 660px; 
+        height: 230px;
+        box-sizing: border-box;
+        border: 1px solid lightgray;
+        margin-left: 15px;
+    }
+    #input-box>div{
+        display: inline-block;
+        position: relative;
+        width: 95px;
+        height: 95px;
+        margin: 7px;
+        z-index: 1;
+    }
+    .thumbnail{
+        width: 100%;
+        height: 100%;
+        z-index: none;
+    }
+    .delete-btn{
+        width: 20px; 
+        height: 20px; 
+        position: absolute; 
+        font-size: 10px;
+        right: 0px; 
+        top: 0px; 
+        z-index: 999; 
+        background-color: none;
+        text-align: center;
+    }
+    .delete-btn:hover{
+        cursor: pointer;
+    }
 
 </style>
 </head>
@@ -33,50 +74,73 @@
 
         <form action="<%= contextPath %>/insert.bo" method="post" enctype="multipart/form-data">
 		<!-- 첨부파일 정보를 넘기고싶으면 반드시 enctype="multipart/form-data" 속성 작성해야함 -->
-            <table border="1">
+            <table>
                 <tr>
                     <td rowspan="2" id="style-img">
                         
                     </td>
-                    <td id="input-box">
+                    <td id="input-td">
                         <input multiple="multiple" type="file" id="files" name="files[]" style="display: none;" onchange="loadImg(this);" />
-                        <button type="button" class="btn btn-outline-primary btn-sm" id="file-btn" onclick="clickFile();">파일 선택
-
-                        <script>
-                            function clickFile(){
-                                $("#files").click();
-                            }
-
-                            function loadImg(inputFile){
-                                let fileArr = inputFile.files;
-                                let fileURLs = [];
-                                let fileLength = fileArr.length > 10 ? 10 : fileArr.length; // 최대 10개까지만 가능
-
-                                for (let i = 0; i < fileLength; i++) {
-                                    let file = fileArr[i];
-                                    let reader = new FileReader();
-                                    
-                                    reader.onload = function(e){
-                                        console.log(e.target.result);
-                                    }
-
-                                }
-                                
-                            };
-
-                        </script>
+                        <button type="button" class="btn btn-outline-primary btn-sm" id="file-btn" onclick="clickFile();">파일 선택</button>
                     </td>
                 </tr>
                 <tr>
                     <td id="thumbnail-td">
                         <div>
-                            <div style="display: inline-block; position: relative; width: 70px; height: 70px; margin: 5px; z-index: 1;">
-                                <img src="resource/img/city1.jpg" style="width: 100%; height: 100%; z-index: none;">
-                                <div style="width: 20px; height: 20px; position: absolute; font-size: 10px; right: 0px; top: 0px; z-index: 999; background-color: none; text-align: center;">🗑</div>
+                            <div  id="input-box">
+
                             </div>
-                            
                         </div>
-                            
+                        <script>
+                            function clickFile(){
+                                $("#files").click();
+                            }
+
+                            function loadImg(input){
+                                const inputbox = document.getElementById("input-box"); // 썸네일들이 들어갈 div
+                                if(input.files.length >= 1) {
+                                    const fileArr = Array.from(input.files);
+
+                                    fileArr.forEach(function(file, index){
+                                        const reader = new FileReader();
+                                        const $imgDiv = document.createElement("div");
+                                        const $img = document.createElement("img");
+                                        $img.classList.add("thumbnail");
+
+                                        const $btn = document.createElement("div");
+                                        $btn.classList.add("delete-btn");
+                                        $btn.textContent = "❌";
+
+                                        $imgDiv.appendChild($img);
+                                        $imgDiv.appendChild($btn);
+
+                                        reader.onload = e => {
+                                            $img.src = e.target.result;
+                                        }
+                                            
+                                        reader.readAsDataURL(file);
+                                        inputbox.appendChild($imgDiv);
+
+                                    })
+
+                                    if($("#input-box img").length >= 13){
+                                            return;
+                                    }
+
+                                } else {
+
+                                }
+
+                                $(function(){
+                                    $(".delete-btn").click(function(){
+                                        $(this).parent.remove;
+                                        console.log($(this).parent.name);
+                                    })
+                                })
+                                
+                            };
+
+                        </script>
                     </td>
                 </tr>
                 <tr>
@@ -87,17 +151,7 @@
                 <tr>
                     <td colspan="2" id="pd-thumbnail">
                         <div style="display: inline-block; position: relative; width: 80px; height: 80px; margin: 5px; z-index: 1;">
-                            <img src="resource/img/city1.jpg" style="width: 100%; height: 100%; z-index: none;">
-                            <div style="width: 30px; height: 30px; position: absolute; font-size: 10px; right: 0px; top: 0px; z-index: 999; text-align: right;">🗑</div>
-                            <span>상품설명</span>
-                        </div>
-                        <div style="display: inline-block; position: relative; width: 80px; height: 80px; margin: 5px; z-index: 1;">
-                            <img src="resource/img/city1.jpg" style="width: 100%; height: 100%; z-index: none;">
-                            <div style="width: 30px; height: 30px; position: absolute; font-size: 10px; right: 0px; top: 0px; z-index: 999; text-align: right;">🗑</div>
-                            <span>상품설명</span>
-                        </div>
-                        <div style="display: inline-block; position: relative; width: 80px; height: 80px; margin: 5px; z-index: 1;">
-                            <img src="resource/img/city1.jpg" style="width: 100%; height: 100%; z-index: none;">
+                            <img src="" style="width: 100%; height: 100%; z-index: none;">
                             <div style="width: 30px; height: 30px; position: absolute; font-size: 10px; right: 0px; top: 0px; z-index: 999; text-align: right;">🗑</div>
                             <span>상품설명</span>
                         </div>
@@ -128,35 +182,11 @@
                 <input type="text" placeholder="상품이름 검색" style="width: 470px; margin: 10px;">
                 <!-- Modal body -->
                 <div style="margin: 10px;">
-                    <img src="resource/img/city1.jpg" style="width: 60px; height: 60px;">
+                    <img src="" style="width: 60px; height: 60px;">
                     <span>상품정보~~~~~~~~~~~~~~~</span>
                 </div>
                 <div style="margin: 10px;">
-                    <img src="resource/img/city1.jpg" style="width: 60px; height: 60px;">
-                    <span>상품정보~~~~~~~~~~~~~~~</span>
-                </div>
-                <div style="margin: 10px;">
-                    <img src="resource/img/city1.jpg" style="width: 60px; height: 60px;">
-                    <span>상품정보~~~~~~~~~~~~~~~</span>
-                </div>
-                <div style="margin: 10px;">
-                    <img src="resource/img/city1.jpg" style="width: 60px; height: 60px;">
-                    <span>상품정보~~~~~~~~~~~~~~~</span>
-                </div>
-                <div style="margin: 10px;">
-                    <img src="resource/img/city1.jpg" style="width: 60px; height: 60px;">
-                    <span>상품정보~~~~~~~~~~~~~~~</span>
-                </div>
-                <div style="margin: 10px;">
-                    <img src="resource/img/city1.jpg" style="width: 60px; height: 60px;">
-                    <span>상품정보~~~~~~~~~~~~~~~</span>
-                </div>
-                <div style="margin: 10px;">
-                    <img src="resource/img/city1.jpg" style="width: 60px; height: 60px;">
-                    <span>상품정보~~~~~~~~~~~~~~~</span>
-                </div>
-                <div style="margin: 10px;">
-                    <img src="resource/img/city1.jpg" style="width: 60px; height: 60px;">
+                    <img src="" style="width: 60px; height: 60px;">
                     <span>상품정보~~~~~~~~~~~~~~~</span>
                 </div>
                 <!-- Modal footer -->
