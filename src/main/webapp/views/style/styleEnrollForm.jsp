@@ -33,13 +33,38 @@
 
         <form action="<%= contextPath %>/insert.bo" method="post" enctype="multipart/form-data">
 		<!-- 첨부파일 정보를 넘기고싶으면 반드시 enctype="multipart/form-data" 속성 작성해야함 -->
-            <table>
+            <table border="1">
                 <tr>
                     <td rowspan="2" id="style-img">
-                        <img src="resource/img/city1.jpg">
+                        
                     </td>
                     <td id="input-box">
-                        <button class="btn btn-outline-primary btn-sm">파일 선택
+                        <input multiple="multiple" type="file" id="files" name="files[]" style="display: none;" onchange="loadImg(this);" />
+                        <button type="button" class="btn btn-outline-primary btn-sm" id="file-btn" onclick="clickFile();">파일 선택
+
+                        <script>
+                            function clickFile(){
+                                $("#files").click();
+                            }
+
+                            function loadImg(inputFile){
+                                let fileArr = inputFile.files;
+                                let fileURLs = [];
+                                let fileLength = fileArr.length > 10 ? 10 : fileArr.length; // 최대 10개까지만 가능
+
+                                for (let i = 0; i < fileLength; i++) {
+                                    let file = fileArr[i];
+                                    let reader = new FileReader();
+                                    
+                                    reader.onload = function(e){
+                                        console.log(e.target.result);
+                                    }
+
+                                }
+                                
+                            };
+
+                        </script>
                     </td>
                 </tr>
                 <tr>
@@ -49,30 +74,7 @@
                                 <img src="resource/img/city1.jpg" style="width: 100%; height: 100%; z-index: none;">
                                 <div style="width: 20px; height: 20px; position: absolute; font-size: 10px; right: 0px; top: 0px; z-index: 999; background-color: none; text-align: center;">🗑</div>
                             </div>
-                            <div style="display: inline-block; position: relative; width: 70px; height: 70px; margin: 5px; z-index: 1;">
-                                <img src="resource/img/city1.jpg" style="width: 100%; height: 100%; z-index: none;">
-                                <div style="width: 20px; height: 20px; position: absolute; font-size: 10px; right: 0px; top: 0px; z-index: 999; background-color: none; text-align: center;">🗑</div>
-                            </div>
-                            <div style="display: inline-block; position: relative; width: 70px; height: 70px; margin: 5px; z-index: 1;">
-                                <img src="resource/img/city1.jpg" style="width: 100%; height: 100%; z-index: none;">
-                                <div style="width: 20px; height: 20px; position: absolute; font-size: 10px; right: 0px; top: 0px; z-index: 999; background-color: none; text-align: center;">🗑</div>
-                            </div>
-                            <div style="display: inline-block; position: relative; width: 70px; height: 70px; margin: 5px; z-index: 1;">
-                                <img src="resource/img/city1.jpg" style="width: 100%; height: 100%; z-index: none;">
-                                <div style="width: 20px; height: 20px; position: absolute; font-size: 10px; right: 0px; top: 0px; z-index: 999; background-color: none; text-align: center;">🗑</div>
-                            </div>
-                            <div style="display: inline-block; position: relative; width: 70px; height: 70px; margin: 5px; z-index: 1;">
-                                <img src="resource/img/city1.jpg" style="width: 100%; height: 100%; z-index: none;">
-                                <div style="width: 20px; height: 20px; position: absolute; font-size: 10px; right: 0px; top: 0px; z-index: 999; background-color: none; text-align: center;">🗑</div>
-                            </div>
-                            <div style="display: inline-block; position: relative; width: 70px; height: 70px; margin: 5px; z-index: 1;">
-                                <img src="resource/img/city1.jpg" style="width: 100%; height: 100%; z-index: none;">
-                                <div style="width: 20px; height: 20px; position: absolute; font-size: 10px; right: 0px; top: 0px; z-index: 999; background-color: none; text-align: center;">🗑</div>
-                            </div>
-                            <div style="display: inline-block; position: relative; width: 70px; height: 70px; margin: 5px; z-index: 1;">
-                                <img src="resource/img/city1.jpg" style="width: 100%; height: 100%; z-index: none;">
-                                <div style="width: 20px; height: 20px; position: absolute; font-size: 10px; right: 0px; top: 0px; z-index: 999; background-color: none; text-align: center;">🗑</div>
-                            </div>
+                            
                         </div>
                             
                     </td>
