@@ -40,7 +40,7 @@ public class ProductService {
 	public Product selectProduct(String pCode) {
 		
 		Connection conn = getConnection();
-		Product p = new ProductService().selectProduct(conn, pCode);
+		Product p = new ProductDao().selectProduct(conn, pCode);
 		
 		close(conn);
 		
@@ -50,4 +50,4 @@ public class ProductService {
 }
 
 	
-}
+

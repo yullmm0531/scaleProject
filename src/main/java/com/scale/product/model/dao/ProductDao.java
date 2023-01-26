@@ -41,6 +41,7 @@ public class ProductDao {
 		
 			while(rset.next()) {
 				Product p = new Product();
+				p.setProductCode(rset.getString("product_code"));
 				p.setProductNameKo(rset.getString("product_name_ko"));
 				p.setProductNameEng(rset.getString("product_name_eng"));
 				p.setProductImgM(rset.getString("product_img_m"));
@@ -105,6 +106,34 @@ public class ProductDao {
 		ResultSet rset = null;
 		
 		String sql = prop.getProperty("selectProduct");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pCode);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				p = new Product(rset.getString("product_code"),
+								rset.getString("product_name_ko"),
+								rset.getString("product_name_eng"),
+								rset.getString("model_code"),
+								rset.getString("product_img_m"),
+								rset.getString("product_size"),
+								rset.getString("brand_name"),
+								rset.getString("color"),
+								rset.getDate("release_date"),
+								rset.getString("release_price"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return p;
 		
 	}
 

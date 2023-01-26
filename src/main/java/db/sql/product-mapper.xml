@@ -4,7 +4,8 @@
 	
 	<entry key="selectProductList">
 		SELECT
-			   PRODUCT_NAME_KO
+			   PRODUCT_CODE
+			 , PRODUCT_NAME_KO
 			 , PRODUCT_NAME_ENG
 			 , PRODUCT_IMG_M
 			 , BRAND_NAME
@@ -20,8 +21,22 @@
 		  FROM TB_BRAND
 	</entry>
 	
-	<entry key="selectProductList">
+	
+	
+	<entry key="selectProduct">
 		SELECT
-			   
+		       PRODUCT_CODE
+		     , PRODUCT_NAME_KO
+		     , PRODUCT_NAME_ENG
+		     , MODEL_CODE
+		     , PRODUCT_IMG_M
+		     , PRODUCT_SIZE
+		     , BRAND_NAME
+		     , COLOR
+		     , RELEASE_DATE
+		     , TO_CHAR(RELEASE_PRICE, 'fmL999,999,999') "RELEASE_PRICE"
+		  FROM TB_PRODUCT
+		  JOIN TB_BRAND USING (BRAND_CODE)
+		 WHERE PRODUCT_CODE = ?
 	</entry>
 </properties>

@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.scale.product.model.vo.Product" %>
+<% 
+	Product p = (Product)request.getAttribute("p");
+%>    
+    
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -133,7 +139,7 @@
                     <!-- The slideshow -->
                     <div class="carousel-inner">
                       <div class="carousel-item active">
-                        <img src="<%= contextPath %>/resources/images/product/nike1.png">
+                        <img src="<%= contextPath %>/<%= p.getProductImgM() %>">
                       </div>
                       <div class="carousel-item">
                         <img src="<%= contextPath %>/resources/images/product/nike2.png">
@@ -155,9 +161,9 @@
             </div>
             <div id="product-info">
                 <div id="product-name">
-                    <h3>NIKE</h3>
-                    <h4>(W) Nike Dunk Low Wolf Grey Rosewood</h4>
-                    <h6>(W) 나이키 덩크 로우 울프 그레이 로즈우드</h6>
+                    <h3><%= p.getBrandName() %></h3>
+                    <h4><%= p.getProductNameEng() %></h4>
+                    <h6><%= p.getProductNameKo() %></h6>
                 </div>
                 <div id="product-detail">
                     <div id="detail-header">
@@ -236,10 +242,10 @@
                                 <th class="product-detail-title" style="width: 25%;">발매가</th>
                             </tr>
                             <tr>
-                                <td>DD1503-122</td>
-                                <td>22/12/23</td>
-                                <td>SUMMIT WHITE/WOLF GREY/BLACK/ROSEWOOD</td>
-                                <td>129,000원</td>
+                                <td><%= p.getModelCode() %></td>
+                                <td><%= p.getReleaseDate() %></td>
+                                <td><%= p.getColor() %></td>
+                                <td><%= p.getReleasePriceView() %></td>
                             </tr>
                             <tr>
                                 <td colspan="4"><div class="line"></div></td>

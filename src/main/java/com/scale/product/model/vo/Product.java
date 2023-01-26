@@ -14,11 +14,16 @@ public class Product {
 	private String productCategory;
 	private String productSize;
 	private int brandCode;
+	
+	private String brandName;
+
 	private String color;
 	private Date releaseDate;
 	private int releasePrice;
 	
-	private String brandName;
+	private String releasePriceView;
+	
+	
 	
 	public String getBrandName() {
 		return brandName;
@@ -52,6 +57,22 @@ public class Product {
 		this.releasePrice = releasePrice;
 	}
 
+	public Product(String productCode, String productNameKo, String productNameEng, String modelCode,
+			String productImgM, String productSize, String brandName, String color, Date releaseDate,
+			String releasePriceView) {
+		super();
+		this.productCode = productCode;
+		this.productNameKo = productNameKo;
+		this.productNameEng = productNameEng;
+		this.modelCode = modelCode;
+		this.productImgM = productImgM;
+		this.productSize = productSize;
+		this.brandName = brandName;
+		this.color = color;
+		this.releaseDate = releaseDate;
+		this.releasePriceView = releasePriceView;
+	}
+	
 
 	public String getProductCode() {
 		return productCode;
@@ -180,6 +201,17 @@ public class Product {
 
 	public void setReleasePrice(int releasePrice) {
 		this.releasePrice = releasePrice;
+	}
+	
+	
+
+	public String getReleasePriceView() {
+		return releasePriceView;
+	}
+
+
+	public void setReleasePriceView(String releasePriceView) {
+		this.releasePriceView = releasePriceView;
 	}
 
 

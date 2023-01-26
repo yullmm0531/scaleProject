@@ -205,18 +205,18 @@
                 <div id="plist">
                     <ul class="row">
                         <% for(Product p : list){ %>
-                        <li class="cell">
-                        	<input type="hidden" value="<%= p.getProductCode() %>">
-                            <div class="img-box">
-                                <img src="<%= contextPath %>/<%= p.getProductImgM() %>">
-                            </div>
-                            
-                            <div class="brand-name"><%= p.getBrandName() %></div>
-                            <div class="product-name-eng"><%= p.getProductNameEng() %> </div>
-                            <div class="product-name-ko"><%= p.getProductNameKo() %> </div>
-                            <div class="product-price">즉시구매가</div>
-                            <div class="p-like"><a href="">♡</a></div>
-                        </li>
+	                        <li class="cell">
+	                        	<input type="hidden" value="<%= p.getProductCode() %>">
+	                            <div class="img-box">
+	                                <img src="<%= contextPath %>/<%= p.getProductImgM() %>">
+	                            </div>
+	                            
+	                            <div class="brand-name"><%= p.getBrandName() %></div>
+	                            <div class="product-name-eng"><%= p.getProductNameEng() %> </div>
+	                            <div class="product-name-ko"><%= p.getProductNameKo() %> </div>
+	                            <div class="product-price">즉시구매가</div>
+	                            <div class="p-like"><a href="">♡</a></div>
+	                        </li>
                         <% } %>
 
                     </ul>
