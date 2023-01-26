@@ -37,6 +37,7 @@ public class LoginUserController extends HttpServlet {
 		User loginUser = new UserService().userLogin(userId, userPwd);
 		
 		HttpSession session = request.getSession();
+		
 		if(loginUser == null) {
 			session.setAttribute("alertMsg", "아이디 또는 비밀번호를 확인해주세요.");
 			response.sendRedirect("loginForm.us");
