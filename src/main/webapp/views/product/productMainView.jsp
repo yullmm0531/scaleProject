@@ -79,7 +79,10 @@
             font-weight:bold;
             margin-top:5px;
         }
-
+		.cell:hover{
+    	opacity: 0.7;
+    	cursor : pointer;
+    	}
         
   </style>
 </head>
@@ -203,7 +206,7 @@
                     <ul class="row">
                         <% for(Product p : list){ %>
                         <li class="cell">
-                        
+                        	<input type="hidden" value="<%= p.getProductCode() %>">
                             <div class="img-box">
                                 <img src="<%= contextPath %>/<%= p.getProductImgM() %>">
                             </div>
@@ -218,6 +221,16 @@
 
                     </ul>
                 </div>
+                
+                <script>
+					$(function(){
+						$(".cell").click(function(){
+							location.href = "<%=contextPath%>/detail.pd?co=" + $(this).children('input').val();
+						})
+					})
+				</script>
+                
+                
             </div>
         </div>
 
