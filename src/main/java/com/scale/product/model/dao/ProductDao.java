@@ -1,6 +1,6 @@
 package com.scale.product.model.dao;
 
-import static com.scale.common.JDBCTemplate.*;
+import static com.scale.common.JDBCTemplate.close;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -11,14 +11,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import com.scale.product.model.vo.Brand;
 import com.scale.product.model.vo.Product;
 
 public class ProductDao {
 
-private Properties prop = new Properties();
+	private Properties prop = new Properties();
 
 	public ProductDao() {
-		String filePath = ProductDao.class.getResource("/db/sql/product.xml").getPath();
+		String filePath = ProductDao.class.getResource("/db/sql/product-mapper.xml").getPath();
 		
 		try {
 			prop.loadFromXML(new FileInputStream(filePath));
@@ -56,7 +57,47 @@ private Properties prop = new Properties();
 		
 	}
 	
+
+	public ArrayList<Brand> selectBrandList(Connection conn){
+		
+		ArrayList<Brand> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectBrandList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset= pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Brand b = new Brand();
+				b.setBrandName(rset.getString("brand_name"));
+				b.setBrandImg(rset.getString("brand_img"));
+				list.add(b);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+
+		
+	}
 	
+
+	/*
+	public ArrayList<Product> selectProductSearchList(Connection conn, String pkey){
+		ArrayList<Product> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+	}
+	*/
+	
+	
+
 	public Product selectProduct(Connection conn, String pCode) {
 		
 		Product p = null;
@@ -66,6 +107,6 @@ private Properties prop = new Properties();
 		String sql = prop.getProperty("selectProduct");
 		
 	}
-	
-	
+
+
 }

@@ -1,11 +1,15 @@
 package com.scale.product.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.scale.product.model.service.ProductService;
+import com.scale.product.model.vo.Product;
 
 /**
  * Servlet implementation class ProductDetailController
@@ -27,7 +31,9 @@ public class ProductDetailController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String pCode = request.getParameter("co");		
+		String pCode = request.getParameter("co");
+		
+		Product p = new ProductService().selectProduct(pCode);
 		
 		
 		

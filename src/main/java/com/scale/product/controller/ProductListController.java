@@ -10,12 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.scale.product.model.service.ProductService;
+import com.scale.product.model.vo.Brand;
 import com.scale.product.model.vo.Product;
 
 /**
  * Servlet implementation class ProductListController
  */
-@WebServlet("/plist.do")
+@WebServlet("/plist.pd")
 public class ProductListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -34,6 +35,9 @@ public class ProductListController extends HttpServlet {
 	
 		ArrayList<Product> list = new ProductService().selectProductList();
 		request.setAttribute("list", list);
+		
+		ArrayList<Brand> blist = new ProductService().selectBrandList();
+		request.setAttribute("blist", blist);
 		
 		// 응답페이지
 		request.getRequestDispatcher("views/product/productMainView.jsp").forward(request, response);

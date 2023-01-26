@@ -14,6 +14,7 @@ public class Brand {
 		this.brandName = brandName;
 		this.brandImg = brandImg;
 	}
+	
 
 	public int getBrandCode() {
 		return brandCode;

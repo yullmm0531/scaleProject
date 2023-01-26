@@ -13,6 +13,15 @@
 	     WHERE BLIND_CHECK ='N'
 	</entry>
 	
+	<entry key="selectBrandList">
+		SELECT
+			   BRAND_NAME
+			 , BRAND_IMG
+		  FROM TB_BRAND
+	</entry>
 	
-	
+	<entry key="selectProductList">
+		SELECT
+			   
+	</entry>
 </properties>

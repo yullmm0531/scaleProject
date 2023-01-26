@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.ArrayList, com.scale.product.model.vo.Product"%>
+    pageEncoding="UTF-8" import="java.util.ArrayList, com.scale.product.model.vo.*"%>
     
 <%
 	ArrayList<Product> list = (ArrayList<Product>)request.getAttribute("list");
+	ArrayList<Brand> blist = (ArrayList<Brand>)request.getAttribute("blist");
 %>
 <!DOCTYPE html>
 <html>
@@ -17,6 +18,11 @@
           
         }
 
+		ul, li {  
+		list-style:none;
+  	 	padding-left:0px;
+  	 	}
+  	 	
         .pwrap{
             width:1200px;
             height:1000px;
@@ -91,10 +97,16 @@
                 <button type="button" class="btn btn-secondary" id="topBtn2">테크</button>
             </div>
             <div id="pheader-2">
-         		 <div class="thumbnail-1">	
-                        <img src="" width="70" height="77">
-                        <p>Nike</p>
-                    </div>
+            	
+            	 <% for(Brand b : blist){ %>
+         		 <div class="thumbnail-1" style="float:left;">
+         		 		
+                        <img src="<%= contextPath %>/<%= b.getBrandImg() %>" width="70" height="77">
+                        <p><%= b.getBrandName() %></p>
+                        	
+                 </div>
+                 <% } %>
+                  
             </div>
             <div id="pheader-3">
             
@@ -131,11 +143,6 @@
         		})
         	</script>
        
-        
-
-        <div id="pbanner">
-            
-        </div>
 
         <div id="pcontent">
             <div id="pcontent-1">
@@ -201,8 +208,9 @@
                         <li class="cell">
                         	<input type="hidden" value="<%= p.getProductCode() %>">
                             <div class="img-box">
-                                <img src="<%= contextPath %>/<%=p.getProductImgM() %>">
+                                <img src="<%= contextPath %>/<%= p.getProductImgM() %>">
                             </div>
+                            
                             <div class="brand-name"><%= p.getBrandName() %></div>
                             <div class="product-name-eng"><%= p.getProductNameEng() %> </div>
                             <div class="product-name-ko"><%= p.getProductNameKo() %> </div>
@@ -287,6 +295,11 @@
     	$(function(){
     		$(document)onc
     	})
+    </script>
+    
+    <!-- 무한스크롤 -->
+    <script>
+	    
     </script>
     
 </body>
