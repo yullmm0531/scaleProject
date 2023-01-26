@@ -194,13 +194,12 @@
     	
     	$(function(){
     		$("#insert-btn").click(function(){
-        		if(<%= loginUser %> != null){
-        			location.href = "<%= contextPath %>/enrollForm.st";
-        		} else {
-        			
-        			alert("로그인 후 이용가능한 서비스입니다.");
-        			location.href = "<%= contextPath %>/loginForm.us";
-        		}
+        		 <% if(loginUser == null) { %>
+	        		 	alert("로그인 후 이용가능한 페이지입니다.");
+	        		 	location.href = "<%= contextPath %>/loginForm.us";
+        		 <% } else { %>
+        		 		location.href = "<%= contextPath %>/enrollForm.st";
+        		 <% } %>
         	})
     	})
     	
