@@ -9,10 +9,10 @@
 	.outer{
             font-family: 'Noto Sans KR', sans-serif;
             width:1200px;
-            min-width : 650px;
+            min-width:650px;
             margin:auto;
-            margin-top : 100px;
-            margin-bottom : 70px;
+            margin-top:100px;
+            margin-bottom:70px;
         }
         h2{
             text-align:center;
