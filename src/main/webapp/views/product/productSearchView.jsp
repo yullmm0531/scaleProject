@@ -77,12 +77,16 @@
             <div id="header-1">
                 <form action="" id="search-form">
                     <div id="search-text">
-                        <input type="text" name="keyword" placeholder="브랜드, 모델명 등">
+                        <input type="text" id="productInput" name="keyword" placeholder="브랜드, 모델명 등" onkeyup="search(this);">
                     </div>
                     <div id="search-btn">
                         <input type="submit" value="검색">
                     </div>
+                    <div id="productlist"></div>
+                    <h5 id="selected"></h5>
                 </form>
+                
+                
             </div>
         
             <div  class="p-cate">
@@ -148,5 +152,39 @@
         });      
 
     </script>
+    
+    <!-- 검색 -->
+    <script>
+		/*
+    	function search(target){
+    		$.ajax({
+                type:'GET',
+                dataType:'JSON',
+                url:"/scale/plist.pd",
+                error:function(err){
+                    alert("없음");
+                },
+                success:function(data){
+                    var checkWord = $("#productInput").val();
+                    var productlist = $("#productlist");
+
+                    productlist.empty();
+                    data.forEach((product)=>{
+                        if(product['name'].includes(checkWord)){
+                            productlist.append(<span style="cursor:pointer;" onclick="select(this);"> ${product['name']} </span> );
+                        }
+                    })
+                }
+            })
+    	}
+
+        function select(target){
+            const selected = document.getElementById("selected");
+            selected.innerText = target.innerText;
+        }
+        */
+    
+    </script>
+    
 </body>
 </html>

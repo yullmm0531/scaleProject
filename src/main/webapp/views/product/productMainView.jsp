@@ -52,7 +52,7 @@
         #pcontent-2{width:80%;}
 
         .img-box > img {
-            width:100px;
+            width:175px;
             display:block;
             
         }
@@ -114,35 +114,7 @@
                    
             </div>
         </div>
-        <!-- 검색 -->
-        	<script>
-        		function search(){
-        			//$ajax({
-        			//	url:
-        			//})
-        		}
-        	
-        	
-        	</script>
-        <!-- 브랜드 이미지  
-        	<script>
-        		$(function(){
-        			$(".btn btn-secodary").click(function(){
-        				$ajax({
-        					url:"/scale/plist.do",
-        					data:{
-        						image:$().val(),
-        						name:$().val()
-        					},
-        					type:"post",
-        					success:function(a){
-        						const value = 
-        					}
-        				})
-        			})
-        		})
-        	</script>
-       -->
+      
 
         <div id="pcontent">
             <div id="pcontent-1">
@@ -151,19 +123,18 @@
                     <li class="cate" style="cursor:pointer">
                         카테고리
                         <ul class="sub" style="display:none">
-                            <li><input type="checkbox" id="ckb">신발</li>
-                            <li><input type="checkbox" id="ckb1">지갑</li>
-                            <li><input type="checkbox" id="ckb2">테크</li>
+                            <li><input type="checkbox" id="ckb" class="chk">신발</li>
+                            <li><input type="checkbox" id="ckb1" class="chk">지갑</li>
+                            <li><input type="checkbox" id="ckb2" class="chk">테크</li>
                         </ul>
                     </li>
                     <li class="brand" style="cursor:pointer">
                         브랜드
                         <ul class="sub1" style="display:none">
                             <div id="b-box" style="overflow:auto; width:120px; height:100px">
-                            <li><input type="checkbox">apple</li>
-                            <li><input type="checkbox">z</li>
-                            <li><input type="checkbox">apple</li>
-                            <li><input type="checkbox">apple</li>
+                             <% for(Brand b : blist){ %>
+                            <li><input type="checkbox" class="chk"><%= b.getBrandName() %></li>
+                             <% } %>
                             </div>
                         </ul>
                     </li>
@@ -181,10 +152,10 @@
                     <li class="price" style="cursor:pointer">
                         가격
                         <ul class="sub3" style="display:none">
-                            <li><input type="checkbox">10만원이하</li>
-                            <li><input type="checkbox">10만원~30만원이하</li>
-                            <li><input type="checkbox">30만원~50만원이하</li>
-                            <li><input type="checkbox">50만원이상</li>
+                            <li><input type="checkbox"  class="chk">10만원이하</li>
+                            <li><input type="checkbox"  class="chk">10만원~30만원이하</li>
+                            <li><input type="checkbox"  class="chk">30만원~50만원이하</li>
+                            <li><input type="checkbox"  class="chk">50만원이상</li>
                         </ul>
                     </li>
                 </div>
@@ -192,7 +163,11 @@
             <div id="pcontent-2">
                 <div id="psort">
                     <span class="btnBox" id="btnBox">
-                        <button>버튼</button>
+                        <button id="cbtn" style="display:none;" class="shbtn">카테고리</button>
+                        <button id="bbtn" style="display:none;" class="shbtn">브랜드</button>
+                        <button id="sbtn" style="display:none;" class="shbtn">사이즈</button>
+                        <button id="phbtn" style="display:none;" class="shbtn">가격</button>
+                        
                     </span>
                     <div class="sortbar" align="right"> 
                         <select name="sort" id="sort">
@@ -289,6 +264,16 @@
             });
         });
     </script>
+    
+    <!-- 필터 클릭 버튼  -->
+    <script>
+		$(function(){
+			$(".chk").click(function(){
+	    		$(".shbtn").show()
+	    	});
+			
+		});
+    </script>
 
     <!-- 모두 지우기(체크박스 해제) -->
     <script>
@@ -299,8 +284,22 @@
     
     <!-- 무한스크롤 -->
     <script>
-	    
+		
+   
+    
     </script>
+    
+    
+    
+    <!-- select -->
+    <script>
+		
+    
+    
+    </script>
+    
+    
+    
     
 </body>
 </html>
