@@ -13,52 +13,70 @@
     }
     .outer>form>table{width: 1000px;}
 
-    #style-img{
+    #style-box{
         width: 300px;
         height: 300px;
         border: 1px solid lightgray;
     }
-    #style-img>img{width: 300px; height: 300px; box-sizing: border-box;}
+    #styleImg{
+        width: 300px;
+        height: 300px;
+        box-sizing: border-box;
+    }
+
     #input-td{height: 70px; padding: 15px;}
     #content{border-top: 1px solid lightgray;}
 
     #thumbnail-td{
         width: 700px;
-        height: 230px;
+        height: 300px;
     }
-    #thumbnail-td>div{
+    #input-box{
         width: 660px; 
-        height: 230px;
+        height: 300px;
         box-sizing: border-box;
         border: 1px solid lightgray;
         margin-left: 15px;
+        text-align: center;
+        padding-top: 26px;
     }
-    #input-box>div{
-        display: inline-block;
+    .thumbnail-box{
+        width: 110px;
+        height: 110px;
         position: relative;
-        width: 95px;
-        height: 95px;
-        margin: 7px;
-        z-index: 1;
+        display: inline-block;
+        text-align: center;
+        border: 5px dotted lightgray;
+        margin: 5px;
     }
     .thumbnail{
         width: 100%;
         height: 100%;
-        z-index: none;
+        box-sizing: border-box;
     }
     .delete-btn{
-        width: 20px; 
-        height: 20px; 
-        position: absolute; 
-        font-size: 10px;
-        right: 0px; 
-        top: 0px; 
-        z-index: 999; 
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        font-size: 15px;
+        right: 0px;
+        top: 0px;
         background-color: none;
         text-align: center;
+        display: none;
     }
     .delete-btn:hover{
         cursor: pointer;
+    }
+
+    #search{
+        width: 1000px;
+        height: 70px;
+    }
+
+    #pd-thumbnail{
+        width: 1000px;
+        height: 100px;
     }
 
 </style>
@@ -74,86 +92,130 @@
 
         <form action="<%= contextPath %>/insert.bo" method="post" enctype="multipart/form-data">
 		<!-- 첨부파일 정보를 넘기고싶으면 반드시 enctype="multipart/form-data" 속성 작성해야함 -->
-            <table>
-                <tr>
-                    <td rowspan="2" id="style-img">
-                        
-                    </td>
-                    <td id="input-td">
-                        <input multiple="multiple" type="file" id="files" name="files[]" style="display: none;" onchange="loadImg(this);" />
-                        <button type="button" class="btn btn-outline-primary btn-sm" id="file-btn" onclick="clickFile();">파일 선택</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td id="thumbnail-td">
-                        <div>
-                            <div  id="input-box">
 
+            <div id="file-area" style="display: none;">
+                <input type="file" name="file1" onchange="loadImg(this, 1);" required>
+                <input type="file" name="file2" onchange="loadImg(this, 2);">
+                <input type="file" name="file3" onchange="loadImg(this, 3);">
+                <input type="file" name="file4" onchange="loadImg(this, 4);">
+                <input type="file" name="file5" onchange="loadImg(this, 5);">
+                <input type="file" name="file6" onchange="loadImg(this, 6);">
+                <input type="file" name="file7" onchange="loadImg(this, 7);">
+                <input type="file" name="file8" onchange="loadImg(this, 8);">
+                <input type="file" name="file9" onchange="loadImg(this, 9);">
+                <input type="file" name="file10" onchange="loadImg(this, 10);">
+            </div>
+
+            <table border="1">
+                <tr>
+                    <td id="style-box">
+                        <div style="text-align: center;">
+                            <span style="font-size: 30px; color: lightgray; ">대표 이미지</span>
+                        </div>
+                    </td>
+                    <td id="thumbnail-td">
+                        <div id="input-box">
+                            <div class="thumbnail-box">
+                                <img id="thumbnail1" class="thumbnail" src="<%= contextPath %>/resources/images/style/plus.png" onclick="clickFile(1);">
+                                <div class="delete-btn" id="btn1">❌</div>
+                            </div>
+                            <div class="thumbnail-box">
+                                <img id="thumbnail2" class="thumbnail" src="<%= contextPath %>/resources/images/style/plus.png" onclick="clickFile(2);">
+                                <div class="delete-btn" id="btn2">❌</div>
+                            </div>
+                            <div class="thumbnail-box">
+                                <img id="thumbnail3" class="thumbnail" src="<%= contextPath %>/resources/images/style/plus.png" onclick="clickFile(3);">
+                                <div class="delete-btn" id="btn3">❌</div>
+                            </div>
+                            <div class="thumbnail-box">
+                                <img id="thumbnail4" class="thumbnail" src="<%= contextPath %>/resources/images/style/plus.png" onclick="clickFile(4);">
+                                <div class="delete-btn" id="btn4">❌</div>
+                            </div>
+                            <div class="thumbnail-box">
+                                <img id="thumbnail5" class="thumbnail" src="<%= contextPath %>/resources/images/style/plus.png" onclick="clickFile(5);">
+                                <div class="delete-btn" id="btn5">❌</div>
+                            </div>
+                            <div class="thumbnail-box">
+                                <img id="thumbnail6" class="thumbnail" src="<%= contextPath %>/resources/images/style/plus.png" onclick="clickFile(6);">
+                                <div class="delete-btn" id="btn6">❌</div>
+                            </div>
+                            <div class="thumbnail-box">
+                                <img id="thumbnail7" class="thumbnail" src="<%= contextPath %>/resources/images/style/plus.png" onclick="clickFile(7);">
+                                <div class="delete-btn" id="btn7">❌</div>
+                            </div>
+                            <div class="thumbnail-box">
+                                <img id="thumbnail8" class="thumbnail" src="<%= contextPath %>/resources/images/style/plus.png" onclick="clickFile(8);">
+                                <div class="delete-btn" id="btn8">❌</div>
+                            </div>
+                            <div class="thumbnail-box">
+                                <img id="thumbnail9" class="thumbnail" src="<%= contextPath %>/resources/images/style/plus.png" onclick="clickFile(9);">
+                                <div class="delete-btn" id="btn9">❌</div>
+                            </div>
+                            <div class="thumbnail-box">
+                                <img id="thumbnail10" class="thumbnail" src="<%= contextPath %>/resources/images/style/plus.png" onclick="clickFile(10);">
+                                <div class="delete-btn" id="btn10">❌</div>
                             </div>
                         </div>
+
                         <script>
-                            function clickFile(){
-                                $("#files").click();
+                            function clickFile(num){
+                                $("input[name=file" + num + "]").click();
                             }
 
-                            function loadImg(input){
-                                const inputbox = document.getElementById("input-box"); // 썸네일들이 들어갈 div
-                                if(input.files.length >= 1) {
-                                    const fileArr = Array.from(input.files);
 
-                                    fileArr.forEach(function(file, index){
-                                        const reader = new FileReader();
-                                        const $imgDiv = document.createElement("div");
-                                        const $img = document.createElement("img");
-                                        $img.classList.add("thumbnail");
+                            function loadImg(inputFile, num){
 
-                                        const $btn = document.createElement("div");
-                                        $btn.classList.add("delete-btn");
-                                        $btn.textContent = "❌";
+                                if(inputFile.files.length == 1){ 
+                                    
+                                    const reader = new FileReader();
+                                    
+                                    reader.readAsDataURL(inputFile.files[0]);
+                                    
+                                    reader.onload = function(e){
+                                        $("#thumbnail" + num).attr("src", e.target.result);
+                                        $("#thumbnail" + num).parent().css("border", "none");
+                                        $("#thumbnail" + num).next().show();
 
-                                        $imgDiv.appendChild($img);
-                                        $imgDiv.appendChild($btn);
-
-                                        reader.onload = e => {
-                                            $img.src = e.target.result;
+                                        if(num == 1){
+                                            $img = $("<img id='styleImg'>");
+                                            $("#style-box span").css("display", "none");
+                                            $("#style-box>div").append($img);
+                                            $("#styleImg").attr("src", e.target.result);
+                                            $("#style-box").css("border", "none");
                                         }
-                                            
-                                        reader.readAsDataURL(file);
-                                        inputbox.appendChild($imgDiv);
-
-                                    })
-
-                                    if($("#input-box img").length >= 13){
-                                            return;
                                     }
-
-                                } else {
-
+   
                                 }
 
-                                $(function(){
-                                    $(".delete-btn").click(function(){
-                                        $(this).parent.remove;
-                                        console.log($(this).parent.name);
-                                    })
+                            }
+
+                            $(function(){
+                                $(".delete-btn").click(function(){
+                                    $(this).siblings().attr("src", "<%= contextPath %>/resources/images/style/plus.png");
+                                    $(this).parent().css("border", "5px dotted lightgray");
+                                    $(this).css("display", "none");
+                                    
+                                    if($(this).attr("id").substring(3) == 1){
+                                        $("#style-box").css("border", "1px solid lightgray");
+                                        $("#styleImg").remove();
+                                        $("#style-box span").show();
+                                    }
                                 })
-                                
-                            };
+                            })
 
                         </script>
+
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2" id="search">
-                        <a href="" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#myModal">상품태그 검색</a>
+                        <a href="" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#myModal">상품태그 검색</a>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2" id="pd-thumbnail">
-                        <div style="display: inline-block; position: relative; width: 80px; height: 80px; margin: 5px; z-index: 1;">
-                            <img src="" style="width: 100%; height: 100%; z-index: none;">
-                            <div style="width: 30px; height: 30px; position: absolute; font-size: 10px; right: 0px; top: 0px; z-index: 999; text-align: right;">🗑</div>
-                            <span>상품설명</span>
+                        <div>
+                            
                         </div>
                     </td>
                 </tr>
