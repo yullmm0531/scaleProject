@@ -25,7 +25,7 @@
     }
 
     #input-td{height: 70px; padding: 15px;}
-    #content{border-top: 1px solid lightgray;}
+    #content, #hashtag{border-top: 1px solid lightgray;}
 
     #thumbnail-td{
         width: 700px;
@@ -77,8 +77,13 @@
     #pd-thumbnail{
         width: 1000px;
         height: 100px;
+        display: none;
     }
 
+    #hashtag{
+        width: 1000px;
+        height: 100px;
+    }
 </style>
 </head>
 <body>
@@ -106,7 +111,7 @@
                 <input type="file" name="file10" onchange="loadImg(this, 10);">
             </div>
 
-            <table border="1">
+            <table>
                 <tr>
                     <td id="style-box">
                         <div style="text-align: center;">
@@ -222,6 +227,11 @@
                 <tr>
                     <td colspan="2" id="content">
                         <textarea name="" id="" cols="130" rows="3" style="resize: none; border: none;" placeholder="#아이템과 #스타일을 자랑해보세요..."></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" id="hashtag">
+                        <input type="text" placeholder="해쉬태그 입력">
                     </td>
                 </tr>
             </table>
