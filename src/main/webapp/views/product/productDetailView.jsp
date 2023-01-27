@@ -123,6 +123,12 @@
         .carousel-control-next-icon {
             background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E"); 
         }
+        .modal-content{
+            height: 600px;
+        }
+        .modal-dialog{
+            max-width: 1000px;
+        }
     </style>
 </head>
 <body>
@@ -199,7 +205,15 @@
                             </tr>
                             <tr>
                                 <th>최근거래가</th>
-                                <th><div align="right"><%= dList.get(0).getbPrice() %></div></th>
+                                <th>
+                                	<div align="right">
+                                		<% if(dList != null && dList.size() != 0) { %>
+                                			<%= dList.get(0).getbPrice() %>
+                                		<% } else{ %>
+                                			-
+                                		<% } %>
+                                	</div>
+                                </th>
                             </tr>
                             <tr><td colspan="2"><div><br></div></td></tr>
                             <tr>
@@ -208,7 +222,13 @@
                                         <table>
                                             <tr>
                                                 <th rowspan="2" width="150">구매</th>
-                                                <td width="100"><%= sList.get(0).getbPrice() %></td>
+                                                <td width="100">
+                                                	<% if(sList != null && sList.size() != 0) { %>
+			                                			<%= sList.get(0).getbPrice() %>
+			                                		<% } else{ %>
+			                                			-
+			                                		<% } %>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>즉시구매</td>
@@ -221,7 +241,13 @@
                                         <table>
                                             <tr>
                                                 <th rowspan="2" width="150">판매</th>
-                                                <td width="100"><%= bList.get(0).getbPrice() %></td>
+                                                <td width="100">
+                                                	<% if(bList != null && bList.size() != 0) { %>
+			                                			<%= bList.get(0).getbPrice() %>
+			                                		<% } else{ %>
+			                                			-
+			                                		<% } %>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>즉시판매</td>
@@ -286,7 +312,7 @@
                         
                         <!-- 체결거래 클릭시 -->
                         <div id="deal">
-                            <table id="a" class="price-detail" style="width: 100%;">
+                            <table id="deal-size" class="price-detail" style="width: 100%; height: 150px">
                                 <tr>
                                     <th style="padding-left:15px;">사이즈</th>
                                     <th style="padding-left:15px;">거래가</th>
@@ -294,11 +320,12 @@
                                 </tr>
                                 <% if(dList != null && dList.size() != 0) { %>
                                 	<% for(int i=0; i<5; i++){ %>
-	                                	<tr>
+	                                	<tr style="height:26px">
 	                                		<td><%= dList.get(i).getpSize() %></td>
 		                                    <td align="right"><%= dList.get(i).getbPrice() %></td>
 		                                    <td align="right"><%= dList.get(i).getdDate() %></td>
 	                                	</tr>
+	                                	
 	                                <% } %>
                                 <% } else{ %>
                                 	<tr class="selectDealList">
@@ -307,6 +334,8 @@
                                 		</td>
                                 	</tr>
                                 <% } %>
+                             </table>
+                             <table class="price-detail" style="width: 100%;">
                                 <tr>
                                     <th colspan="3">
                                         <button type="button" class="btn btn-secondary view-more" data-toggle="modal" data-target="#view-more">체결 내역 더보기</button>
@@ -317,7 +346,7 @@
 
                         <!-- 판매입찰 클릭시 -->
                         <div id="sellBidding" hidden>
-                            <table class="price-detail" style="width: 100%;">
+                            <table id="sellBidding-size" class="price-detail" style="width: 100%; height: 150px">
                                 <tr>
                                     <th style="padding-left:15px;">사이즈</th>
                                     <th style="padding-left:15px;">판매희망가</th>
@@ -325,7 +354,7 @@
                                 </tr>
                                 <% if(sList != null && sList.size() != 0) { %>
                                 	<% for(int i=0; i<5; i++){ %>
-	                                	<tr>
+	                                	<tr style="height:26px">
 	                                		<td><%= sList.get(i).getpSize() %></td>
 		                                    <td align="right"><%= sList.get(i).getbPrice() %></td>
 		                                    <td align="right"><%= sList.get(i).getCount() %></td>
@@ -338,6 +367,8 @@
                                 		</td>
                                 	</tr>
                                 <% } %>
+                            </table>
+                            <table class="price-detail" style="width: 100%;">
                                 <tr>
                                     <th colspan="3">
                                         <button type="button" class="btn btn-secondary view-more" data-toggle="modal" data-target="#view-more">체결 내역 더보기</button>
@@ -348,7 +379,7 @@
 
                         <!-- 구매입찰 클릭시 -->
                         <div id="buyBidding" hidden>
-                            <table class="price-detail" style="width: 100%;">
+                            <table id="buyBidding-size" class="price-detail" style="width: 100%; height: 150px">
                                 <tr>
                                     <th style="padding-left:15px;">사이즈</th>
                                     <th style="padding-left:15px;">구매희망가</th>
@@ -356,7 +387,7 @@
                                 </tr>
                                 <% if(bList != null && bList.size() != 0) { %>
                                 	<% for(int i=0; i<5; i++){ %>
-	                                	<tr>
+	                                	<tr style="height:26px">
 	                                		<td><%= bList.get(i).getpSize() %></td>
 		                                    <td align="right"><%= bList.get(i).getbPrice() %></td>
 		                                    <td align="right"><%= bList.get(i).getCount() %></td>
@@ -369,6 +400,8 @@
                                 		</td>
                                 	</tr>
                                 <% } %>
+                            </table>
+                            <table class="price-detail" style="width: 100%;">
                                 <tr>
                                     <th colspan="3">
                                         <button type="button" class="btn btn-secondary view-more" data-toggle="modal" data-target="#view-more">체결 내역 더보기</button>
@@ -404,7 +437,7 @@
                                                 <span id="product-eng-name"><%= p.getProductNameEng() %></span><br>
                                                 <span id="product-kor-name"><%= p.getProductNameKo() %></span> <br>
                                                 <span id="product-size">
-                                                    <select id="modalPdSize" style="width: 120px;">
+                                                    <select id="modalPdSize" style="width: 120px;" onchange="modalSelectSize();">
                                                         
                                                     </select>
                                                     <script>
@@ -439,109 +472,80 @@
                                             <div>
                                                 <!--체결거래 클릭시-->
                                                 <div id="modalDeal">
-                                                    <table class="price-detail" style="width: 100%;">
+                                                    <table id="modalDeal-size" class="price-detail" style="width: 100%;">
                                                         <tr>
                                                             <th style="padding-left:15px;">사이즈</th>
                                                             <th style="padding-left:15px;">거래가</th>
                                                             <th style="padding-left:15px;">거래일</th>
                                                         </tr>
-                                                        <tr>
-                                                            <td>270</td>
-                                                            <td align="right">159,000원</td>
-                                                            <td align="right">2022/12/29</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>270</td>
-                                                            <td align="right">159,000원</td>
-                                                            <td align="right">2022/12/29</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>270</td>
-                                                            <td align="right">159,000원</td>
-                                                            <td align="right">2022/12/29</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>270</td>
-                                                            <td align="right">159,000원</td>
-                                                            <td align="right">2022/12/29</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>270</td>
-                                                            <td align="right">159,000원</td>
-                                                            <td align="right">2022/12/29</td>
-                                                        </tr>
+                                                        <% if(dList != null && dList.size() != 0) { %>
+						                                	<% for(int i=0; i<dList.size(); i++){ %>
+							                                	<tr>
+							                                		<td><%= dList.get(i).getpSize() %></td>
+								                                    <td align="right"><%= dList.get(i).getbPrice() %></td>
+								                                    <td align="right"><%= dList.get(i).getdDate() %></td>
+							                                	</tr>
+							                                	
+							                                <% } %>
+						                                <% } else{ %>
+						                                	<tr class="selectDealList">
+						                                		<td colspan="3" style="height: 130px; text-align:center;">
+						                                			체결된 거래가 아직 없습니다.
+						                                		</td>
+						                                	</tr>
+						                                <% } %>
                                                     </table>
                                                 </div>
                         
                                                 <!-- 판매입찰 클릭시 -->
                                                 <div id="modalSellBidding" hidden>
-                                                    <table class="price-detail" style="width: 100%;">
+                                                    <table id="modalSellBidding-size" class="price-detail" style="width: 100%;">
                                                         <tr>
                                                             <th style="padding-left:15px;">사이즈</th>
                                                             <th style="padding-left:15px;">판매희망가</th>
                                                             <th style="padding-left:15px;">수량</th>
                                                         </tr>
-                                                        <tr>
-                                                            <td>270</td>
-                                                            <td align="right">159,000원</td>
-                                                            <td align="right">3</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>270</td>
-                                                            <td align="right">160,000원</td>
-                                                            <td align="right">1</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>270</td>
-                                                            <td align="right">161,000원</td>
-                                                            <td align="right">1</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>270</td>
-                                                            <td align="right">166,000원</td>
-                                                            <td align="right">1</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>270</td>
-                                                            <td align="right">169,000원</td>
-                                                            <td align="right">1</td>
-                                                        </tr>
+                                                        <% if(sList != null && sList.size() != 0) { %>
+						                                	<% for(int i=0; i<sList.size(); i++){ %>
+							                                	<tr>
+							                                		<td><%= sList.get(i).getpSize() %></td>
+								                                    <td align="right"><%= sList.get(i).getbPrice() %></td>
+								                                    <td align="right"><%= sList.get(i).getCount() %></td>
+							                                	</tr>
+							                                <% } %>
+						                                <% } else{ %>
+						                                	<tr>
+						                                		<td colspan="3" style="height: 130px; text-align:center;">
+						                                			판매 희망가가 아직 없습니다.
+						                                		</td>
+						                                	</tr>
+						                                <% } %>
                                                     </table>
                                                 </div>
                         
                                                 <!-- 구매입찰 클릭시 -->
                                                 <div id="modalBuyBidding" hidden>
-                                                    <table class="price-detail" style="width: 100%;">
+                                                    <table id="modalBuyBidding-size" class="price-detail" style="width: 100%;">
                                                         <tr>
                                                             <th style="padding-left:15px;">사이즈</th>
                                                             <th style="padding-left:15px;">구매희망가</th>
                                                             <th style="padding-left:15px;">수량</th>
                                                         </tr>
-                                                        <tr>
-                                                            <td>270</td>
-                                                            <td align="right">159,000원</td>
-                                                            <td align="right">1</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>270</td>
-                                                            <td align="right">159,000원</td>
-                                                            <td align="right">1</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>270</td>
-                                                            <td align="right">159,000원</td>
-                                                            <td align="right">1</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>270</td>
-                                                            <td align="right">159,000원</td>
-                                                            <td align="right">1</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>270</td>
-                                                            <td align="right">159,000원</td>
-                                                            <td align="right">1</td>
-                                                        </tr>
+                                                        <% if(bList != null && bList.size() != 0) { %>
+						                                	<% for(int i=0; i<bList.size(); i++){ %>
+							                                	<tr>
+							                                		<td><%= bList.get(i).getpSize() %></td>
+								                                    <td align="right"><%= bList.get(i).getbPrice() %></td>
+								                                    <td align="right"><%= bList.get(i).getCount() %></td>
+							                                	</tr>
+							                                <% } %>
+						                                <% } else{ %>
+						                                	<tr>
+						                                		<td colspan="3" style="height: 130px; text-align:center;">
+						                                			구매 희망가가 아직 없습니다.
+						                                		</td>
+						                                	</tr>
+						                                <% } %>
                                                     </table>
                                                 </div>
                                             </div>
@@ -595,6 +599,9 @@
                         	var pSize = $("#pSize").val();
                         	console.log(pSize);
                         	$("#modalPdSize").val(pSize);
+                        	var dCount = <%= dList.size() %>;
+							var sCount = <%= sList.size() %>;
+							var bCount = <%= bList.size() %>;
                         	$.ajax({
                         		url:"<%= contextPath %>/bSizeList.bi",
             					data:{
@@ -603,61 +610,174 @@
             					},
             					success:function(list){
             						console.log(list);
-            						let dSizeListValue = "";
-            						let bSizeListValue = "";
-            						let sSizeListValue = "";
-            						
+            					
             						if(list.length != 0){
             							var dSizeList = list[0];
+                                        var sSizeList = list[1];
+                                        var bSizeList = list[2];
+                                        if(dCount != 0 && sCount != 0 && bCount != 0){
+                                        	for(let i=1; i<=5; i++){
+	                                            $("#deal-size tbody").children().eq(i).html("");
+	                                            $("#sellBidding-size tbody").children().eq(i).html("");
+	                                            $("#buyBidding-size tbody").children().eq(i).html("");
+                                        	}	
+                                        }
+                                        
             							if(dSizeList.length != 0){
+            								
             								if(dSizeList.length < 5){
             									for(let i=0; i<dSizeList.length; i++){
-            										dSizeListValue += "<tr>"
-            															+ "<td>" + dSizeList[i].pSize + "</td>"
-            															+ "<td align='right'>" + dSizeList[i].bPrice + "</td>"
-            															+ "<td align='right'>" + dSizeList[i].dDate + "</td>"
-            													    + "</tr>"
+            										$("#deal-size tbody").children().eq(i+1).html("<td>" + dSizeList[i].pSize + "</td>"
+																								+ "<td align='right'>" + dSizeList[i].bPrice + "</td>"
+																								+ "<td align='right'>" + dSizeList[i].dDate + "</td>");
+            										
             									}
             								} else{
             									for(let i=0; i<5; i++){
-            										dSizeListValue += "<tr>"
-            															+ "<td>" + dSizeList[i].pSize + "</td>"
-            															+ "<td align='right'>" + dSizeList[i].bPrice + "</td>"
-            															+ "<td align='right'>" + dSizeList[i].dDate + "</td>"
-            													    + "</tr>"
+            										$("#deal-size tbody").children().eq(i+1).html("<td>" + dSizeList[i].pSize + "</td>"
+																								+ "<td align='right'>" + dSizeList[i].bPrice + "</td>"
+																								+ "<td align='right'>" + dSizeList[i].dDate + "</td>");
             									}
             								}
-            								// 안됨;;;,,,,,,,
-            								console.log($("#a").children().eq(1));
-            								$("#deal table").children().eq(1).remove();
-            								$("#deal table").children().eq(0).append(dSizeListValue);
-            							}
-            						}
-            						
-            						/*
-            						if(list.length != 0){
-            							for(let i=0; i<response.length; i++){
-            								value += "<tr>" 
-            										   + "<td>" + response[i].replyWriter + "</td>"
-            										   + "<td>" + response[i].replyContent + "</td>"
-            										   + "<td>" + response[i].createDate + "</td>"
-            									   + "</tr>"
             								
-            							}
+            								
+            							} else{
+                                            $("#deal-size tbody").children().eq(3).html("<td colspan='3' style='text-align:center;'>체결된 거래가 아직 없습니다.</td>");
+                                        }
+
+                                        if(sSizeList.length != 0){
+            								
+            								if(sSizeList.length < 5){
+            									for(let i=0; i<sSizeList.length; i++){
+            										$("#sellBidding-size tbody").children().eq(i+1).html("<td>" + sSizeList[i].pSize + "</td>"
+                                                                                                        + "<td align='right'>" + sSizeList[i].bPrice + "</td>"
+                                                                                                        + "<td align='right'>" + sSizeList[i].count + "</td>");
+            										
+            									}
+            								} else{
+            									for(let i=0; i<5; i++){
+            										$("#sellBidding-size tbody").children().eq(i+1).html("<td>" + sSizeList[i].pSize + "</td>"
+                                                                                                        + "<td align='right'>" + sSizeList[i].bPrice + "</td>"
+                                                                                                        + "<td align='right'>" + sSizeList[i].count + "</td>");
+            									}
+            								}
+            								
+            							} else{
+                                            $("#sellBidding-size tbody").children().eq(3).html("<td colspan='3' style='text-align:center;'>판매 희망가가 아직 없습니다.</td>");
+                                        }
+
+                                        if(bSizeList.length != 0){
+            								
+            								if(bSizeList.length < 5){
+            									for(let i=0; i<bSizeList.length; i++){
+            										$("#buyBidding-size tbody").children().eq(i+1).html("<td>" + bSizeList[i].pSize + "</td>"
+                                                                                                        + "<td align='right'>" + bSizeList[i].bPrice + "</td>"
+                                                                                                        + "<td align='right'>" + bSizeList[i].count + "</td>");
+            										
+            									}
+            								} else{
+            									for(let i=0; i<5; i++){
+            										$("#buyBidding-size tbody").children().eq(i+1).html("<td>" + bSizeList[i].pSize + "</td>"
+                                                                                                        + "<td align='right'>" + bSizeList[i].bPrice + "</td>"
+                                                                                                        + "<td align='right'>" + bSizeList[i].count + "</td>");
+            									}
+            								}
+            								
+            							} else{
+                                            $("#buyBidding-size tbody").children().eq(3).html("<td colspan='3' style='text-align:center;'>구매 희망가가 아직 없습니다.</td>");
+                                        }
+
             						} else{
-            							value = "<tr><th colspan='3'>작성된 댓글이 없습니다.</th></tr>"
-            						}	
-            						*/	
+                                        console.log("사이즈별 조회용 ajax 결과조회 실패")
+                                    }
             						
             					},
             					error:function(){
             						console.log("사이즈별 조회용 ajax 통신 실패");	
             					}
                         	})
+                            modalSelectSize();
                         	
                         }
-                       
-                        
+
+                        function modalSelectSize(){
+                            var pSize = $("#modalPdSize").val();
+                        	console.log(pSize);
+                        	$("#psize").val(pSize); // 왜 상세페이지 사이즈는 안바뀔까요?
+							var dCount = <%= dList.size() %>;
+							var sCount = <%= sList.size() %>;
+							var bCount = <%= bList.size() %>;
+                            $.ajax({
+                        		url:"<%= contextPath %>/bSizeModalList.bi",
+            					data:{
+            						co: <%= p.getProductCode() %>,
+            						size: pSize  
+            					},
+            					success:function(list){
+            						console.log(list);
+            					
+            						if(list.length != 0){
+            							var dSizeList = list[0];
+                                        var sSizeList = list[1];
+                                        var bSizeList = list[2];
+                                        for(let i=1; i<= dCount; i++){
+                                            $("#modalDeal-size tbody").children().eq(i).html("");
+                                        }
+                                        for(let i=1; i<= sCount; i++){
+                                            $("#modalSellBidding-size tbody").children().eq(i).html("");
+                                        }
+                                        for(let i=1; i<= bCount; i++){
+                                            $("#modalBuyBidding-size tbody").children().eq(i).html("");
+                                        }
+            							if(dSizeList.length != 0){
+            								
+            								for(let i=0; i<dSizeList.length; i++){
+        										$("#modalDeal-size tbody").children().eq(i+1).html("<td>" + dSizeList[i].pSize + "</td>"
+																							+ "<td align='right'>" + dSizeList[i].bPrice + "</td>"
+																							+ "<td align='right'>" + dSizeList[i].dDate + "</td>");
+        									}
+            								
+            							} else{
+                                            $("#modalDeal-size tbody").children().eq(3).html("<td colspan='3' style='text-align:center;'>체결된 거래가 아직 없습니다.</td>");
+                                        }
+
+                                        if(sSizeList.length != 0){
+            								
+                                        	for(let i=0; i<sSizeList.length; i++){
+        										$("#modalSellBidding-size tbody").children().eq(i+1).html("<td>" + sSizeList[i].pSize + "</td>"
+                                                                                                    + "<td align='right'>" + sSizeList[i].bPrice + "</td>"
+                                                                                                    + "<td align='right'>" + sSizeList[i].count + "</td>");
+        									}
+            								
+            							} else{
+                                            $("#modalSellBidding-size tbody").children().eq(3).html("<td colspan='3' style='text-align:center;'>판매 희망가가 아직 없습니다.</td>");
+                                        }
+
+                                        if(bSizeList.length != 0){
+            								
+                                        	for(let i=0; i<bSizeList.length; i++){
+        										$("#modalBuyBidding-size tbody").children().eq(i+1).html("<td>" + bSizeList[i].pSize + "</td>"
+                                                                                                    + "<td align='right'>" + bSizeList[i].bPrice + "</td>"
+                                                                                                    + "<td align='right'>" + bSizeList[i].count + "</td>");
+        										
+        									}
+            								
+            							} else{
+                                            $("#modalBuyBidding-size tbody").children().eq(3).html("<td colspan='3' style='text-align:center;'>구매 희망가가 아직 없습니다.</td>");
+                                        }
+
+            						} else{
+                                        console.log("사이즈별 조회용 ajax 결과조회 실패")
+                                    }
+            						
+            					},
+            					error:function(){
+            						console.log("사이즈별 조회용 ajax 통신 실패");	
+            					}
+                        	})
+                           
+                        }
+
                     </script>
                     
                 </div>

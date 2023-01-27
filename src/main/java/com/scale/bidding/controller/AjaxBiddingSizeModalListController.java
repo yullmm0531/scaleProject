@@ -14,16 +14,16 @@ import com.scale.bidding.model.service.BiddingService;
 import com.scale.bidding.model.vo.Bidding;
 
 /**
- * Servlet implementation class BiddingListController
+ * Servlet implementation class AjaxBiddingSizeModalListController
  */
-@WebServlet("/bSizeList.bi")
-public class AjaxBiddingSizeListController extends HttpServlet {
+@WebServlet("/bSizeModalList.bi")
+public class AjaxBiddingSizeModalListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AjaxBiddingSizeListController() {
+    public AjaxBiddingSizeModalListController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -58,6 +58,7 @@ public class AjaxBiddingSizeListController extends HttpServlet {
 		
 		response.setContentType("application/json; charset=UTF-8");
 		new Gson().toJson(list, response.getWriter());
+		
 		
 	}
 
