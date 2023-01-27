@@ -173,14 +173,20 @@
                                 <td style="width: 360px;">
                                     <div align="right">
                                         <select name="size" id="size" style="width: 120px;">
-                                            <option value="220">220</option><option value="225">225</option>
-                                            <option value="230">230</option><option value="235">235</option>
-                                            <option value="240">240</option><option value="245">245</option>
-                                            <option value="250">250</option><option value="255">255</option>
-                                            <option value="260">260</option><option value="265">265</option>
-                                            <option value="270">270</option>
+                                            
                                         </select>
                                     </div>
+                                    <script>
+		                            	$(function(){
+		                            		var arr = "<%= p.getProductSize() %>".split(", ");
+		                            		var sizeOption = "";
+		                            		for(let i=0; i<arr.length; i++){
+		                            			sizeOption += "<option value='" + arr[i] + "'>" + arr[i] + "</option>"
+		                            		}
+		                            		$("#size").html(sizeOption);
+		               
+		                            	})
+		                            </script>
                                 </td>
                             </tr>
                             <tr>
