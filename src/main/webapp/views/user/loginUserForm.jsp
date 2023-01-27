@@ -80,8 +80,8 @@
                 <div class="login-util-wrap">
                     <div id="login-util">
                         <a href="<%=contextPath%>/join.us">회원가입</a> 
-                        <a href="">아이디찾기</a> 
-                        <a href="">비밀번호찾기</a>
+                        <a href="<%=contextPath%>/findIdForm.us">아이디 찾기</a> 
+                        <a href="<%=contextPath%>/findPwdForm.us">비밀번호 찾기</a>
                         <p>Copyright © Scale Corp. All Rights Reserved.</p>
                     <div>
                 </div>

@@ -78,4 +78,12 @@
 		  FROM TB_USER
 		 WHERE USER_ID = ?
 	</entry>
+	
+	<entry key="findId">
+		SELECT *
+		  FROM TB_USER
+		 WHERE USER_NAME = ?
+		   AND EMAIL = ?
+		   AND STATUS = 'Y'
+	</entry>
 </properties>
