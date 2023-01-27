@@ -13,6 +13,7 @@ import java.util.Properties;
 
 import com.scale.product.model.vo.Brand;
 import com.scale.product.model.vo.Product;
+import com.scale.product.model.vo.ProductImg;
 
 public class ProductDao {
 
@@ -134,6 +135,39 @@ public class ProductDao {
 		}
 		
 		return p;
+		
+	}
+	
+	
+	public ArrayList<ProductImg> selectProductImg(Connection conn, String pCode){
+		
+		ArrayList<ProductImg> list = new ArrayList<>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectProductImg");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pCode);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				ProductImg pi = new ProductImg(rset.getInt("product_img_no"),
+											   rset.getString("p_file_path"));
+				list.add(pi);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
 		
 	}
 

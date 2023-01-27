@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.scale.product.model.vo.Product, java.util.ArrayList, com.scale.bidding.model.vo.Bidding" %>
+<%@ page import="com.scale.product.model.vo.*, java.util.ArrayList, com.scale.bidding.model.vo.Bidding" %>
 <% 
 	Product p = (Product)request.getAttribute("p");
 	ArrayList<Bidding> dList = (ArrayList<Bidding>)request.getAttribute("dList");
+	ArrayList<ProductImg> pImgList = (ArrayList<ProductImg>)request.getAttribute("pImgList");
 %> 
     
 
@@ -142,12 +143,13 @@
                       <div class="carousel-item active">
                         <img src="<%= contextPath %>/<%= p.getProductImgM() %>">
                       </div>
-                      <div class="carousel-item">
-                        <img src="<%= contextPath %>/resources/images/product/nike2.png">
-                      </div>
-                      <div class="carousel-item">
-                        <img src="<%= contextPath %>/resources/images/product/img10.jpg">
-                      </div>
+	                      <% if(pImgList != null && pImgList.size() != 0) { %>
+		                      <% for (ProductImg pi : pImgList) { %>
+			                      <div class="carousel-item">
+			                        <img src="<%= contextPath %>/<%= pi.getFilePath() %>">
+			                      </div>
+		                      <% } %>
+	                      <% } %>
                     </div>
                   
                     <!-- Left and right controls -->

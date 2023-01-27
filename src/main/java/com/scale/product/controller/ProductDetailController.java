@@ -14,6 +14,7 @@ import com.scale.bidding.model.service.BiddingService;
 import com.scale.bidding.model.vo.Bidding;
 import com.scale.product.model.service.ProductService;
 import com.scale.product.model.vo.Product;
+import com.scale.product.model.vo.ProductImg;
 
 /**
  * Servlet implementation class ProductDetailController
@@ -39,7 +40,7 @@ public class ProductDetailController extends HttpServlet {
 		
 		Product p = new ProductService().selectProduct(pCode);
 		ArrayList<Bidding> dList = new BiddingService().selectDealList(pCode);
-		
+		ArrayList<ProductImg> pImgList = new ProductService().selectProductImg(pCode);
 		
 		HttpSession session = request.getSession();
 		if(p == null) {
@@ -47,6 +48,7 @@ public class ProductDetailController extends HttpServlet {
 		} else {
 			request.setAttribute("p", p);
 			request.setAttribute("dList", dList);
+			request.setAttribute("pImgList", pImgList);
 			request.getRequestDispatcher("views/product/productDetailView.jsp").forward(request, response);
 		}
 		

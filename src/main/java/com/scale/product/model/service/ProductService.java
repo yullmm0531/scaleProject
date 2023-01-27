@@ -1,12 +1,15 @@
 package com.scale.product.model.service;
 
+import static com.scale.common.JDBCTemplate.close;
+import static com.scale.common.JDBCTemplate.getConnection;
+
 import java.sql.Connection;
 import java.util.ArrayList;
-import static com.scale.common.JDBCTemplate.*;
 
 import com.scale.product.model.dao.ProductDao;
 import com.scale.product.model.vo.Brand;
 import com.scale.product.model.vo.Product;
+import com.scale.product.model.vo.ProductImg;
 
 
 public class ProductService {
@@ -45,6 +48,18 @@ public class ProductService {
 		close(conn);
 		
 		return p;
+	}
+	
+	
+	public ArrayList<ProductImg> selectProductImg(String pCode){
+		
+		Connection conn = getConnection();
+		ArrayList<ProductImg> list = new ProductDao().selectProductImg(conn, pCode);
+		
+		close(conn);
+		
+		return list;
+		
 	}
 	
 }
