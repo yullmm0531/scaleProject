@@ -41,6 +41,8 @@ public class ProductDetailController extends HttpServlet {
 		Product p = new ProductService().selectProduct(pCode);
 		ArrayList<Bidding> dList = new BiddingService().selectDealList(pCode);
 		ArrayList<ProductImg> pImgList = new ProductService().selectProductImg(pCode);
+		ArrayList<Bidding> bList = new BiddingService().selectBuyBiddingList(pCode);
+		ArrayList<Bidding> sList = new BiddingService().selectSellBiddingList(pCode);
 		
 		HttpSession session = request.getSession();
 		if(p == null) {
@@ -49,6 +51,8 @@ public class ProductDetailController extends HttpServlet {
 			request.setAttribute("p", p);
 			request.setAttribute("dList", dList);
 			request.setAttribute("pImgList", pImgList);
+			request.setAttribute("bList", bList);
+			request.setAttribute("sList", sList);
 			request.getRequestDispatcher("views/product/productDetailView.jsp").forward(request, response);
 		}
 		

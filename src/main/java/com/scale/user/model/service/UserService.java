@@ -37,4 +37,11 @@ public class UserService {
 		close(conn);
 		return count;
 	}
+	
+	public User findId(String userName, String email) {
+		Connection conn = getConnection();
+		User u = new UserDao().findId(conn, userName, email);
+		close(conn);
+		return u;
+	}
 }

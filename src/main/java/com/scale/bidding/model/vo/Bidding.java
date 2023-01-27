@@ -17,6 +17,7 @@ public class Bidding {
 	private String pCode;
 	private int userNo;
 	
+	private int count;
 	
 	public Bidding() {
 		
@@ -51,6 +52,27 @@ public class Bidding {
 		this.pSize = pSize;
 		this.bPrice = bPrice;
 		this.dDate = dDate;
+	}
+
+	
+	
+	
+	
+	public int getCount() {
+		return count;
+	}
+
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+
+	public Bidding(int pSize, String bPrice, int count) {
+		super();
+		this.pSize = pSize;
+		this.bPrice = bPrice;
+		this.count = count;
 	}
 
 
