@@ -117,14 +117,14 @@
         <!-- 검색 -->
         	<script>
         		function search(){
-        			$ajax({
-        				url:
-        			})
+        			//$ajax({
+        			//	url:
+        			//})
         		}
         	
         	
         	</script>
-        <!-- 브랜드 이미지  -->
+        <!-- 브랜드 이미지  
         	<script>
         		$(function(){
         			$(".btn btn-secodary").click(function(){
@@ -142,7 +142,7 @@
         			})
         		})
         	</script>
-       
+       -->
 
         <div id="pcontent">
             <div id="pcontent-1">
@@ -293,7 +293,7 @@
     <!-- 모두 지우기(체크박스 해제) -->
     <script>
     	$(function(){
-    		$(document)onc
+    		
     	})
     </script>
     

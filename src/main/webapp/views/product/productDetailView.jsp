@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.scale.product.model.vo.Product" %>
+<%@ page import="com.scale.product.model.vo.Product, java.util.ArrayList, com.scale.bidding.model.vo.Bidding" %>
 <% 
 	Product p = (Product)request.getAttribute("p");
-%>    
+	ArrayList<Bidding> dList = (ArrayList<Bidding>)request.getAttribute("dList");
+%> 
     
 
 <!DOCTYPE html>
@@ -172,18 +173,18 @@
                                 <td style="width: 360px;">사이즈</td>
                                 <td style="width: 360px;">
                                     <div align="right">
-                                        <select name="size" id="size" style="width: 120px;">
+                                        <select name="pSize" id="pSize" style="width: 120px;">
                                             
                                         </select>
                                     </div>
                                     <script>
 		                            	$(function(){
 		                            		var arr = "<%= p.getProductSize() %>".split(", ");
-		                            		var sizeOption = "";
+		                            		var sizeOption = "<option value='allSize'>모든 사이즈</option>";
 		                            		for(let i=0; i<arr.length; i++){
 		                            			sizeOption += "<option value='" + arr[i] + "'>" + arr[i] + "</option>"
 		                            		}
-		                            		$("#size").html(sizeOption);
+		                            		$("#pSize").html(sizeOption);
 		               
 		                            	})
 		                            </script>
@@ -287,31 +288,21 @@
                                     <th style="padding-left:15px;">거래가</th>
                                     <th style="padding-left:15px;">거래일</th>
                                 </tr>
-                                <tr>
-                                    <td>270</td>
-                                    <td align="right">159,000원</td>
-                                    <td align="right">2022/12/29</td>
-                                </tr>
-                                <tr>
-                                    <td>270</td>
-                                    <td align="right">159,000원</td>
-                                    <td align="right">2022/12/29</td>
-                                </tr>
-                                <tr>
-                                    <td>270</td>
-                                    <td align="right">159,000원</td>
-                                    <td align="right">2022/12/29</td>
-                                </tr>
-                                <tr>
-                                    <td>270</td>
-                                    <td align="right">159,000원</td>
-                                    <td align="right">2022/12/29</td>
-                                </tr>
-                                <tr>
-                                    <td>270</td>
-                                    <td align="right">159,000원</td>
-                                    <td align="right">2022/12/29</td>
-                                </tr>
+                                <% if(dList != null && dList.size() != 0) { %>
+                                	<% for(int i=0; i<5; i++){ %>
+	                                	<tr>
+	                                		<td><%= dList.get(i).getpSize() %></td>
+		                                    <td align="right"><%= dList.get(i).getbPrice() %></td>
+		                                    <td align="right"><%= dList.get(i).getdDate() %></td>
+	                                	</tr>
+	                                <% } %>
+                                <% } else{ %>
+                                	<tr>
+                                		<td colspan="3" style="height: 130px; text-align:center;">
+                                			체결된 거래가 없습니다.
+                                		</td>
+                                	</tr>
+                                <% } %>
                                 <tr>
                                     <th colspan="3">
                                         <button type="button" class="btn btn-secondary view-more" data-toggle="modal" data-target="#view-more">체결 내역 더보기</button>
@@ -422,21 +413,27 @@
                                     <div class="product">
                                         <div class="product-info row">
                                             <div class="product-img col-sm-4">
-                                                <img src="<%= contextPath %>/resources/images/product/nike1.png" alt="">
+                                                <img src="<%= contextPath %>/<%= p.getProductImgM() %>">
                                             </div>
                                             <div class="product-name col-sm-8">
-                                                <span id="product-brand">NIKE</span><br>
-                                                <span id="product-eng-name">(W) Nike Dunk Low Wolf Grey Rosewood</span><br>
-                                                <span id="product-kor-name">(W) 나이키 덩크 로우 울프 그레이 로즈우드</span> <br>
+                                                <span id="product-brand"><%= p.getBrandName() %></span><br>
+                                                <span id="product-eng-name"><%= p.getProductNameEng() %></span><br>
+                                                <span id="product-kor-name"><%= p.getProductNameKo() %></span> <br>
                                                 <span id="product-size">
-                                                    <select name="size" style="width: 120px;">
-                                                        <option value="220">220</option><option value="220">220</option>
-                                                        <option value="225">225</option><option value="230">230</option>
-                                                        <option value="235">235</option><option value="240">240</option>
-                                                        <option value="245">245</option><option value="250">250</option>
-                                                        <option value="255">255</option><option value="260">260</option>
-                                                        <option value="265">265</option><option value="270">270</option>
+                                                    <select id="modalPdSize" style="width: 120px;">
+                                                        
                                                     </select>
+                                                    <script>
+						                            	$(function(){
+						                            		var arr = "<%= p.getProductSize() %>".split(", ");
+						                            		var sizeOption = "<option value='allSize'>모든 사이즈</option>";
+						                            		for(let i=0; i<arr.length; i++){
+						                            			sizeOption += "<option value='" + arr[i] + "'>" + arr[i] + "</option>"
+						                            		}
+						                            		$("#modalPdSize").html(sizeOption);
+						               
+						                            	})
+						                            </script>
                                                 </span>
                                             </div>
                                         </div>

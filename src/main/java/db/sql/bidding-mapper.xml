@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-	<entry key="selectBiddingList">
-	
+	<entry key="selectDealList">
+		SELECT 
+		       BIDDING_NO
+		     , PRODUCT_SIZE
+		     , TO_CHAR(BIDDING_PRICE, 'fmL999,999,999') "BIDDING_PRICE"
+		     , TO_CHAR(DEAL_DATE, 'RRRR/MM/DD') "DEAL_DATE"
+		  FROM TB_BIDDING
+		 WHERE BIDDING_STATUS = 'Y'
+		   AND DEAL_CHECK = 'Y'
+		   AND PRODUCT_CODE = ?
+		 ORDER
+		    BY DEAL_DATE DESC
 	</entry>
 	
 </properties>
