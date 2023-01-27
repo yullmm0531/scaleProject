@@ -59,4 +59,179 @@ public class BiddingDao {
 	}
 	
 	
+	public ArrayList<Bidding> selectBuyBiddingList(Connection conn, String pCode){
+		
+		ArrayList<Bidding> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectBuyBiddingList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pCode);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				Bidding b = new Bidding(rset.getInt("product_size"),
+										rset.getString("bidding_price"),
+										rset.getInt("count"));
+				list.add(b);
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
+	
+	
+	
+	public ArrayList<Bidding> selectSellBiddingList(Connection conn, String pCode){
+		
+		ArrayList<Bidding> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectSellBiddingList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pCode);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				Bidding b = new Bidding(rset.getInt("product_size"),
+										rset.getString("bidding_price"),
+										rset.getInt("count"));
+				list.add(b);
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
+	
+	
+	public ArrayList<Bidding> selectDealSizeList(Connection conn, String pCode, String size){
+		
+		ArrayList<Bidding> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset= null;
+		
+		String sql = prop.getProperty("selectDealSizeList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pCode);
+			pstmt.setString(2, size);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Bidding b = new Bidding(rset.getInt("bidding_no"),
+										rset.getInt("product_size"),
+										rset.getString("bidding_price"),
+										rset.getString("deal_date"));
+				list.add(b);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
+	
+	public ArrayList<Bidding> selectSellBiddingSizeList(Connection conn, String pCode, String size){
+		
+		ArrayList<Bidding> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectSellBiddingSizeList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pCode);
+			pstmt.setString(2, size);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				Bidding b = new Bidding(rset.getInt("product_size"),
+										rset.getString("bidding_price"),
+										rset.getInt("count"));
+				list.add(b);
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
+	
+	public ArrayList<Bidding> selectBuyBiddingSizeList(Connection conn, String pCode, String size){
+		
+		ArrayList<Bidding> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectBuyBiddingSizeList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pCode);
+			pstmt.setString(2, size);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				Bidding b = new Bidding(rset.getInt("product_size"),
+										rset.getString("bidding_price"),
+										rset.getInt("count"));
+				list.add(b);
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
+	
 }

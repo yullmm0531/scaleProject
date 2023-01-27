@@ -15,4 +15,80 @@
 		    BY DEAL_DATE DESC
 	</entry>
 	
+	<entry key="selectBuyBiddingList">
+		SELECT
+		       PRODUCT_SIZE
+		     , TO_CHAR(BIDDING_PRICE, 'fmL999,999,999') "BIDDING_PRICE"
+		     , COUNT(*) "COUNT"
+		  FROM TB_BIDDING
+		 WHERE BIDDING_STATUS = 'Y'
+		   AND BIDDING_TYPE = 1
+		   AND PRODUCT_CODE = ?
+		 GROUP
+		    BY PRODUCT_SIZE, BIDDING_PRICE
+		 ORDER
+		    BY BIDDING_PRICE DESC
+	</entry>
+	
+	<entry key="selectSellBiddingList">
+		SELECT
+		       PRODUCT_SIZE
+		     , TO_CHAR(BIDDING_PRICE, 'fmL999,999,999') "BIDDING_PRICE"
+		     , COUNT(*) "COUNT"
+		  FROM TB_BIDDING
+		 WHERE BIDDING_STATUS = 'Y'
+		   AND BIDDING_TYPE = 2
+		   AND PRODUCT_CODE = ?
+		 GROUP
+		    BY PRODUCT_SIZE, BIDDING_PRICE
+		 ORDER
+		    BY BIDDING_PRICE
+	</entry>
+	
+	<entry key="selectDealSizeList">
+		SELECT 
+		       BIDDING_NO
+		     , PRODUCT_SIZE
+		     , TO_CHAR(BIDDING_PRICE, 'fmL999,999,999') "BIDDING_PRICE"
+		     , TO_CHAR(DEAL_DATE, 'RRRR/MM/DD') "DEAL_DATE"
+		  FROM TB_BIDDING
+		 WHERE BIDDING_STATUS = 'Y'
+		   AND DEAL_CHECK = 'Y'
+		   AND PRODUCT_CODE = ?
+		   AND PRODUCT_SIZE = ?
+		 ORDER
+		    BY DEAL_DATE DESC
+	</entry>
+	
+	<entry key="selectSellBiddingSizeList">
+		SELECT
+		       PRODUCT_SIZE
+		     , TO_CHAR(BIDDING_PRICE, 'fmL999,999,999') "BIDDING_PRICE"
+		     , COUNT(*) "COUNT"
+		  FROM TB_BIDDING
+		 WHERE BIDDING_STATUS = 'Y'
+		   AND BIDDING_TYPE = 2
+		   AND PRODUCT_CODE = ?
+		   AND PRODUCT_SIZE = ?
+		 GROUP
+		    BY PRODUCT_SIZE, BIDDING_PRICE
+		 ORDER
+		    BY BIDDING_PRICE
+	</entry>
+	
+	<entry key="selectBuyBiddingSizeList">
+		SELECT
+		       PRODUCT_SIZE
+		     , TO_CHAR(BIDDING_PRICE, 'fmL999,999,999') "BIDDING_PRICE"
+		     , COUNT(*) "COUNT"
+		  FROM TB_BIDDING
+		 WHERE BIDDING_STATUS = 'Y'
+		   AND BIDDING_TYPE = 1
+		   AND PRODUCT_CODE = ?
+		   AND PRODUCT_SIZE = ?
+		 GROUP
+		    BY PRODUCT_SIZE, BIDDING_PRICE
+		 ORDER
+		    BY BIDDING_PRICE DESC
+	</entry>
 </properties>

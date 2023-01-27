@@ -1,6 +1,7 @@
 package com.scale.bidding.model.service;
 
-import static com.scale.common.JDBCTemplate.*;
+import static com.scale.common.JDBCTemplate.close;
+import static com.scale.common.JDBCTemplate.getConnection;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -21,5 +22,55 @@ public class BiddingService {
 		
 	}
 	
+	
+	public ArrayList<Bidding> selectBuyBiddingList(String pCode){
+		
+		Connection conn = getConnection();
+		ArrayList<Bidding> list = new BiddingDao().selectBuyBiddingList(conn, pCode);
+		
+		close(conn);
+		
+		return list;
+	}
+	
+	public ArrayList<Bidding> selectSellBiddingList(String pCode){
+		
+		Connection conn = getConnection();
+		ArrayList<Bidding> list = new BiddingDao().selectSellBiddingList(conn, pCode);
+		
+		close(conn);
+		
+		return list;
+	}
+	
+	public ArrayList<Bidding> selectDealSizeList(String pCode, String size){
+		
+		Connection conn = getConnection();
+		ArrayList<Bidding> list = new BiddingDao().selectDealSizeList(conn, pCode, size);
+		
+		close(conn);
+		
+		return list;
+	}
+	
+	public ArrayList<Bidding> selectSellBiddingSizeList(String pCode, String size){
+		
+		Connection conn = getConnection();
+		ArrayList<Bidding> list = new BiddingDao().selectSellBiddingSizeList(conn, pCode, size);
+		
+		close(conn);
+		
+		return list;
+	}
+	
+	public ArrayList<Bidding> selectBuyBiddingSizeList(String pCode, String size){
+		
+		Connection conn = getConnection();
+		ArrayList<Bidding> list = new BiddingDao().selectBuyBiddingSizeList(conn, pCode, size);
+		
+		close(conn);
+		
+		return list;
+	}
 	
 }
