@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.scale.product.model.vo.*, java.util.ArrayList, com.scale.bidding.model.vo.Bidding" %>
+<% 
+	Product p = (Product)request.getAttribute("p");
+	ArrayList<Bidding> pList = (ArrayList<Bidding>)request.getAttribute("pList");
+	
+%> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,8 +20,16 @@
         #sizes{
             text-align: center;
         }
+        .size-list{
+            padding-left: 60px;
+        }
         #sizes label{
+            display: inline-block;
             width: 150px;
+            height: 60px;
+            margin-top: 15px;
+            margin-left: 5px;
+            margin-right: 5px;
         }
         .outer{width: 600px; margin: auto; border: 1px solid gray; background-color: whitesmoke;}
         .product-info{height: 180px; padding-left: 30px; padding-top: 15px;}
@@ -85,57 +99,65 @@
             <div class="product">
                 <div class="product-info row">
                     <div class="product-img col-sm-4">
-                        <img src="<%= contextPath %>/resources/images/product/nike1.png" alt="">
+                        <img src="<%= contextPath %>/<%= p.getProductImgM() %>">
                     </div>
                     <div class="product-name col-sm-8">
                         <br>
-                        <span id="product-brand">NIKE</span><br>
-                        <span id="product-eng-name">(W) Nike Dunk Low Wolf Grey Rosewood</span><br>
-                        <span id="product-kor-name">(W) 나이키 덩크 로우 울프 그레이 로즈우드</span> <br>
+                        <div id="product-brand"><%= p.getBrandName() %></div>
+                        <div id="product-eng-name"><%= p.getProductNameEng() %></div>
+                        <div id="product-kor-name"><%= p.getProductNameKo() %></div>
                         <span id="product-size" name="size" hidden>사이즈</span>
                     </div>
                 </div>
                 <div class="line"></div>
-                <br><br>
+                <br>
             </div>
 
             <div class="select-size">
                 <div class="size-chart">
                     <div id="sizes">
-                        <div class="btn-group-toggle" data-toggle="buttons">
-                            <label class="btn btn-outline-secondary">
-                                <input type="radio" name="size" value="사이즈">사이즈
+                        <div class="btn-group-toggle size-list" data-toggle="buttons" align="left">
+                        	<!--
+                            <label class='btn btn-outline-secondary'>
+                                <input type='radio' name='size' value='사이즈'>사이즈
                             </label>
-                            <label class="btn btn-outline-secondary">
-                                <input type="radio" name="size" value="사이즈">사이즈
-                            </label>
-                            <label class="btn btn-outline-secondary">
-                                <input type="radio" name="size" value="사이즈">사이즈
-                            </label>
-                            <br><br>
-                            <label class="btn btn-outline-secondary">
-                                <input type="radio" name="size" value="사이즈">사이즈
-                            </label>
-                            <label class="btn btn-outline-secondary">
-                                <input type="radio" name="size" value="사이즈">사이즈
-                            </label>
-                            <label class="btn btn-outline-secondary">
-                                <input type="radio" name="size" value="사이즈">사이즈
-                            </label>
-                            <br><br>
-                            <label class="btn btn-outline-secondary">
-                                <input type="radio" name="size" value="사이즈">사이즈
-                            </label>
-                            <label class="btn btn-outline-secondary">
-                                <input type="radio" name="size" value="사이즈">사이즈
-                            </label>
-                            <label class="btn btn-outline-secondary">
-                                <input type="radio" name="size" value="사이즈">사이즈
-                            </label>
+                            -->
 
                         </div>
                     </div>
-                    
+                    <script>
+                        $(function(){
+                            var pSizeArr = "<%= p.getProductSize() %>".split(", ");
+                            var sizeOption = "";
+                            
+                            var size = "";
+                            var price = "";
+                            <% if(pList != null && pList.size() != 0) { %> 
+                                <% for(int i=0; i<(pList.size()-1); i++){ %>
+                                    size += <%= (pList.get(i)).getpSize() %> + ", ";
+                                    price += "<%= (pList.get(i)).getbPrice() %>" + "/ ";
+                                <% } %>
+                                size += <%= (pList.get(pList.size()-1)).getpSize() %>;
+                                price += "<%= (pList.get(pList.size()-1)).getbPrice() %>";
+                            <% } %>
+                            var sizeArr = size.split(", ");
+                            var priceArr = price.split("/ ");
+                            let index = "";
+                            for(let i=0; i<pSizeArr.length; i++){
+                                index = sizeArr.indexOf(pSizeArr[i]);
+                                if(index != -1){
+                                    sizeOption += "<label class='btn btn-outline-secondary'>"
+                                        +       "<input type='radio' name='size' value='" + pSizeArr[i] + "'>" + pSizeArr[i] + "<br>" + priceArr[index] + "</label>";
+                                } else{
+                                    sizeOption += "<label class='btn btn-outline-secondary'>"
+                                        +       "<input type='radio' name='size' value='" + pSizeArr[i] + "'>" + pSizeArr[i] + "<br>-</label>";
+                                }
+                                
+                            }
+                            $(".size-list").html(sizeOption);
+        
+                        })
+                    </script>
                 </div>
                 <br>
                 <div align="center">

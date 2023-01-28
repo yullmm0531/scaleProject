@@ -95,4 +95,34 @@
 		 ORDER
 		    BY BIDDING_PRICE DESC
 	</entry>
+	
+	<entry key="selectSellBiddingPriceList">
+		SELECT
+		       PRODUCT_SIZE
+		     , TO_CHAR(MIN(BIDDING_PRICE), 'fmL999,999,999') "BIDDING_PRICE"
+		  FROM TB_BIDDING
+		 WHERE BIDDING_STATUS = 'Y'
+		   AND BIDDING_TYPE = 2
+		   AND DEAL_CHECK = 'N'
+		   AND PRODUCT_CODE = ?
+		 GROUP
+		    BY PRODUCT_SIZE
+		 ORDER
+		    BY PRODUCT_SIZE
+	</entry>
+	
+	<entry key="selectBuyBiddingPriceList">
+		SELECT
+		       PRODUCT_SIZE
+		     , TO_CHAR(MAX(BIDDING_PRICE), 'fmL999,999,999') "BIDDING_PRICE"
+		  FROM TB_BIDDING
+		 WHERE BIDDING_STATUS = 'Y'
+		   AND BIDDING_TYPE = 1
+		   AND DEAL_CHECK = 'N'
+		   AND PRODUCT_CODE = ?
+		 GROUP
+		    BY PRODUCT_SIZE
+		 ORDER
+		    BY PRODUCT_SIZE
+	</entry>
 </properties>

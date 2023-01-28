@@ -41,7 +41,7 @@ public class BiddingDao {
 			
 			while(rset.next()) {
 				Bidding b = new Bidding(rset.getInt("bidding_no"),
-										rset.getInt("product_size"),
+										rset.getString("product_size"),
 										rset.getString("bidding_price"),
 										rset.getString("deal_date"));
 				list.add(b);
@@ -75,7 +75,7 @@ public class BiddingDao {
 			
 			while(rset.next()) {
 				
-				Bidding b = new Bidding(rset.getInt("product_size"),
+				Bidding b = new Bidding(rset.getString("product_size"),
 										rset.getString("bidding_price"),
 										rset.getInt("count"));
 				list.add(b);
@@ -111,7 +111,7 @@ public class BiddingDao {
 			
 			while(rset.next()) {
 				
-				Bidding b = new Bidding(rset.getInt("product_size"),
+				Bidding b = new Bidding(rset.getString("product_size"),
 										rset.getString("bidding_price"),
 										rset.getInt("count"));
 				list.add(b);
@@ -147,7 +147,7 @@ public class BiddingDao {
 			
 			while(rset.next()) {
 				Bidding b = new Bidding(rset.getInt("bidding_no"),
-										rset.getInt("product_size"),
+										rset.getString("product_size"),
 										rset.getString("bidding_price"),
 										rset.getString("deal_date"));
 				list.add(b);
@@ -181,7 +181,7 @@ public class BiddingDao {
 			
 			while(rset.next()) {
 				
-				Bidding b = new Bidding(rset.getInt("product_size"),
+				Bidding b = new Bidding(rset.getString("product_size"),
 										rset.getString("bidding_price"),
 										rset.getInt("count"));
 				list.add(b);
@@ -216,11 +216,43 @@ public class BiddingDao {
 			
 			while(rset.next()) {
 				
-				Bidding b = new Bidding(rset.getInt("product_size"),
+				Bidding b = new Bidding(rset.getString("product_size"),
 										rset.getString("bidding_price"),
 										rset.getInt("count"));
 				list.add(b);
 				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
+	
+	
+	public ArrayList<Bidding> selectSellBiddingPrice(Connection conn, String pCode) {
+		
+		ArrayList<Bidding> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectSellBiddingPriceList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pCode);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Bidding b = new Bidding(rset.getString("product_size"),
+										rset.getString("bidding_price"));
+				list.add(b);
 			}
 			
 		} catch (SQLException e) {

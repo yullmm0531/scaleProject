@@ -129,6 +129,13 @@
         .modal-dialog{
             max-width: 1000px;
         }
+        #product-eng-name, #product-kor-name{
+            width: 280px;
+            text-overflow:ellipsis; 
+            overflow:hidden;
+            white-space:nowrap;
+        }
+        
     </style>
 </head>
 <body>
@@ -218,7 +225,7 @@
                             <tr><td colspan="2"><div><br></div></td></tr>
                             <tr>
                                 <td>
-                                    <button type="button" id="buy-btn" class="btn btn-warning">
+                                    <button type="button" id="buy-btn" class="btn btn-warning" onclick="buy();">
                                         <table>
                                             <tr>
                                                 <th rowspan="2" width="150">구매</th>
@@ -237,7 +244,7 @@
                                     </button>
                                 </td>
                                 <td>
-                                    <button type="button" id="sell-btn" class="btn btn-success">
+                                    <button type="button" id="sell-btn" class="btn btn-success" onclick="sell();">
                                         <table>
                                             <tr>
                                                 <th rowspan="2" width="150">판매</th>
@@ -263,6 +270,25 @@
                             </tr>
                         </table>
                     </div>
+                    <script>
+                        function buy(){
+                            <% if(loginUser == null) { %>
+                                alert("로그인 후 이용가능한 페이지입니다.");
+                                    location.href = "<%= contextPath %>/loginForm.us";
+                            <% } else { %>
+                                location.href='<%= contextPath %>/buy.bi?co=<%= p.getProductCode() %>';        
+                            <% } %>
+                                
+                        }
+                        function sell(){
+                            <% if(loginUser == null) { %>
+                                alert("로그인 후 이용가능한 페이지입니다.");
+                                    location.href = "<%= contextPath %>/loginForm.us";
+                            <% } else { %>
+                                location.href='<%= contextPath %>/sell.bi?co=<%= p.getProductCode() %>';
+                            <% } %>  
+                        }
+                    </script>
                     <br>
                     <div id="detail-body">
                         <table id="product-info-detail" width="100%">
@@ -433,9 +459,9 @@
                                                 <img src="<%= contextPath %>/<%= p.getProductImgM() %>">
                                             </div>
                                             <div class="product-name col-sm-8">
-                                                <span id="product-brand"><%= p.getBrandName() %></span><br>
-                                                <span id="product-eng-name"><%= p.getProductNameEng() %></span><br>
-                                                <span id="product-kor-name"><%= p.getProductNameKo() %></span> <br>
+                                                <div id="product-brand"><%= p.getBrandName() %></div>
+                                                <div id="product-eng-name"><%= p.getProductNameEng() %></div>
+                                                <div id="product-kor-name"><%= p.getProductNameKo() %></div>
                                                 <span id="product-size">
                                                     <select id="modalPdSize" style="width: 120px;" onchange="modalSelectSize();">
                                                         
