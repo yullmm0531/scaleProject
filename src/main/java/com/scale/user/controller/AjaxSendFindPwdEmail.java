@@ -16,16 +16,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class AjaxSendEmail
+ * Servlet implementation class AjaxSendJoinEmail
  */
-@WebServlet("/sendEmail.us")
-public class AjaxSendEmail extends HttpServlet {
+@WebServlet("/sendEmail.pw")
+public class AjaxSendFindPwdEmail extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AjaxSendEmail() {
+    public AjaxSendFindPwdEmail() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -44,8 +44,8 @@ public class AjaxSendEmail extends HttpServlet {
         // 메일 내용
         String code = String.valueOf((int)(Math.random() * 99999 + 10000));
         String recipient = request.getParameter("email");
-        String subject = "SCALE 회원가입 이메일 인증";
-        String body = "SCALE 회원가입을 위한 이메일 인증입니다. 인증코드를 입력해주세요.\n 인증코드 : ["+code+"]";
+        String subject = "SCALE 비밀번호 이메일 인증";
+        String body = "SCALE 비밀번호 재설정을 위한 이메일 인증입니다. 인증코드를 입력해주세요.\n 인증코드 : ["+code+"]";
          
         //properties 설정
         Properties props = new Properties();

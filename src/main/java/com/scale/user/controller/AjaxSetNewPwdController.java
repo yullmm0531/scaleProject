@@ -7,22 +7,20 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.scale.user.model.service.UserService;
-import com.scale.user.model.vo.User;
 
 /**
- * Servlet implementation class LoginUserController
+ * Servlet implementation class AjaxSetNewPwdController
  */
-@WebServlet("/login.us")
-public class LoginUserController extends HttpServlet {
+@WebServlet("/setNewPwd.pw")
+public class AjaxSetNewPwdController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginUserController() {
+    public AjaxSetNewPwdController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,19 +30,16 @@ public class LoginUserController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userId = request.getParameter("userId");
-		String userPwd = request.getParameter("userPwd");
+		String newPwd = request.getParameter("newPwd");
 		
-		User loginUser = new UserService().userLogin(userId, userPwd);
+		int result = new UserService().setNewPwd(userId, newPwd);
 		
-		HttpSession session = request.getSession();
-		
-		if(loginUser == null) {
-			session.setAttribute("alertMsg", "아이디 또는 비밀번호를 확인해주세요.");
-			response.sendRedirect("loginForm.us");
+		if(result > 0) {
+			response.getWriter().print("Y");
 		}else {
-			session.setAttribute("loginUser", loginUser);
-			response.sendRedirect(request.getContextPath());
+			response.getWriter().print("N");
 		}
+		
 	}
 
 	/**
@@ -56,4 +51,3 @@ public class LoginUserController extends HttpServlet {
 	}
 
 }
-

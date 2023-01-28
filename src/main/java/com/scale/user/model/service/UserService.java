@@ -44,4 +44,25 @@ public class UserService {
 		close(conn);
 		return u;
 	}
+	
+	public User findPwd(String userId, String userName, String email) {
+		Connection conn = getConnection();
+		User u = new UserDao().findPwd(conn, userId, userName, email);
+		close(conn);
+		return u;
+	}
+	
+	public int setNewPwd(String userId, String newPwd) {
+		Connection conn = getConnection();
+		int result = new UserDao().setNewPwd(conn, userId, newPwd);
+		
+		if(result > 0) {
+			commit(conn);
+		}else{
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result;
+	}
 }

@@ -127,7 +127,7 @@
                     <div class="check-input" id="check-input-email"></div>
                 </div>
                 <div class="form-group emailVerify-area">
-                    <input type="text" class="form-control" id="emailCode-input" placeholder="인증코드 입력해주세요." required>
+                    <input type="text" class="form-control" id="emailCode-input" placeholder="인증코드 5자리 입력">
                     <button type="button" id="codeCheck-btn" class="btn btn-dark">인증 완료</button>
                     <div class="check-input" id="check-input-emailCode"></div>
                     <input type="hidden" id="emailVerified" value="unverified">
@@ -230,7 +230,7 @@
         })
 
         $pwdCheck.focusout(function(){
-            if($userPwd.val() == ""){
+            if($pwdCheck.val() == ""){
                 $checkInputPwd2.html("비밀번호를 다시 입력해주세요.");
             }else if($userPwd.val() != $pwdCheck.val()){
                 $checkInputPwd2.html("비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
@@ -375,6 +375,12 @@
         if($idChecked.val() == "UnChecked"){
             alert("아이디 중복 확인을 해주세요.");
             $userId.focus();
+            return false;
+        }
+
+        // 비밀번호 일치여부
+        if($userPwd.val() != $pwdCheck.val()){
+            alert("비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
             return false;
         }
 

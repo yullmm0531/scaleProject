@@ -80,10 +80,33 @@
 	</entry>
 	
 	<entry key="findId">
-		SELECT *
+		SELECT
+			   USER_NO
+			 , USER_ID
+			 , USER_NAME
+			 , EMAIL
 		  FROM TB_USER
 		 WHERE USER_NAME = ?
 		   AND EMAIL = ?
 		   AND STATUS = 'Y'
+	</entry>
+	
+	<entry key="findPwd">
+		SELECT
+			   USER_NO
+			 , USER_ID
+			 , USER_NAME
+			 , EMAIL
+		  FROM TB_USER
+		 WHERE USER_ID = ?
+		   AND USER_NAME = ?
+		   AND EMAIL = ?
+		   AND STATUS = 'Y'
+	</entry>
+	
+	<entry key="setNewPwd">
+		UPDATE TB_USER
+		   SET USER_PWD = ?
+		 WHERE USER_ID = ? 
 	</entry>
 </properties>

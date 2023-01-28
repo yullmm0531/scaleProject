@@ -1,27 +1,29 @@
 package com.scale.user.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.scale.user.model.service.UserService;
 import com.scale.user.model.vo.User;
 
 /**
- * Servlet implementation class AjaxFindUserPwdController
+ * Servlet implementation class LoginUserController
  */
-@WebServlet("/findPwd.us")
-public class AjaxFindUserPwdController extends HttpServlet {
+@WebServlet("/login.us")
+public class AjaxLoginUserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AjaxFindUserPwdController() {
+    public AjaxLoginUserController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,13 +33,17 @@ public class AjaxFindUserPwdController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userId = request.getParameter("userId");
-		String userName = request.getParameter("userName");
-		String email = request.getParameter("email");
+		String userPwd = request.getParameter("userPwd");
+
+		User loginUser = new UserService().userLogin(userId, userPwd);
 		
-		User u = new UserService().findPwd(userId, userName, email);
+		HttpSession session = request.getSession();
+		if(loginUser != null) {
+			session.setAttribute("loginUser", loginUser);
+		}
 		
 		response.setContentType("application/json; charset=UTF-8");
-		new Gson().toJson(u, response.getWriter());
+		new Gson().toJson(loginUser, response.getWriter());
 	}
 
 	/**
@@ -49,3 +55,4 @@ public class AjaxFindUserPwdController extends HttpServlet {
 	}
 
 }
+
