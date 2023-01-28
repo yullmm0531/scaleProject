@@ -138,12 +138,20 @@
         width: 100px;
         height: 160px;
         margin-right: 5px;
+        position: relative;
     }
     .pd-thumbnail img{
         width: 100px;
         height: 100px;
         box-sizing: border-box;
     }
+    .delete-pd{
+        position: absolute;
+        font-size: 10px;
+        top: 5px;
+        right: 5px;
+    }
+    .delete-pd:hover{cursor: pointer;}
     .li-brand, .li-ko, .li-eng{
         height: 20px;
         font-size: 12px;
@@ -177,12 +185,22 @@
         display: inline-block;
         background-color: gray;
         color: white;
-        margin-right: 10px;
         border-radius: 0.3em;
-        padding-right: 3px;
-        padding-left: 3px;
+        padding-left: 7px;
+        padding-right: 7px;
+        font-size: 15px;
+        height: 30px;
     }
-
+    .tag-delete{
+        display: inline-block;
+        background-color: none;
+        margin-right: 15px;
+        font-size: 10px;
+        height: 30px;
+        box-sizing: border-box;
+        line-height: 30px;
+    }
+    .tag-delete:hover{cursor: pointer;}
 </style>
 </head>
 <body>
@@ -273,44 +291,64 @@
                             }
 
                             function loadImg(inputFile, num){
-
+                                console.log("dd");
                                 if(inputFile.files.length == 1){ 
                                     
                                     const reader = new FileReader();
                                     
                                     reader.readAsDataURL(inputFile.files[0]);
-                                    
+
                                     reader.onload = function(e){
                                         $("#thumbnail" + num).attr("src", e.target.result);
                                         $("#thumbnail" + num).parent().css("border", "none");
                                         $("#thumbnail" + num).next().show();
 
                                         if(num == 1){
-                                            $img = $("<img id='styleImg'>");
-                                            $("#style-box span").css("display", "none");
-                                            $("#style-box>div").append($img);
-                                            $("#styleImg").attr("src", e.target.result);
-                                            $("#style-box").css("border", "none");
+                                            if($("#style-box>div>img") == null){
+                                                $img = $("<img id='styleImg'>");
+                                                $("#style-box span").css("display", "none");
+                                                $("#style-box>div").append($img);
+                                                $("#styleImg").attr("src", e.target.result);
+                                                $("#style-box").css("border", "none");
+                                            } else {
+                                                $("#style-box>div>img").remove();
+                                                $img = $("<img id='styleImg'>");
+                                                $("#style-box span").css("display", "none");
+                                                $("#style-box>div").append($img);
+                                                $("#styleImg").attr("src", e.target.result);
+                                                $("#style-box").css("border", "none");
+                                            }
+                                            
                                         }
                                     }
    
-                                }
-
-                            }
-
-                            $(function(){
-                                $(".delete-btn").click(function(){
-                                    $(this).siblings().attr("src", "<%= contextPath %>/resources/images/style/plus.png");
-                                    $(this).parent().css("border", "5px dotted lightgray");
-                                    $(this).css("display", "none");
-                                    
-                                    if($(this).attr("id").substring(3) == 1){
+                                } else {
+                                    $("#thumbnail" + num).attr("src", "<%= contextPath %>/resources/images/style/plus.png");
+                                    $("#thumbnail" + num).parent().css("border", "5px dotted lightgray");
+                                    $("#thumbnail" + num).next().css("display", "none");
+                                    if(num == 1){
                                         $("#style-box").css("border", "1px solid lightgray");
                                         $("#styleImg").remove();
                                         $("#style-box span").show();
                                     }
-                                })
+                                }
+
+                            }
+
+                            $(document).on("click", ".delete-btn", function(){
+                                $(this).prev().attr("src", "<%= contextPath %>/resources/images/style/plus.png");
+                                $(this).parent().css("border", "5px dotted lightgray");
+                                $(this).css("display", "none");
+                                
+                                if($(this).attr("id").substring(3) == 1){
+                                    $("#style-box").css("border", "1px solid lightgray");
+                                    $("#styleImg").remove();
+                                    $("#style-box span").show();
+                                }
                             })
+                            
+                            
+                            
 
                         </script>
 
@@ -342,6 +380,12 @@
                                     if(event.keyCode == 13 || event.keyCode == 32) {
                                         event.preventDefault();
                                         let tag;
+
+                                        if($(this).val() == ""){
+                                            alert("태그 내용을 입력해주세요.");
+                                            return;
+                                        }
+
                                         if($(this).val().charAt(0) == "#"){
                                             tag = $(this).val();
                                         } else {
@@ -349,23 +393,27 @@
                                         }
 
                                         if($("#tag-list").children().length == 0){ // li 요소가 없을 때
-                                            $("#tag-list").append($("<li name='tag'>" + tag + "</li>"));
+                                            $("#tag-list").append($("<li name='tag'>" + tag + "</li><div class='tag-delete'>❌</div>"));
                                             $(this).val("");
                                         } else { // li 요소가 있을 때
                                             for(let i=0; i<$("#tag-list").children().length; i++){
-                                                console.log($("#tag-list").children().eq(i).text());
                                                 if($("#tag-list").children().eq(i).text() == tag){
                                                     alert("중복된 태그입니다.");
                                                     $(this).val("");
                                                     return;
                                                 }
                                             }
-                                            $("#tag-list").append($("<li name='tag'>" + tag + "</li>"));
+                                            $("#tag-list").append($("<li name='tag'>" + tag + "</li><div class='tag-delete'>❌</div>"));
                                             $(this).val("");
                                         }
-                                        
                                     }
                                 });
+
+                                $(document).on("click", ".tag-delete", function(){
+                                    console.log($(this).prev());
+                                    $(this).prev().remove();
+                                    $(this).remove();
+                                })
                             </script>
                         </div>
                     </td>
@@ -474,7 +522,7 @@
                                 data:{pCode:$(this).children().children().children().children().val()},
                                 success:function(result){
                                     $("#close-btn").click();
-                                    $ul = $("<ul class='pd-thumbnail' onclick='deletepd(this);'><li><input type='hidden' name='pCode'  value='" + result.productCode + "'><li><img src='" + result.productImgM + "'></li><li class='li-brand'>"+ result.brandName +"</li><li class='li-ko'>" + result.productNameKo + "</li><li class='li-eng'>" + result.productNameEng + "</li></ul>");
+                                    $ul = $("<ul class='pd-thumbnail'><li><input type='hidden' name='pCode'  value='" + result.productCode + "'><li><img src='" + result.productImgM + "'><div class='delete-pd'>❌</div></li><li class='li-brand'>"+ result.brandName +"</li><li class='li-ko'>" + result.productNameKo + "</li><li class='li-eng'>" + result.productNameEng + "</li></ul>");
                                     $("#pd-thumbnail-td").append($ul);
                                 },
                                 error:function(){
@@ -532,7 +580,7 @@
                     data:{pCode:$(this).children().children().children().val()},
                     success:function(result){
                         $("#close-btn").click();
-                        $ul = $("<ul class='pd-thumbnail' onclick='deletepd(this);'><li><input type='hidden' name='pCode' value='" + result.productCode + "'></li><li><img src='" + result.productImgM + "'></li><li class='li-brand'>"+ result.brandName +"</li><li class='li-ko'>" + result.productNameKo + "</li><li class='li-eng'>" + result.productNameEng + "</li></ul>");
+                        $ul = $("<ul class='pd-thumbnail'><li><input type='hidden' name='pCode' value='" + result.productCode + "'></li><li><img src='" + result.productImgM + "'><div class='delete-pd'>❌</div></li><li class='li-brand'>"+ result.brandName +"</li><li class='li-ko'>" + result.productNameKo + "</li><li class='li-eng'>" + result.productNameEng + "</li></ul>");
                         $("#pd-thumbnail-td").append($ul);
                     },
                     error:function(){
@@ -542,9 +590,9 @@
             })
         })
 
-        function deletepd(ul){
-            ul.remove();
-        }
+        $(document).on("click", ".delete-pd", function(){
+            $(this).parent().parent().remove();
+        })
 
     </script>
 
