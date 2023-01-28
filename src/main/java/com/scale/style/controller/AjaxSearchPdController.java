@@ -9,20 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.scale.product.model.vo.Product;
 import com.scale.style.model.service.StyleService;
 
 /**
- * Servlet implementation class EnrollFormController
+ * Servlet implementation class AjaxSearchPdController
  */
-@WebServlet("/enrollForm.st")
-public class EnrollFormController extends HttpServlet {
+@WebServlet("/searchPd.st")
+public class AjaxSearchPdController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public EnrollFormController() {
+    public AjaxSearchPdController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,9 +32,11 @@ public class EnrollFormController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Product> listAll = new StyleService().selectPdAllList();
-		request.setAttribute("listAll", listAll);
-		request.getRequestDispatcher("views/style/styleEnrollForm.jsp").forward(request, response);
+		String keyword = request.getParameter("keyword");
+		
+		ArrayList<Product> list = new StyleService().selectPdSearchList(keyword);
+		response.setContentType("application/json; charset=UTF-8");
+		new Gson().toJson(list, response.getWriter());
 	}
 
 	/**

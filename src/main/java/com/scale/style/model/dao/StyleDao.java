@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import com.scale.product.model.vo.Product;
 import com.scale.style.model.vo.Hashtag;
 import com.scale.style.model.vo.Style;
 import com.scale.style.model.vo.StyleImg;
@@ -220,5 +221,96 @@ public class StyleDao {
 		}
 		
 		return list; 
+	}
+	
+	public ArrayList<Product> selectPdAllList(Connection conn){
+		ArrayList<Product> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectPdAllList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Product pd = new Product();
+				pd.setProductCode(rset.getString("product_code"));
+				pd.setProductNameKo(rset.getString("product_name_ko"));
+				pd.setProductNameEng(rset.getString("product_name_eng"));
+				pd.setProductImgM(rset.getString("product_img_m"));
+				pd.setBrandName(rset.getString("brand_name"));
+				
+				list.add(pd);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+	
+	public ArrayList<Product> selectPdSearchList(Connection conn, String keyword){
+		ArrayList<Product> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectPdSearchList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, keyword);
+			pstmt.setString(2, keyword);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Product pd = new Product();
+				pd.setProductCode(rset.getString("product_code"));
+				pd.setProductNameKo(rset.getString("product_name_ko"));
+				pd.setProductNameEng(rset.getString("product_name_eng"));
+				pd.setProductImgM(rset.getString("product_img_m"));
+				pd.setBrandName(rset.getString("brand_name"));
+				
+				list.add(pd);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+	
+	public Product selectPCode(Connection conn, String pCode) {
+		Product p = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectPCode");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pCode);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				p = new Product();
+				p.setProductCode(rset.getString("product_code"));
+				p.setProductNameKo(rset.getString("product_name_ko"));
+				p.setProductNameEng(rset.getString("product_name_eng"));
+				p.setProductImgM(rset.getString("product_img_m"));
+				p.setBrandName(rset.getString("brand_name"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return p;
 	}
 }

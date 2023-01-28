@@ -6,6 +6,7 @@ import static com.scale.common.JDBCTemplate.getConnection;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import com.scale.product.model.vo.Product;
 import com.scale.style.model.dao.StyleDao;
 import com.scale.style.model.vo.Hashtag;
 import com.scale.style.model.vo.Style;
@@ -53,6 +54,27 @@ public class StyleService {
 		ArrayList<Style> list = new StyleDao().selectSearchList(conn, keyword);
 		close(conn);
 		return list;
+	}
+	
+	public ArrayList<Product> selectPdAllList(){
+		Connection conn = getConnection();
+		ArrayList<Product> list = new StyleDao().selectPdAllList(conn);
+		close(conn);
+		return list;
+	}
+	
+	public ArrayList<Product> selectPdSearchList(String keyword){
+		Connection conn = getConnection();
+		ArrayList<Product> list = new StyleDao().selectPdSearchList(conn, keyword);
+		close(conn);
+		return list;
+	}
+	
+	public Product selectPCode(String pCode) {
+		Connection conn = getConnection();
+		Product p = new StyleDao().selectPCode(conn, pCode);
+		close(conn);
+		return p;
 	}
 
 }

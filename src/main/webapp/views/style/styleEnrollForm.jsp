@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="com.scale.product.model.vo.Product, java.util.ArrayList" %>
+<%
+	ArrayList<Product> listAll = (ArrayList<Product>)request.getAttribute("listAll");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,7 +28,7 @@
     }
 
     #input-td{height: 70px; padding: 15px;}
-    #content, #hashtag{border-top: 1px solid lightgray;}
+    #content-td, #hashtag-td{border-top: 2px solid lightgray;}
 
     #thumbnail-td{
         width: 700px;
@@ -74,32 +77,134 @@
         height: 70px;
     }
 
-    #pd-thumbnail{
+    #pd-thumbnail-td{
         width: 1000px;
-        height: 100px;
-        display: none;
+        height: 0px;
     }
 
     #hashtag{
         width: 1000px;
         height: 100px;
     }
+
+    #search-input{
+        width: 465px;
+        margin: 10px;
+        border: 1px solid lightgray;
+        border-radius: 0.3em;
+        padding-left: 5px;
+    }
+    #search-input:focus {outline: none;}
+    #pd-box{
+        overflow: auto; 
+        width: 480px;
+        height: 400px;
+    }
+    #pd-box>div{
+        margin-top: 20px;
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+    }
+    .pd-img{
+    	width: 80px;
+    	height: 80px;
+    }
+    .brand{
+        font-size: 15px;
+        font-weight: bold;
+    }
+    .name-ko, .name-eng{
+        font-size: 12px;
+    }
+    .brand, .name-ko, .name-eng{
+    	width: 320px;
+    	height: 20px;
+    	margin-left: 10px;
+    	text-overflow:ellipsis; 
+    	overflow:hidden;
+    	white-space:nowrap;
+    }
+    .pd{width: 420px; margin: 15px;}
+    .text{
+    	 width: 340px;
+    	 height: 26px;
+    }
+    .pd:hover{cursor: pointer;}
+    .pd-thumbnail{
+        display: inline-block;
+        list-style-type : none;
+        padding: 0px;
+        width: 100px;
+        height: 160px;
+        margin-right: 5px;
+    }
+    .pd-thumbnail img{
+        width: 100px;
+        height: 100px;
+        box-sizing: border-box;
+    }
+    .li-brand, .li-ko, .li-eng{
+        height: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        text-overflow:ellipsis; 
+    	overflow:hidden;
+    	white-space:nowrap;
+    }
+
+    #content{
+        width: 1000px;
+        height: 200px;
+        margin-top: 10px;
+    }
+    #content:focus {outline:none;}
+
+    #tag-box{margin-top: 10px;}
+    #tag-input{
+        margin-left: 5px;
+        border: 1px solid gray;
+        border-radius: 0.3em;}
+    #tag-input:focus{outline: none;}
+    #tag-list{
+        margin-top: 10px;
+        height: 30px;
+        list-style-type : none;
+        line-height: 30px;
+        padding: 0px;
+    }
+    #tag-list li{
+        display: inline-block;
+        background-color: gray;
+        color: white;
+        margin-right: 10px;
+        border-radius: 0.3em;
+        padding-right: 3px;
+        padding-left: 3px;
+    }
+
 </style>
 </head>
 <body>
 
 	<%@ include file="../common/menubar.jsp" %>
-	
+
+    	<% if(loginUser == null) { %>
+    		<script>
+    		alert("로그인 후 이용가능한 페이지입니다.");
+    		location.href = "<%= contextPath %>/loginForm.us";
+    		</script>
+    	<% } %>
     <div class="outer" align="center">
         <br>
         <h2 style="font-size: 30px;"><b>스타일 등록</b></h2>
         <br>
 
-        <form action="<%= contextPath %>/insert.bo" method="post" enctype="multipart/form-data">
+        <form action="<%= contextPath %>/insert.st" method="post" enctype="multipart/form-data">
 		<!-- 첨부파일 정보를 넘기고싶으면 반드시 enctype="multipart/form-data" 속성 작성해야함 -->
 
             <div id="file-area" style="display: none;">
-                <input type="file" name="file1" onchange="loadImg(this, 1);" required>
+                <input type="file" name="file1" onchange="loadImg(this, 1);">
                 <input type="file" name="file2" onchange="loadImg(this, 2);">
                 <input type="file" name="file3" onchange="loadImg(this, 3);">
                 <input type="file" name="file4" onchange="loadImg(this, 4);">
@@ -167,7 +272,6 @@
                                 $("input[name=file" + num + "]").click();
                             }
 
-
                             function loadImg(inputFile, num){
 
                                 if(inputFile.files.length == 1){ 
@@ -218,20 +322,52 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" id="pd-thumbnail">
-                        <div>
-                            
+                    <td colspan="2" id="pd-thumbnail-td">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" id="content-td">
+                        <textarea name="context" id="content" maxlength="1000" style="resize: none; border: none;" placeholder="아이템과 스타일을 자랑해보세요..."></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" id="hashtag-td">
+                        <div id="tag-box">
+                            <span style="color: gray;">태그 입력 : </span>
+                            <input type="text" id="tag-input" size="20" placeholder="해쉬태그 입력">
+                            <ul id="tag-list">
+                            </ul>
+                            <script>
+	                            $("#tag-input").keydown(function() { // 'input[type="text"]'
+                                    if(event.keyCode == 13 || event.keyCode == 32) {
+                                        event.preventDefault();
+                                        let tag;
+                                        if($(this).val().charAt(0) == "#"){
+                                            tag = $(this).val();
+                                        } else {
+                                            tag = "#" + $(this).val();
+                                        }
+
+                                        if($("#tag-list").children().length == 0){ // li 요소가 없을 때
+                                            $("#tag-list").append($("<li name='tag'>" + tag + "</li>"));
+                                            $(this).val("");
+                                        } else { // li 요소가 있을 때
+                                            for(let i=0; i<$("#tag-list").children().length; i++){
+                                                console.log($("#tag-list").children().eq(i).text());
+                                                if($("#tag-list").children().eq(i).text() == tag){
+                                                    alert("중복된 태그입니다.");
+                                                    $(this).val("");
+                                                    return;
+                                                }
+                                            }
+                                            $("#tag-list").append($("<li name='tag'>" + tag + "</li>"));
+                                            $(this).val("");
+                                        }
+                                        
+                                    }
+                                });
+                            </script>
                         </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" id="content">
-                        <textarea name="" id="" cols="130" rows="3" style="resize: none; border: none;" placeholder="#아이템과 #스타일을 자랑해보세요..."></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" id="hashtag">
-                        <input type="text" placeholder="해쉬태그 입력">
                     </td>
                 </tr>
             </table>
@@ -239,7 +375,6 @@
 
             <div>
                 <button type="submit" class="btn btn-secondary">작성하기</button>
-                <button type="reset" class="btn btn-secondary">취소하기</button>
             </div>
 
         </form>
@@ -249,25 +384,169 @@
     <div class="modal" id="myModal">
         <div class="modal-dialog">
             <div class="modal-content">
-        
-                <!-- Modal Header -->
-                <input type="text" placeholder="상품이름 검색" style="width: 470px; margin: 10px;">
-                <!-- Modal body -->
-                <div style="margin: 10px;">
-                    <img src="" style="width: 60px; height: 60px;">
-                    <span>상품정보~~~~~~~~~~~~~~~</span>
-                </div>
-                <div style="margin: 10px;">
-                    <img src="" style="width: 60px; height: 60px;">
-                    <span>상품정보~~~~~~~~~~~~~~~</span>
-                </div>
-                <!-- Modal footer -->
-                    <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
-        
+                <form>
+                    <!-- Modal Header -->
+                    <input type="text" placeholder="상품이름 검색" id="search-input" onkeyup="search();">
+                    <input type="text" style="display: none;">
+                    <!-- Modal body -->
+                    <div id="pd-box">
+                        <% for(Product pd : listAll) { %>
+                            <table class="pd">
+                                <tr>
+                                    <input type="hidden" value="<%= pd.getProductCode() %>">
+                                </tr>
+                                <tr>
+                                    <td rowspan="4" class="img-td">
+                                        <img class="pd-img" src="<%= pd.getProductImgM() %>">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text">
+                                        <div class="brand"><%= pd.getBrandName() %></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text">
+                                    <div class="name-ko"><%= pd.getProductNameKo() %></div> 
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text">
+                                        <div class="name-eng"><%= pd.getProductNameEng() %></div>
+                                    </td>
+                                </tr>
+                            </table>
+                        <% } %>
+                    </div>
+                    <!-- Modal footer -->
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" id="close-btn">Close</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+
+    <script>
+        function search(){
+            $.ajax({
+                url:"<%= contextPath %>/searchPd.st",
+                data:{keyword:$("#search-input").val()},
+                success:function(result){
+                    let value = "";
+                    if(result.length == 0){
+                    	let value = "<div>" + "조회된 상품이 없습니다." + "</div>";
+                        $("#pd-box").html(value);
+                    } else {
+                        for(let i=0; i<result.length; i++){
+                            value += "<table class='pd'>"
+                                        + "<tr>"
+                                            + "<td>"
+                                                + "<input type='hidden' value=" + result[i].productCode + ">"
+                                            + "</td>" 
+                                        + "</tr>"
+                                        + "<tr>"
+                                            + "<td rowspan='4' class='img-td'>"
+                                                + "<img class='pd-img' src=" + result[i].productImgM + ">"
+                                            + "</td>"
+                                        + "</tr>"
+                                        + "<tr>"
+                                            + "<td class='text'>"
+                                                + "<div class='brand'>" + result[i].brandName + "</div>"
+                                            + "</td>"
+                                        + "</tr>"
+                                        + "<tr>"
+                                            + "<td class='text'>"
+                                                + "<div class='name-ko'>" + result[i].productNameKo + "</div>"
+                                            + "</td>"
+                                        + "</tr>"
+                                        + "<tr>"
+                                            + "<td class='text'>"
+                                                + "<div class='name-eng'>" + result[i].productNameEng + "</div>"
+                                            + "</td>"
+                                        + "</tr>"
+                                    + "</table>"
+                        }
+                        $("#pd-box").html(value);
+                        $(".pd").click(function(){
+                            $.ajax({
+                                url: "<%= contextPath %>/searchPCode.st",
+                                data:{pCode:$(this).children().children().children().children().val()},
+                                success:function(result){
+                                    $("#close-btn").click();
+                                    $ul = $("<ul class='pd-thumbnail' onclick='deletepd(this);'><li><input type='hidden' name='pCode'  value='" + result.productCode + "'><li><img src='" + result.productImgM + "'></li><li class='li-brand'>"+ result.brandName +"</li><li class='li-ko'>" + result.productNameKo + "</li><li class='li-eng'>" + result.productNameEng + "</li></ul>");
+                                    $("#pd-thumbnail-td").append($ul);
+                                },
+                                error:function(){
+                                    console.log("통신실패");
+                                }
+                            })
+                        })
+                    }
+                    
+                },
+                error:function(){
+                    console.log("통신실패");
+                }
+            })
+        }
+
+        $(".modal").on("hide.bs.modal", function() {
+            $("#search-input").val("");
+            $("#pd-box").empty();
+            let value = "";
+            <% for(Product pd : listAll) { %>
+            	value += "<table class='pd'>"
+            				+ "<tr>"
+            					+ "<input type='hidden' value=" + <%= pd.getProductCode() %> + ">"
+            				+ "</tr>"
+            				+ "<tr>"
+            					+ "<td rowspan='4' class='img-td'>"
+            						+ "<img class='pd-img' src=" + "<%= pd.getProductImgM() %>" + ">"
+            					+ "</td>"
+            				+ "</tr>"
+            				+ "<tr>"
+	                			+ "<td class='text'>"
+	                				+ "<div class='brand'>" + "<%= pd.getBrandName() %>" + "</div>"
+	                			+ "</td>"
+	                		+ "</tr>"
+	                		+ "<tr>"
+	                			+ "<td class='text'>"
+	                				+ "<div class='name-ko'>" + "<%= pd.getProductNameKo() %>" + "</div>"
+	                			+ "</td>"
+	                    	+ "</tr>"
+	                    	+ "<tr>"
+	                    		 + "<td class='text'>"
+	                    		 	+ "<div class='name-eng'>" + "<%= pd.getProductNameEng() %>" + "</div>"
+	                    		+ "</td>"
+	                		+ "</tr>"
+	                    + "</table>"
+        	<% } %>
+        	$("#pd-box").html(value);
+        });
+
+        $(".modal").on("show.bs.modal", function(){
+            $(".pd").click(function(){
+                $.ajax({
+                    url: "<%= contextPath %>/searchPCode.st",
+                    data:{pCode:$(this).children().children().children().val()},
+                    success:function(result){
+                        $("#close-btn").click();
+                        $ul = $("<ul class='pd-thumbnail' onclick='deletepd(this);'><li><input type='hidden' name='pCode' value='" + result.productCode + "'></li><li><img src='" + result.productImgM + "'></li><li class='li-brand'>"+ result.brandName +"</li><li class='li-ko'>" + result.productNameKo + "</li><li class='li-eng'>" + result.productNameEng + "</li></ul>");
+                        $("#pd-thumbnail-td").append($ul);
+                    },
+                    error:function(){
+						console.log("통신실패");
+                    }
+                })
+            })
+        })
+
+        function deletepd(ul){
+            ul.remove();
+        }
+
+    </script>
+
 </body>
 </html>

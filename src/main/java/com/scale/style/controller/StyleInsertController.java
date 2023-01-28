@@ -1,7 +1,6 @@
 package com.scale.style.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,20 +8,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.scale.product.model.vo.Product;
-import com.scale.style.model.service.StyleService;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.scale.common.MyFileRenamePolicy;
 
 /**
- * Servlet implementation class EnrollFormController
+ * Servlet implementation class StyleInsertController
  */
-@WebServlet("/enrollForm.st")
-public class EnrollFormController extends HttpServlet {
+@WebServlet("/insert.st")
+public class StyleInsertController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public EnrollFormController() {
+    public StyleInsertController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,9 +32,19 @@ public class EnrollFormController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Product> listAll = new StyleService().selectPdAllList();
-		request.setAttribute("listAll", listAll);
-		request.getRequestDispatcher("views/style/styleEnrollForm.jsp").forward(request, response);
+		request.setCharacterEncoding("UTF-8");
+		
+		if(ServletFileUpload.isMultipartContent(request)) {
+			int maxSize = 10*1024*1024;
+			String savePath = request.getSession().getServletContext().getRealPath("/resources/images/style/style_upfiles/"); 
+			MultipartRequest multiRequest = new MultipartRequest(request, savePath, maxSize, "UTF-8", new MyFileRenamePolicy());
+			String[] pcode = multiRequest.getParameterValues("pCode");
+			for(int i=0; i<pcode.length; i++) {
+				System.out.println(pcode[i]);
+			}
+			
+			
+		}
 	}
 
 	/**
