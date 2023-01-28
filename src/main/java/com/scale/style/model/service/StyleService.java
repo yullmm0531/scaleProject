@@ -1,7 +1,6 @@
 package com.scale.style.model.service;
 
-import static com.scale.common.JDBCTemplate.close;
-import static com.scale.common.JDBCTemplate.getConnection;
+import static com.scale.common.JDBCTemplate.*;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -75,6 +74,17 @@ public class StyleService {
 		Product p = new StyleDao().selectPCode(conn, pCode);
 		close(conn);
 		return p;
+	}
+	
+	public int insertStyle(Style s) {
+		Connection conn = getConnection();
+		int result = new StyleDao().insertStyle(conn, s);
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		return result;
 	}
 
 }

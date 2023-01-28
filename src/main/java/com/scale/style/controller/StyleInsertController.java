@@ -1,17 +1,23 @@
 package com.scale.style.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.scale.common.MyFileRenamePolicy;
+import com.scale.style.model.service.StyleService;
+import com.scale.style.model.vo.Style;
+import com.scale.style.model.vo.StyleImg;
+import com.scale.user.model.vo.User;
 
 /**
  * Servlet implementation class StyleInsertController
@@ -36,14 +42,45 @@ public class StyleInsertController extends HttpServlet {
 		
 		if(ServletFileUpload.isMultipartContent(request)) {
 			int maxSize = 10*1024*1024;
-			String savePath = request.getSession().getServletContext().getRealPath("/resources/images/style/style_upfiles/"); 
+			String savePath = request.getSession().getServletContext().getRealPath("/resources/images/style/style_upfiles/");
 			MultipartRequest multiRequest = new MultipartRequest(request, savePath, maxSize, "UTF-8", new MyFileRenamePolicy());
-			String[] pcode = multiRequest.getParameterValues("pCode");
-			for(int i=0; i<pcode.length; i++) {
-				System.out.println(pcode[i]);
+			
+			// 유저번호, 사진들, 상품코드들, 내용, 해쉬태그들
+			HttpSession session = request.getSession();
+			int userNo = ((User)session.getAttribute("loginUser")).getUserNo();
+			String[] tagArr = multiRequest.getParameterValues("tag");
+			String tag = String.join(" ", tagArr);
+			String[] pcodeArr = multiRequest.getParameterValues("pCode");
+			String pcode = String.join(" ", pcodeArr);
+			
+			Style s = new Style();
+			s.setContent(multiRequest.getParameter("content"));
+			s.setHashtag(tag); // null 가능
+			s.setStyleWriter(String.valueOf(userNo));
+			
+			ArrayList<StyleImg> list = new ArrayList<>(); 
+			for(int i=1; i<=10; i++) {
+				String key = "file" + i;
+				if(multiRequest.getOriginalFileName(key) != null) {
+					StyleImg img = new StyleImg();
+					img.setOriginName(multiRequest.getOriginalFileName(key));
+					img.setChangeName(multiRequest.getFilesystemName(key));
+					img.setFilePath("resources/images/style/style_upfiles/");
+					
+					img.setFileLevel(i == 1 ? 1 : 2);
+					list.add(img);
+				}
 			}
 			
+			StyleService sService = new StyleService();
+			// 1. TB_STYLE INSERT
+			int result = sService.insertStyle(s);
 			
+			// 2. TB_STYLE_IMG INSERT
+			
+			// 3. TB_STYLE-PD INSERT
+			
+			// 4. TB_HASHTAG INSERT
 		}
 	}
 

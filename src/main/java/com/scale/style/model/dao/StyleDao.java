@@ -73,11 +73,7 @@ public class StyleDao {
 				st.setProfileImg(rset.getString("profile_img"));
 				st.setCount(rset.getInt("count"));
 				st.setStyleWriter(rset.getString("user_nickname"));
-				if(rset.getString("hashtag") != null) {
-					st.setHashtag(rset.getString("hashtag").split(" "));
-				} else {
-					st.setHashtag(new String[0]);
-				}
+				st.setHashtag(rset.getString("hashtag"));
 				
 				list.add(st);
 			}
@@ -170,11 +166,7 @@ public class StyleDao {
 				st.setProfileImg(rset.getString("profile_img"));
 				st.setCount(rset.getInt("count"));
 				st.setStyleWriter(rset.getString("user_nickname"));
-				if(rset.getString("hashtag") != null) {
-					st.setHashtag(rset.getString("hashtag").split(" "));
-				} else {
-					st.setHashtag(new String[0]);
-				}
+				st.setHashtag(rset.getString("hashtag"));
 				
 				list.add(st);
 			}
@@ -205,11 +197,7 @@ public class StyleDao {
 				st.setProfileImg(rset.getString("profile_img"));
 				st.setCount(rset.getInt("count"));
 				st.setStyleWriter(rset.getString("user_nickname"));
-				if(rset.getString("hashtag") != null) {
-					st.setHashtag(rset.getString("hashtag").split(" "));
-				} else {
-					st.setHashtag(new String[0]);
-				}
+				st.setHashtag(rset.getString("hashtag"));
 				
 				list.add(st);
 			}
@@ -312,5 +300,22 @@ public class StyleDao {
 		}
 		
 		return p;
+	}
+	
+	public int insertStyle(Connection conn, Style s) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertStyle");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, s.getStyleNo());
+			pstmt.setString(2, s.getContent());
+			pstmt.setString(3, s.getHashtag());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 }

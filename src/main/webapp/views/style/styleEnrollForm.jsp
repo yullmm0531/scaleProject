@@ -180,8 +180,9 @@
         list-style-type : none;
         line-height: 30px;
         padding: 0px;
+        width: 1000px;
     }
-    #tag-list li{
+    .tag-li{
         display: inline-block;
         background-color: gray;
         color: white;
@@ -189,7 +190,6 @@
         padding-left: 7px;
         padding-right: 7px;
         font-size: 15px;
-        height: 30px;
     }
     .tag-delete{
         display: inline-block;
@@ -393,7 +393,8 @@
                                         }
 
                                         if($("#tag-list").children().length == 0){ // li 요소가 없을 때
-                                            $("#tag-list").append($("<li name='tag'>" + tag + "</li><div class='tag-delete'>❌</div>"));
+                                            $("#tag-list").append($("<input type='hidden' name='tag' value='" + tag + "'><li class='tag-li'>" + tag + "</li><div class='tag-delete'>❌</div>"));
+                                            $("#tag-list").css("width", "$('#tag-list').children().eq(0).val().length + 30");
                                             $(this).val("");
                                         } else { // li 요소가 있을 때
                                             for(let i=0; i<$("#tag-list").children().length; i++){
@@ -403,7 +404,7 @@
                                                     return;
                                                 }
                                             }
-                                            $("#tag-list").append($("<li name='tag'>" + tag + "</li><div class='tag-delete'>❌</div>"));
+                                            $("#tag-list").append($("<input type='hidden' name='tag' value='" + tag + "'><li class='tag-li'>" + tag + "</li><div class='tag-delete'>❌</div>"));
                                             $(this).val("");
                                         }
                                     }
@@ -490,7 +491,7 @@
                             value += "<table class='pd'>"
                                         + "<tr>"
                                             + "<td>"
-                                                + "<input type='hidden' value=" + result[i].productCode + ">"
+                                                + "<input type='hidden' name='pCode' value=" + result[i].productCode + ">"
                                             + "</td>" 
                                         + "</tr>"
                                         + "<tr>"

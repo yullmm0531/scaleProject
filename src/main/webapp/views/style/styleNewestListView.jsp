@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.scale.style.model.vo.*, java.util.ArrayList" %>
+<%@ page import="com.scale.style.model.vo.*, java.util.ArrayList, java.net.URLEncoder" %>
 <%
 	ArrayList<Style> list = (ArrayList<Style>)request.getAttribute("list");
 	ArrayList<StyleImg> ilist = (ArrayList<StyleImg>)request.getAttribute("ilist");
@@ -162,13 +162,13 @@
                 <tr>
                     <td colspan="2" class="tag-area">
                         <div class="text">
-                        	<% for(String str : list.get(i).getHashtag()) { %>
-	                        	<% if(!str.isEmpty()){ %>
-	                            	<a href="<%= contextPath %>/search.st?keyword=<%= str.substring(1) %>"><%= str %></a>
-	                            <% } else { %>
-	                            	<a href=""><%= str %></a>
-	                            <% } %>
-                            <% } %>
+                        	<% if(list.get(i).getHashtag() != null) { %>
+                        		<% String[] tagArr = list.get(i).getHashtag().split(" "); %>
+                        		<% for(int t=0; t<tagArr.length; t++) { %>
+                        			<% String enco = URLEncoder.encode(tagArr[t], "UTF-8"); %>
+                        			<a href="<%= contextPath %>/search.st?keyword=<%= enco %>"><%= tagArr[t] %></a>
+                        		<% } %>
+                        	<% } %>
                         </div>
                     </td>
                 </tr>

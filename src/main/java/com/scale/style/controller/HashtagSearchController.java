@@ -35,15 +35,11 @@ public class HashtagSearchController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		String keyword = request.getParameter("keyword");
-		String key = keyword;
-		if(keyword.charAt(0) == '#') {
-			key = keyword.substring(1);
-		}
 		
-		ArrayList<Style> list = new StyleService().selectSearchList(key);
+		ArrayList<Style> list = new StyleService().selectSearchList(keyword);
 		ArrayList<StyleImg> ilist = new StyleService().selectStyleImgList();
 		
-		request.setAttribute("keyword", key);
+		request.setAttribute("keyword", keyword);
 		request.setAttribute("list", list);
 		request.setAttribute("ilist", ilist);
 		request.getRequestDispatcher("views/style/hashtagSearchView.jsp").forward(request, response);

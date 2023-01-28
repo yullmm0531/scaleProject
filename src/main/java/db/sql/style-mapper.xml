@@ -159,4 +159,22 @@
 		  JOIN TB_BRAND USING (BRAND_CODE)
 		 WHERE PRODUCT_CODE = ?
 	</entry>
+	
+	<entry key="insertStyle">
+		INSERT
+		  INTO TB_STYLE
+		  (
+		    STYLE_NO
+		  , STYLE_CONTENT
+		  , HASHTAG
+		  , USER_NO
+		  )
+		  VALUES
+		  (
+		    SEQ_SNO.nextval
+		  , ?
+		  , ?
+		  , ?
+		  )
+	</entry>
 </properties>

@@ -10,14 +10,14 @@ public class Style {
 	private Date enrollDate;
 	private Date modifyDate;
 	private String status;
-	private String[] hashtag;
+	private String hashtag;
 	private String styleWriter;
 	private String profileImg;
 	private int count;
 
 	public Style() {}
 
-	public Style(int styleNo, String content, Date enrollDate, Date modifyDate, String status, String[] hashtag,
+	public Style(int styleNo, String content, Date enrollDate, Date modifyDate, String status, String hashtag,
 			String styleWriter, String profileImg, int count) {
 		super();
 		this.styleNo = styleNo;
@@ -71,11 +71,11 @@ public class Style {
 		this.status = status;
 	}
 
-	public String[] getHashtag() {
+	public String getHashtag() {
 		return hashtag;
 	}
 
-	public void setHashtag(String[] hashtag) {
+	public void setHashtag(String hashtag) {
 		this.hashtag = hashtag;
 	}
 
@@ -106,8 +106,8 @@ public class Style {
 	@Override
 	public String toString() {
 		return "Style [styleNo=" + styleNo + ", content=" + content + ", enrollDate=" + enrollDate + ", modifyDate="
-				+ modifyDate + ", status=" + status + ", hashtag=" + Arrays.toString(hashtag) + ", styleWriter="
-				+ styleWriter + ", profileImg=" + profileImg + ", count=" + count + "]";
+				+ modifyDate + ", status=" + status + ", hashtag=" + hashtag + ", styleWriter=" + styleWriter
+				+ ", profileImg=" + profileImg + ", count=" + count + "]";
 	}
 	
 }
