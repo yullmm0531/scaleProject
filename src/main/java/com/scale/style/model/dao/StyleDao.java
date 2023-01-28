@@ -309,11 +309,14 @@ public class StyleDao {
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, s.getStyleNo());
-			pstmt.setString(2, s.getContent());
-			pstmt.setString(3, s.getHashtag());
+			pstmt.setString(1, s.getContent());
+			pstmt.setString(2, s.getHashtag());
+			pstmt.setString(3, s.getStyleWriter());
+			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(pstmt);
 		}
 		
 		return result;

@@ -1,5 +1,6 @@
 package com.scale.style.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -49,16 +50,23 @@ public class StyleInsertController extends HttpServlet {
 			HttpSession session = request.getSession();
 			int userNo = ((User)session.getAttribute("loginUser")).getUserNo();
 			String[] tagArr = multiRequest.getParameterValues("tag");
-			String tag = String.join(" ", tagArr);
+			String tag = "";
+			if(tagArr != null) {
+				tag = String.join(" ", tagArr);
+			}
 			String[] pcodeArr = multiRequest.getParameterValues("pCode");
-			String pcode = String.join(" ", pcodeArr);
+			String pcode = "";
+			if(pcodeArr != null) {
+				pcode = String.join(" ", pcodeArr);
+			}
 			
 			Style s = new Style();
 			s.setContent(multiRequest.getParameter("content"));
 			s.setHashtag(tag); // null 가능
 			s.setStyleWriter(String.valueOf(userNo));
 			
-			ArrayList<StyleImg> list = new ArrayList<>(); 
+			ArrayList<StyleImg> list = new ArrayList<>();
+			
 			for(int i=1; i<=10; i++) {
 				String key = "file" + i;
 				if(multiRequest.getOriginalFileName(key) != null) {
@@ -77,6 +85,13 @@ public class StyleInsertController extends HttpServlet {
 			int result = sService.insertStyle(s);
 			
 			// 2. TB_STYLE_IMG INSERT
+			if(result > 0) {
+				
+			} else {
+				for(int j=0; j<list.size(); j++) {
+					new File(savePath + list.get(j).getChangeName()).delete();
+				}
+			}
 			
 			// 3. TB_STYLE-PD INSERT
 			

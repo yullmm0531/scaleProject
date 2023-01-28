@@ -291,7 +291,6 @@
                             }
 
                             function loadImg(inputFile, num){
-                                console.log("dd");
                                 if(inputFile.files.length == 1){ 
                                     
                                     const reader = new FileReader();
@@ -365,7 +364,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" id="content-td">
-                        <textarea name="context" id="content" maxlength="1000" style="resize: none; border: none;" placeholder="아이템과 스타일을 자랑해보세요..."></textarea>
+                        <textarea name="content" id="content" maxlength="1000" style="resize: none; border: none;" placeholder="아이템과 스타일을 자랑해보세요..." required></textarea>
                     </td>
                 </tr>
                 <tr>
@@ -423,7 +422,16 @@
             <br>
 
             <div>
-                <button type="submit" class="btn btn-secondary">작성하기</button>
+                <button type="submit" class="btn btn-secondary" onclick="check();">작성하기</button>
+
+                <script>
+                    function check(){
+                        if($("#thumbnail1").attr("src") == "<%= contextPath %>/resources/images/style/plus.png"){
+                            alert("대표 이미지를 첨부해주세요.");
+                            event.preventDefault();
+                        }
+                    }
+                </script>
             </div>
 
         </form>
