@@ -3,7 +3,7 @@ package com.scale.bidding.model.vo;
 public class Bidding {
 	
 	private int bNo;
-	private int pSize;
+	private String pSize;
 	private int pType;
 	private String bPrice;
 	private String bDate;
@@ -24,7 +24,7 @@ public class Bidding {
 	}
 
 
-	public Bidding(int bNo, int pSize, int pType, String bPrice, String bDate, String inspectionCost, String commition,
+	public Bidding(int bNo, String pSize, int pType, String bPrice, String bDate, String inspectionCost, String commition,
 			String deliveryFee, String bStatus, String dCheck, String dStep, String dDate, String pCode, int userNo) {
 		super();
 		this.bNo = bNo;
@@ -46,7 +46,7 @@ public class Bidding {
 	
 
 
-	public Bidding(int bNo, int pSize, String bPrice, String dDate) {
+	public Bidding(int bNo, String pSize, String bPrice, String dDate) {
 		super();
 		this.bNo = bNo;
 		this.pSize = pSize;
@@ -58,6 +58,13 @@ public class Bidding {
 	
 	
 	
+	public Bidding(String pSize, String bPrice) {
+		super();
+		this.pSize = pSize;
+		this.bPrice = bPrice;
+	}
+
+
 	public int getCount() {
 		return count;
 	}
@@ -68,7 +75,7 @@ public class Bidding {
 	}
 
 
-	public Bidding(int pSize, String bPrice, int count) {
+	public Bidding(String pSize, String bPrice, int count) {
 		super();
 		this.pSize = pSize;
 		this.bPrice = bPrice;
@@ -86,12 +93,12 @@ public class Bidding {
 	}
 
 
-	public int getpSize() {
+	public String getpSize() {
 		return pSize;
 	}
 
 
-	public void setpSize(int pSize) {
+	public void setpSize(String pSize) {
 		this.pSize = pSize;
 	}
 

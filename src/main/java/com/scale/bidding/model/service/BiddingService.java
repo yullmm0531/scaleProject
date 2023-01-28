@@ -73,4 +73,15 @@ public class BiddingService {
 		return list;
 	}
 	
+	public ArrayList<Bidding> selectSellBiddingPriceList(String pCode) {
+		
+		Connection conn = getConnection();
+		ArrayList<Bidding> list = new BiddingDao().selectSellBiddingPrice(conn, pCode);
+		
+		close(conn);
+		
+		return list;
+		
+	}
+	
 }
