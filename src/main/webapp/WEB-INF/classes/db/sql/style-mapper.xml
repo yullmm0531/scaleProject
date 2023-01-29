@@ -159,4 +159,120 @@
 		  JOIN TB_BRAND USING (BRAND_CODE)
 		 WHERE PRODUCT_CODE = ?
 	</entry>
+	
+	<entry key="insertStyle">
+		INSERT
+		  INTO TB_STYLE
+		  (
+		    STYLE_NO
+		  , STYLE_CONTENT
+		  , HASHTAG
+		  , USER_NO
+		  )
+		  VALUES
+		  (
+		    SEQ_SNO.nextval
+		  , ?
+		  , ?
+		  , ?
+		  )
+	</entry>
+	
+	<entry key="insertStyleImg">
+		INSERT
+		  INTO TB_STYLE_IMG
+		  (
+		    IMG_NO
+		  , ORIGIN_NAME
+		  , CHANGE_NAME
+		  , FILE_PATH
+		  , FILE_LEVEL
+		  , STYLE_NO
+		  )
+		  VALUES
+		  (
+		    SEQ_SINO.NEXTVAL
+		  , ?
+		  , ?
+		  , ?
+		  , ?
+		  , SEQ_SNO.CURRVAL
+		  )
+	</entry>
+	
+	<entry key="insertStylePd">
+		INSERT
+		  INTO TB_STYLE_PD
+		  (
+		    STYLE_NO
+		  , PRODUCT_CODE
+		  )
+		  VALUES
+		  (
+		    SEQ_SNO.CURRVAL
+		  , ?
+		  )
+	</entry>
+	
+	<entry key="selectHashtag">
+		SELECT
+		       HASHTAG_NO
+		  FROM TB_HASHTAG
+		 WHERE KEYWORD = ?
+	</entry>
+	
+	<entry key="insertHashtag">
+		INSERT
+		  INTO TB_HASHTAG
+		  (
+		    HASHTAG_NO
+		  , KEYWORD
+		  )
+		  VALUES
+		  (
+		    SEQ_HNO.NEXTVAL
+		  , ?
+		  )
+	</entry>
+	
+	<entry key="updateHashtag">
+		UPDATE
+		       TB_HASHTAG
+		   SET COUNT = COUNT + 1
+		 WHERE KEYWORD = ?
+	</entry>
+	
+	<entry key="selectStyleByNickname">
+		SELECT *
+		  FROM (
+		        SELECT
+				       ROWNUM RNUM
+				     , A.*
+				  FROM (
+				        SELECT
+				               STYLE_NO
+				             , PROFILE_IMG
+				             , COUNT
+				             , USER_ID
+				             , USER_NICKNAME
+				             , INTRODUCE
+				             , HASHTAG
+				          FROM (SELECT
+				                       STYLE_NO
+				                     , COUNT(*) "COUNT"
+				                  FROM TB_STYLE_LIKE
+				                 GROUP
+				                    BY STYLE_NO
+				                )
+				          RIGHT JOIN TB_STYLE S USING (STYLE_NO)
+				          JOIN TB_USER USING (USER_NO)
+				         WHERE S.STATUS = 'Y'
+                           AND USER_NICKNAME = ?
+				         ORDER
+				            BY STYLE_NO DESC
+				        ) A
+		        )
+		WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
 </properties>

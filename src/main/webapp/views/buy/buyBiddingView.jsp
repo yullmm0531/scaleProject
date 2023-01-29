@@ -70,7 +70,7 @@
             font-style: italic;
         }
         .price{
-            width: 110px;
+            width: 130px;
             height: 30px;
             border: none;
             background-color: whitesmoke;
@@ -158,6 +158,7 @@
         
                         })
                     </script>
+
                 </div>
                 <br>
                 <div align="center">
@@ -171,16 +172,47 @@
             <script>
                 
                 $(function(){
-                    var size = $(".size-chart input");
+                    var sizes = $(".size-chart input");
                     let flag = true;
-                    size.change(function(){
-                        for(let i=0; i<size.length; i++){
-                            if(size[i].checked == true){
+                    let checkedSize = "";
+                    sizes.change(function(){
+                        for(let i=0; i<sizes.length; i++){
+                            if(sizes[i].checked == true){
                                 flag = false;
+                                checkedSize = $(this).val();
                             }
                         }
                         $("#goToTerm").attr("disabled", flag);
+                        $("#product-size").html(checkedSize);
+
+                        var size = "";  
+                        var price = "";
+                        <% if(pList != null && pList.size() != 0) { %> 
+                            <% for(int i=0; i<(pList.size()-1); i++){ %>
+                                size += <%= (pList.get(i)).getpSize() %> + ", ";
+                                price += "<%= (pList.get(i)).getbPrice() %>" + "/ ";
+                            <% } %>
+                            size += <%= (pList.get(pList.size()-1)).getpSize() %>;
+                            price += "<%= (pList.get(pList.size()-1)).getbPrice() %>";
+                        <% } %>
+                        var sizeArr = size.split(", ");
+                        var priceArr = price.split("/ ");
+                        let index = sizeArr.indexOf(checkedSize);
+                        console.log(index);
+                        if(index != -1){
+                            $("#priceI").val(priceArr[index]);
+                        } else{
+                            $("#check1").click();
+                            $("#check2").attr("disabled", true);
+                        }
                     })
+                    
+                    $("#priceB").blur(function(){
+                        $.ajax({
+                            
+                        })
+                    })
+
                 })
             </script>
 
@@ -289,7 +321,7 @@
                                 <input type="radio" name="options" id="check1" value="buyB"> 구매입찰
                             </label>
                             <label class="btn btn-outline-warning">
-                                <input type="radio" name="options" id="check2" value="buyI" checked="checked"> 즉시구매
+                                <input type="radio" name="options" id="check2" value="buyI" checked> 즉시구매
                             </label>
                         </div>
                     </div>
@@ -299,7 +331,7 @@
                 <div id="buy-immediately">
                     <div class="title">즉시 구매가</div>
                     <br>
-                    <div class="buy-price"><input type="text" id="priceI" class="price" name="priceI" value="203,000">원</div>
+                    <div class="buy-price"><input type="text" id="priceI" class="price" name="priceI" value="" readonly>원</div>
                     <br>
                     <div class="line"></div>
                     <br>
@@ -337,7 +369,7 @@
                         <button type="submit" class="btn btn-outline-warning goToPayment" disabled>다음단계</button>
                     </div> 
                 </div>
-
+				
                 <br><br>
             </div>
         </form>
