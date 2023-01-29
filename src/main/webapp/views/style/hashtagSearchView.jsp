@@ -120,7 +120,7 @@
 	                <tr>
 	                    <td class="nickname">
 	                        <img src="<%= contextPath %>/<%= list.get(i).getProfileImg() %>" class="rounded-circle">
-	                        <a href=""><%= list.get(i).getStyleWriter() %></a>
+	                        <a href="<%= contextPath %>/profile.st?nickname=<%= list.get(i).getStyleWriter() %>&cpage=1"><%= list.get(i).getStyleWriter() %></a>
 	                    </td>
 	                    <td class="like">
 	                        <a class="btn">😊</a>

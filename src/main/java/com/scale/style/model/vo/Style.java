@@ -14,11 +14,13 @@ public class Style {
 	private String styleWriter;
 	private String profileImg;
 	private int count;
+	private String userId;
+	private String introduce;
 
 	public Style() {}
 
 	public Style(int styleNo, String content, Date enrollDate, Date modifyDate, String status, String hashtag,
-			String styleWriter, String profileImg, int count) {
+			String styleWriter, String profileImg, int count, String userId, String introduce) {
 		super();
 		this.styleNo = styleNo;
 		this.content = content;
@@ -29,6 +31,8 @@ public class Style {
 		this.styleWriter = styleWriter;
 		this.profileImg = profileImg;
 		this.count = count;
+		this.userId = userId;
+		this.introduce = introduce;
 	}
 
 	public int getStyleNo() {
@@ -103,11 +107,28 @@ public class Style {
 		this.count = count;
 	}
 
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getIntroduce() {
+		return introduce;
+	}
+
+	public void setIntroduce(String introduce) {
+		this.introduce = introduce;
+	}
+
 	@Override
 	public String toString() {
 		return "Style [styleNo=" + styleNo + ", content=" + content + ", enrollDate=" + enrollDate + ", modifyDate="
 				+ modifyDate + ", status=" + status + ", hashtag=" + hashtag + ", styleWriter=" + styleWriter
-				+ ", profileImg=" + profileImg + ", count=" + count + "]";
+				+ ", profileImg=" + profileImg + ", count=" + count + ", userId=" + userId + ", introduce=" + introduce
+				+ "]";
 	}
 	
 }

@@ -21,7 +21,6 @@
     }
     .outer>div{margin: 10px;}
     .set{margin: 15px; float: left;}
-    #hashtag{font-size: 40px; font: bold;}
 
     .cimg{width: 260px; height: 260px; border-radius: 0.5em;}
 
@@ -110,7 +109,7 @@
 		
 		<br>
 		
-        <div id="table-container">
+        <div>
         	<!-- 반복문 -->
         	<% for(int i=0; i<list.size(); i++) { %>
             <table class="set">
@@ -157,7 +156,7 @@
                 <tr>
                     <td class="nickname">
                         <img src="<%= contextPath %>/<%= list.get(i).getProfileImg() %>" class="rounded-circle">
-                        <a href=""><%= list.get(i).getStyleWriter() %></a>
+                        <a href="<%= contextPath %>/profile.st?nickname=<%= list.get(i).getStyleWriter() %>&cpage=1"><%= list.get(i).getStyleWriter() %></a>
                     </td>
                     <td class="like">
                         <a class="btn">😊</a>
