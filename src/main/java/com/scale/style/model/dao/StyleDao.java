@@ -321,4 +321,113 @@ public class StyleDao {
 		
 		return result;
 	}
+	
+	public int insertStyleImg(Connection conn, ArrayList<StyleImg> list) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertStyleImg");
+		
+		try {
+			for(StyleImg img : list) {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, img.getOriginName());
+				pstmt.setString(2, img.getChangeName());
+				pstmt.setString(3, img.getFilePath());
+				pstmt.setInt(4, img.getFileLevel());
+				
+				result = pstmt.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public int insertStylePd(Connection conn, String[] codeArr) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertStylePd");
+		
+		try {
+			for(int i=0; i<codeArr.length; i++) {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, codeArr[i]);
+				
+				result = pstmt.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public Hashtag selectHashtag(Connection conn, String tag) {
+		Hashtag t = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectHashtag");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, tag);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				t = new Hashtag();
+				t.setHashtagNo(rset.getInt("hashtag_no"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return t;
+	}
+	
+	public int insertHashtag(Connection conn, String tag) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertHashtag");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, tag);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public int updateHashtag(Connection conn, String tag) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateHashtag");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, tag);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
 }

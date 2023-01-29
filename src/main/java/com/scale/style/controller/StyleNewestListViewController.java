@@ -15,16 +15,16 @@ import com.scale.style.model.vo.Style;
 import com.scale.style.model.vo.StyleImg;
 
 /**
- * Servlet implementation class StyleListController
+ * Servlet implementation class StyleNewestListController
  */
-@WebServlet("/trendinglist.st")
-public class StyleTrendingListController extends HttpServlet {
+@WebServlet("/newestlist.st")
+public class StyleNewestListViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public StyleTrendingListController() {
+    public StyleNewestListViewController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -43,14 +43,14 @@ public class StyleTrendingListController extends HttpServlet {
 		boardLimit = 12;
 		maxPage = (int)Math.ceil((double)listCount / boardLimit);
 		
-		ArrayList<Style> list = new StyleService().selectStyleList(currentPage, boardLimit);
+		ArrayList<Style> list = new StyleService().selectNewStyleList(currentPage, boardLimit);
 		ArrayList<StyleImg> ilist = new StyleService().selectStyleImgList();
 		ArrayList<Hashtag> tag = new StyleService().selectTagList();
 		
 		request.setAttribute("list", list);
 		request.setAttribute("ilist", ilist);
 		request.setAttribute("tag", tag);
-		request.getRequestDispatcher("views/style/styleTrendingListView.jsp").forward(request, response);
+		request.getRequestDispatcher("views/style/styleNewestListView.jsp").forward(request, response);
 	}
 
 	/**

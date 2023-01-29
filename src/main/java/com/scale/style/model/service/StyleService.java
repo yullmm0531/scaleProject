@@ -76,15 +76,48 @@ public class StyleService {
 		return p;
 	}
 	
-	public int insertStyle(Style s) {
+	public int insertStyle(Style s, ArrayList<StyleImg> list, String pcode) {
 		Connection conn = getConnection();
-		int result = new StyleDao().insertStyle(conn, s);
-		if(result > 0) {
+		
+		// 1. TB_STYLE INSERT(필수)
+		int result1 = new StyleDao().insertStyle(conn, s);
+		
+		// 2. TB_STYLE_IMG INSERT(필수)
+		int result2 = new StyleDao().insertStyleImg(conn, list);
+		
+		// 3. TB_STYLE-PD INSERT(선택)
+		int result3 = 1;
+		if(pcode != "") {
+			String[] codeArr = pcode.split(" ");
+			result3 = new StyleDao().insertStylePd(conn, codeArr);
+		}
+		
+		// 4. TB_HASHTAG INSERT(선택) 
+		// 먼저 기존의 해쉬태그 있는지 확인(SELECT) 후 있으면 UPDATE 없으면 INSERT(반복문)
+		int result4 = 1;
+		if(s.getHashtag() != "") {
+			String[] tagArr = s.getHashtag().split(" ");
+			for(int i=0; i<tagArr.length; i++) {
+				Hashtag t = new StyleDao().selectHashtag(conn, tagArr[i]);
+				if(t == null) {
+					// INSERT
+					result4 = new StyleDao().insertHashtag(conn, tagArr[i]);
+				} else {
+					// UPDATE
+					result4 = new StyleDao().updateHashtag(conn, tagArr[i]);
+				}
+			}
+		}
+		
+		if(result1 > 0 && result2 > 0 && result3 > 0 && result4 > 0) {
 			commit(conn);
 		} else {
 			rollback(conn);
 		}
-		return result;
+		
+		close(conn);
+		
+		return result1 * result2 * result3 * result4;
 	}
 
 }

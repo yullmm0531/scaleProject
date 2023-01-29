@@ -10,20 +10,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.scale.style.model.service.StyleService;
+import com.scale.style.model.vo.Hashtag;
 import com.scale.style.model.vo.Style;
 import com.scale.style.model.vo.StyleImg;
 
 /**
- * Servlet implementation class HashtagSearchController
+ * Servlet implementation class StyleListController
  */
-@WebServlet("/search.st")
-public class HashtagSearchController extends HttpServlet {
+@WebServlet("/trendinglist.st")
+public class StyleTrendingListViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public HashtagSearchController() {
+    public StyleTrendingListViewController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,17 +33,24 @@ public class HashtagSearchController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
+		int listCount;
+		int currentPage;
+		int boardLimit;
+		int maxPage;
 		
-		String keyword = request.getParameter("keyword");
+		listCount = new StyleService().selectListCount();
+		currentPage = Integer.parseInt(request.getParameter("cpage"));
+		boardLimit = 12;
+		maxPage = (int)Math.ceil((double)listCount / boardLimit);
 		
-		ArrayList<Style> list = new StyleService().selectSearchList(keyword);
+		ArrayList<Style> list = new StyleService().selectStyleList(currentPage, boardLimit);
 		ArrayList<StyleImg> ilist = new StyleService().selectStyleImgList();
+		ArrayList<Hashtag> tag = new StyleService().selectTagList();
 		
-		request.setAttribute("keyword", keyword);
 		request.setAttribute("list", list);
 		request.setAttribute("ilist", ilist);
-		request.getRequestDispatcher("views/style/hashtagSearchView.jsp").forward(request, response);
+		request.setAttribute("tag", tag);
+		request.getRequestDispatcher("views/style/styleTrendingListView.jsp").forward(request, response);
 	}
 
 	/**

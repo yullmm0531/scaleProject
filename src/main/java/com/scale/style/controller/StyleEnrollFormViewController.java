@@ -9,22 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.scale.product.model.vo.Product;
 import com.scale.style.model.service.StyleService;
-import com.scale.style.model.vo.Hashtag;
-import com.scale.style.model.vo.Style;
-import com.scale.style.model.vo.StyleImg;
 
 /**
- * Servlet implementation class StyleNewestListController
+ * Servlet implementation class EnrollFormController
  */
-@WebServlet("/newestlist.st")
-public class StyleNewestListController extends HttpServlet {
+@WebServlet("/enrollForm.st")
+public class StyleEnrollFormViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public StyleNewestListController() {
+    public StyleEnrollFormViewController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,24 +31,9 @@ public class StyleNewestListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int listCount;
-		int currentPage;
-		int boardLimit;
-		int maxPage;
-		
-		listCount = new StyleService().selectListCount();
-		currentPage = Integer.parseInt(request.getParameter("cpage"));
-		boardLimit = 12;
-		maxPage = (int)Math.ceil((double)listCount / boardLimit);
-		
-		ArrayList<Style> list = new StyleService().selectNewStyleList(currentPage, boardLimit);
-		ArrayList<StyleImg> ilist = new StyleService().selectStyleImgList();
-		ArrayList<Hashtag> tag = new StyleService().selectTagList();
-		
-		request.setAttribute("list", list);
-		request.setAttribute("ilist", ilist);
-		request.setAttribute("tag", tag);
-		request.getRequestDispatcher("views/style/styleNewestListView.jsp").forward(request, response);
+		ArrayList<Product> listAll = new StyleService().selectPdAllList();
+		request.setAttribute("listAll", listAll);
+		request.getRequestDispatcher("views/style/styleEnrollForm.jsp").forward(request, response);
 	}
 
 	/**

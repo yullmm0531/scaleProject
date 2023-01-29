@@ -74,28 +74,25 @@ public class StyleInsertController extends HttpServlet {
 					img.setOriginName(multiRequest.getOriginalFileName(key));
 					img.setChangeName(multiRequest.getFilesystemName(key));
 					img.setFilePath("resources/images/style/style_upfiles/");
-					
 					img.setFileLevel(i == 1 ? 1 : 2);
 					list.add(img);
 				}
 			}
 			
 			StyleService sService = new StyleService();
-			// 1. TB_STYLE INSERT
-			int result = sService.insertStyle(s);
 			
-			// 2. TB_STYLE_IMG INSERT
+			int result = sService.insertStyle(s, list, pcode);
+			
 			if(result > 0) {
-				
+				request.getSession().setAttribute("alertMsg", "성공적으로 스타일이 등록되었습니다.");
+				response.sendRedirect(request.getContextPath() + "/profile.st");
 			} else {
 				for(int j=0; j<list.size(); j++) {
 					new File(savePath + list.get(j).getChangeName()).delete();
 				}
+				request.getSession().setAttribute("alertMsg", "스타일 작성에 실패했습니다.");
+				response.sendRedirect(request.getContextPath() + "/trendinglist.st");
 			}
-			
-			// 3. TB_STYLE-PD INSERT
-			
-			// 4. TB_HASHTAG INSERT
 		}
 	}
 

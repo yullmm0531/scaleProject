@@ -177,4 +177,68 @@
 		  , ?
 		  )
 	</entry>
+	
+	<entry key="insertStyleImg">
+		INSERT
+		  INTO TB_STYLE_IMG
+		  (
+		    IMG_NO
+		  , ORIGIN_NAME
+		  , CHANGE_NAME
+		  , FILE_PATH
+		  , FILE_LEVEL
+		  , STYLE_NO
+		  )
+		  VALUES
+		  (
+		    SEQ_SINO.NEXTVAL
+		  , ?
+		  , ?
+		  , ?
+		  , ?
+		  , SEQ_SNO.CURRVAL
+		  )
+	</entry>
+	
+	<entry key="insertStylePd">
+		INSERT
+		  INTO TB_STYLE_PD
+		  (
+		    STYLE_NO
+		  , PRODUCT_CODE
+		  )
+		  VALUES
+		  (
+		    SEQ_SNO.CURRVAL
+		  , ?
+		  )
+	</entry>
+	
+	<entry key="selectHashtag">
+		SELECT
+		       HASHTAG_NO
+		  FROM TB_HASHTAG
+		 WHERE KEYWORD = ?
+	</entry>
+	
+	<entry key="insertHashtag">
+		INSERT
+		  INTO TB_HASHTAG
+		  (
+		    HASHTAG_NO
+		  , KEYWORD
+		  )
+		  VALUES
+		  (
+		    SEQ_HNO.NEXTVAL
+		  , ?
+		  )
+	</entry>
+	
+	<entry key="updateHashtag">
+		UPDATE
+		       TB_HASHTAG
+		   SET COUNT = COUNT + 1
+		 WHERE KEYWORD = ?
+	</entry>
 </properties>
