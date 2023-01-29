@@ -430,45 +430,6 @@ public class StyleDao {
 		return result;
 	}
 	
-	public ArrayList<Style> selectStyleByNo(Connection conn, int currentPage, int boardLimit, int no){
-		ArrayList<Style> list = new ArrayList<>();
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		String sql = prop.getProperty("selectStyleByNo");
-		
-		try {
-			int startRow = (currentPage - 1) * boardLimit + 1;
-			int endRow = startRow + boardLimit - 1;
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, no);
-			pstmt.setInt(2, startRow);
-			pstmt.setInt(3, endRow);
-			
-			rset = pstmt.executeQuery();
-			
-			while(rset.next()) {
-				Style st = new Style();
-				st.setStyleNo(rset.getInt("style_no"));
-				st.setProfileImg(rset.getString("profile_img"));
-				st.setCount(rset.getInt("count"));
-				st.setUserId(rset.getString("user_id"));
-				st.setIntroduce(rset.getString("introduce"));
-				st.setStyleWriter(rset.getString("user_nickname"));
-				st.setHashtag(rset.getString("hashtag"));
-				
-				list.add(st);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(rset);
-			close(pstmt);
-		}
-		
-		return list;
-	}
-	
 	public ArrayList<Style> selectStyleByNickname(Connection conn, int currentPage, int boardLimit, String nickname){
 		ArrayList<Style> list = new ArrayList<>();
 		PreparedStatement pstmt = null;

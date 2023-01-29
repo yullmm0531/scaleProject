@@ -120,13 +120,6 @@ public class StyleService {
 		return result1 * result2 * result3 * result4;
 	}
 	
-	public ArrayList<Style> selectStyleByNo(int currentPage, int boardLimit, int no){
-		Connection conn = getConnection();
-		ArrayList<Style> list = new StyleDao().selectStyleByNo(conn, currentPage, boardLimit, no);
-		close(conn);
-		return list;
-	}
-	
 	public ArrayList<Style> selectStyleByNickname(int currentPage, int boardLimit, String nickname){
 		Connection conn = getConnection();
 		ArrayList<Style> list = new StyleDao().selectStyleByNickname(conn, currentPage, boardLimit,nickname);

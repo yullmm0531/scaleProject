@@ -242,39 +242,6 @@
 		 WHERE KEYWORD = ?
 	</entry>
 	
-	<entry key="selectStyleByNo">
-		SELECT *
-		  FROM (
-		        SELECT
-				       ROWNUM RNUM
-				     , A.*
-				  FROM (
-				        SELECT
-				               STYLE_NO
-				             , PROFILE_IMG
-				             , COUNT
-				             , USER_ID
-				             , USER_NICKNAME
-				             , INTRODUCE
-				             , HASHTAG
-				          FROM (SELECT
-				                       STYLE_NO
-				                     , COUNT(*) "COUNT"
-				                  FROM TB_STYLE_LIKE
-				                 GROUP
-				                    BY STYLE_NO
-				                )
-				          RIGHT JOIN TB_STYLE S USING (STYLE_NO)
-				          JOIN TB_USER USING (USER_NO)
-				         WHERE S.STATUS = 'Y'
-                           AND USER_NO = ?
-				         ORDER
-				            BY STYLE_NO DESC
-				        ) A
-		        )
-		WHERE RNUM BETWEEN ? AND ?
-	</entry>
-	
 	<entry key="selectStyleByNickname">
 		SELECT *
 		  FROM (

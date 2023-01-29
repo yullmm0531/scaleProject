@@ -109,11 +109,7 @@
             <table class="set">
                 <tr>
                     <td colspan="2" class="style-img">
-                        <div id="demo<%= i %>" class="carousel">
-
-                            <!-- Indicators -->
-                            
-                          
+                        <div id="demo<%= i %>" class="carousel" data-interval="false">
                             <!-- The slideshow -->
                             <div class="carousel-inner">
                             	<% for(StyleImg img : ilist) { %>

@@ -22,7 +22,7 @@
     .header>td{height: 150px;}
     .header>td>img{width: 100px; height: 100px;}
     .header>td>span{font-size: 30px; font-weight: bolder; padding-left: 10px;}
-    .id, .introduce{height: 70px;}
+    .id, .introduce{height: 70px; font-size: 20px;}
     .id>div, .introduce>div{margin-left: 10px;}
 
     .edit-td{text-align: right;}
@@ -88,11 +88,13 @@
 	                    <div><%= list.get(0).getUserId() %></div>
 	                </td>
 	            </tr>
-	            <tr>
-	                <td class="introduce">
-	                    <div><%= list.get(0).getIntroduce() %></div>    
-	                </td>
-	            </tr>
+	            <% if(list.get(0).getIntroduce() != null) { %>
+	            	<tr>
+		                <td class="introduce">
+		                    <div><%= list.get(0).getIntroduce() %></div>    
+		                </td>
+		            </tr>
+	            <% } %>
         	</table>
         <% } else { %>
         	<% if(list.size() == 0) { %>
@@ -111,14 +113,16 @@
 		                    <div><%= loginUser.getUserId() %></div>
 		                </td>
 		            </tr>
-		            <tr>
-		                <td class="introduce">
-		                    <div><%= loginUser.getIntroduce() %></div>    
-		                </td>
-		            </tr>
+		            <% if(loginUser.getIntroduce() != null) { %>
+		            	<tr>
+			                <td class="introduce">
+			                    <div><%= loginUser.getIntroduce() %></div>    
+			                </td>
+			            </tr>
+		            <% } %>
         		</table>
         	<% } else { %>
-        		<% if(loginUser.getUserNickName() == list.get(0).getStyleWriter()) { %>
+        		<% if(loginUser.getUserNickName().equals(list.get(0).getStyleWriter())) { %>
         			<table class="profile">
 		        		<tr class="header">
 		                	<td>
@@ -134,14 +138,16 @@
 			                    <div><%= list.get(0).getUserId() %></div>
 			                </td>
 			            </tr>
-			            <tr>
-			                <td class="introduce">
-			                    <div><%= list.get(0).getIntroduce() %></div>    
-			                </td>
-			            </tr>
+			            <% if(list.get(0).getIntroduce() != null) { %>
+			            	<tr>
+				                <td class="introduce">
+				                    <div><%= list.get(0).getIntroduce() %></div>    
+				                </td>
+				            </tr>
+			            <% } %>
 		        	</table>
         		<% } else { %>
-        			<table class="profile">
+		        	<table class="profile">
 		        		<tr class="header">
 		                	<td>
 		                    	<img src="<%= contextPath %>/<%= list.get(0).getProfileImg() %>" class="rounded-circle">
@@ -153,11 +159,13 @@
 			                    <div><%= list.get(0).getUserId() %></div>
 			                </td>
 			            </tr>
-			            <tr>
-			                <td class="introduce">
-			                    <div><%= list.get(0).getIntroduce() %></div>    
-			                </td>
-			            </tr>
+			            <% if(list.get(0).getIntroduce() != null) { %>
+			            	<tr>
+				                <td class="introduce">
+				                    <div><%= list.get(0).getIntroduce() %></div>    
+				                </td>
+				            </tr>
+			            <% } %>
 		        	</table>
         		<% } %>
         	<% } %>
@@ -172,42 +180,30 @@
 	            <table class="set">
 	                <tr>
 	                    <td colspan="2" class="style-img">
-	                        <div id="demo<%= i %>" class="carousel">
-	
-	                            <!-- Indicators -->
-	                            
-	                          
-	                            <!-- The slideshow -->
-	                            <div class="carousel-inner">
-	                            	<% for(int j=0; j<ilist.size(); j++) { %>
-	                            		<% if(list.get(i).getStyleNo() == ilist.get(j).getStyleNo() && ilist.get(j).getFileLevel() == 1) { %>
-												<div class="carousel-item active">
-												  <img class="cimg" src="<%= contextPath %>/<%= ilist.get(j).getFilePath() + ilist.get(j).getChangeName() %>">
-												</div>
-			                            <% } else if(list.get(i).getStyleNo() == ilist.get(j).getStyleNo() && ilist.get(j).getFileLevel() == 2) { %>
-				                            	<div class="carousel-item">
-												  <img class="cimg" src="<%= contextPath %>/<%= ilist.get(j).getFilePath() + ilist.get(j).getChangeName() %>">
-												</div>
-										<% } %>
-	                              	<% } %>
-	                            </div>
-	                          	
-	                          	
-	                            <!-- Left and right controls -->
-	                            <a class="carousel-control-prev" href="#demo<%= i %>" data-slide="prev">
-	                              <span class="carousel-control-prev-icon"></span>
-	                            </a>
-	                            <a class="carousel-control-next" href="#demo<%= i %>" data-slide="next">
-	                              <span class="carousel-control-next-icon"></span>
-	                            </a>
-	                        </div>
-	                        
-	                        <script>
-							    $(document).ready(function() {      
-							        $('.carousel').carousel('pause');
-							    });
-							</script>
-	                            
+                            <div id="demo<%= i %>" class="carousel" data-interval="false">
+                                <!-- The slideshow -->
+                                <div class="carousel-inner">
+                                    <% for(int j=0; j<ilist.size(); j++) { %>
+                                        <% if(list.get(i).getStyleNo() == ilist.get(j).getStyleNo() && ilist.get(j).getFileLevel() == 1) { %>
+                                                <div class="carousel-item active">
+                                                    <img class="cimg" src="<%= contextPath %>/<%= ilist.get(j).getFilePath() + ilist.get(j).getChangeName() %>">
+                                                </div>
+                                        <% } else if(list.get(i).getStyleNo() == ilist.get(j).getStyleNo() && ilist.get(j).getFileLevel() == 2) { %>
+                                                <div class="carousel-item">
+                                                    <img class="cimg" src="<%= contextPath %>/<%= ilist.get(j).getFilePath() + ilist.get(j).getChangeName() %>">
+                                                </div>
+                                        <% } %>
+                                    <% } %>
+                                </div>
+                                    
+                                <!-- Left and right controls -->
+                                <a class="carousel-control-prev" href="#demo<%= i %>" data-slide="prev" style="display:none">
+                                    <span class="carousel-control-prev-icon"></span>
+                                </a>
+                                <a class="carousel-control-next" href="#demo<%= i %>" data-slide="next">
+                                    <span class="carousel-control-next-icon"></span>
+                                </a>
+                            </div>
 	                    </td>
 	                </tr>
 	                <tr>

@@ -43,31 +43,19 @@ public class StyleProfileViewController extends HttpServlet {
 		maxPage = (int)Math.ceil((double)listCount / boardLimit);
 		
 		HttpSession session = request.getSession();
-		int no = 0;
-		if(session.getAttribute("no") != null) {
-			no = (int)session.getAttribute("no");
-			session.removeAttribute("no");
-		}
 		String nickname = request.getParameter("nickname");
 		
 		ArrayList<Style> list = new ArrayList<Style>();
-		if(no == 0 && nickname == null) {
-			session.setAttribute("alertMsg", "유저 정보가 없습니다.");
-			response.sendRedirect(request.getContextPath() + "/trendinglist.st?cpage=1");
-			return;
-		} else {
-			if(no == 0) {
-				list = new StyleService().selectStyleByNickname(currentPage, boardLimit, nickname);
-			} else {
-				list = new StyleService().selectStyleByNo(currentPage, boardLimit, no);
-			}
-		}
+		
+		list = new StyleService().selectStyleByNickname(currentPage, boardLimit, nickname);
 		
 		ArrayList ilist = new StyleService().selectStyleImgList();
 		
 		request.setAttribute("list", list);
 		request.setAttribute("ilist", ilist);
-		request.getRequestDispatcher("views/style/styleProfileView.jsp").forward(request, response);	}
+		request.getRequestDispatcher("views/style/styleProfileView.jsp").forward(request, response);	
+		
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

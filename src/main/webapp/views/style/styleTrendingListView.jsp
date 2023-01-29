@@ -116,12 +116,8 @@
                 <tr>
                     <td colspan="2" class="style-img">
                         <div id="demo<%= i %>" class="carousel">
-
-                            <!-- Indicators -->
-                            
-                          
                             <!-- The slideshow -->
-                            <div class="carousel-inner">
+                            <div class="carousel-inner" data-interval="false">
                             	<% for(int j=0; j<ilist.size(); j++) { %>
                             		<% if(list.get(i).getStyleNo() == ilist.get(j).getStyleNo() && ilist.get(j).getFileLevel() == 1) { %>
 											<div class="carousel-item active">
