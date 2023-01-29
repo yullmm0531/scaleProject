@@ -161,7 +161,7 @@
 	            <a href="<%=contextPath%>/myPage.us">마이페이지</a>
 	            <a href="<%=contextPath%>/logout.us">로그아웃</a>
             <% } %>
-	            <a href="">고객센터</a>
+	            <a href="<%=contextPath%>/list.no?cpage=1">고객센터</a>
         </div>
         
         <div id="navigator">
