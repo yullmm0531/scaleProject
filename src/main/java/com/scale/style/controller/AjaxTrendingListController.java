@@ -38,15 +38,9 @@ public class AjaxTrendingListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int listCount;
-		int currentPage;
-		int boardLimit;
-		int maxPage;
-		
-		listCount = new StyleService().selectListCount();
-		currentPage = Integer.parseInt(request.getParameter("cpage"));
-		boardLimit = 12;
-		maxPage = (int)Math.ceil((double)listCount / boardLimit);
+		int listCount = new StyleService().selectListCount();
+		int currentPage = Integer.parseInt(request.getParameter("cpage"));
+		int boardLimit = 12;
 		
 		ArrayList<Style> list = new StyleService().selectStyleList(currentPage, boardLimit);
 		ArrayList<StyleImg> ilist = new StyleService().selectStyleImgList();

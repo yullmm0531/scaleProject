@@ -17,7 +17,7 @@ import com.scale.style.model.vo.StyleImg;
 /**
  * Servlet implementation class StyleListController
  */
-@WebServlet("/trendinglist.st")
+@WebServlet("/stylelist.st")
 public class StyleTrendingListViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -33,22 +33,7 @@ public class StyleTrendingListViewController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int listCount;
-		int currentPage;
-		int boardLimit;
-		int maxPage;
-		
-		listCount = new StyleService().selectListCount();
-		currentPage = Integer.parseInt(request.getParameter("cpage"));
-		boardLimit = 12;
-		maxPage = (int)Math.ceil((double)listCount / boardLimit);
-		
-		ArrayList<Style> list = new StyleService().selectStyleList(currentPage, boardLimit);
-		ArrayList<StyleImg> ilist = new StyleService().selectStyleImgList();
 		ArrayList<Hashtag> tag = new StyleService().selectTagList();
-		
-		request.setAttribute("list", list);
-		request.setAttribute("ilist", ilist);
 		request.setAttribute("tag", tag);
 		request.getRequestDispatcher("views/style/styleTrendingListView.jsp").forward(request, response);
 	}
