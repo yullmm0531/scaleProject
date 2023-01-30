@@ -57,7 +57,7 @@
         width: 50px;
         height: 50px;
     }
-
+	#up-btn:hover{cursor: pointer;}
 </style>
 </head>
 <body>
@@ -262,7 +262,7 @@
 													+ "<a href='<%= contextPath %>/profile.st?nickname=" + list[i].styleWriter + "&cpage=1'>" + list[i].styleWriter + "</a>"
 												+ "</td>"
 												+ "<td class='like'>"
-													+ "<a class='btn'>🤍</a>"
+													+ "<a class='btn smile'>🤍</a>"
 													+ "<span>" + list[i].count + "</span>"
 												+ "</td>"
 											+ "</tr>"

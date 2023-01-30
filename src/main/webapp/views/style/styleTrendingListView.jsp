@@ -77,6 +77,7 @@
         width: 50px;
         height: 50px;
     }
+    #up-btn{cursor: pointer;}
     #insert-btn{
     	position: fixed; 
     	right: 130px; 
@@ -85,6 +86,8 @@
         width: 50px;
         height: 50px;
     }
+    #insert-btn{cursor: pointer;}
+
 </style>
 </head>
 <body>
