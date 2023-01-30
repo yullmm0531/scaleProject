@@ -36,11 +36,10 @@ public class NoticeSearchController extends HttpServlet {
 		
 		String option = request.getParameter("option");
 		String keyword = request.getParameter("keyword");
-
+		
 		// 페이징바
 		int listCount = new NoticeService().searchNoticeCount(option, keyword);
 		int currentPage = Integer.parseInt(request.getParameter("cpage"));
-		System.out.println(currentPage);
 		int pageLimit = 5;
 		int boardLimit = 10;
 		
@@ -51,14 +50,16 @@ public class NoticeSearchController extends HttpServlet {
 			endPage = maxPage;
 		}
 		
-		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 		
+		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
+		System.out.println(pi);
 		// 페이지 조회
 		ArrayList<Notice> list = new NoticeService().searchNoticeList(pi, option, keyword);
 		
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
 		request.setAttribute("keyword", keyword);
+		request.setAttribute("option", option);
 		
 		request.getRequestDispatcher("views/customerCenter/noticeSearchListView.jsp").forward(request, response);
 		
