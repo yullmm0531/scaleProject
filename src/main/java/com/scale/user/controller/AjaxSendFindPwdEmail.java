@@ -42,7 +42,7 @@ public class AjaxSendFindPwdEmail extends HttpServlet {
         String password = "qecs vnex qpyx qgfp";
          
         // 메일 내용
-        String code = String.valueOf((int)(Math.random() * 99999 + 10000));
+        String code = String.valueOf((int)(Math.random() * 90000 + 10000));
         String recipient = request.getParameter("email");
         String subject = "SCALE 비밀번호 이메일 인증";
         String body = "SCALE 비밀번호 재설정을 위한 이메일 인증입니다. 인증코드를 입력해주세요.\n 인증코드 : ["+code+"]";

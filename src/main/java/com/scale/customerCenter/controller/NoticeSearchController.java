@@ -14,16 +14,16 @@ import com.scale.customerCenter.model.service.NoticeService;
 import com.scale.customerCenter.model.vo.Notice;
 
 /**
- * Servlet implementation class NoticeListViewController
+ * Servlet implementation class NoticeSearchController
  */
-@WebServlet("/list.no")
-public class NoticeListController extends HttpServlet {
+@WebServlet("/search.no")
+public class NoticeSearchController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NoticeListController() {
+    public NoticeSearchController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,38 +32,35 @@ public class NoticeListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		
+		String option = request.getParameter("option");
+		String keyword = request.getParameter("keyword");
+
 		// 페이징바
-		int listCount;
-		int currentPage;
-		int pageLimit;
-		int boardLimit;
+		int listCount = new NoticeService().searchNoticeCount(option, keyword);
+		int currentPage = Integer.parseInt(request.getParameter("cpage"));
+		System.out.println(currentPage);
+		int pageLimit = 5;
+		int boardLimit = 10;
 		
-		int maxPage;
-		int startPage;
-		int endPage;
-		
-		listCount = new NoticeService().selectListCount();
-		currentPage = Integer.parseInt(request.getParameter("cpage"));
-		pageLimit = 5;
-		boardLimit = 10;
-		
-		maxPage = (int)Math.ceil((double)listCount / boardLimit);
-		startPage = (currentPage-1) / pageLimit * pageLimit + 1;
-		endPage = startPage + pageLimit - 1;
+		int maxPage = (int)Math.ceil((double)listCount / boardLimit);
+		int startPage = (currentPage-1) / pageLimit * pageLimit + 1;
+		int endPage  = startPage + pageLimit - 1;
 		if(endPage > maxPage) {
 			endPage = maxPage;
 		}
 		
-		
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 		
 		// 페이지 조회
-		ArrayList<Notice> list = new NoticeService().selectNoticeList(pi);
+		ArrayList<Notice> list = new NoticeService().searchNoticeList(pi, option, keyword);
 		
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
+		request.setAttribute("keyword", keyword);
 		
-		request.getRequestDispatcher("views/customerCenter/noticeListView.jsp").forward(request, response);
+		request.getRequestDispatcher("views/customerCenter/noticeSearchListView.jsp").forward(request, response);
 		
 	}
 

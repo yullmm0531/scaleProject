@@ -4,6 +4,7 @@
 <%
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
 	ArrayList<Notice> list = (ArrayList<Notice>)request.getAttribute("list");
+	String keyword = (String)request.getAttribute("keyword");
 %>
 <!DOCTYPE html>
 <html>
@@ -44,7 +45,7 @@
                 <option name="option" value="title">제목</option>
                 <option name="option" value="content">내용</option>
             </select>
-            <input type="text" class="form-control" placeholder="검색어를 입력하세요." id="search-input" name="keyword">
+            <input type="text" class="form-control" placeholder="검색어를 입력하세요." id="search-input" name="keyword" value="<%=keyword%>">
             <div class="input-group-append">
               <button class="btn" type="submit" id="search-btn">검색</button>
             </div>
@@ -79,20 +80,20 @@
             </table>
         </div>
         <br><br>
-        <!-- 페이징 -->
+        <!-- 페이징 
         <div class="paging-area">
         	<% if(pi.getCurrentPage() != 1) { %>
-            	<button onclick="location.href='<%=contextPath%>/list.no?cpage=<%=pi.getCurrentPage()-1%>';">&lt;</button>
+            	<button onclick="location.href='<%=contextPath%>/search.no?cpage=<%=pi.getCurrentPage()-1%>';">&lt;</button>
             <% } %>
             
             <% for(int i=pi.getStartPage(); i<pi.getEndPage(); i++) { %>
-            	<button onclick="location.href='<%=contextPath%>/list.no?cpage=<%=i%>';"><%= i %></button>
+            	<button onclick="location.href='<%=contextPath%>/search.no?option=all&keyword=<%=keyword%>';"><%= i %></button>
             <% } %>
             
             <% if(pi.getCurrentPage() != pi.getMaxPage() && pi.getMaxPage() != 0) { %>
             	<button onclick="location.href='<%=contextPath%>/list.no?cpage=<%=pi.getCurrentPage()+1%>';">&gt;</button>
             <% } %>
-        </div>
+        </div>-->
         <br><br>
     </div>
 
