@@ -197,12 +197,13 @@
                                 </div>
                                     
                                 <!-- Left and right controls -->
-                                <a class="carousel-control-prev" href="#demo<%= i %>" data-slide="prev" style="display:none">
+                                <a class="carousel-control-prev" href="#demo<%= i %>" data-slide="prev">
                                     <span class="carousel-control-prev-icon"></span>
                                 </a>
                                 <a class="carousel-control-next" href="#demo<%= i %>" data-slide="next">
                                     <span class="carousel-control-next-icon"></span>
                                 </a>
+
                             </div>
 	                    </td>
 	                </tr>
@@ -268,6 +269,12 @@
 		<% } %>
         <button id="up-btn">UP</button>
         <button id="insert-btn">+</button>
+        
+        <script>
+	        $("#up-btn").click(function(){
+	            window.scrollTo({ top: 0, behavior: "smooth" });
+	        })
+        </script>
 
     </div>
     

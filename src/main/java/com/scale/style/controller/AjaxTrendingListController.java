@@ -2,6 +2,8 @@ package com.scale.style.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 
+import com.google.gson.Gson;
 import com.scale.style.model.service.StyleService;
 import com.scale.style.model.vo.Hashtag;
 import com.scale.style.model.vo.Style;
@@ -42,20 +45,18 @@ public class AjaxTrendingListController extends HttpServlet {
 		
 		listCount = new StyleService().selectListCount();
 		currentPage = Integer.parseInt(request.getParameter("cpage"));
-		boardLimit = Integer.parseInt(request.getParameter("pageListSize"));
+		boardLimit = 12;
 		maxPage = (int)Math.ceil((double)listCount / boardLimit);
 		
 		ArrayList<Style> list = new StyleService().selectStyleList(currentPage, boardLimit);
 		ArrayList<StyleImg> ilist = new StyleService().selectStyleImgList();
-		ArrayList<Hashtag> tag = new StyleService().selectTagList();
 		
-		JSONObject jObj = new JSONObject();
-		jObj.put("list", list);
-		jObj.put("ilist", ilist);
-		jObj.put("tag", tag);
+		HashMap<String,ArrayList> map=new HashMap();
+		map.put("list", list);
+		map.put("ilist", ilist);
 		
 		response.setContentType("application/json; charset=UTF-8");
-		response.getWriter().print(jObj);
+		new Gson().toJson(map, response.getWriter());
 	}
 
 	/**
