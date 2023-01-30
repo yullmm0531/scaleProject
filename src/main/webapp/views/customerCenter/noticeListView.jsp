@@ -26,7 +26,12 @@
         text-align:center;
     }
     .paging-area button{
-        border:0.5px solid lighstgray;
+        border:0.5px solid lightgray;
+        margin:3px;
+    }
+    .page-active{
+        background:black;
+        color:white;
     }
 </style>
 </head>
@@ -38,13 +43,14 @@
             <h2><b>공지사항</b></h2>
             <br>
         </div>
-        <form class="input-group mb-3" style="width:400px" action="<%=contextPath%>/search.no?cpage=1" method="get">
+        <form class="input-group mb-3" style="width:400px" action="<%=contextPath%>/search.no" method="get">
             <select name="option" id="search-option">
-                <option name="option" value="all">제목+내용</option>
-                <option name="option" value="title">제목</option>
-                <option name="option" value="content">내용</option>
+                <option value="all">제목+내용</option>
+                <option value="title">제목</option>
+                <option value="content">내용</option>
             </select>
             <input type="text" class="form-control" placeholder="검색어를 입력하세요." id="search-input" name="keyword">
+            <input type="hidden" name="cpage" value="1">
             <div class="input-group-append">
               <button class="btn" type="submit" id="search-btn">검색</button>
             </div>
@@ -54,10 +60,10 @@
             <table class="table table-hover">
                 <thead class="thead-dark">
                     <tr>
-                        <th>번호</th>
-                        <th>제목</th>
-                        <th>조회수</th>
-                        <th>작성일</th>
+                        <th width="20px">번호</th>
+                        <th width="300px">제목</th>
+                        <th width="20px">조회수</th>
+                        <th width="60px">작성일</th>
                     </tr>
                 </thead>
                 	<% if(list.isEmpty()) { %>
@@ -85,7 +91,7 @@
             	<button onclick="location.href='<%=contextPath%>/list.no?cpage=<%=pi.getCurrentPage()-1%>';">&lt;</button>
             <% } %>
             
-            <% for(int i=pi.getStartPage(); i<pi.getEndPage(); i++) { %>
+            <% for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++) { %>
             	<button onclick="location.href='<%=contextPath%>/list.no?cpage=<%=i%>';"><%= i %></button>
             <% } %>
             
@@ -98,13 +104,18 @@
 
     <script>
         $(function(){
+            $(".paging-area>button").each(function(){
+                if($(this).text() == "<%=pi.getCurrentPage()%>"){
+                    $(this).addClass("page-active");
+                }
+            })
+
             $("#search-input").on("keypress", function(e){
                 if(e.keyCode == 13){
-                    
+                    $("#search-btn").click();
                 }
             })
         })
-    
     </script>
 </body>
 </html>

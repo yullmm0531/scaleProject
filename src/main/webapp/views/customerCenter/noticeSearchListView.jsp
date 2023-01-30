@@ -5,6 +5,7 @@
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
 	ArrayList<Notice> list = (ArrayList<Notice>)request.getAttribute("list");
 	String keyword = (String)request.getAttribute("keyword");
+	String option = (String)request.getAttribute("option");
 %>
 <!DOCTYPE html>
 <html>
@@ -27,7 +28,11 @@
         text-align:center;
     }
     .paging-area button{
-        border:0.5px solid lighstgray;
+        border:0.5px solid lightgray;
+    }
+    .page-active{
+        background:black;
+        color:white;
     }
 </style>
 </head>
@@ -39,13 +44,14 @@
             <h2><b>공지사항</b></h2>
             <br>
         </div>
-        <form class="input-group mb-3" style="width:400px" action="<%=contextPath%>/search.no?cpage=1" method="get">
+        <form class="input-group mb-3" style="width:400px" action="<%=contextPath%>/search.no" method="get">
             <select name="option" id="search-option">
-                <option name="option" value="all">제목+내용</option>
-                <option name="option" value="title">제목</option>
-                <option name="option" value="content">내용</option>
+                <option value="all">제목+내용</option>
+                <option value="title">제목</option>
+                <option value="content">내용</option>
             </select>
             <input type="text" class="form-control" placeholder="검색어를 입력하세요." id="search-input" name="keyword" value="<%=keyword%>">
+            <input type="hidden" name="cpage" value="1">
             <div class="input-group-append">
               <button class="btn" type="submit" id="search-btn">검색</button>
             </div>
@@ -55,10 +61,10 @@
             <table class="table table-hover">
                 <thead class="thead-dark">
                     <tr>
-                        <th>번호</th>
-                        <th>제목</th>
-                        <th>조회수</th>
-                        <th>작성일</th>
+                        <th width="20px">번호</th>
+                        <th width="300px">제목</th>
+                        <th width="20px">조회수</th>
+                        <th width="60px">작성일</th>
                     </tr>
                 </thead>
                 	<% if(list.isEmpty()) { %>
@@ -80,32 +86,39 @@
             </table>
         </div>
         <br><br>
-        <!-- 페이징 
+        <!-- 페이징  -->
         <div class="paging-area">
         	<% if(pi.getCurrentPage() != 1) { %>
-            	<button onclick="location.href='<%=contextPath%>/search.no?cpage=<%=pi.getCurrentPage()-1%>';">&lt;</button>
+            	<button onclick="location.href='<%=contextPath%>/search.no?option=<%=option%>&keyword=<%=keyword%>&cpage=<%=pi.getCurrentPage()-1%>';">&lt;</button>
             <% } %>
             
-            <% for(int i=pi.getStartPage(); i<pi.getEndPage(); i++) { %>
-            	<button onclick="location.href='<%=contextPath%>/search.no?option=all&keyword=<%=keyword%>';"><%= i %></button>
+            <% for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++) { %>
+            	<button onclick="location.href='<%=contextPath%>/search.no?option=<%=option%>&keyword=<%=keyword%>&cpage=<%=i%>';"><%= i %></button>
             <% } %>
             
             <% if(pi.getCurrentPage() != pi.getMaxPage() && pi.getMaxPage() != 0) { %>
-            	<button onclick="location.href='<%=contextPath%>/list.no?cpage=<%=pi.getCurrentPage()+1%>';">&gt;</button>
+            	<button onclick="location.href='<%=contextPath%>/search.no?option=<%=option%>&keyword=<%=keyword%>&cpage=<%=pi.getCurrentPage()+1%>';">&gt;</button>
             <% } %>
-        </div>-->
+        </div>
         <br><br>
     </div>
 
     <script>
         $(function(){
-            $("#search-input").on("keypress", function(e){
-                if(e.keyCode == 13){
-                    
+            $(".paging-area>button").each(function(){
+                if($(this).text() == "<%=pi.getCurrentPage()%>"){
+                    $(this).addClass("page-active");
                 }
             })
+
+            $("#search-input").on("keypress", function(e){
+                if(e.keyCode == 13){
+                    $("#search-btn").click();
+                }
+            })
+
         })
-    
+
     </script>
 </body>
 </html>
