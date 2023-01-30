@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.scale.style.model.vo.*, java.util.ArrayList, java.net.URLEncoder" %>
+<%@ page import="com.scale.style.model.vo.Hashtag, java.util.ArrayList" %>
 <%
-	ArrayList<Style> list = (ArrayList<Style>)request.getAttribute("list");
-	ArrayList<StyleImg> ilist = (ArrayList<StyleImg>)request.getAttribute("ilist");
 	ArrayList<Hashtag> tag = (ArrayList<Hashtag>)request.getAttribute("tag");
 %>
 <!DOCTYPE html>
@@ -92,7 +90,7 @@
 	<div class="outer">
         <div id="standard">
             <button type="button" id="trending">인기</button>
-            <button type="button" id="newest" onclick="location.href='<%= contextPath %>/newestlist.st?cpage=1'">최신</button>
+            <button type="button" id="newest" onclick="location.href='<%= contextPath %>/stylelist.st?view=newest'">최신</button>
         </div>
         
         <div>

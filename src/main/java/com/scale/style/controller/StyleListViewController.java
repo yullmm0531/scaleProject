@@ -18,13 +18,13 @@ import com.scale.style.model.vo.StyleImg;
  * Servlet implementation class StyleListController
  */
 @WebServlet("/stylelist.st")
-public class StyleTrendingListViewController extends HttpServlet {
+public class StyleListViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public StyleTrendingListViewController() {
+    public StyleListViewController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,9 +33,15 @@ public class StyleTrendingListViewController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String view = request.getParameter("view");
 		ArrayList<Hashtag> tag = new StyleService().selectTagList();
 		request.setAttribute("tag", tag);
-		request.getRequestDispatcher("views/style/styleTrendingListView.jsp").forward(request, response);
+		
+		if(view.equals("trending")) {
+			request.getRequestDispatcher("views/style/styleTrendingListView.jsp").forward(request, response);
+		} else {
+			request.getRequestDispatcher("views/style/styleNewestListView.jsp").forward(request, response);
+		}
 	}
 
 	/**

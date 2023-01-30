@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.scale.style.model.vo.*, java.util.ArrayList, java.net.URLEncoder" %>
+<%@ page import="com.scale.style.model.vo.Hashtag, java.util.ArrayList" %>
 <%
-	ArrayList<Style> list = (ArrayList<Style>)request.getAttribute("list");
-	ArrayList<StyleImg> ilist = (ArrayList<StyleImg>)request.getAttribute("ilist");
 	ArrayList<Hashtag> tag = (ArrayList<Hashtag>)request.getAttribute("tag");
 %>
 <!DOCTYPE html>
@@ -83,7 +81,7 @@
 	
 	<div class="outer">
         <div id="standard">
-            <button type="button" id="trending" onclick = "location.href = '<%= contextPath %>/trendinglist.st?cpage=1'">인기</button>
+            <button type="button" id="trending"  onclick="location.href='<%= contextPath %>/stylelist.st?view=trending'">인기</button>
             <button type="button" id="newest">최신</button>
         </div>
         
@@ -97,85 +95,139 @@
 
         <div>
         	<% for(Hashtag t : tag){ %>
-            	<button type="button" class="hashtag btn btn-light btn-sm"><%= t.getKeyword() %></button>
+            	<button type="button" class="hashtag btn btn-light btn-sm" onclick="search(this);"><%= t.getKeyword() %></button>
             <% } %>
         </div>
 		
 		<br>
 		
-        <div>
-        	<!-- 반복문 -->
-        	<% for(int i=0; i<list.size(); i++) { %>
-            <table class="set">
-                <tr>
-                    <td colspan="2" class="style-img">
-                        <div id="demo<%= i %>" class="carousel" data-interval="false">
-                            <!-- The slideshow -->
-                            <div class="carousel-inner">
-                            	<% for(StyleImg img : ilist) { %>
-                            		<% if(list.get(i).getStyleNo() == img.getStyleNo()) { %>
-                            			<% if(img.getFileLevel() == 1) { %>
-											<div class="carousel-item active">
-											  <img class="cimg" src="<%= contextPath %>/<%= img.getFilePath() + img.getChangeName() %>">
-											</div>
-		                            	<% } else { %>
-			                            	<div class="carousel-item">
-											  <img class="cimg" src="<%= contextPath %>/<%= img.getFilePath() + img.getChangeName() %>">
-											</div>
-										<% } %>
-                              		<% } %>
-                              	<% } %>
-                            </div>
-                          	
-                          	
-                            <!-- Left and right controls -->
-                            <a class="carousel-control-prev" href="#demo<%= i %>" data-slide="prev">
-                              <span class="carousel-control-prev-icon"></span>
-                            </a>
-                            <a class="carousel-control-next" href="#demo<%= i %>" data-slide="next">
-                              <span class="carousel-control-next-icon"></span>
-                            </a>
-                        </div>
-                        
-                        <script>
-						    $(document).ready(function() {      
-						        $('.carousel').carousel('pause');
-						    });
-						</script>
-                            
-                    </td>
-                </tr>
-                <tr>
-                    <td class="nickname">
-                        <img src="<%= contextPath %>/<%= list.get(i).getProfileImg() %>" class="rounded-circle">
-                        <a href=""><%= list.get(i).getStyleWriter() %></a>
-                    </td>
-                    <td class="like">
-                        <a class="btn">😊</a>
-                        <span><%= list.get(i).getCount() %></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" class="tag-area">
-                        <div class="text">
-                        	<% if(list.get(i).getHashtag() != null) { %>
-                        		<% String[] tagArr = list.get(i).getHashtag().split(" "); %>
-                        		<% for(int t=0; t<tagArr.length; t++) { %>
-                        			<% String enco = URLEncoder.encode(tagArr[t], "UTF-8"); %>
-                        			<a href="<%= contextPath %>/search.st?keyword=<%= enco %>"><%= tagArr[t] %></a>
-                        		<% } %>
-                        	<% } %>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-            <% } %>
+        <div class="set-container">
+        	
         </div>
     </div>
     
-    <button id="up-btn" style="position: fixed; right: 50px; bottom: 30px;">UP</button>
-    <button id="insert-btn" style="position: fixed; right: 120px; bottom: 30px;">+</button>
+    <button id="up-btn">UP</button>
+    <button id="insert-btn">+</button>
     <br><br>
+    
+    <script>
+        $(document).ready(function() {      
+            $('.carousel').carousel('pause');
+        });
+
+        function search(btn){
+    		const text = encodeURIComponent(btn.innerText);
+    		location.href = "<%= contextPath %>/search.st?keyword=" + text;
+    	}
+
+        $("#up-btn").click(function(){
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        })
+
+    	$(function(){
+    		$("#insert-btn").click(function(){
+        		 <% if(loginUser == null) { %>
+	        		 	alert("로그인 후 이용가능한 페이지입니다.");
+	        		 	location.href = "<%= contextPath %>/loginForm.us";
+        		 <% } else { %>
+        		 		location.href = "<%= contextPath %>/enrollForm.st";
+        		 <% } %>
+        	})
+    	})
+    </script>
+
+    <script>
+        let cpage = 0;
+
+        $(function(){
+            $(window).scroll();
+        })
+
+        $(window).scroll(function() {
+            if($(window).scrollTop() + $(window).height() == $(document).height()){
+                cpage++;
+                StyleList();
+            }
+        });
+
+        function StyleList(){
+            $.ajax({
+                url:"<%= contextPath %>/newestlist.ajax",
+                type:"get",
+                data:{"cpage":cpage},
+                success:function(map){
+                    let list = map.list;
+                    let ilist = map.ilist;
+
+                    console.log(list);
+                    console.log(ilist);
+                    
+                    let value = "";
+                    for(let i=0; i<list.length * cpage; i++){
+                        value = "<table class='set'>"
+                                    + "<tr>"
+                                        + "<td colspan='2' class='style-img'>"
+                                            + "<div id='demo" + i + (12 * (cpage - 1)) + "' class='carousel'>"
+                                                + "<div class='carousel-inner' data-interval='false'>";
+                                    for(let j=0; j<ilist.length; j++){
+                                        if(list[i].styleNo == ilist[j].styleNo && ilist[j].fileLevel == 1) {
+                                            value += "<div class='carousel-item active'>"
+                                                        + "<img class='cimg' src='<%= contextPath %>/" + ilist[j].filePath + ilist[j].changeName + "'>"
+                                                    + "</div>";
+                                        } else if(list[i].styleNo == ilist[j].styleNo && ilist[j].fileLevel == 2) {
+                                            value += "<div class='carousel-item'>"
+                                                        + "<img class='cimg' src='<%= contextPath %>/" + ilist[j].filePath + ilist[j].changeName + "'>"
+                                                    + "</div>";
+                                        }
+                                    }
+                                        value += "</div>"
+                                                + "<a class='carousel-control-prev' href='#demo" +  i + (12 * (cpage - 1)) + "' data-slide='prev'>"
+                                                + "<span class='carousel-control-prev-icon'></span>"
+                                                + "</a>"
+                                                + "<a class='carousel-control-next' href='#demo" + i + (12 * (cpage - 1)) + "' data-slide='next'>"
+                                                + "<span class='carousel-control-next-icon'></span>" 
+                                                + "</a>"
+                                            + "</div>"
+                                        + "</td>"
+                                    + "</tr>"
+                                    + "<tr>"
+                                        + "<td class='nickname'>"
+                                            + "<img src='<%= contextPath %>/" + list[i].profileImg + "' class='rounded-circle'>"
+                                            + "<a href='<%= contextPath %>/profile.st?nickname=" + list[i].styleWriter + "&cpage=1'>" + list[i].styleWriter + "</a>"
+                                        + "</td>"
+                                        + "<td class='like'>"
+                                            + "<a class='btn'>😊</a>"
+                                            + "<span>" + list[i].count + "</span>"
+                                        + "</td>"
+                                    + "</tr>"
+                                    + "<tr>"
+                                        + "<td colspan='2' class='tag-area'>"
+                                            + "<div class='text'>";
+                                if(list[i].hashtag != null){
+                                    let tagArr = list[i].hashtag.split(" ");
+                                    for(let t=0; t<tagArr.length; t++){
+                                        // let enco = URLEncoder.encode(tagArr[t], "UTF-8");
+                                        let enco = tagArr[t].substring(1);
+                                        value += "<a href='<%= contextPath %> /search.st?keyword=" + enco + ">" + tagArr[t] + "</a>";
+                                    }
+                                }
+                                value += "</div>"
+                                    + "</td>"
+                                + "</tr>"
+                            + "</table>";
+                        $(".set-container").append(value);
+                    }
+                },
+                error:function(){
+                    console.log("통신실패");
+                }
+            })
+        }
+
+        $(document).ready(function() {      
+            $('.carousel').carousel('pause');
+        });
+    </script>
 
 </body>
 </html>
