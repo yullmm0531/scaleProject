@@ -29,15 +29,15 @@ public class ProductService {
 		close(conn);
 		return blist;
 	}
-	/*
-	public ArrayList<Product> selectProductSearchList(String pkey){
+	
+	public ArrayList<Product> selectProductSearchList(String keyword){
 		Connection conn = getConnection();
-		ArrayList<Product> list = new ProductDao().selectProductSearchList(conn, pkey);
+		ArrayList<Product> list = new ProductDao().selectProductSearchList(conn, keyword);
 		close(conn);
 		return list;
 	}
-	*/
-
+	
+	
 
 	
 	public Product selectProduct(String pCode) {

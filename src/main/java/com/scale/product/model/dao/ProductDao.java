@@ -89,15 +89,43 @@ public class ProductDao {
 	}
 	
 
-	/*
-	public ArrayList<Product> selectProductSearchList(Connection conn, String pkey){
+	
+	public ArrayList<Product> selectProductSearchList(Connection conn, String keyword){
 		ArrayList<Product> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
+		String sql = prop.getProperty("selectProductSearchList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, keyword);
+			rset = pstmt.executeQuery();
+			
+			
+			while(rset.next()) {
+				Product p = new Product();
+				p.setProductCode(rset.getString("product_code"));
+				p.setProductNameKo(rset.getString("product_name_ko"));
+				p.setProductNameEng(rset.getString("product_name_eng"));
+				p.setModelCode(rset.getString("model_code"));
+				p.setProductImgM(rset.getString("product_img_m"));
+				p.setBrandName(rset.getString("brand_name"));
+				
+				list.add(p);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
 		
 	}
-	*/
 	
+	
+
 	
 
 	public Product selectProduct(Connection conn, String pCode) {

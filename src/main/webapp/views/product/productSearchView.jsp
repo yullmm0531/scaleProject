@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="com.scale.product.model.vo.*, java.util.ArrayList"%>
+<%
+	String keyword = String.valueOf(request.getAttribute("keyword"));
+	ArrayList<Product> list = (ArrayList<Product>)request.getAttribute("list");
+	
+	String contextPath = request.getContextPath();
+    request.setCharacerEncoding
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -82,13 +89,27 @@
                     <div id="search-btn">
                         <input type="submit" value="검색">
                     </div>
-                    <div id="productlist"></div>
+                    <%if(list.isEmpty()){ %>
+                        <div id="nolsit">검색하신 결과가 없습니다.</div>
+                    <%} else {%>
+                    	<% for(Product p : list) { %>
+                         <div id="productlist">
+                            <tr>
+                                <td colspan="2"><img src="<%= contextPath %>/<%= p.getProductImgM() %>"></td>
+                                <td><%= p.getProductNameEng() %></td>
+                                <td><%= p.getProductNameKo() %></td>
+                                <input type="hidden" value="<%= p.getProductCode() %>">
+                            </tr>
+                         </div>
+                    	<% } %>
+                     <% } %>
                     <h5 id="selected"></h5>
                 </form>
                 
                 
             </div>
-        
+
+            <br>
             <div  class="p-cate">
                 <h4>카테고리</h4>
                 <table>
@@ -153,38 +174,14 @@
 
     </script>
     
-    <!-- 검색 -->
     <script>
-		/*
-    	function search(target){
-    		$.ajax({
-                type:'GET',
-                dataType:'JSON',
-                url:"/scale/plist.pd",
-                error:function(err){
-                    alert("없음");
-                },
-                success:function(data){
-                    var checkWord = $("#productInput").val();
-                    var productlist = $("#productlist");
-
-                    productlist.empty();
-                    data.forEach((product)=>{
-                        if(product['name'].includes(checkWord)){
-                            productlist.append(<span style="cursor:pointer;" onclick="select(this);"> ${product['name']} </span> );
-                        }
-                    })
-                }
+        $(function(){
+            $(".cell").click(function(){
+                location.href="<%=contextPath%>/detail.pd?co=" +$(this).children('input').val();
             })
-    	}
-
-        function select(target){
-            const selected = document.getElementById("selected");
-            selected.innerText = target.innerText;
-        }
-        */
-    
+        })
     </script>
+   
     
 </body>
 </html>
