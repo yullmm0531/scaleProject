@@ -3,8 +3,6 @@
 <%@ page import="com.scale.style.model.vo.*, java.util.ArrayList, java.net.URLEncoder" %>
 <%
 	String keyword = String.valueOf(request.getAttribute("keyword"));
-	ArrayList<Style> list = (ArrayList<Style>)request.getAttribute("list");
-	ArrayList<StyleImg> ilist = (ArrayList<StyleImg>)request.getAttribute("ilist");
 %>
 <!DOCTYPE html>
 <html>
@@ -51,6 +49,15 @@
     	font-size: 20px;
     	font-weight: bold;
     }
+	#up-btn{
+    	position: fixed; 
+    	right: 50px; 
+    	bottom: 30px;
+    	z-index: 999;
+        width: 50px;
+        height: 50px;
+    }
+
 </style>
 </head>
 <body>
@@ -64,92 +71,264 @@
     		<% } else { %>
     			#<%= keyword %>
     		<% } %>
-    		
     	</div>
     	
     	<br><br><br>
     	
-        <div>
-        	<% if(list.isEmpty()) { %>
-        		<div id="nothing">
-        			검색된 스타일이 없습니다.
-        		</div>
-        	<% } else { %>
-        		<% for(int i=0; i<list.size(); i++) { %>
-            <div class="table-container">
-            	<table class="set">
-	                <tr>
-	                    <td colspan="2" class="style-img">
-	                        <div id="demo<%= i %>" class="carousel" data-interval="false">
-	                          	
-	                            <!-- The slideshow -->
-	                            <div class="carousel-inner">
-	                            	<% for(StyleImg img : ilist) { %>
-	                            		<% if(list.get(i).getStyleNo() == img.getStyleNo()) { %>
-	                            			<% if(img.getFileLevel() == 1) { %>
-												<div class="carousel-item active">
-												  <img class="cimg" src="<%= contextPath %>/<%= img.getFilePath() + img.getChangeName() %>">
-												</div>
-			                            	<% } else { %>
-				                            	<div class="carousel-item">
-												  <img class="cimg" src="<%= contextPath %>/<%= img.getFilePath() + img.getChangeName() %>">
-												</div>
-											<% } %>
-	                              		<% } %>
-	                              	<% } %>
-	                            </div>
-	                          	
-	                          	
-	                            <!-- Left and right controls -->
-	                            <a class="carousel-control-prev" href="#demo<%= i %>" data-slide="prev">
-	                              <span class="carousel-control-prev-icon"></span>
-	                            </a>
-	                            <a class="carousel-control-next" href="#demo<%= i %>" data-slide="next">
-	                              <span class="carousel-control-next-icon"></span>
-	                            </a>
-	                        </div>
-	                        
-	                        <script>
-							    $(document).ready(function() {      
-							        $('.carousel').carousel('pause');
-							    });
-							</script>
-	                            
-	                    </td>
-	                </tr>
-	                <tr>
-	                    <td class="nickname">
-	                        <img src="<%= contextPath %>/<%= list.get(i).getProfileImg() %>" class="rounded-circle">
-	                        <a href="<%= contextPath %>/profile.st?nickname=<%= list.get(i).getStyleWriter() %>&cpage=1"><%= list.get(i).getStyleWriter() %></a>
-	                    </td>
-	                    <td class="like">
-	                        <a class="btn">😊</a>
-	                        <span><%= list.get(i).getCount() %></span>
-	                    </td>
-	                </tr>
-	                <tr>
-	                    <td colspan="2" class="tag-area">
-	                        <div class="text">
-	                        	<% if(list.get(i).getHashtag() != null) { %>
-	                        		<% String[] tagArr = list.get(i).getHashtag().split(" "); %>
-	                        		<% for(int t=0; t<tagArr.length; t++) { %>
-	                        			<% String enco = URLEncoder.encode(tagArr[t], "UTF-8"); %>
-	                        			<a href="<%= contextPath %>/search.st?keyword=<%= enco %>"><%= tagArr[t] %></a>
-	                        		<% } %>
-	                        	<% } %>
-	                        </div>
-	                    </td>
-	                </tr>
-	            </table>
-	            </div>
-	            <% } %>
-        	<% } %>
+        <div class="set-container">
         	
         </div>
     </div>
     
-    <button id="up-btn" style="position: fixed; right: 50px; bottom: 20px;">올라가기</button>
+    <img id="up-btn" src="<%= contextPath %>/resources/images/style/up.jpg">
     <br><br>
+
+	<script>
+        $(document).ready(function() {      
+            $('.carousel').carousel('pause');
+        });
+
+        function search(btn){
+    		const text = encodeURIComponent(btn.innerText);
+    		location.href = "<%= contextPath %>/search.st?keyword=" + text;
+    	}
+
+        $("#up-btn").click(function(){
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        })
+
+    	$(function(){
+    		$("#insert-btn").click(function(){
+        		 <% if(loginUser == null) { %>
+	        		 	alert("로그인 후 이용가능한 페이지입니다.");
+	        		 	location.href = "<%= contextPath %>/loginForm.us";
+        		 <% } else { %>
+        		 		location.href = "<%= contextPath %>/enrollForm.st";
+        		 <% } %>
+        	})
+    	})
+    	
+        let cpage = 0;
+
+        $(function(){
+            $(window).scroll();
+        })
+
+        $(window).scroll(function() {
+            if($(window).scrollTop() + $(window).height() == $(document).height()){
+                cpage++;
+                StyleList();
+            }
+        });
+
+		let keyword = "<%= keyword %>";
+
+        function StyleList(){
+			<% if(loginUser != null) { %>
+				let userNo = <%= loginUser.getUserNo() %>;
+				$.ajax({
+					url:"<%= contextPath %>/searchStyle.ajax",
+					type:"get",
+					data:{"cpage":cpage, "keyword":keyword, "userNo":userNo},
+					success:function(map){
+						let list = map.list;
+						let ilist = map.ilist;
+						let maxPage = map.maxPage;
+						let checkLike = map.checkLike;
+
+						let value = "";
+						if(list.length > 0) {
+							if(cpage > maxPage){
+								return;
+							}
+							$("#nothing").css("display", "none");
+							for(let i=0; i<list.length; i++){
+								value = "<table class='set'>"
+											+ "<tr>"
+												+ "<td colspan='2' class='style-img'>"
+													+ "<div id='demo" + i + (12 * (cpage - 1)) + "' class='carousel'>"
+														+ "<div class='carousel-inner' data-interval='false'>";
+											for(let j=0; j<ilist.length; j++){
+												if(list[i].styleNo == ilist[j].styleNo && ilist[j].fileLevel == 1) {
+													value += "<div class='carousel-item active'>"
+																+ "<img class='cimg' src='<%= contextPath %>/" + ilist[j].filePath + ilist[j].changeName + "'>"
+															+ "</div>";
+												} else if(list[i].styleNo == ilist[j].styleNo && ilist[j].fileLevel == 2) {
+													value += "<div class='carousel-item'>"
+																+ "<img class='cimg' src='<%= contextPath %>/" + ilist[j].filePath + ilist[j].changeName + "'>"
+															+ "</div>";
+												}
+											}
+												value += "</div>"
+														+ "<a class='carousel-control-prev' href='#demo" +  i + (12 * (cpage - 1)) + "' data-slide='prev'>"
+														+ "<span class='carousel-control-prev-icon'></span>"
+														+ "</a>"
+														+ "<a class='carousel-control-next' href='#demo" + i + (12 * (cpage - 1)) + "' data-slide='next'>"
+														+ "<span class='carousel-control-next-icon'></span>" 
+														+ "</a>"
+													+ "</div>"
+												+ "</td>"
+											+ "</tr>"
+											+ "<tr>"
+												+ "<td class='nickname'>"
+													+ "<img src='<%= contextPath %>/" + list[i].profileImg + "' class='rounded-circle'>"
+													+ "<a href='<%= contextPath %>/profile.st?nickname=" + list[i].styleWriter + "&cpage=1'>" + list[i].styleWriter + "</a>"
+												+ "</td>"
+												+ "<td class='like'>"
+										if(checkLike[i] == 0){
+											value += "<a class='btn smile'>🤍</a>"
+										} else {
+											value += "<a class='btn smile'>❤</a>"
+										}     
+											value += "<input type='hidden' class='styleNo' value='" + list[i].styleNo + "'>"
+													+ "<span>" + list[i].count + "</span>"
+												+ "</td>"
+											+ "</tr>"
+											+ "<tr>"
+												+ "<td colspan='2' class='tag-area'>"
+													+ "<div class='text'>";
+										if(list[i].hashtag != null){
+											let tagArr = list[i].hashtag.split(" ");
+											for(let t=0; t<tagArr.length; t++){
+												// let enco = URLEncoder.encode(tagArr[t], "UTF-8");
+												let enco = tagArr[t].substring(1);
+												value += "<a href='<%= contextPath %>/search.st?keyword=" + enco + "'>" + tagArr[t] + "</a>";
+											}
+										}
+										value += "</div>"
+											+ "</td>"
+										+ "</tr>"
+									+ "</table>";
+								$(".set-container").append(value);
+							}
+						} else {
+							if($(".set-container").children().length == 0){
+								value = "<div id='nothing'>검색된 스타일이 없습니다.</div>";
+								$(".set-container").append(value);
+							}
+						}
+						
+					},
+					error:function(){
+						console.log("통신실패");
+					}
+				})
+			<% } else { %>
+				$.ajax({
+					url:"<%= contextPath %>/searchStyle.ajax",
+					type:"get",
+					data:{"cpage":cpage, "keyword":keyword},
+					success:function(map){
+						let list = map.list;
+						let ilist = map.ilist;
+						let maxPage = map.maxPage;
+
+						let value = "";
+						if(list.length > 0) {
+							if(cpage > maxPage){
+								return;
+							}
+							$("#nothing").css("display", "none");
+							for(let i=0; i<list.length; i++){
+								value = "<table class='set'>"
+											+ "<tr>"
+												+ "<td colspan='2' class='style-img'>"
+													+ "<div id='demo" + i + (12 * (cpage - 1)) + "' class='carousel'>"
+														+ "<div class='carousel-inner' data-interval='false'>";
+											for(let j=0; j<ilist.length; j++){
+												if(list[i].styleNo == ilist[j].styleNo && ilist[j].fileLevel == 1) {
+													value += "<div class='carousel-item active'>"
+																+ "<img class='cimg' src='<%= contextPath %>/" + ilist[j].filePath + ilist[j].changeName + "'>"
+															+ "</div>";
+												} else if(list[i].styleNo == ilist[j].styleNo && ilist[j].fileLevel == 2) {
+													value += "<div class='carousel-item'>"
+																+ "<img class='cimg' src='<%= contextPath %>/" + ilist[j].filePath + ilist[j].changeName + "'>"
+															+ "</div>";
+												}
+											}
+												value += "</div>"
+														+ "<a class='carousel-control-prev' href='#demo" +  i + (12 * (cpage - 1)) + "' data-slide='prev'>"
+														+ "<span class='carousel-control-prev-icon'></span>"
+														+ "</a>"
+														+ "<a class='carousel-control-next' href='#demo" + i + (12 * (cpage - 1)) + "' data-slide='next'>"
+														+ "<span class='carousel-control-next-icon'></span>" 
+														+ "</a>"
+													+ "</div>"
+												+ "</td>"
+											+ "</tr>"
+											+ "<tr>"
+												+ "<td class='nickname'>"
+													+ "<img src='<%= contextPath %>/" + list[i].profileImg + "' class='rounded-circle'>"
+													+ "<a href='<%= contextPath %>/profile.st?nickname=" + list[i].styleWriter + "&cpage=1'>" + list[i].styleWriter + "</a>"
+												+ "</td>"
+												+ "<td class='like'>"
+													+ "<a class='btn'>🤍</a>"
+													+ "<span>" + list[i].count + "</span>"
+												+ "</td>"
+											+ "</tr>"
+											+ "<tr>"
+												+ "<td colspan='2' class='tag-area'>"
+													+ "<div class='text'>";
+										if(list[i].hashtag != null){
+											let tagArr = list[i].hashtag.split(" ");
+											for(let t=0; t<tagArr.length; t++){
+												// let enco = URLEncoder.encode(tagArr[t], "UTF-8");
+												let enco = tagArr[t].substring(1);
+												value += "<a href='<%= contextPath %>/search.st?keyword=" + enco + "'>" + tagArr[t] + "</a>";
+											}
+										}
+										value += "</div>"
+											+ "</td>"
+										+ "</tr>"
+									+ "</table>";
+								$(".set-container").append(value);
+							}
+						} else {
+							if($(".set-container").children().length == 0){
+								value = "<div id='nothing'>검색된 스타일이 없습니다.</div>";
+								$(".set-container").append(value);
+							}
+						}
+						
+					},
+					error:function(){
+						console.log("통신실패");
+					}
+				})
+			<% } %>
+        }
+
+        $(document).ready(function() {      
+            $('.carousel').carousel('pause');
+        });
+
+		$(document).on("click", ".smile", function(){
+            let e = $(this);
+            let like = e.text();
+            <% if(loginUser == null) { %>
+                alert("로그인 후 이용가능한 페이지입니다.");
+                location.href = "<%= contextPath %>/loginForm.us";
+            <% } else { %>
+                let userNo = <%= loginUser.getUserNo() %>;
+                $.ajax({
+                    url:"increaselike.ajax",
+                    data:{"userNo":userNo, "styleNo":$(this).next().val()},
+                    success:function(result){
+                        if(like == "🤍"){
+                            e.text("❤");
+                            e.next().next().text(Number(e.next().next().text()) + 1);
+                        } else {
+                            e.text("🤍");
+                            e.next().next().text(Number(e.next().next().text()) - 1);
+                        }
+                    },
+                    error:function(){
+                        console.log("실패");
+                    }
+                })
+            <% } %>
+        })
+    </script>
     
 
 </body>

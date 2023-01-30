@@ -424,6 +424,8 @@
             <div>
                 <button type="submit" class="btn btn-secondary" onclick="check();">작성하기</button>
 
+                <br><br>
+
                 <script>
                     function check(){
                         if($("#thumbnail1").attr("src") == "<%= contextPath %>/resources/images/style/plus.png"){

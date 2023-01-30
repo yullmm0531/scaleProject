@@ -20,6 +20,13 @@ public class StyleService {
 		return result;
 	}
 	
+	public int selectSearchListCount(String keyword) {
+		Connection conn = getConnection();
+		int result = new StyleDao().selectSearchListCount(conn, keyword);
+		close(conn);
+		return result;
+	}
+	
 	public ArrayList<Style> selectStyleList(int currentPage, int boardLimit){
 		Connection conn = getConnection();
 		ArrayList<Style> list = new StyleDao().selectStyleList(conn, currentPage, boardLimit);
@@ -48,9 +55,9 @@ public class StyleService {
 		return list;
 	}
 	
-	public ArrayList<Style> selectSearchList(String keyword){
+	public ArrayList<Style> selectSearchList(int currentPage, int boardLimit, String keyword){
 		Connection conn = getConnection();
-		ArrayList<Style> list = new StyleDao().selectSearchList(conn, keyword);
+		ArrayList<Style> list = new StyleDao().selectSearchList(conn, currentPage, boardLimit, keyword);
 		close(conn);
 		return list;
 	}
@@ -125,6 +132,31 @@ public class StyleService {
 		ArrayList<Style> list = new StyleDao().selectStyleByNickname(conn, currentPage, boardLimit,nickname);
 		close(conn);
 		return list;
+	}
+	
+	public int checkLike(int userNo, int styleNo) {
+		Connection conn = getConnection();
+		int result = new StyleDao().checkLike(conn, userNo, styleNo);
+		close(conn);
+		return result;
+	}
+	
+	public int updateLike(int checkLike, int userNo, int styleNo) {		
+		Connection conn = getConnection();
+		int result = 0;
+		if(checkLike > 0) {
+			result = new StyleDao().deleteLike(conn, userNo, styleNo);
+		} else {
+			result = new StyleDao().insertLike(conn, userNo, styleNo);
+		}
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		return result;
 	}
 
 }

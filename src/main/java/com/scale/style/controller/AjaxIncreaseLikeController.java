@@ -1,7 +1,6 @@
 package com.scale.style.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,20 +9,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.scale.style.model.service.StyleService;
-import com.scale.style.model.vo.Style;
-import com.scale.style.model.vo.StyleImg;
 
 /**
- * Servlet implementation class HashtagSearchController
+ * Servlet implementation class AjaxIncreaseLikeController
  */
-@WebServlet("/search.st")
-public class HashtagSearchViewController extends HttpServlet {
+@WebServlet("/increaselike.ajax")
+public class AjaxIncreaseLikeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public HashtagSearchViewController() {
+    public AjaxIncreaseLikeController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,12 +29,13 @@ public class HashtagSearchViewController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
+		int userNo = Integer.parseInt(request.getParameter("userNo"));
+		int styleNo = Integer.parseInt(request.getParameter("styleNo"));
 		
-		String keyword = request.getParameter("keyword");
+		int checkLike = new StyleService().checkLike(userNo, styleNo);
+		int result = new StyleService().updateLike(checkLike, userNo, styleNo);
 		
-		request.setAttribute("keyword", keyword);
-		request.getRequestDispatcher("views/style/hashtagSearchView.jsp").forward(request, response);
+		response.getWriter().print(result);
 	}
 
 	/**
