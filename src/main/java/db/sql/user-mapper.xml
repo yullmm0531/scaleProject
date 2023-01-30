@@ -109,4 +109,13 @@
 		   SET USER_PWD = ?
 		 WHERE USER_ID = ? 
 	</entry>
+	
+	<entry key="deleteUser">
+		UPDATE TB_USER
+		   SET STATUS = 'N'
+		  ,DELETE_DATE = SYSDATE
+		 WHERE USER_ID = ?
+		   AND USER_PWD = ?
+		 
+	</entry>
 </properties>

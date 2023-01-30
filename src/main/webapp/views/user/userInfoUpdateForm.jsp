@@ -37,13 +37,13 @@ border-image-repeat: initial;
 box-sizing: border-box;
     }
     .user_detail{
-        border: 1px solid blue;
+        
         width: 1000px;
         height: 200px;
         margin-left: 30%;
     }
     .user_thumb{
-        border: 1px solid white;
+        
         width: 20%;
         height: 80%;
         float: left;
@@ -52,7 +52,7 @@ box-sizing: border-box;
     }
     #thumb_img{width: 100%; height: 100%;}
     .user_info{
-        border: 1px solid gray;
+        
         width:  70%;
         height: 100%;
     }
@@ -62,19 +62,21 @@ box-sizing: border-box;
     }
     #toProfile{background-color: gray;}
     #toMyStyle{background-color: gray;}
-    #pwd-box{border: 1px solid yellow;width: 800px; margin-left: 30%;}
+    #pwd-box{width: 800px; margin-left: 30%;}
     #pwdBox-title-div{margin-left: auto;}
     #edit-pwd{margin-left: 73%; background-color: gray;}
 
-    #user-info{border: 3px solid black;width: 800px; margin-left: 30%;}
+    #user-info{width: 800px; margin-left: 30%;}
     #info-title{margin-left: auto;}
     .tag{margin-left: 5%;}
     .info-main{margin-left: 5%;}
-    .box{border: 1px solid red;}
+    
     #edit-phone{margin-left: 73%; background-color: gray;}
     #edit-email{margin-left: 73%; background-color: gray;}
-    #user-leave-div{border: 3px solid blue;width: 800px; margin-left: 30%;}
+    #user-leave-div{width: 800px; margin-left: 30%;}
     #user-leave{margin-left: 73%; background-color: red; color: white;}
+    
+    .underline{border: 3px solid gray; width: 800px;}
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
@@ -89,6 +91,8 @@ box-sizing: border-box;
 
 	<% 
 		String userId = loginUser.getUserId(); 
+		String userName = loginUser.getUserName(); 
+		String userPhone = loginUser.getPhone(); 
 		String userEmail = loginUser.getEmail();
 	%>
 
@@ -106,9 +110,13 @@ box-sizing: border-box;
                     <a href="" class="btn btn outlinegrey small" type="button" id="toProfile">프로필 편집</a>
                     <a href="" class="btn btn btn_my_style outlinegrey small" type="button" id="toMyStyle">내 스타일</a>
                 </div>
+                <br>
+      
+                <div class="underline"></div>
             </div>
         </div>
         <br><br>
+        
 
         <div id="pwd-box">
             <div id="pwdBox-title-div">
@@ -118,8 +126,12 @@ box-sizing: border-box;
             <div id="edit-pwd-div">
                 <a href="" class="btn btn outlinegrey small" type="button" id="edit-pwd">비밀번호 변경</a>
             </div>
+            <br>
+            <div class="underline"></div>
         </div>
         <br><br>
+        
+        
 
         <div id="user-info">
             <div id="user-info-title-div">
@@ -132,40 +144,115 @@ box-sizing: border-box;
                     <p>이름</p>
                 </div>
                 <div id="user-name-div" class="info-main">
-                    <span id="user-name">홍길동</span>
+                    <span id="user-name"><%=userName %></span>
                 </div>
             </div>
             <br>
-
+            
+            <div class="underline"></div>
+			
             <div id="user-phone-box"class="box">
                 <div id="phone-tag" class="tag">
                     <p>연락처</p>
                 </div>
                 <div id="user-phone-div"class="info-main">
-                    <span id="user-phone">010-1111-2222</span>
+                    <span id="user-phone"><%=userPhone %></span>
                 </div>
                 <div id="edit-phone-div">
-                    <a href="" class="btn btn outlinegrey small" type="button" id="edit-phone">연락처 변경</a>
+                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#updatePhoneModal" id="edit-phone">연락처변경</button>
                 </div>
+                
+			         <div class="modal" id="updatePhoneModal">
+					  <div class="modal-dialog">
+					    <div class="modal-content">
+					
+					      <!-- Modal Header -->
+					      <div class="modal-header">
+					        <h4 class="modal-title">회원탈퇴</h4>
+					        <button type="button" class="close" data-dismiss="modal">&times;</button>
+					      </div>
+					
+					      <!-- Modal body -->
+					      <div class="modal-body" align="center">
+					        
+					        <b>탈퇴후 복구가 불가능합니다. <br> 정말로 탈퇴하시겠습니까?</b> <br><br>
+					        
+					        <form action="<%= contextPath %>/deleteUser.us" method="post">
+					        	
+					        	<input type="hidden" name="userId" value="<%= userId %>">
+					        	비밀번호 : <input type="password" name="userPwd" required> <br><br>
+					        	
+					        	<button type="submit" class="btn btn-danger btn-sm">탈퇴하기</button>
+					        	
+					        	
+					        	
+					        </form>
+					        
+					      </div>
+					
+					    </div>
+					  </div>
+					</div>
+                
             </div>
             <br>
+            
+            <div class="underline"></div>
 
             <div id="user-email-box"class="box">
                 <div id="email-tag" class="tag">
                     <p>이메일</p>
                 </div>
                 <div id="user-email-div"class="info-main">
-                    <span id="user-email">aaabbb@naver.com</span>
+                    <span id="user-email"><%=userEmail %></span>
                 </div>
                 <div id="edit-email-div">
                     <a href="" class="btn btn outlinegrey small" type="button" id="edit-email">이메일 변경</a>
                 </div>
+                <br>
+                <div class="underline"></div>
             </div>
         </div>
         <br>
+        
+        
 
         <div id="user-leave-div">
-            <a href="" class="btn btn outlinegrey small" type="button" id="user-leave">회원탈퇴</a>
+           
+            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" id="user-leave">회원탈퇴</button>
         </div>
+        
+         <div class="modal" id="deleteModal">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	
+	      <!-- Modal Header -->
+	      <div class="modal-header">
+	        <h4 class="modal-title">회원탈퇴</h4>
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	      </div>
+	
+	      <!-- Modal body -->
+	      <div class="modal-body" align="center">
+	        
+	        <b>탈퇴후 복구가 불가능합니다. <br> 정말로 탈퇴하시겠습니까?</b> <br><br>
+	        
+	        <form action="<%= contextPath %>/deleteUser.us" method="post">
+	        	
+	        	<input type="hidden" name="userId" value="<%= userId %>">
+	        	비밀번호 : <input type="password" name="userPwd" required> <br><br>
+	        	
+	        	<button type="submit" class="btn btn-danger btn-sm">탈퇴하기</button>
+	        	
+	        	
+	        	
+	        </form>
+	        
+	      </div>
+	
+	    </div>
+	  </div>
+	</div>
+	
 </body>
 </html>

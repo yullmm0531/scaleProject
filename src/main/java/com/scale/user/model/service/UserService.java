@@ -65,4 +65,18 @@ public class UserService {
 		close(conn);
 		return result;
 	}
+	
+	public int deleteUser(String userId, String userPwd) {
+		Connection conn = getConnection();
+		int result = new UserDao().deleteUser(conn, userId, userPwd);
+		
+		if(result > 0) {
+			commit(conn);
+		}else{
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result;
+	}
 }
