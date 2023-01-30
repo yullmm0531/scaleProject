@@ -50,9 +50,8 @@ public class NoticeSearchController extends HttpServlet {
 			endPage = maxPage;
 		}
 		
-		
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
-		System.out.println(pi);
+
 		// 페이지 조회
 		ArrayList<Notice> list = new NoticeService().searchNoticeList(pi, option, keyword);
 		
