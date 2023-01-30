@@ -190,7 +190,7 @@
 	                            <div class="product-name-eng"><%= p.getProductNameEng() %> </div>
 	                            <div class="product-name-ko"><%= p.getProductNameKo() %> </div>
 	                            <div class="product-price">즉시구매가</div>
-	                            <div class="p-like"><a href="">♡</a></div>
+	                            <div class="p-like" id = "like"><a href="">♡</a></div>
 	                        </li>
                         <% } %>
 
@@ -284,16 +284,92 @@
     
     <!-- 무한스크롤 -->
     <script>
-		
-   
+	
+    $(function(){
+    	 var intersectionObserver = new IntersectionObserver(function(entries) {
+       	  // If intersectionRatio is 0, the target is out of view
+       	  // and we do not need to do anything.
+       	  if (entries[0].intersectionRatio <= 0) return;
+
+       	  loadItems(12);
+       	  console.log('Loaded new items');
+       	});
+       	// start observing
+       	intersectionObserver.observe(document.querySelector('.scrollerFooter'));
+
+       	const io = new IntersectionObserver((entries, observer) => {
+       		entries.forEach(entry => {
+       		  if (!entry.isIntersecting) return; 
+       			//entry가 interscting 중이 아니라면 함수를 실행하지 않습니다.
+       		  if (page._scrollchk) return;
+       			//현재 page가 불러오는 중임을 나타내는 flag를 통해 불러오는 중이면 함수를 실행하지 않습니다.
+       	    observer.observe(document.getElementById('sentinel'));
+       			//observer를 등록합니다.
+       	    page._page += 1;
+       			//불러올 페이지를 추가합니다.
+       	    page.list.search();
+       			//페이지를 불러오는 함수를 호출합니다.
+       		});
+       	});
+
+       	io.observe(document.getElementById('sentinel'));
+       	
+       	$.ajax({
+       		url: "/scale/plist.pd",
+       		method: "GET",
+       		dataType: "json",
+       		success: function (result) {
+       		  console.log(result);
+       		},
+       		error: function (err) {
+       		  console.log(err);
+       		},
+       		beforeSend: function () {
+       	    _scrollchk = true; 
+       			//데이터가 로드 중임을 나타내는 flag입니다.
+       			document.getElementById('list').appendChild(skeleton.show());
+       			//skeleton을 그리는 함수를 이용해 DOM에 추가해줍니다.
+       	    $(".loading").show();
+       			//loading animation을 가진 요소를 보여줍니다.
+       		},
+       		complete: function () {
+       	    _scrollchk = false;
+       			//데이터가 로드 중임을 나타내는 flag입니다.
+       	    $(".loading").hide();
+       	    skeleton.hide();
+       			//loading animation 요소와 skeleton을 지우는 함수를 이용해 DOM에서 지워줍니다.
+       		}
+       	});
+	});
+    
+    
+   		
     
     </script>
     
     
     
-    <!-- select -->
+    <!-- Like -->
     <script>
-		
+	    $(function like(){
+	  	  $.ajax({
+			    url: "/scale/plist.pd",
+			    type: "POST",
+			    cache: false,
+			    dataType: "json",
+			    data: $('#like_form').serialize(), 
+			    success: 
+			    function(data){      					
+			    	alert("'좋아요'가 반영되었습니다!") ;  
+	                $("#like_result").html(data.like); 
+			    },   
+			    
+			    error: 
+			    function (request, status, error){  
+			      alert("ajax실패")                  
+			    }
+			  });
+	}
     
     
     </script>
