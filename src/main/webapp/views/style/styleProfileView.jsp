@@ -66,6 +66,16 @@
     	right: 120px; 
     	bottom: 30px;
     }
+
+	#modal-img{
+		width: 90px; 
+		height: 90px;
+	}
+	#modal-nickname{
+		padding-left: 5px;
+		font-size: 25px;
+		font-weight: bold;
+	}
 </style>
 </head>
 <body>
@@ -82,7 +92,7 @@
 							<span><%= user.getUserNickName() %></span>
 						</td>
 						<td class="edit-td">
-							<button type="button" class="edit-btn btn-secondary" data-toggle="modal" data-target="#myModal">프로필 편집</button>
+							<button type="button" class="edit-btn btn-secondary" data-toggle="modal" data-target="#profile-edit">프로필 편집</button>
 						</td>
 					</tr>
 					<tr>
@@ -140,17 +150,30 @@
 	      
 	            <!-- Modal body -->
 	            <form class="modal-body">
-	                <div>
-	                    <img src="" class="rounded-circle" style="width: 70px; height: 70px;">
-	                    <br><br>
-	                    <input type="file">
-	                </div>
+					<table>
+						<tr>
+							<td rowspan="2">
+								<img src="<%= loginUser.getProfileImg() %>" class="rounded-circle" id="modal-img">
+							</td>
+							<td>
+								<span id="modal-nickname"><%= loginUser.getUserNickName() %></span>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<a class="btn btn-outline-secondary btn-sm" id="modal-inputbtn">이미지 변경</a>
+							</td>
+							<td>
+								<a class="btn btn-outline-secondary btn-sm">삭제</a>
+							</td>
+						</tr>
+					</table>
 	                <br>
 	                <div>닉네임*</div>
-	                <input type="text" name="nickname" value="xxx">
+	                <input type="text" name="nickname" value="<%= loginUser.getUserNickName() %>">
 	                <br>
 	                <div>소개</div>
-	                <textarea name="introduce" cols="22" rows="5" style="resize: none;">xxx</textarea>
+	                <textarea name="introduce" cols="50" rows="5" style="resize: none;"><%= loginUser.getIntroduce() %></textarea>
 	                <br><br>
 	                <button type="submit" class="btn btn-secondary" data-dismiss="modal">변경</button>
 	                <button type="reset" class="btn btn-secondary">초기화</button>
