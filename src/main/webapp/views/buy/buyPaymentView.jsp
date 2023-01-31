@@ -1,5 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.scale.product.model.vo.Product, com.scale.bidding.model.vo.Bidding, java.text.DecimalFormat, com.scale.user.model.vo.Address" %>
+<%
+	Product p = (Product)request.getAttribute("p");
+	String size = (String)request.getAttribute("size");
+	String bType = (String)request.getAttribute("bType");
+	Bidding b = (Bidding)request.getAttribute("b");
+	String price = (String)request.getAttribute("price");
+	Address ad = (Address)request.getAttribute("ad");
+	DecimalFormat formatter = new DecimalFormat("###,###");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -118,23 +128,24 @@
     <%@ include file="../common/menubar.jsp"%>
     <br><br>
     <div class="shipping-payment">
+    
         <form action="" method="">
         	<input type="hidden" name="biddingInfo" value="..">
             <br>
             <div id="shipping-payment">
-                <div id="title">배송/결제</div>
-                <div class="product-info row">
-                    <div class="product-img col-sm-4">
-                        <img src="<%= contextPath %>/resources/images/product/nike1.png" alt="">
-                    </div>
-                    <div class="product-name col-sm-8">
-                        <br>
-                        <span id="product-brand">NIKE</span><br>
-                        <span id="product-eng-name">(W) Nike Dunk Low Wolf Grey Rosewood</span><br>
-                        <span id="product-kor-name">(W) 나이키 덩크 로우 울프 그레이 로즈우드</span> <br>
-                        <span id="product-size" name="size">사이즈</span>
-                    </div>
-                </div>
+	                <div id="title">배송/결제</div>
+	                <div class="product-info row">
+	                    <div class="product-img col-sm-4">
+	                        <img src="<%= contextPath %>/<%= p.getProductImgM() %>" alt="">
+	                    </div>
+	                    <div class="product-name col-sm-8">
+	                        <br>
+	                        <span id="product-brand"><%= p.getBrandName() %></span><br>
+	                        <span id="product-eng-name"><%= p.getProductNameEng() %></span><br>
+	                        <span id="product-kor-name"><%= p.getProductNameKo() %></span> <br>
+	                        <span id="product-size" name="size"><%= size %></span>
+	                    </div>
+	                </div>
                 <div class="line"></div>
                 <br>
                 <div class="shipping-address">
@@ -148,15 +159,15 @@
                         </tr>
                         <tr>
                             <th>받는분</th>
-                            <td name="shipping-name">XXX</td>
+                            <td name="shipping-name"><%= ad.getRecipient() %></td>
                         </tr>
                         <tr>
                             <th>연락처</th>
-                            <td name="shipping-phone">010-****-****</td>
+                            <td name="shipping-phone"><%= ad.getPhone() %></td>
                         </tr>
                         <tr>
                             <th>배송주소</th>
-                            <td name="shipping-address">**시**구**********</td>
+                            <td name="shipping-address">(<%= ad.getZipCode() %>)<%= ad.getAddress1() %> <%= ad.getAddress2() %></td>
                         </tr>
                         <tr>
                             <th>배송 요청사항</th>
@@ -432,22 +443,41 @@
                                 <div class="line"></div>
                             </td>
                         </tr>
-                        <tr>
-                            <th>즉시 구매가</th>
-                            <td>202,000원</td>
-                        </tr>
-                        <tr>
-                            <th>검수비</th>
-                            <td>무료</td>
-                        </tr>
-                        <tr>
-                            <th>수수료</th>
-                            <td>무료</td>
-                        </tr>
-                        <tr>
-                            <th>배송비</th>
-                            <td>3000원</td>
-                        </tr>
+                        <% if(bType.equals("buyI") && b != null){ %>
+	                        <tr>
+	                            <th>즉시 구매가</th>
+	                            <td><%= formatter.format(b.getBiddingPrice().toString()) %>원</td>
+	                        </tr>
+	                        <tr>
+	                            <th>검수비</th>
+	                            <td>무료</td>
+	                        </tr>
+	                        <tr>
+	                            <th>수수료</th>
+	                            <td>무료</td>
+	                        </tr>
+	                        <tr>
+	                            <th>배송비</th>
+	                            <td><%= formatter.format(b.getDeliveryFee().toString()) %>원</td>
+	                        </tr>
+                        <% } else{ %>
+	                        <tr>
+	                            <th>구매 입찰가</th>
+	                            <td><%= formatter.format(price) %>원</td>
+	                        </tr>
+	                        <tr>
+	                            <th>검수비</th>
+	                            <td>무료</td>
+	                        </tr>
+	                        <tr>
+	                            <th>수수료</th>
+	                            <td>무료</td>
+	                        </tr>
+	                        <tr>
+	                            <th>배송비</th>
+	                            <td><%= formatter.format(3000) %>원</td>
+	                        </tr>
+                        <% } %>
                     </table>
                     <br>
                     <div class="line"></div>

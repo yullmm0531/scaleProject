@@ -58,6 +58,8 @@
 		  , ZIPCODE
 		  , ADDRESS1
 		  , ADDRESS2
+		  , RECIPIENT
+		  , PHONE
 		  , DEFAULT_ADD
 		  , USER_NO
 		  )
@@ -67,7 +69,9 @@
 		  , ?
 		  , ?
 		  , ?
-		  , 'N'
+		  , ?
+		  , ?
+		  , 'Y'
 		  , SEQ_UNO.CURRVAL
 		  )
 	</entry>
@@ -119,6 +123,7 @@
 		 
 	</entry>
 	
+
 	<entry key="selectUserByNickname">
 		SELECT
 			   USER_NO
@@ -129,5 +134,19 @@
 		  FROM TB_USER
 		 WHERE STATUS = 'Y'
 		   AND USER_NICKNAME = ?
+	</entry>
+	
+	
+	<entry key="selectDefaultAddress">
+		SELECT
+		       ADDRESS_NO
+		     , ZIPCODE
+		     , ADDRESS1
+		     , ADDRESS2
+		     , RECIPIENT
+		     , PHONE
+		  FROM TB_ADDRESS
+		 WHERE DEFAULT_ADD = 'Y'
+		   AND USER_NO = ?
 	</entry>
 </properties>

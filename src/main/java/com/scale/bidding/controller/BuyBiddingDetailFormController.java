@@ -13,6 +13,8 @@ import com.scale.bidding.model.service.BiddingService;
 import com.scale.bidding.model.vo.Bidding;
 import com.scale.product.model.service.ProductService;
 import com.scale.product.model.vo.Product;
+import com.scale.user.model.service.UserService;
+import com.scale.user.model.vo.Address;
 import com.scale.user.model.vo.User;
 
 /**
@@ -40,9 +42,10 @@ public class BuyBiddingDetailFormController extends HttpServlet {
 		String bType = request.getParameter("options");
 		int price = 0;
 		Product p = new ProductService().selectProduct(pCode);
-		
 		request.setAttribute("p", p);
+		request.setAttribute("size", size);
 		request.setAttribute("bType", bType);
+		System.out.println(bType);
 		if(bType.equals("buyI")) {
 			price = Integer.parseInt(request.getParameter("priceI").replaceAll(",", ""));
 			Bidding b = new BiddingService().selectSellBidding(pCode, size, price);
@@ -56,7 +59,10 @@ public class BuyBiddingDetailFormController extends HttpServlet {
 		HttpSession session = request.getSession();
 		int userNo = ((User)session.getAttribute("loginUser")).getUserNo();
 		
+		Address ad = new UserService().selectDefaultAddress(userNo);
+		request.setAttribute("ad", ad);
 		
+		request.getRequestDispatcher("views/buy/buyPaymentView.jsp").forward(request, response);
 		
 		
 		

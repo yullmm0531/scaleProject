@@ -95,20 +95,23 @@
 	<%@ include file="../common/menubar.jsp" %>
     <br><br><br>
     <div class="outer">
-        <form action="<%= contextPath%>/buyDetail.bi?co=<%= p.getProductCode() %>">
+        <form action="<%= contextPath %>/buyDetail.bi">
+        	<input type="hidden" name="co" value="<%= p.getProductCode() %>">
             <div class="product">
-                <div class="product-info row">
-                    <div class="product-img col-sm-4">
-                        <img src="<%= contextPath %>/<%= p.getProductImgM() %>">
-                    </div>
-                    <div class="product-name col-sm-8">
-                        <br>
-                        <div id="product-brand"><%= p.getBrandName() %></div>
-                        <div id="product-eng-name"><%= p.getProductNameEng() %></div>
-                        <div id="product-kor-name"><%= p.getProductNameKo() %></div>
-                        <span id="product-size" name="size" hidden>사이즈</span>
-                    </div>
-                </div>
+            	<% if(p != null) { %>
+	                <div class="product-info row">
+	                    <div class="product-img col-sm-4">
+	                        <img src="<%= contextPath %>/<%= p.getProductImgM() %>">
+	                    </div>
+	                    <div class="product-name col-sm-8">
+	                        <br>
+	                        <div id="product-brand"><%= p.getBrandName() %></div>
+	                        <div id="product-eng-name"><%= p.getProductNameEng() %></div>
+	                        <div id="product-kor-name"><%= p.getProductNameKo() %></div>
+	                        <span id="product-size" name="size" hidden>사이즈</span>
+	                    </div>
+	                </div>
+                <% } %>
                 <div class="line"></div>
                 <br>
             </div>
@@ -378,11 +381,9 @@
 				
                 <br><br>
             </div>
-        </form>
         
+        </form>
     </div>
-
-
     <script>
         $(function(){
             var checkboxes = $("input[type='checkbox']");

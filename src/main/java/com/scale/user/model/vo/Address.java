@@ -6,28 +6,51 @@ public class Address {
 	private String zipCode;
 	private String address1;
 	private String address2;
+	private String recipient;
+	private String phone;
 	private String defaultAdd;
 	private String addWriter;
 	
 	public Address() {}
 	
-	public Address(int addresNo, String zipCode, String address1, String address2, String defaultAdd,
-			String addWriter) {
+	
+
+	
+	public Address(int addresNo, String zipCode, String address1, String address2, String recipient, String phone,
+			String defaultAdd, String addWriter) {
 		super();
 		this.addresNo = addresNo;
 		this.zipCode = zipCode;
 		this.address1 = address1;
 		this.address2 = address2;
+		this.recipient = recipient;
+		this.phone = phone;
 		this.defaultAdd = defaultAdd;
 		this.addWriter = addWriter;
 	}
 
-	
-	public Address(String zipCode, String address1, String address2) {
+
+
+
+	public Address(String zipCode, String recipient, String phone, String address1, String address2) {
 		super();
+		this.zipCode = zipCode;
+		this.recipient = recipient;
+		this.phone = phone;
+		this.address1 = address1;
+		this.address2 = address2;
+	}
+	
+	
+
+	public Address(int addresNo, String zipCode, String address1, String address2, String recipient, String phone) {
+		super();
+		this.addresNo = addresNo;
 		this.zipCode = zipCode;
 		this.address1 = address1;
 		this.address2 = address2;
+		this.recipient = recipient;
+		this.phone = phone;
 	}
 
 	public int getAddresNo() {
@@ -60,6 +83,22 @@ public class Address {
 
 	public void setAddress2(String address2) {
 		this.address2 = address2;
+	}
+
+	public String getRecipient() {
+		return recipient;
+	}
+
+	public void setRecipient(String recipient) {
+		this.recipient = recipient;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public String getDefaultAdd() {

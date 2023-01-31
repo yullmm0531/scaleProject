@@ -80,6 +80,7 @@ public class UserService {
 		return result;
 	}
 	
+
 	/**
 	 * @writer 먼지링
 	 * @param 유저정보를 찾을 때 사용할 nickname
@@ -90,5 +91,16 @@ public class UserService {
 		User user = new UserDao().selectUserByNickname(conn, nickname);
 		close(conn);
 		return user;
+	}
+
+	public Address selectDefaultAddress(int userNo) {
+		
+		Connection conn = getConnection();
+		Address ad = new UserDao().selectDefaultAddress(conn, userNo);
+		
+		close(conn);
+		
+		return ad;
+
 	}
 }

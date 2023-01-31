@@ -47,7 +47,7 @@ public class InsertUserController extends HttpServlet {
 		String address1 = request.getParameter("address");
 		String address2 = request.getParameter("detailAddress");
 		
-		Address add = new Address(zipCode, address1, address2);
+		Address add = new Address(zipCode, userName, phone, address1, address2);
 		
 		int result = new UserService().insertUser(u, add);
 		

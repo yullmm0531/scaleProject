@@ -104,6 +104,8 @@ public class UserDao {
 			pstmt.setString(1, add.getZipCode());
 			pstmt.setString(2, add.getAddress1());
 			pstmt.setString(3, add.getAddress2());
+			pstmt.setString(4, add.getRecipient());
+			pstmt.setString(5, add.getPhone());
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -247,6 +249,7 @@ public class UserDao {
 		return result;
 	}
 	
+
 	public User selectUserByNickname(Connection conn, String nickname) {
 		User user = null;
 		PreparedStatement pstmt = null;
@@ -273,5 +276,40 @@ public class UserDao {
 		}
 		
 		return user;
+	}
+
+	public Address selectDefaultAddress(Connection conn, int userNo) {
+		
+		Address ad = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectDefaultAddress");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				ad = new Address(rset.getInt("address_no"),
+								 rset.getString("zipcode"),
+								 rset.getString("address1"),
+								 rset.getString("address2"),
+								 rset.getString("recipient"),
+								 rset.getString("phone"));
+								
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return ad;
+		
 	}
 }
