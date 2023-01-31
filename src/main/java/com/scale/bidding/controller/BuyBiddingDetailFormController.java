@@ -45,22 +45,23 @@ public class BuyBiddingDetailFormController extends HttpServlet {
 		request.setAttribute("p", p);
 		request.setAttribute("size", size);
 		request.setAttribute("bType", bType);
-		System.out.println(bType);
+		
+		Bidding b = null;
 		if(bType.equals("buyI")) {
 			price = Integer.parseInt(request.getParameter("priceI").replaceAll(",", ""));
-			Bidding b = new BiddingService().selectSellBidding(pCode, size, price);
-			request.setAttribute("b", b);
-			
+			b = new BiddingService().selectSellBidding(pCode, size, price);
 		} else {
 			price = Integer.parseInt(request.getParameter("priceB").replaceAll(",", ""));
-			request.setAttribute("price", price);
+			
 		}
 		
 		HttpSession session = request.getSession();
 		int userNo = ((User)session.getAttribute("loginUser")).getUserNo();
 		
 		Address ad = new UserService().selectDefaultAddress(userNo);
+		request.setAttribute("price", price);
 		request.setAttribute("ad", ad);
+		request.setAttribute("b", b);
 		
 		request.getRequestDispatcher("views/buy/buyPaymentView.jsp").forward(request, response);
 		

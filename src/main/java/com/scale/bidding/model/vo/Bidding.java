@@ -4,7 +4,7 @@ public class Bidding {
 	
 	private int bNo;
 	private String pSize;
-	private int pType;
+	private int bType;
 	private int bPrice;
 	private String bDate;
 	private int inspectionCost;
@@ -26,12 +26,12 @@ public class Bidding {
 	}
 
 
-	public Bidding(int bNo, String pSize, int pType, int bPrice, String bDate, int inspectionCost, int commition,
+	public Bidding(int bNo, String pSize, int bType, int bPrice, String bDate, int inspectionCost, int commition,
 			int deliveryFee, String bStatus, String dCheck, String dStep, String dDate, String pCode, int userNo) {
 		super();
 		this.bNo = bNo;
 		this.pSize = pSize;
-		this.pType = pType;
+		this.bType = bType;
 		this.bPrice = bPrice;
 		this.bDate = bDate;
 		this.inspectionCost = inspectionCost;
@@ -121,12 +121,12 @@ public class Bidding {
 
 
 	public int getpType() {
-		return pType;
+		return bType;
 	}
 
 
 	public void setpType(int pType) {
-		this.pType = pType;
+		this.bType = pType;
 	}
 
 
@@ -252,7 +252,7 @@ public class Bidding {
 
 	@Override
 	public String toString() {
-		return "Bidding [bNo=" + bNo + ", pSize=" + pSize + ", pType=" + pType + ", bPrice=" + bPrice + ", bDate="
+		return "Bidding [bNo=" + bNo + ", pSize=" + pSize + ", bType=" + bType + ", bPrice=" + bPrice + ", bDate="
 				+ bDate + ", inspectionCost=" + inspectionCost + ", commition=" + commition + ", deliveryFee="
 				+ deliveryFee + ", bStatus=" + bStatus + ", dCheck=" + dCheck + ", dStep=" + dStep + ", dDate=" + dDate
 				+ ", pCode=" + pCode + ", userNo=" + userNo + "]";

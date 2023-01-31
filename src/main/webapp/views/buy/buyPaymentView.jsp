@@ -6,7 +6,7 @@
 	String size = (String)request.getAttribute("size");
 	String bType = (String)request.getAttribute("bType");
 	Bidding b = (Bidding)request.getAttribute("b");
-	String price = (String)request.getAttribute("price");
+	int price = (int)request.getAttribute("price");
 	Address ad = (Address)request.getAttribute("ad");
 	DecimalFormat formatter = new DecimalFormat("###,###");
 %>
@@ -14,7 +14,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>    
+<title>Insert title here</title>
+<!-- iamport.payment.js -->
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-{SDK-최신버전}.js"></script>  
 <style>
         
     .shipping-payment{width: 600px; margin: auto; border: 1px solid gray; background-color: whitesmoke;}
@@ -77,11 +79,7 @@
     .total-price-tag{
         font-size: 20px;
     }
-    .total-price{
-        font-size: 20px;
-        color: orange;
-        font-style: italic;
-    }
+    
     .buy-terms, .total-price-info{
         padding-left: 50px;
     }
@@ -121,7 +119,19 @@
     #add-address-form div{
         padding-top: 10px;
     }
-    
+    #recipient, #reciPhone, #shippingAddress{
+        width: 400px;
+        border: none;
+        background-color: whitesmoke;
+    }
+    .totalPrice{
+        width: 100px;
+        border: none;
+        background-color: whitesmoke;
+        font-size: 20px;
+        color: orange;
+        font-style: italic;
+    }
 </style>
 </head>
 <body>
@@ -129,8 +139,8 @@
     <br><br>
     <div class="shipping-payment">
     
-        <form action="" method="">
-        	<input type="hidden" name="biddingInfo" value="..">
+        <form action="<%= contextPath %>/buySuccess.bi" method="">
+        	<input type="hidden" name="biddingInfo" value="<%= bType %>">
             <br>
             <div id="shipping-payment">
 	                <div id="title">배송/결제</div>
@@ -159,15 +169,15 @@
                         </tr>
                         <tr>
                             <th>받는분</th>
-                            <td name="shipping-name"><%= ad.getRecipient() %></td>
+                            <td><input type="text" id="recipient" name="recipient" value="<%= ad.getRecipient() %>"></td>
                         </tr>
                         <tr>
                             <th>연락처</th>
-                            <td name="shipping-phone"><%= ad.getPhone() %></td>
+                            <td><input type="text" id="reciPhone" name="reciPhone" value="<%= ad.getPhone() %>"></td>
                         </tr>
                         <tr>
                             <th>배송주소</th>
-                            <td name="shipping-address">(<%= ad.getZipCode() %>)<%= ad.getAddress1() %> <%= ad.getAddress2() %></td>
+                            <td><input type="text" id="shippingAddress" name="shippingAddress" value="(<%= ad.getZipCode() %>)<%= ad.getAddress1() %> <%= ad.getAddress2() %>"></td>
                         </tr>
                         <tr>
                             <th>배송 요청사항</th>
@@ -283,7 +293,7 @@
                                         </tr>
                                         <tr>
                                             <td colspan="2">
-                                                <div class="input_area"><input type="text" maxlength="5" name="userName" placeholder="이름입력"></div>
+                                                <div class="input_area"><input type="text" maxlength="5" placeholder="이름입력"></div>
                                             </td>
                                         </tr>
                                         <tr>
@@ -293,7 +303,7 @@
                                         </tr>
                                         <tr>
                                             <td colspan="2">
-                                                <div class="input_area"><input type="text" maxlength="13" name="phone"
+                                                <div class="input_area"><input type="text" maxlength="13"
                                                     placeholder="숫자만입력" onKeyup ="addHypen(this);"></div>
                                             </td>
                                         </tr>
@@ -332,7 +342,7 @@
                                         <tr>
                                             <td colspan="2">
                                                 <div>
-                                                    <input type="checkbox" name="defaultAD" value="Y" id="defaultAD">
+                                                    <input type="checkbox" value="Y" id="defaultAD">
                                                     <label for="defaultAD">기본배송지 설정</label>
                                                 </div>
                                             </td>
@@ -435,8 +445,12 @@
                     <br>
                     <table id="price-detail">
                         <tr>
-                            <th class="total-price-tag" name="total-price">총 결제 금액</th>
-                            <td class="total-price">205,000원</td>
+                            <th class="total-price-tag" id="total-price">총 결제 금액</th>
+                            <% if(bType.equals("buyI")){ %>
+                            	<td class="total-price"><input type="text" class="totalPrice" name="totalPrice" value="<%= formatter.format(b.getbPrice() - b.getDeliveryFee()) %>원"></td>
+                            <% } else{ %>
+                            	<td class="total-price"><input type="text" class="totalPrice" name="totalPrice" value="<%= formatter.format(price - 3000) %>원"></td>
+                            <% } %>
                         </tr>
                         <tr>
                             <td colspan="2">
@@ -446,7 +460,7 @@
                         <% if(bType.equals("buyI") && b != null){ %>
 	                        <tr>
 	                            <th>즉시 구매가</th>
-	                            <td><%= formatter.format(b.getBiddingPrice().toString()) %>원</td>
+	                            <td><%= formatter.format(b.getbPrice()) %>원</td>
 	                        </tr>
 	                        <tr>
 	                            <th>검수비</th>
@@ -458,7 +472,7 @@
 	                        </tr>
 	                        <tr>
 	                            <th>배송비</th>
-	                            <td><%= formatter.format(b.getDeliveryFee().toString()) %>원</td>
+	                            <td><%= formatter.format(b.getDeliveryFee()) %>원</td>
 	                        </tr>
                         <% } else{ %>
 	                        <tr>
@@ -538,7 +552,16 @@
                     <table id="total-price-info">
                         <tr>
                             <th class="total-price-tag" name="total-price">총 결제 금액</th>
-                            <td class="total-price">205,000원</td>
+                             <% if(bType.equals("buyI")){ %>
+                             	<input type="hidden" name="bNo" value="<%= b.getbNo() %>">
+                            	<td class="totalPrice"><%= formatter.format(b.getbPrice() - b.getDeliveryFee()) %>원</td>
+                            <% } else{ %>
+                                <input type="hidden" name="pCo" value="<%= p.getProductCode() %>">
+                                <input type="hidden" name="size" value="<%= size %>">
+                                <input type="hidden" name="price" value="<%= price %>">
+                            	<td class="totalPrice"><%= formatter.format(price - 3000) %>원</td>
+                            <% } %>
+                            
                         </tr>
                     </table>
                 </div>
