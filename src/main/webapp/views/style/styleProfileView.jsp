@@ -1,10 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.scale.style.model.vo.*, java.util.ArrayList, java.net.URLEncoder" %>
+<%@ page import="com.scale.user.model.vo.User" %>
 <%
-	ArrayList<Style> list = (ArrayList<Style>)request.getAttribute("list");
-	// style_no, profile_img, count, user_id, user_nickname, introduce, hashtag
-	ArrayList<StyleImg> ilist = (ArrayList<StyleImg>)request.getAttribute("ilist");
+	User user = (User)request.getAttribute("user");
 %>
 <!DOCTYPE html>
 <html>
@@ -75,164 +73,60 @@
 	<%@ include file="../common/menubar.jsp" %>
 	
     <div class="outer">
-        <% if(loginUser == null) { %>
-        	<table class="profile">
-        		<tr class="header">
-                	<td>
-                    	<img src="<%= contextPath %>/<%= list.get(0).getProfileImg() %>" class="rounded-circle">
-                    	<span><%= list.get(0).getStyleWriter() %></span>
-                	</td>
-           		</tr>
-	            <tr>
-	                <td class="id">
-	                    <div><%= list.get(0).getUserId() %></div>
-	                </td>
-	            </tr>
-	            <% if(list.get(0).getIntroduce() != null) { %>
-	            	<tr>
-		                <td class="introduce">
-		                    <div><%= list.get(0).getIntroduce() %></div>    
-		                </td>
-		            </tr>
-	            <% } %>
-        	</table>
-        <% } else { %>
-        	<% if(list.size() == 0) { %>
-        		<table class="profile">
-	        		<tr class="header">
-	                	<td>
-	                    	<img src="<%= contextPath %>/<%= loginUser.getProfileImg() %>" class="rounded-circle">
-	                    	<span><%= loginUser.getUserNickName() %></span>
-	                	</td>
-                        <td class="edit-td">
-                            <button type="button" class="edit-btn btn-secondary" data-toggle="modal" data-target="#myModal">프로필 편집</button>
-                        </td>
-	           		</tr>
-		            <tr>
-		                <td class="id">
-		                    <div><%= loginUser.getUserId() %></div>
-		                </td>
-		            </tr>
-		            <% if(loginUser.getIntroduce() != null) { %>
-		            	<tr>
-			                <td class="introduce">
-			                    <div><%= loginUser.getIntroduce() %></div>    
-			                </td>
-			            </tr>
-		            <% } %>
-        		</table>
-        	<% } else { %>
-        		<% if(loginUser.getUserNickName().equals(list.get(0).getStyleWriter())) { %>
-        			<table class="profile">
-		        		<tr class="header">
-		                	<td>
-		                    	<img src="<%= contextPath %>/<%= list.get(0).getProfileImg() %>" class="rounded-circle">
-		                    	<span><%= list.get(0).getStyleWriter() %></span>
-		                	</td>
-		                	<td class="edit-td">
-	                            <button type="button" class="edit-btn btn-secondary" data-toggle="modal" data-target="#myModal">프로필 편집</button>
-	                        </td>
-		           		</tr>
-			            <tr>
-			                <td class="id">
-			                    <div><%= list.get(0).getUserId() %></div>
-			                </td>
-			            </tr>
-			            <% if(list.get(0).getIntroduce() != null) { %>
-			            	<tr>
-				                <td class="introduce">
-				                    <div><%= list.get(0).getIntroduce() %></div>    
-				                </td>
-				            </tr>
-			            <% } %>
-		        	</table>
-        		<% } else { %>
-		        	<table class="profile">
-		        		<tr class="header">
-		                	<td>
-		                    	<img src="<%= contextPath %>/<%= list.get(0).getProfileImg() %>" class="rounded-circle">
-		                    	<span><%= list.get(0).getStyleWriter() %></span>
-		                	</td>
-		           		</tr>
-			            <tr>
-			                <td class="id">
-			                    <div><%= list.get(0).getUserId() %></div>
-			                </td>
-			            </tr>
-			            <% if(list.get(0).getIntroduce() != null) { %>
-			            	<tr>
-				                <td class="introduce">
-				                    <div><%= list.get(0).getIntroduce() %></div>    
-				                </td>
-				            </tr>
-			            <% } %>
-		        	</table>
-        		<% } %>
-        	<% } %>
-        <% } %>
+		<div id="profile-box">
+			<% if(loginUser != null && loginUser.getUserNo() == user.getUserNo()) { %>
+				<table class="profile">
+					<tr class="header">
+						<td>
+							<img src="<%= user.getProfileImg() %>" class="rounded-circle">
+							<span><%= user.getUserNickName() %></span>
+						</td>
+						<td class="edit-td">
+							<button type="button" class="edit-btn btn-secondary" data-toggle="modal" data-target="#myModal">프로필 편집</button>
+						</td>
+					</tr>
+					<tr>
+						<td class="id">
+							<div><%= user.getUserId() %></div>
+						</td>
+					</tr>
+					<tr>
+						<% if(user.getIntroduce() != null) { %>
+						<td class="introduce">
+							<div><%= user.getIntroduce() %></div>
+						</td>
+						<% } %>
+					</tr>
+				</table>
+			<% } else { %>
+				<table class="profile">
+					<tr class="header">
+						<td>
+							<img src="<%= user.getProfileImg() %>" class="rounded-circle">
+							<span><%= user.getUserNickName() %></span>
+						</td>
+					</tr>
+					<tr>
+						<td class="id">
+							<div><%= user.getUserId() %></div>
+						</td>
+					</tr>
+					<tr>
+						<% if(user.getIntroduce() != null) { %>
+						<td class="introduce">
+							<div><%= user.getIntroduce() %></div>
+						</td>
+						<% } %>
+					</tr>
+				</table>
+			<% } %>
+		</div>
 
         <br><br>
 		
-		<% if(!list.isEmpty()) { %>
-	        <div id="table-container">
-	        	<!-- 반복문 -->
-	        	<% for(int i=0; i<list.size(); i++) { %>
-	            <table class="set">
-	                <tr>
-	                    <td colspan="2" class="style-img">
-                            <div id="demo<%= i %>" class="carousel" data-interval="false">
-                                <!-- The slideshow -->
-                                <div class="carousel-inner">
-                                    <% for(int j=0; j<ilist.size(); j++) { %>
-                                        <% if(list.get(i).getStyleNo() == ilist.get(j).getStyleNo() && ilist.get(j).getFileLevel() == 1) { %>
-                                                <div class="carousel-item active">
-                                                    <img class="cimg" src="<%= contextPath %>/<%= ilist.get(j).getFilePath() + ilist.get(j).getChangeName() %>">
-                                                </div>
-                                        <% } else if(list.get(i).getStyleNo() == ilist.get(j).getStyleNo() && ilist.get(j).getFileLevel() == 2) { %>
-                                                <div class="carousel-item">
-                                                    <img class="cimg" src="<%= contextPath %>/<%= ilist.get(j).getFilePath() + ilist.get(j).getChangeName() %>">
-                                                </div>
-                                        <% } %>
-                                    <% } %>
-                                </div>
-                                    
-                                <!-- Left and right controls -->
-                                <a class="carousel-control-prev" href="#demo<%= i %>" data-slide="prev">
-                                    <span class="carousel-control-prev-icon"></span>
-                                </a>
-                                <a class="carousel-control-next" href="#demo<%= i %>" data-slide="next">
-                                    <span class="carousel-control-next-icon"></span>
-                                </a>
-
-                            </div>
-	                    </td>
-	                </tr>
-	                <tr>
-	                    <td class="nickname">
-	                        <img src="<%= contextPath %>/<%= list.get(i).getProfileImg() %>" class="rounded-circle">
-	                        <a href="<%= contextPath %>/profile.st?nickname=<%= list.get(i).getStyleWriter() %>&cpage=1"><%= list.get(i).getStyleWriter() %></a>
-	                    </td>
-	                    <td class="like">
-	                        <a class="btn">😊</a>
-	                        <span><%= list.get(i).getCount() %></span>
-	                    </td>
-	                </tr>
-	                <tr>
-	                    <td colspan="2" class="tag-area">
-	                        <div class="text">
-	                        	<% if(list.get(i).getHashtag() != null) { %>
-	                        		<% String[] tagArr = list.get(i).getHashtag().split(" "); %>
-	                        		<% for(int t=0; t<tagArr.length; t++) { %>
-	                        			<% String enco = URLEncoder.encode(tagArr[t], "UTF-8"); %>
-	                        			<a href="<%= contextPath %>/search.st?keyword=<%= enco %>"><%= tagArr[t] %></a>
-	                        		<% } %>
-	                        	<% } %>
-	                        </div>
-	                    </td>
-	                </tr>
-	            </table>
-	            <% } %>
-	        </div>
+	    <div id="table-container">
+	        
+	    </div>
 	
 	    <div class="modal" id="profile-edit">
 	        <div class="modal-dialog">
@@ -264,15 +158,12 @@
 	      
 	          </div>
 	        </div>
-		<% } else { %>
-			<div>게시물이 없습니다.</div>
-		<% } %>
         <button id="up-btn">UP</button>
         <button id="insert-btn">+</button>
         
         <script>
 	        $("#up-btn").click(function(){
-	            window.scrollTo({ top: 0, behavior: "smooth" });
+	            window.scrollTo({ top: 0, behavior: "smooth"});
 	        })
 
 			let cpage = 0;
@@ -289,18 +180,22 @@
 			});
 
 			function StyleList(){
-				<% if(loginUser != null) { %>
-					let userNo = <%= loginUser.getUserNo() %>;
-					$.ajax({
-						url:"<%= contextPath %>/trendinglist.ajax",
-						type:"get",
-						data:{"cpage":cpage, "userNo":userNo},
-						success:function(map){
-							let list = map.list;
-							let ilist = map.ilist;
-							let checkLike = map.checkLike;
-							
-							let value = "";
+				$.ajax({
+					url:"<%= contextPath %>/profile.ajax",
+					type:"get",
+					data:{"cpage":cpage, "nickname":"<%= user.getUserNickName() %>", "userNo":"<%= user.getUserNo() %>"},
+					success:function(map){
+						let list = map.list;
+						let ilist = map.ilist;
+						let checkLike = map.checkLike;
+						let maxPage = map.maxPage;
+						
+						let value = "";
+						if(list.length > 0){
+							if(cpage > maxPage){
+								return;
+							}
+							$("#nothing").css("display", "none");
 							for(let i=0; i<list.length; i++){
 								value = "<table class='set'>"
 											+ "<tr>"
@@ -357,83 +252,20 @@
 											+ "</td>"
 										+ "</tr>"
 									+ "</table>";
-								$(".set-container").append(value);
+								$("#table-container").append(value);
 							}
-						},
-						error:function(){
-							console.log("통신실패");
+						} else {
+							if($("#table-container").children().length == 0){
+							value = "<div>새로운 스타일을 작성해보세요</div>";
+							$(".set-container").append(value);
 						}
-					})
-				<% } else { %>
-					$.ajax({
-						url:"<%= contextPath %>/trendinglist.ajax",
-						type:"get",
-						data:{"cpage":cpage},
-						success:function(map){
-							let list = map.list;
-							let ilist = map.ilist;
-							
-							let value = "";
-							for(let i=0; i<list.length; i++){
-								value = "<table class='set'>"
-											+ "<tr>"
-												+ "<td colspan='2' class='style-img'>"
-													+ "<div id='demo" + i + (12 * (cpage - 1)) + "' class='carousel'>"
-														+ "<div class='carousel-inner' data-interval='false'>";
-											for(let j=0; j<ilist.length; j++){
-												if(list[i].styleNo == ilist[j].styleNo && ilist[j].fileLevel == 1) {
-													value += "<div class='carousel-item active'>"
-																+ "<img class='cimg' src='<%= contextPath %>/" + ilist[j].filePath + ilist[j].changeName + "'>"
-															+ "</div>";
-												} else if(list[i].styleNo == ilist[j].styleNo && ilist[j].fileLevel == 2) {
-													value += "<div class='carousel-item'>"
-																+ "<img class='cimg' src='<%= contextPath %>/" + ilist[j].filePath + ilist[j].changeName + "'>"
-															+ "</div>";
-												}
-											}
-												value += "</div>"
-														+ "<a class='carousel-control-prev' href='#demo" +  i + (12 * (cpage - 1)) + "' data-slide='prev'>"
-														+ "<span class='carousel-control-prev-icon'></span>"
-														+ "</a>"
-														+ "<a class='carousel-control-next' href='#demo" + i + (12 * (cpage - 1)) + "' data-slide='next'>"
-														+ "<span class='carousel-control-next-icon'></span>" 
-														+ "</a>"
-													+ "</div>"
-												+ "</td>"
-											+ "</tr>"
-											+ "<tr>"
-												+ "<td class='nickname'>"
-													+ "<img src='<%= contextPath %>/" + list[i].profileImg + "' class='rounded-circle'>"
-													+ "<a href='<%= contextPath %>/profile.st?nickname=" + list[i].styleWriter + "&cpage=1'>" + list[i].styleWriter + "</a>"
-												+ "</td>"
-												+ "<td class='like'>"
-													+ "<a class='btn smile'>🤍</a>"
-													+ "<input type='hidden' class='styleNo' value='" + list[i].styleNo + "'>"
-													+ "<span>" + list[i].count + "</span>"
-												+ "</td>"
-											+ "</tr>"
-											+ "<tr>"
-												+ "<td colspan='2' class='tag-area'>"
-													+ "<div class='text'>";
-										if(list[i].hashtag != null){
-											let tagArr = list[i].hashtag.split(" ");
-											for(let t=0; t<tagArr.length; t++){
-												const enco= encodeURIComponent(tagArr[t]);
-												value += "<a href='<%= contextPath %>/search.st?keyword=" + enco + "'>" + tagArr[t] + "</a>";
-											}
-										}
-										value += "</div>"
-											+ "</td>"
-										+ "</tr>"
-									+ "</table>";
-								$(".set-container").append(value);
-							}
-						},
-						error:function(){
-							console.log("통신실패");
 						}
-					})
-				<% } %>
+					},
+					error:function(){
+						console.log("통신실패");
+					}
+				})
+				
 			}
 
 			$(document).on("click", ".smile", function(){

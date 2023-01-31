@@ -355,7 +355,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" id="search">
-                        <a href="" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#myModal">상품태그 검색</a>
+                        <a href="" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#myModal" onclick="searchPd();">상품태그 검색</a>
                     </td>
                 </tr>
                 <tr>
@@ -445,7 +445,7 @@
             <div class="modal-content">
                 <form>
                     <!-- Modal Header -->
-                    <input type="text" placeholder="상품이름 검색" id="search-input" onkeyup="search();">
+                    <input type="text" placeholder="상품이름 검색" id="search-input" onkeyup="searchPd();">
                     <input type="text" style="display: none;">
                     <!-- Modal body -->
                     <div id="pd-box">
@@ -487,10 +487,15 @@
     </div>
 
     <script>
-        function search(){
+        function searchPd(){
+            let keyword = "";
+            if($("#search-input").val() != null){
+                keyword = $("#search-input").val();
+            }
+
             $.ajax({
-                url:"<%= contextPath %>/searchPd.st",
-                data:{keyword:$("#search-input").val()},
+                url:"<%= contextPath %>/searchPd.ajax",
+                data:{keyword:keyword},
                 success:function(result){
                     let value = "";
                     if(result.length == 0){
@@ -552,54 +557,8 @@
 
         $(".modal").on("hide.bs.modal", function() {
             $("#search-input").val("");
-            $("#pd-box").empty();
-            let value = "";
-            <% for(Product pd : listAll) { %>
-            	value += "<table class='pd'>"
-            				+ "<tr>"
-            					+ "<input type='hidden' value=" + <%= pd.getProductCode() %> + ">"
-            				+ "</tr>"
-            				+ "<tr>"
-            					+ "<td rowspan='4' class='img-td'>"
-            						+ "<img class='pd-img' src=" + "<%= pd.getProductImgM() %>" + ">"
-            					+ "</td>"
-            				+ "</tr>"
-            				+ "<tr>"
-	                			+ "<td class='text'>"
-	                				+ "<div class='brand'>" + "<%= pd.getBrandName() %>" + "</div>"
-	                			+ "</td>"
-	                		+ "</tr>"
-	                		+ "<tr>"
-	                			+ "<td class='text'>"
-	                				+ "<div class='name-ko'>" + "<%= pd.getProductNameKo() %>" + "</div>"
-	                			+ "</td>"
-	                    	+ "</tr>"
-	                    	+ "<tr>"
-	                    		 + "<td class='text'>"
-	                    		 	+ "<div class='name-eng'>" + "<%= pd.getProductNameEng() %>" + "</div>"
-	                    		+ "</td>"
-	                		+ "</tr>"
-	                    + "</table>"
-        	<% } %>
-        	$("#pd-box").html(value);
+        	$("#pd-box").html("");
         });
-
-        $(".modal").on("show.bs.modal", function(){
-            $(".pd").click(function(){
-                $.ajax({
-                    url: "<%= contextPath %>/searchPCode.st",
-                    data:{pCode:$(this).children().children().children().val()},
-                    success:function(result){
-                        $("#close-btn").click();
-                        $ul = $("<ul class='pd-thumbnail'><li><input type='hidden' name='pCode' value='" + result.productCode + "'></li><li><img src='" + result.productImgM + "'><div class='delete-pd'>❌</div></li><li class='li-brand'>"+ result.brandName +"</li><li class='li-ko'>" + result.productNameKo + "</li><li class='li-eng'>" + result.productNameEng + "</li></ul>");
-                        $("#pd-thumbnail-td").append($ul);
-                    },
-                    error:function(){
-						console.log("통신실패");
-                    }
-                })
-            })
-        })
 
         $(document).on("click", ".delete-pd", function(){
             $(this).parent().parent().remove();

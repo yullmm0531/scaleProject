@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.scale.style.model.service.StyleService;
 import com.scale.style.model.vo.Style;
 import com.scale.style.model.vo.StyleImg;
+import com.scale.user.model.vo.User;
 
 /**
  * Servlet implementation class AjaxHashtagSearchListController
@@ -34,18 +35,26 @@ public class AjaxHashtagSearchListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String keyword = request.getParameter("keyword");
+		String keyword = request.getParameter("keyword").charAt(0) == '#' ? request.getParameter("keyword").substring(1) : request.getParameter("keyword");
 		int listCount = new StyleService().selectSearchListCount(keyword);
 		int currentPage = Integer.parseInt(request.getParameter("cpage"));
 		int boardLimit = 12;
 		int maxPage = (int)Math.ceil((double)listCount / boardLimit);
-		int userNo = 0;
-		if(request.getParameter("userNo") != null) {
-			userNo = Integer.parseInt(request.getParameter("userNo"));
+		
+		ArrayList<Style> list = new StyleService().selectStyleByHashtag(currentPage, boardLimit, keyword);
+		ArrayList<StyleImg> ilist = new ArrayList<>();
+		for(Style st : list) {
+			ArrayList<StyleImg> imgs = new StyleService().selectStyleImgByNo(st.getStyleNo());
+			for(StyleImg si : imgs) {
+				ilist.add(si);
+			}
 		}
 		
-		ArrayList<Style> list = new StyleService().selectSearchList(currentPage, boardLimit, keyword);
-		ArrayList<StyleImg> ilist = new StyleService().selectStyleImgList();
+		int userNo = 0;
+		User loginUser = (User)request.getSession().getAttribute("loginUser");
+		if(loginUser != null) {
+			userNo = loginUser.getUserNo();
+		}
 		int[] checkLike = new int[list.size()];
 		for(int i=0; i<list.size(); i++) {
 			int styleNo = list.get(i).getStyleNo();

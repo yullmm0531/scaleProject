@@ -16,6 +16,13 @@
 		 WHERE STATUS = 'Y'
 		   AND HASHTAG LIKE '%' || ? || '%'
 	</entry>
+	
+	<entry key="selectStyleCountByUserNo">
+		SELECT COUNT(*) COUNT
+		  FROM TB_STYLE
+		 WHERE USER_NO = ?
+		   AND STATUS = 'Y'
+	</entry>
 
 	<entry key="selectStyleList">
 		SELECT *
@@ -46,7 +53,39 @@
 		 WHERE RNUM BETWEEN ? AND ?
 	</entry>
 	
-	<entry key="selectStyleImgList">
+	<entry key="selectStyleByHashtag">
+		SELECT
+		       *
+		  FROM (
+		        SELECT
+		       ROWNUM RNUM, A.*
+		  FROM (
+		        SELECT
+				       STYLE_NO
+				     , COUNT
+				     , PROFILE_IMG
+				     , USER_NICKNAME
+				     , HASHTAG
+				  FROM (
+				        SELECT
+				               STYLE_NO
+				             , COUNT(*) COUNT
+				          FROM TB_STYLE_LIKE
+				         GROUP
+				            BY STYLE_NO
+				         ORDER
+				            BY COUNT DESC
+				        )
+				  RIGHT JOIN TB_STYLE S USING (STYLE_NO)
+				  JOIN TB_USER USING (USER_NO)
+				 WHERE HASHTAG LIKE '%' || ? || '%'
+				   AND S.STATUS = 'Y'
+		                ) A
+		        )
+		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="selectStyleImgByNo">
 		SELECT
 		       IMG_NO
 		     , CHANGE_NAME
@@ -55,6 +94,7 @@
 		     , FILE_LEVEL
 		  FROM TB_STYLE_IMG
 		 WHERE STATUS = 'Y'
+		   AND STYLE_NO = ?
 	</entry>
 	
 	<entry key="selectTagList">
@@ -101,52 +141,6 @@
 				                ) A
 		        )
 		 WHERE RNUM BETWEEN ? AND ?
-	</entry>
-	
-	<entry key="selectSearchList">
-		SELECT
-		       *
-		  FROM (
-		        SELECT
-		       ROWNUM RNUM, A.*
-		  FROM (
-		        SELECT
-				       STYLE_NO
-				     , COUNT
-				     , PROFILE_IMG
-				     , USER_NICKNAME
-				     , HASHTAG
-				  FROM (
-				        SELECT
-				               STYLE_NO
-				             , COUNT(*) COUNT
-				          FROM TB_STYLE_LIKE
-				         GROUP
-				            BY STYLE_NO
-				         ORDER
-				            BY COUNT DESC
-				        )
-				  RIGHT JOIN TB_STYLE S USING (STYLE_NO)
-				  JOIN TB_USER USING (USER_NO)
-				 WHERE HASHTAG LIKE '%' || ? || '%'
-				   AND S.STATUS = 'Y'
-		                ) A
-		        )
-		 WHERE RNUM BETWEEN ? AND ?
-	</entry>
-	
-	<entry key="selectPdAllList">
-		SELECT
-		       PRODUCT_CODE
-		     , PRODUCT_NAME_KO
-		     , PRODUCT_NAME_ENG
-		     , PRODUCT_IMG_M
-		     , BRAND_NAME
-		  FROM TB_PRODUCT
-		  JOIN TB_BRAND USING (BRAND_CODE)
-		 WHERE BLIND_CHECK = 'N'
-		 ORDER
-		    BY PRODUCT_NAME_KO ASC
 	</entry>
 	
 	<entry key="selectPdSearchList">

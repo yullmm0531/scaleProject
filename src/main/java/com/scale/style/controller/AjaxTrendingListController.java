@@ -3,7 +3,6 @@ package com.scale.style.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,13 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONObject;
-
 import com.google.gson.Gson;
 import com.scale.style.model.service.StyleService;
-import com.scale.style.model.vo.Hashtag;
 import com.scale.style.model.vo.Style;
 import com.scale.style.model.vo.StyleImg;
+import com.scale.user.model.vo.User;
 
 /**
  * Servlet implementation class AjaxTrendingListController
@@ -38,16 +35,23 @@ public class AjaxTrendingListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int listCount = new StyleService().selectListCount();
+		// int listCount = new StyleService().selectListCount();
 		int currentPage = Integer.parseInt(request.getParameter("cpage"));
 		int boardLimit = 12;
-		int userNo = 0;
-		if(request.getParameter("userNo") != null) {
-			userNo = Integer.parseInt(request.getParameter("userNo"));
-		}
 		
 		ArrayList<Style> list = new StyleService().selectStyleList(currentPage, boardLimit);
-		ArrayList<StyleImg> ilist = new StyleService().selectStyleImgList();
+		ArrayList<StyleImg> ilist = new ArrayList<>();
+		for(Style st : list) {
+			ArrayList<StyleImg> imgs = new StyleService().selectStyleImgByNo(st.getStyleNo());
+			for(StyleImg si : imgs) {
+				ilist.add(si);
+			}
+		}
+		int userNo = 0;
+		User loginUser = (User)request.getSession().getAttribute("loginUser");
+		if(loginUser != null) {
+			userNo = loginUser.getUserNo();
+		}
 		int[] checkLike = new int[list.size()];
 		for(int i=0; i<list.size(); i++) {
 			int styleNo = list.get(i).getStyleNo();

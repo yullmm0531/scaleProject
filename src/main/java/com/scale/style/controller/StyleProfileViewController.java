@@ -12,11 +12,13 @@ import javax.servlet.http.HttpSession;
 
 import com.scale.style.model.service.StyleService;
 import com.scale.style.model.vo.Style;
+import com.scale.user.model.service.UserService;
+import com.scale.user.model.vo.User;
 
 /**
  * Servlet implementation class StyleProfileViewController
  */
-@WebServlet("/profile.st")
+@WebServlet("/profileView.st")
 public class StyleProfileViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -32,27 +34,9 @@ public class StyleProfileViewController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int listCount;
-		int currentPage;
-		int boardLimit;
-		int maxPage;
-		
-		listCount = new StyleService().selectListCount();
-		currentPage = Integer.parseInt(request.getParameter("cpage"));
-		boardLimit = 12;
-		maxPage = (int)Math.ceil((double)listCount / boardLimit);
-		
-		HttpSession session = request.getSession();
 		String nickname = request.getParameter("nickname");
-		
-		ArrayList<Style> list = new ArrayList<Style>();
-		
-		list = new StyleService().selectStyleByNickname(currentPage, boardLimit, nickname);
-		
-		ArrayList ilist = new StyleService().selectStyleImgList();
-		
-		request.setAttribute("list", list);
-		request.setAttribute("ilist", ilist);
+		User user = new UserService().selectUserByNickname(nickname);
+		request.setAttribute("user", user);
 		request.getRequestDispatcher("views/style/styleProfileView.jsp").forward(request, response);	
 		
 	}

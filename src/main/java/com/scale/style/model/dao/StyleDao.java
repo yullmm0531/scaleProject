@@ -76,6 +76,29 @@ public class StyleDao {
 		return listCount;
 	}
 	
+	public int selectStyleCountByUserNo(Connection conn, int userNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectStyleCountByUserNo");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
 	public ArrayList<Style> selectStyleList(Connection conn, int currentPage, int boardLimit){
 		ArrayList<Style> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
@@ -111,25 +134,31 @@ public class StyleDao {
 		return list; 
 	}
 	
-	public ArrayList<StyleImg> selectStyleImgList(Connection conn){
-		ArrayList<StyleImg> list = new ArrayList<>();
+	public ArrayList<Style> selectStyleByHashtag(Connection conn, int currentPage, int boardLimit, String keyword){
+		ArrayList<Style> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("selectStyleImgList");
+		String sql = prop.getProperty("selectStyleByHashtag");
 		
 		try {
+			int startRow = (currentPage - 1) * boardLimit + 1;
+			int endRow = startRow + boardLimit - 1;
+			
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, keyword);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
-				StyleImg img = new StyleImg();
-				img.setImgNo(rset.getInt("img_no"));
-				img.setChangeName(rset.getString("change_name"));
-				img.setFilePath(rset.getString("file_path"));
-				img.setStyleNo(rset.getInt("style_no"));
-				img.setFileLevel(rset.getInt("file_level"));
+				Style st = new Style();
+				st.setStyleNo(rset.getInt("style_no"));
+				st.setProfileImg(rset.getString("profile_img"));
+				st.setCount(rset.getInt("count"));
+				st.setStyleWriter(rset.getString("user_nickname"));
+				st.setHashtag(rset.getString("hashtag"));
 				
-				list.add(img);
+				list.add(st);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -138,7 +167,38 @@ public class StyleDao {
 			close(pstmt);
 		}
 		
-		return list;
+		return list; 
+	}
+	
+	public ArrayList<StyleImg> selectStyleImgByNo(Connection conn, int styleNo){
+		ArrayList<StyleImg> imgs = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectStyleImgByNo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, styleNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				StyleImg si = new StyleImg();
+				si.setImgNo(rset.getInt("img_no"));
+				si.setChangeName(rset.getString("change_name"));
+				si.setFilePath(rset.getString("file_path"));
+				si.setStyleNo(rset.getInt("style_no"));
+				si.setFileLevel(rset.getInt("file_level"));
+				
+				imgs.add(si);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return imgs;
 	}
 	
 	public ArrayList<Hashtag> selectTagList(Connection conn){
@@ -182,42 +242,6 @@ public class StyleDao {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, startRow);
 			pstmt.setInt(2, endRow);
-			rset = pstmt.executeQuery();
-			
-			while(rset.next()) {
-				Style st = new Style();
-				st.setStyleNo(rset.getInt("style_no"));
-				st.setProfileImg(rset.getString("profile_img"));
-				st.setCount(rset.getInt("count"));
-				st.setStyleWriter(rset.getString("user_nickname"));
-				st.setHashtag(rset.getString("hashtag"));
-				
-				list.add(st);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close(rset);
-			close(pstmt);
-		}
-		
-		return list; 
-	}
-	
-	public ArrayList<Style> selectSearchList(Connection conn, int currentPage, int boardLimit, String keyword){
-		ArrayList<Style> list = new ArrayList<>();
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		String sql = prop.getProperty("selectSearchList");
-		
-		try {
-			int startRow = (currentPage - 1) * boardLimit + 1;
-			int endRow = startRow + boardLimit - 1;
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, keyword);
-			pstmt.setInt(2, startRow);
-			pstmt.setInt(3, endRow);
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {

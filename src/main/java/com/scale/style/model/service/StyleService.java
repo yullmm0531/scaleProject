@@ -27,6 +27,13 @@ public class StyleService {
 		return result;
 	}
 	
+	public int selectStyleCountByUserNo(int userNo) {
+		Connection conn = getConnection();
+		int result = new StyleDao().selectStyleCountByUserNo(conn, userNo);
+		close(conn);
+		return result;
+	}
+	
 	public ArrayList<Style> selectStyleList(int currentPage, int boardLimit){
 		Connection conn = getConnection();
 		ArrayList<Style> list = new StyleDao().selectStyleList(conn, currentPage, boardLimit);
@@ -34,11 +41,18 @@ public class StyleService {
 		return list;
 	}
 	
-	public ArrayList<StyleImg> selectStyleImgList(){
+	public ArrayList<Style> selectStyleByHashtag(int currentPage, int boardLimit, String keyword){
 		Connection conn = getConnection();
-		ArrayList<StyleImg> ilist = new StyleDao().selectStyleImgList(conn);
+		ArrayList<Style> list = new StyleDao().selectStyleByHashtag(conn, currentPage, boardLimit, keyword);
 		close(conn);
-		return ilist;
+		return list;
+	}
+	
+	public ArrayList<StyleImg> selectStyleImgByNo(int styleNo){
+		Connection conn = getConnection();
+		ArrayList<StyleImg> imgs = new StyleDao().selectStyleImgByNo(conn, styleNo);
+		close(conn);
+		return imgs;
 	}
 	
 	public ArrayList<Hashtag> selectTagList(){
@@ -51,13 +65,6 @@ public class StyleService {
 	public ArrayList<Style> selectNewStyleList(int currentPage, int boardLimit){
 		Connection conn = getConnection();
 		ArrayList<Style> list = new StyleDao().selectNewStyleList(conn, currentPage, boardLimit);
-		close(conn);
-		return list;
-	}
-	
-	public ArrayList<Style> selectSearchList(int currentPage, int boardLimit, String keyword){
-		Connection conn = getConnection();
-		ArrayList<Style> list = new StyleDao().selectSearchList(conn, currentPage, boardLimit, keyword);
 		close(conn);
 		return list;
 	}

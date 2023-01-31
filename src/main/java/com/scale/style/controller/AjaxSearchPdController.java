@@ -16,7 +16,7 @@ import com.scale.style.model.service.StyleService;
 /**
  * Servlet implementation class AjaxSearchPdController
  */
-@WebServlet("/searchPd.st")
+@WebServlet("/searchPd.ajax")
 public class AjaxSearchPdController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
