@@ -51,11 +51,25 @@ public class CustomerCenterService {
 		return list;
 	}
 	
+	public int selectFaqListCountAll() {
+		Connection conn = getConnection();
+		int listCount = new CustomerCenterDao().selectFaqListCountAll(conn);
+		close(conn);
+		return listCount;
+	}
+	
 	public int selectFaqListCount(String category) {
 		Connection conn = getConnection();
 		int listCount = new CustomerCenterDao().selectFaqListCount(conn, category);
 		close(conn);
 		return listCount;
+	}
+	
+	public ArrayList<Faq> selectFaqListAll(PageInfo pi){
+		Connection conn = getConnection();
+		ArrayList<Faq> list = new CustomerCenterDao().selectFaqListAll(conn, pi);
+		close(conn);
+		return list;
 	}
 	
 	public ArrayList<Faq> selectFaqList(String category, PageInfo pi){

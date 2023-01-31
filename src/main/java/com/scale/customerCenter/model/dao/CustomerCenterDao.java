@@ -307,6 +307,28 @@ public class CustomerCenterDao {
 	}
 	
 	// faq
+	public int selectFaqListCountAll(Connection conn) {
+		int listCount = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectFaqListCountAll");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				listCount = rset.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return listCount;
+	}
 	
 	public int selectFaqListCount(Connection conn, String category) {
 		int listCount = 0;
@@ -332,6 +354,39 @@ public class CustomerCenterDao {
 		return listCount;
 		
 	}
+	
+	public ArrayList<Faq> selectFaqListAll(Connection conn, PageInfo pi){
+		ArrayList<Faq> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectFaqListAll");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Faq(rset.getInt("faq_no"),
+								 rset.getString("faq_question"),
+								 rset.getString("faq_answer"),
+								 rset.getString("category")
+						));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+	}
+	
 	
 	public ArrayList<Faq> selectFaqList(Connection conn, String category, PageInfo pi){
 		ArrayList<Faq> list = new ArrayList<>();
@@ -365,4 +420,6 @@ public class CustomerCenterDao {
 		}
 		return list;
 	}
+	
+	
 }

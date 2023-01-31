@@ -78,9 +78,9 @@
             </div>
             <form class="input-group mb-3" style="width:400px" action="<%=contextPath%>/search.no" method="get">
                 <select name="option" id="search-option">
-                    <option value="all">제목+내용</option>
-                    <option value="title">제목</option>
-                    <option value="content">내용</option>
+                    <option value="all" id="opt-all">제목+내용</option>
+                    <option value="title" id="opt-title">제목</option>
+                    <option value="content" id="opt-content">내용</option>
                 </select>
                 <input type="text" class="form-control" placeholder="검색어를 입력하세요." id="search-input" name="keyword" value="<%=keyword%>">
                 <input type="hidden" name="cpage" value="1">
@@ -150,6 +150,11 @@
                 }
             })
 
+            $($("#search-option>option")).each(function(){
+                if($(this).val() == '<%=option%>'){
+                    $(this).attr("selected", true);
+                }
+            });
         })
 
     </script>

@@ -120,6 +120,32 @@
 	</entry>
 	
 	<!-- faq -->
+	<entry key="selectFaqListCountAll">
+		SELECT
+			   COUNT(*) "COUNT"
+	      FROM TB_FAQ
+	     WHERE STATUS = 'Y'
+	</entry>
+	
+	<entry key="selectFaqListAll">
+		SELECT * 
+  		  FROM (
+		        SELECT ROWNUM RNUM, F.*
+		          FROM (
+		                SELECT
+		                       FAQ_NO
+		                     , FAQ_QUESTION
+                             , FAQ_ANSWER
+                             , CATEGORY
+		                  FROM TB_FAQ
+		                 WHERE STATUS = 'Y'
+		                 ORDER
+		                    BY CATEGORY DESC
+		                ) F
+       			)
+ 		  WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
 	<entry key="selectFaqListCount">
 		SELECT
 			   COUNT(*) "COUNT"		                      

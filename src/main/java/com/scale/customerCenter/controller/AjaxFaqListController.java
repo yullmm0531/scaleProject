@@ -37,16 +37,18 @@ public class AjaxFaqListController extends HttpServlet {
 		String category = request.getParameter("category");
 		int currentPage = Integer.parseInt(request.getParameter("cpage"));
 
+		// 카테고리별 개수 조회
+		int listCount = 0;
 		if(category.equals("all")) {
-			category = "";
+			listCount = new CustomerCenterService().selectFaqListCountAll();
+		}else {
+			listCount = new CustomerCenterService().selectFaqListCount(category);
 		}
 
-		// 카테고리별 개수 조회
-		int listCount = new CustomerCenterService().selectFaqListCount(category);
-		System.out.println(listCount);
 		// 페이징
 		int boardLimit = 10;
 		int maxPage = (int)Math.ceil((double)listCount / boardLimit);
+		
 		PageInfo pi = new PageInfo();
 		pi.setCurrentPage(currentPage);
 		pi.setBoardLimit(boardLimit);
@@ -54,7 +56,13 @@ public class AjaxFaqListController extends HttpServlet {
 		pi.setMaxPage(maxPage);
 
 		// 게시글 조회
-		ArrayList<Faq> list = new CustomerCenterService().selectFaqList(category, pi);
+		ArrayList<Faq> list = new ArrayList<>();
+		if(category.equals("all")) {
+			list = new CustomerCenterService().selectFaqListAll(pi);
+		}else {
+			list = new CustomerCenterService().selectFaqList(category, pi);
+		}
+		
 		
 		response.setContentType("application/json; charset=UTF-8");
 		HashMap<String, Object> map = new HashMap();

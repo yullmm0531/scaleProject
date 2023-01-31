@@ -31,7 +31,7 @@
     }
 	
 	.wrap{
-		width:1920px;
+		width:1900px;
 		background:black;
 	}
     #header{
