@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.scale.product.model.vo.*, java.util.ArrayList, com.scale.bidding.model.vo.Bidding" %>
+<%@ page import="com.scale.product.model.vo.*, java.util.ArrayList, com.scale.bidding.model.vo.Bidding, java.text.DecimalFormat" %>
 <% 
 	Product p = (Product)request.getAttribute("p");
 	ArrayList<Bidding> dList = (ArrayList<Bidding>)request.getAttribute("dList");
 	ArrayList<ProductImg> pImgList = (ArrayList<ProductImg>)request.getAttribute("pImgList");
 	ArrayList<Bidding> bList = (ArrayList<Bidding>)request.getAttribute("bList");
 	ArrayList<Bidding> sList = (ArrayList<Bidding>)request.getAttribute("sList");
+	DecimalFormat formatter = new DecimalFormat("###,###");
 %> 
     
 
@@ -215,9 +216,9 @@
                                 <th>
                                 	<div align="right">
                                 		<% if(dList != null && dList.size() != 0) { %>
-                                			<%= dList.get(0).getbPrice() %>
+                                			<%= formatter.format(dList.get(0).getbPrice()) %> 원
                                 		<% } else{ %>
-                                			-
+                                			- 원
                                 		<% } %>
                                 	</div>
                                 </th>
@@ -231,7 +232,7 @@
                                                 <th rowspan="2" width="150">구매</th>
                                                 <td width="100">
                                                 	<% if(sList != null && sList.size() != 0) { %>
-			                                			<%= sList.get(0).getbPrice() %>
+			                                			<%= formatter.format(sList.get(0).getbPrice()) %>원
 			                                		<% } else{ %>
 			                                			-
 			                                		<% } %>
@@ -250,7 +251,7 @@
                                                 <th rowspan="2" width="150">판매</th>
                                                 <td width="100">
                                                 	<% if(bList != null && bList.size() != 0) { %>
-			                                			<%= bList.get(0).getbPrice() %>
+			                                			<%= formatter.format(bList.get(0).getbPrice()) %>원
 			                                		<% } else{ %>
 			                                			-
 			                                		<% } %>
@@ -308,7 +309,7 @@
                                 <td><%= p.getModelCode() %></td>
                                 <td><%= p.getReleaseDate() %></td>
                                 <td><%= p.getColor() %></td>
-                                <td><%= p.getReleasePriceView() %></td>
+                                <td><%= formatter.format(p.getReleasePrice()) %>원</td>
                             </tr>
                             <tr>
                                 <td colspan="4"><div class="line"></div></td>
@@ -348,7 +349,7 @@
                                 	<% for(int i=0; i<5; i++){ %>
 	                                	<tr style="height:26px">
 	                                		<td><%= dList.get(i).getpSize() %></td>
-		                                    <td align="right"><%= dList.get(i).getbPrice() %></td>
+		                                    <td align="right"><%= formatter.format(dList.get(i).getbPrice()) %>원</td>
 		                                    <td align="right"><%= dList.get(i).getdDate() %></td>
 	                                	</tr>
 	                                	
@@ -382,7 +383,7 @@
                                 	<% for(int i=0; i<5; i++){ %>
 	                                	<tr style="height:26px">
 	                                		<td><%= sList.get(i).getpSize() %></td>
-		                                    <td align="right"><%= sList.get(i).getbPrice() %></td>
+		                                    <td align="right"><%= formatter.format(sList.get(i).getbPrice()) %>원</td>
 		                                    <td align="right"><%= sList.get(i).getCount() %></td>
 	                                	</tr>
 	                                <% } %>
@@ -415,7 +416,7 @@
                                 	<% for(int i=0; i<5; i++){ %>
 	                                	<tr style="height:26px">
 	                                		<td><%= bList.get(i).getpSize() %></td>
-		                                    <td align="right"><%= bList.get(i).getbPrice() %></td>
+		                                    <td align="right"><%= formatter.format(bList.get(i).getbPrice()) %>원</td>
 		                                    <td align="right"><%= bList.get(i).getCount() %></td>
 	                                	</tr>
 	                                <% } %>
@@ -508,7 +509,7 @@
 						                                	<% for(int i=0; i<dList.size(); i++){ %>
 							                                	<tr>
 							                                		<td><%= dList.get(i).getpSize() %></td>
-								                                    <td align="right"><%= dList.get(i).getbPrice() %></td>
+								                                    <td align="right"><%= formatter.format(dList.get(i).getbPrice()) %>원</td>
 								                                    <td align="right"><%= dList.get(i).getdDate() %></td>
 							                                	</tr>
 							                                	
@@ -535,7 +536,7 @@
 						                                	<% for(int i=0; i<sList.size(); i++){ %>
 							                                	<tr>
 							                                		<td><%= sList.get(i).getpSize() %></td>
-								                                    <td align="right"><%= sList.get(i).getbPrice() %></td>
+								                                    <td align="right"><%= formatter.format(sList.get(i).getbPrice()) %>원</td>
 								                                    <td align="right"><%= sList.get(i).getCount() %></td>
 							                                	</tr>
 							                                <% } %>
@@ -561,7 +562,7 @@
 						                                	<% for(int i=0; i<bList.size(); i++){ %>
 							                                	<tr>
 							                                		<td><%= bList.get(i).getpSize() %></td>
-								                                    <td align="right"><%= bList.get(i).getbPrice() %></td>
+								                                    <td align="right"><%= formatter.format(bList.get(i).getbPrice()) %>원</td>
 								                                    <td align="right"><%= bList.get(i).getCount() %></td>
 							                                	</tr>
 							                                <% } %>

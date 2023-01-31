@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.scale.product.model.vo.*, java.util.ArrayList, com.scale.bidding.model.vo.Bidding" %>
+<%@ page import="com.scale.product.model.vo.*, java.util.ArrayList, com.scale.bidding.model.vo.Bidding, java.text.DecimalFormat" %>
 <% 
 	Product p = (Product)request.getAttribute("p");
 	ArrayList<Bidding> pList = (ArrayList<Bidding>)request.getAttribute("pList");
-	
+	DecimalFormat formatter = new DecimalFormat("###,###");
 %> 
 <!DOCTYPE html>
 <html>
@@ -95,7 +95,7 @@
 	<%@ include file="../common/menubar.jsp" %>
     <br><br><br>
     <div class="outer">
-        <form action="">
+        <form action="<%= contextPath%>/buyDetail.bi?co=<%= p.getProductCode() %>">
             <div class="product">
                 <div class="product-info row">
                     <div class="product-img col-sm-4">
@@ -126,6 +126,10 @@
                         </div>
                     </div>
                     <script>
+                        function toMoney(num) {
+                            return num.toLocaleString('ko-KR');
+                            }
+
                         $(function(){
                             var pSizeArr = "<%= p.getProductSize() %>".split(", ");
                             var sizeOption = "";
@@ -147,7 +151,7 @@
                                 index = sizeArr.indexOf(pSizeArr[i]);
                                 if(index != -1){
                                     sizeOption += "<label class='btn btn-outline-secondary'>"
-                                        +       "<input type='radio' name='size' value='" + pSizeArr[i] + "'>" + pSizeArr[i] + "<br>" + priceArr[index] + "</label>";
+                                        +       "<input type='radio' name='size' value='" + pSizeArr[i] + "'>" + pSizeArr[i] + "<br>" + toMoney(parseInt(priceArr[index])) + "원</label>";
                                 } else{
                                     sizeOption += "<label class='btn btn-outline-secondary'>"
                                         +       "<input type='radio' name='size' value='" + pSizeArr[i] + "'>" + pSizeArr[i] + "<br>-</label>";
@@ -200,19 +204,21 @@
                         let index = sizeArr.indexOf(checkedSize);
                         console.log(index);
                         if(index != -1){
-                            $("#priceI").val(priceArr[index]);
+                            $("#priceI").val(toMoney(parseInt(priceArr[index])));
                         } else{
                             $("#check1").click();
                             $("#check2").attr("disabled", true);
+                            $("#priceB").change(function(){
+                                let value = $("#priceB").val();
+                                let priceI = $("#priceI").val();
+                                value = value.replace(/[^0-9]/g,'');
+                                value = value.replace(/[^0-9]/g,'');
+                                
+                                $("#priceB").val(value.replace(/\B(?=(\d{3})+(?!\d))/g, ",")); // 정규식을 이용해서 3자리 마다 , 추가 
+                            })
                         }
                     })
                     
-                    $("#priceB").blur(function(){
-                        $.ajax({
-                            
-                        })
-                    })
-
                 })
             </script>
 
@@ -354,7 +360,7 @@
                 <div id="buy-bidding" hidden>
                     <div class="title">구매 희망가</div>
                     <br>
-                    <div class="buy-price"><input type="text" id="priceB" class="price" name="priceB" placeholder="희망가격">원</div>
+                    <div class="buy-price"><input type="text" id="priceB" class="price" name="priceB" placeholder="희망가격" value="">원</div>
                     <br>
                     <div class="line"></div>
                     <br>
@@ -413,6 +419,22 @@
             $("#goToBuyOption").click(function(){
                 $(".term").attr("hidden", true);
                 $(".buy-option").attr("hidden", false);
+            })
+
+            $("#priceB").change(function(){
+                let value = $("#priceB").val();
+                let priceI = $("#priceI").val();
+                value = value.replace(/[^0-9]/g,'');
+                value = value.replace(/[^0-9]/g,'');
+                priceI = priceI.replace(/[^0-9]/g,'');
+                priceI = priceI.replace(/[^0-9]/g,'');
+                if(parseInt(value) >= parseInt(priceI)){
+                    value="";
+                    $("#priceB").val(value);
+                    $("#check2").click();
+                }
+
+                $("#priceB").val(value.replace(/\B(?=(\d{3})+(?!\d))/g, ",")); // 정규식을 이용해서 3자리 마다 , 추가 
             })
             
         })

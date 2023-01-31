@@ -21,7 +21,6 @@ public class Product {
 	private Date releaseDate;
 	private int releasePrice;
 	
-	private String releasePriceView;
 	
 	
 	
@@ -59,7 +58,7 @@ public class Product {
 
 	public Product(String productCode, String productNameKo, String productNameEng, String modelCode,
 			String productImgM, String productSize, String brandName, String color, Date releaseDate,
-			String releasePriceView) {
+			int releasePrice) {
 		super();
 		this.productCode = productCode;
 		this.productNameKo = productNameKo;
@@ -70,7 +69,7 @@ public class Product {
 		this.brandName = brandName;
 		this.color = color;
 		this.releaseDate = releaseDate;
-		this.releasePriceView = releasePriceView;
+		this.releasePrice = releasePrice;
 	}
 	
 
@@ -203,16 +202,6 @@ public class Product {
 		this.releasePrice = releasePrice;
 	}
 	
-	
-
-	public String getReleasePriceView() {
-		return releasePriceView;
-	}
-
-
-	public void setReleasePriceView(String releasePriceView) {
-		this.releasePriceView = releasePriceView;
-	}
 
 
 	@Override

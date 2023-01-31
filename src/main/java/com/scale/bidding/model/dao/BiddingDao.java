@@ -42,7 +42,7 @@ public class BiddingDao {
 			while(rset.next()) {
 				Bidding b = new Bidding(rset.getInt("bidding_no"),
 										rset.getString("product_size"),
-										rset.getString("bidding_price"),
+										rset.getInt("bidding_price"),
 										rset.getString("deal_date"));
 				list.add(b);
 			}
@@ -76,7 +76,7 @@ public class BiddingDao {
 			while(rset.next()) {
 				
 				Bidding b = new Bidding(rset.getString("product_size"),
-										rset.getString("bidding_price"),
+										rset.getInt("bidding_price"),
 										rset.getInt("count"));
 				list.add(b);
 				
@@ -112,7 +112,7 @@ public class BiddingDao {
 			while(rset.next()) {
 				
 				Bidding b = new Bidding(rset.getString("product_size"),
-										rset.getString("bidding_price"),
+										rset.getInt("bidding_price"),
 										rset.getInt("count"));
 				list.add(b);
 				
@@ -148,7 +148,7 @@ public class BiddingDao {
 			while(rset.next()) {
 				Bidding b = new Bidding(rset.getInt("bidding_no"),
 										rset.getString("product_size"),
-										rset.getString("bidding_price"),
+										rset.getInt("bidding_price"),
 										rset.getString("deal_date"));
 				list.add(b);
 			}
@@ -182,7 +182,7 @@ public class BiddingDao {
 			while(rset.next()) {
 				
 				Bidding b = new Bidding(rset.getString("product_size"),
-										rset.getString("bidding_price"),
+										rset.getInt("bidding_price"),
 										rset.getInt("count"));
 				list.add(b);
 				
@@ -217,7 +217,7 @@ public class BiddingDao {
 			while(rset.next()) {
 				
 				Bidding b = new Bidding(rset.getString("product_size"),
-										rset.getString("bidding_price"),
+										rset.getInt("bidding_price"),
 										rset.getInt("count"));
 				list.add(b);
 				
@@ -251,7 +251,7 @@ public class BiddingDao {
 			
 			while(rset.next()) {
 				Bidding b = new Bidding(rset.getString("product_size"),
-										rset.getString("bidding_price"));
+										rset.getInt("bidding_price"));
 				list.add(b);
 			}
 			
@@ -263,6 +263,42 @@ public class BiddingDao {
 		}
 		
 		return list;
+		
+	}
+	
+	
+	public Bidding selectSellBidding(Connection conn, String pCode, String size, int price) {
+		
+		Bidding b = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectSellBidding");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pCode);
+			pstmt.setString(2, size);
+			pstmt.setInt(3, price);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				b = new Bidding(rset.getInt("bidding_no"),
+								rset.getString("product_code"),
+								rset.getString("product_size"),
+								rset.getInt("bidding_price"),
+								rset.getInt("delivery_fee"));		
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return b;
 		
 	}
 	

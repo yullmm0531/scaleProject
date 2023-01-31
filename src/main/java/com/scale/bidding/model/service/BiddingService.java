@@ -84,4 +84,15 @@ public class BiddingService {
 		
 	}
 	
+	public Bidding selectSellBidding(String pCode, String size, int price) {
+		
+		Connection conn = getConnection();
+		Bidding b = new BiddingDao().selectSellBidding(conn, pCode, size, price);
+		
+		close(conn);
+		
+		return b;
+		
+	}
+	
 }

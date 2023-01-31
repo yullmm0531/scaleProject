@@ -5,7 +5,7 @@
 		SELECT 
 		       BIDDING_NO
 		     , PRODUCT_SIZE
-		     , TO_CHAR(BIDDING_PRICE, 'fmL999,999,999') "BIDDING_PRICE"
+		     , BIDDING_PRICE
 		     , TO_CHAR(DEAL_DATE, 'RRRR/MM/DD') "DEAL_DATE"
 		  FROM TB_BIDDING
 		 WHERE BIDDING_STATUS = 'Y'
@@ -18,7 +18,7 @@
 	<entry key="selectBuyBiddingList">
 		SELECT
 		       PRODUCT_SIZE
-		     , TO_CHAR(BIDDING_PRICE, 'fmL999,999,999') "BIDDING_PRICE"
+		     , BIDDING_PRICE
 		     , COUNT(*) "COUNT"
 		  FROM TB_BIDDING
 		 WHERE BIDDING_STATUS = 'Y'
@@ -34,7 +34,7 @@
 	<entry key="selectSellBiddingList">
 		SELECT
 		       PRODUCT_SIZE
-		     , TO_CHAR(BIDDING_PRICE, 'fmL999,999,999') "BIDDING_PRICE"
+		     , BIDDING_PRICE
 		     , COUNT(*) "COUNT"
 		  FROM TB_BIDDING
 		 WHERE BIDDING_STATUS = 'Y'
@@ -51,7 +51,7 @@
 		SELECT 
 		       BIDDING_NO
 		     , PRODUCT_SIZE
-		     , TO_CHAR(BIDDING_PRICE, 'fmL999,999,999') "BIDDING_PRICE"
+		     , BIDDING_PRICE
 		     , TO_CHAR(DEAL_DATE, 'RRRR/MM/DD') "DEAL_DATE"
 		  FROM TB_BIDDING
 		 WHERE BIDDING_STATUS = 'Y'
@@ -65,7 +65,7 @@
 	<entry key="selectSellBiddingSizeList">
 		SELECT
 		       PRODUCT_SIZE
-		     , TO_CHAR(BIDDING_PRICE, 'fmL999,999,999') "BIDDING_PRICE"
+		     , BIDDING_PRICE
 		     , COUNT(*) "COUNT"
 		  FROM TB_BIDDING
 		 WHERE BIDDING_STATUS = 'Y'
@@ -82,7 +82,7 @@
 	<entry key="selectBuyBiddingSizeList">
 		SELECT
 		       PRODUCT_SIZE
-		     , TO_CHAR(BIDDING_PRICE, 'fmL999,999,999') "BIDDING_PRICE"
+		     , BIDDING_PRICE
 		     , COUNT(*) "COUNT"
 		  FROM TB_BIDDING
 		 WHERE BIDDING_STATUS = 'Y'
@@ -99,7 +99,7 @@
 	<entry key="selectSellBiddingPriceList">
 		SELECT
 		       PRODUCT_SIZE
-		     , TO_CHAR(MIN(BIDDING_PRICE), 'fmL999,999,999') "BIDDING_PRICE"
+		     , MIN(BIDDING_PRICE) "BIDDING_PRICE"
 		  FROM TB_BIDDING
 		 WHERE BIDDING_STATUS = 'Y'
 		   AND BIDDING_TYPE = 2
@@ -124,5 +124,31 @@
 		    BY PRODUCT_SIZE
 		 ORDER
 		    BY PRODUCT_SIZE
+	</entry>
+	
+	<entry key="selectSellBidding">
+		SELECT
+		       ROWNUM
+		     , BIDDING_NO
+		     , PRODUCT_CODE
+		     , PRODUCT_SIZE
+		     , BIDDING_PRICE
+		     , DELIVERY_FEE
+		  FROM (SELECT
+		               ROWNUM
+		             , BIDDING_NO
+		             , PRODUCT_CODE
+		             , PRODUCT_SIZE
+		             , BIDDING_PRICE
+		             , DELIVERY_FEE
+		          FROM TB_BIDDING
+		         WHERE BIDDING_TYPE = 2
+		           AND DEAL_CHECK = 'N'
+		           AND PRODUCT_CODE = ?
+		           AND PRODUCT_SIZE = ?
+		           AND BIDDING_PRICE = ?
+		         ORDER
+		            BY BIDDING_DATE ASC)
+		 WHERE ROWNUM = 1
 	</entry>
 </properties>

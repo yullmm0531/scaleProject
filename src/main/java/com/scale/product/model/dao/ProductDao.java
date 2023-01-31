@@ -152,7 +152,7 @@ public class ProductDao {
 								rset.getString("brand_name"),
 								rset.getString("color"),
 								rset.getDate("release_date"),
-								rset.getString("release_price"));
+								rset.getInt("release_price"));
 			}
 			
 		} catch (SQLException e) {

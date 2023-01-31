@@ -5,11 +5,11 @@ public class Bidding {
 	private int bNo;
 	private String pSize;
 	private int pType;
-	private String bPrice;
+	private int bPrice;
 	private String bDate;
-	private String inspectionCost;
-	private String commition;
-	private String deliveryFee;
+	private int inspectionCost;
+	private int commition;
+	private int deliveryFee;
 	private String bStatus;
 	private String dCheck;
 	private String dStep;
@@ -19,13 +19,15 @@ public class Bidding {
 	
 	private int count;
 	
+	private String biddingPrice;
+	
 	public Bidding() {
 		
 	}
 
 
-	public Bidding(int bNo, String pSize, int pType, String bPrice, String bDate, String inspectionCost, String commition,
-			String deliveryFee, String bStatus, String dCheck, String dStep, String dDate, String pCode, int userNo) {
+	public Bidding(int bNo, String pSize, int pType, int bPrice, String bDate, int inspectionCost, int commition,
+			int deliveryFee, String bStatus, String dCheck, String dStep, String dDate, String pCode, int userNo) {
 		super();
 		this.bNo = bNo;
 		this.pSize = pSize;
@@ -45,8 +47,15 @@ public class Bidding {
 	
 	
 
+	
+	public Bidding(String pSize, int bPrice) {
+		super();
+		this.pSize = pSize;
+		this.bPrice = bPrice;
+	}
 
-	public Bidding(int bNo, String pSize, String bPrice, String dDate) {
+
+	public Bidding(int bNo, String pSize, int bPrice, String dDate) {
 		super();
 		this.bNo = bNo;
 		this.pSize = pSize;
@@ -55,13 +64,21 @@ public class Bidding {
 	}
 
 	
-	
-	
-	
-	public Bidding(String pSize, String bPrice) {
+	public Bidding(String pSize, String biddingPrice) {
 		super();
 		this.pSize = pSize;
+		this.biddingPrice = biddingPrice;
+	}
+	
+
+
+	public Bidding(int bNo, String pCode, String pSize, int bPrice, int deliveryFee) {
+		super();
+		this.bNo = bNo;
+		this.pCode = pCode;
+		this.pSize = pSize;
 		this.bPrice = bPrice;
+		this.deliveryFee = deliveryFee;
 	}
 
 
@@ -75,7 +92,7 @@ public class Bidding {
 	}
 
 
-	public Bidding(String pSize, String bPrice, int count) {
+	public Bidding(String pSize, int bPrice, int count) {
 		super();
 		this.pSize = pSize;
 		this.bPrice = bPrice;
@@ -113,12 +130,12 @@ public class Bidding {
 	}
 
 
-	public String getbPrice() {
+	public int getbPrice() {
 		return bPrice;
 	}
 
 
-	public void setbPrice(String bPrice) {
+	public void setbPrice(int bPrice) {
 		this.bPrice = bPrice;
 	}
 
@@ -133,32 +150,32 @@ public class Bidding {
 	}
 
 
-	public String getInspectionCost() {
+	public int getInspectionCost() {
 		return inspectionCost;
 	}
 
 
-	public void setInspectionCost(String inspectionCost) {
+	public void setInspectionCost(int inspectionCost) {
 		this.inspectionCost = inspectionCost;
 	}
 
 
-	public String getCommition() {
+	public int getCommition() {
 		return commition;
 	}
 
 
-	public void setCommition(String commition) {
+	public void setCommition(int commition) {
 		this.commition = commition;
 	}
 
 
-	public String getDeliveryFee() {
+	public int getDeliveryFee() {
 		return deliveryFee;
 	}
 
 
-	public void setDeliveryFee(String deliveryFee) {
+	public void setDeliveryFee(int deliveryFee) {
 		this.deliveryFee = deliveryFee;
 	}
 
@@ -220,6 +237,16 @@ public class Bidding {
 
 	public void setUserNo(int userNo) {
 		this.userNo = userNo;
+	}
+
+	
+	public String getBiddingPrice() {
+		return biddingPrice;
+	}
+
+
+	public void setBiddingPrice(String biddingPrice) {
+		this.biddingPrice = biddingPrice;
 	}
 
 
