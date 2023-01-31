@@ -57,6 +57,8 @@ public class User {
 		this.phone = phone;
 		this.email = email;
 	}
+	
+	
 
 	public int getUserNo() {
 		return userNo;

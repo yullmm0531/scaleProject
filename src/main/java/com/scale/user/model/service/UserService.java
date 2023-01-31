@@ -66,6 +66,11 @@ public class UserService {
 		return result;
 	}
 	
+	/**
+	 * @param 김진우
+	 * @param 회원 삭제용 메소드
+	 * @return
+	 */
 	public int deleteUser(String userId, String userPwd) {
 		Connection conn = getConnection();
 		int result = new UserDao().deleteUser(conn, userId, userPwd);
@@ -105,7 +110,7 @@ public class UserService {
 
 	}
 	/**
-	 * @param userId
+	 * @param 김진우
 	 * @param phone : 사용자가 변경하기 위해 새로 입력한 연락처
 	 * @return
 	 */
@@ -121,6 +126,24 @@ public class UserService {
 		
 		close(conn);
 		return result;
+
+	}
+	
+	public User updatePwd(String userId, String updatePwd) {
+		Connection conn = getConnection();
+		int result = new UserDao().updatePwd(conn, userId, updatePwd);
+		
+		User updateUser = null;
+		
+		if(result > 0) {
+			commit(conn);
+			updateUser = new UserDao().selectUserForUpdatePwd(conn, userId);
+		}else{
+			rollback(conn);
+		}
+		
+		close(conn);
+		return updateUser;
 
 	}
 }

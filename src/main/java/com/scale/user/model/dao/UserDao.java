@@ -342,4 +342,84 @@ public class UserDao {
 		return result;
 
 	}
+	
+	/**
+	 * @param 김진우
+	 * @param 비밀번호 변경 메소드
+	 * @param 
+	 * @return
+	 */
+	public int updatePwd(Connection conn, String userId, String updatePwd) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updatePwd");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, updatePwd);
+			pstmt.setString(2, userId);
+			
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+
+	}
+	
+	/**
+	 * @param 김진우
+	 * @param 비밀번호 변경 후 전체 user 정보 조회하는 메소드
+	 * @return
+	 */
+	public User selectUserForUpdatePwd(Connection conn, String userId) {
+		
+		User updateUser = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectUserForUpdatePwd");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userId);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				updateUser = new User(rset.getInt("user_no"),
+									 rset.getString("user_id"),
+									 rset.getString("user_pwd"),
+									 rset.getString("user_name"),
+									 rset.getString("user_nickname"),
+									 rset.getString("phone"),
+									 rset.getString("email"),
+									 rset.getDate("enroll_date"),
+									 rset.getString("status"),
+									 rset.getDate("delete_date"),
+									 rset.getString("manager_check"),
+									 rset.getString("user_acc_bank"),
+									 rset.getString("user_acc_number"),
+									 rset.getDate("shop_block_date"),
+									 rset.getDate("style_block_date"),
+									 rset.getString("introduce"),
+									 rset.getString("profile_img")
+									 );
+			} 
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return updateUser;
+	}
 }

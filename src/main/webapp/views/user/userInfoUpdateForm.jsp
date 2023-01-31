@@ -91,6 +91,7 @@ box-sizing: border-box;
 
 	<% 
 		String userId = loginUser.getUserId(); 
+		String userPwd = loginUser.getUserPwd();
 		String userName = loginUser.getUserName(); 
 		String userPhone = loginUser.getPhone(); 
 		String userEmail = loginUser.getEmail();
@@ -145,25 +146,50 @@ box-sizing: border-box;
 				        
 				        <form action="<%= contextPath %>/updatePwd.us" method="post">
 				        	<input type="hidden" name="userId" value="<%=userId%>">
+				        	<input type="hidden" name="OriginalUserPWd" value="<%=userPwd%>" id="OriginalUserPWd">
 				        	<table>
 				        		<tr>
 				        			<td>현재 비밀번호</td>
-				        			<td><input type="password" name="userPwd" required></td>
+				        			<td><input type="password" name="userPwd" id="userPwd" required></td>
 				        		</tr>
 				        		<tr>
 				        			<td>변경할 비밀번호</td>
-				        			<td><input type="password" name="updatePwd" required></td>
+				        			<td><input type="password" name="updatePwd" id="updatePwd" required></td>
 				        		</tr>
 				        		<tr>
 				        			<td>변경할 비밀번호 확인</td>
-				        			<td><input type="password" name="updatePwdCheck" required></td>
+				        			<td><input type="password" name="updatePwdCheck" id="updatePwdCheck" required></td>
 				        		</tr>
 				        	</table>
 				        	<br>
 				        	
-				        	<button type="submit" class="btn btn-secondary btn-sm">비밀번호 변경</button>
+				        	<button type="submit" class="btn btn-secondary btn-sm" onclick="return validate();">비밀번호 변경</button>
 				        	
 				        </form>
+				        
+				        <script>
+				        	function validate(){
+				        		const pwdInput1 = document.getElementById("updatePwd");
+				                const pwdInput2 = document.getElementById("updatePwdCheck");
+				                
+				                const pwdInput3 = document.getElementById("userPwd");
+				                const pwdInput4 = document.getElementById("OriginalUserPWd");
+				                
+				                if(pwdInput3.value != pwdInput4.value){
+				                	alert("기존 비밀번호를 확인해주세요");
+				                    pwdInput3.value = "";
+				                    pwdInput3.focus();
+				                    return false;
+				                }else if(pwdInput1.value != pwdInput2.value) {
+				                	 alert("동일한 비밀번호를 입력해주세요");
+					                    pwdInput2.value = "";
+					                    pwdInput2.focus();
+					                    return false;
+				                }
+				                
+				                
+				        	}
+				        </script>
 				        
 				      </div>
 				

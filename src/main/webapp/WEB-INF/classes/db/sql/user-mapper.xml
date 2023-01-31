@@ -155,8 +155,39 @@
 		UPDATE TB_USER
 		   SET PHONE = ?
 		 WHERE USER_ID = ?
-		   
-		 
+		   		 
 
+	</entry>
+	
+	<entry key="updatePwd">
+		UPDATE TB_USER
+		   SET USER_PWD = ?
+		 WHERE USER_ID = ?
+		 	AND STATUS = 'Y'
+		 	  
+	</entry>
+	
+	<entry key="selectUserForUpdatePwd">
+		SELECT 
+			   USER_NO
+			 , USER_ID
+			 , USER_PWD
+			 , USER_NAME
+			 , USER_NICKNAME
+			 , PHONE
+			 , EMAIL
+			 , ENROLL_DATE
+			 , STATUS
+			 , DELETE_DATE
+			 , MANAGER_CHECK
+			 , USER_ACC_BANK
+			 , USER_ACC_NUMBER
+			 , SHOP_BLOCK_DATE
+			 , STYLE_BLOCK_DATE
+			 , INTRODUCE
+			 , PROFILE_IMG
+		  FROM TB_USER
+		 WHERE USER_ID = ?
+		   AND STATUS = 'Y'
 	</entry>
 </properties>
