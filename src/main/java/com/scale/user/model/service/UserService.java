@@ -81,6 +81,7 @@ public class UserService {
 	}
 	
 
+
 	/**
 	 * @writer 먼지링
 	 * @param 유저정보를 찾을 때 사용할 nickname
@@ -101,6 +102,25 @@ public class UserService {
 		close(conn);
 		
 		return ad;
+
+	}
+	/**
+	 * @param userId
+	 * @param phone : 사용자가 변경하기 위해 새로 입력한 연락처
+	 * @return
+	 */
+	public int updatePhone(String userId, String phone) {
+		Connection conn = getConnection();
+		int result = new UserDao().updatePhone(conn, userId, phone);
+		
+		if(result > 0) {
+			commit(conn);
+		}else{
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result;
 
 	}
 }

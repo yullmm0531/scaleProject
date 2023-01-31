@@ -124,6 +124,7 @@
 	</entry>
 	
 
+
 	<entry key="selectUserByNickname">
 		SELECT
 			   USER_NO
@@ -148,5 +149,14 @@
 		  FROM TB_ADDRESS
 		 WHERE DEFAULT_ADD = 'Y'
 		   AND USER_NO = ?
+	</entry>
+	
+	<entry key="updatePhone">
+		UPDATE TB_USER
+		   SET PHONE = ?
+		 WHERE USER_ID = ?
+		   
+		 
+
 	</entry>
 </properties>

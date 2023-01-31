@@ -123,9 +123,60 @@ box-sizing: border-box;
                 <h4 id="pwd-title">로그인 정보</h4>
             </div>
             <br><br>
+            
+            
             <div id="edit-pwd-div">
-                <a href="" class="btn btn outlinegrey small" type="button" id="edit-pwd">비밀번호 변경</a>
+                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#updatePwdModal" id="edit-phone">비밀번호변경</button>
             </div>
+            
+            <!-- 비밀번호 변경용 모달 div -->
+			    <div class="modal" id="updatePwdModal">
+				  <div class="modal-dialog">
+				    <div class="modal-content">
+				
+				      <!-- Modal Header -->
+				      <div class="modal-header">
+				        <h4 class="modal-title">비밀번호 변경</h4>
+				        <button type="button" class="close" data-dismiss="modal">&times;</button>
+				      </div>
+				
+				      <!-- Modal body -->
+				      <div class="modal-body" align="center">
+				        
+				        <form action="<%= contextPath %>/updatePwd.us" method="post">
+				        	<input type="hidden" name="userId" value="<%=userId%>">
+				        	<table>
+				        		<tr>
+				        			<td>현재 비밀번호</td>
+				        			<td><input type="password" name="userPwd" required></td>
+				        		</tr>
+				        		<tr>
+				        			<td>변경할 비밀번호</td>
+				        			<td><input type="password" name="updatePwd" required></td>
+				        		</tr>
+				        		<tr>
+				        			<td>변경할 비밀번호 확인</td>
+				        			<td><input type="password" name="updatePwdCheck" required></td>
+				        		</tr>
+				        	</table>
+				        	<br>
+				        	
+				        	<button type="submit" class="btn btn-secondary btn-sm">비밀번호 변경</button>
+				        	
+				        </form>
+				        
+				      </div>
+				
+				    </div>
+				  </div>
+				</div>
+            
+            
+            
+            
+            
+            
+            
             <br>
             <div class="underline"></div>
         </div>
@@ -151,6 +202,9 @@ box-sizing: border-box;
             
             <div class="underline"></div>
 			
+			
+			
+			
             <div id="user-phone-box"class="box">
                 <div id="phone-tag" class="tag">
                     <p>연락처</p>
@@ -168,21 +222,21 @@ box-sizing: border-box;
 					
 					      <!-- Modal Header -->
 					      <div class="modal-header">
-					        <h4 class="modal-title">회원탈퇴</h4>
+					        <h4 class="modal-title">연락처 변경</h4>
 					        <button type="button" class="close" data-dismiss="modal">&times;</button>
 					      </div>
 					
 					      <!-- Modal body -->
 					      <div class="modal-body" align="center">
 					        
-					        <b>탈퇴후 복구가 불가능합니다. <br> 정말로 탈퇴하시겠습니까?</b> <br><br>
+					        <b>연락처를 변경하시겠습니까?<br>변경할 연락처를 입력해주십시오.</b> <br><br>
 					        
-					        <form action="<%= contextPath %>/deleteUser.us" method="post">
+					        <form action="<%= contextPath %>/updatePhone.us" method="post">
 					        	
 					        	<input type="hidden" name="userId" value="<%= userId %>">
-					        	비밀번호 : <input type="password" name="userPwd" required> <br><br>
+					        	새 연락처 : <input type="text" name="phone" placeholder=" - 포함" required> <br><br>
 					        	
-					        	<button type="submit" class="btn btn-danger btn-sm">탈퇴하기</button>
+					        	<button type="submit" class="btn btn-danger btn-sm">변경하기</button>
 					        	
 					        	
 					        	

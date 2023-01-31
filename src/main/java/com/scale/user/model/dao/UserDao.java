@@ -250,6 +250,7 @@ public class UserDao {
 	}
 	
 
+
 	public User selectUserByNickname(Connection conn, String nickname) {
 		User user = null;
 		PreparedStatement pstmt = null;
@@ -311,5 +312,34 @@ public class UserDao {
 		
 		return ad;
 		
+	}
+	/**
+	 * @param conn
+	 * @param userId
+	 * @param phone : 사용자가 변경하기 위해 새로 입력한 연락처
+	 * @return
+	 */
+	public int updatePhone(Connection conn, String userId, String phone) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updatePhone");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, phone);
+			pstmt.setString(2, userId);
+			
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+
 	}
 }
