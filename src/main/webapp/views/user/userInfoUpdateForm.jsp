@@ -75,7 +75,7 @@ box-sizing: border-box;
     #edit-email{margin-left: 73%; background-color: gray;}
     #user-leave-div{width: 800px; margin-left: 30%;}
     #user-leave{margin-left: 73%; background-color: red; color: white;}
-    .nickName{margin-left: 70%;}
+    
     
     .underline{border: 3px solid gray; width: 800px;}
 </style>
