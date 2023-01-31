@@ -75,6 +75,7 @@ box-sizing: border-box;
     #edit-email{margin-left: 73%; background-color: gray;}
     #user-leave-div{width: 800px; margin-left: 30%;}
     #user-leave{margin-left: 73%; background-color: red; color: white;}
+    .nickName{margin-left: 70%;}
     
     .underline{border: 3px solid gray; width: 800px;}
 </style>
@@ -95,6 +96,7 @@ box-sizing: border-box;
 		String userName = loginUser.getUserName(); 
 		String userPhone = loginUser.getPhone(); 
 		String userEmail = loginUser.getEmail();
+		String nickName = loginUser.getUserNickName();
 	%>
 
     <div class="userMembership">
@@ -107,9 +109,10 @@ box-sizing: border-box;
             <div class="user_info">
                 <div class="info_box" align="center">
                     <p class="name"><%= userId %></p>
+                    <p class="nickName"><%=nickName %></p>
                     <p class="email"><%=userEmail %></p>
                     <a href="" class="btn btn outlinegrey small" type="button" id="toProfile">프로필 편집</a>
-                    <a href="" class="btn btn btn_my_style outlinegrey small" type="button" id="toMyStyle">내 스타일</a>
+                    <a href="<%= contextPath %>/profileView.st?cpage=1&nickname=<%= loginUser.getUserNickName() %>" class="btn btn btn_my_style outlinegrey small" type="button" id="toMyStyle">내 스타일</a>
                 </div>
                 <br>
       
@@ -287,8 +290,42 @@ box-sizing: border-box;
                     <span id="user-email"><%=userEmail %></span>
                 </div>
                 <div id="edit-email-div">
-                    <a href="" class="btn btn outlinegrey small" type="button" id="edit-email">이메일 변경</a>
+                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#updateEmailModal" id="edit-phone">이메일변경</button>
                 </div>
+                
+                <div class="modal" id="updateEmailModal">
+					  <div class="modal-dialog">
+					    <div class="modal-content">
+					
+					      <!-- Modal Header -->
+					      <div class="modal-header">
+					        <h4 class="modal-title">이메일 변경</h4>
+					        <button type="button" class="close" data-dismiss="modal">&times;</button>
+					      </div>
+					
+					      <!-- Modal body -->
+					      <div class="modal-body" align="center">
+					        
+					        <b>이메일을 변경하시겠습니까?<br>변경할 이메일을 입력해주십시오.</b> <br><br>
+					        
+					        <form action="<%= contextPath %>/updateEmail.us" method="post">
+					        	
+					        	<input type="hidden" name="userId" value="<%= userId %>">
+					        	새 이메일 : <input type="email" name="email" required> <br><br>
+					        	
+					        	<button type="submit" class="btn btn-danger btn-sm">변경하기</button>
+					        	
+					        	
+					        	
+					        </form>
+					        
+					      </div>
+					
+					    </div>
+					  </div>
+					</div>
+                
+                
                 <br>
                 <div class="underline"></div>
             </div>

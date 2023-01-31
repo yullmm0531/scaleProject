@@ -190,4 +190,12 @@
 		 WHERE USER_ID = ?
 		   AND STATUS = 'Y'
 	</entry>
+	
+	<entry key="updateEmail">
+		UPDATE TB_USER
+		   SET EMAIL = ?
+		 WHERE USER_ID = ?
+		   		 
+
+	</entry>
 </properties>

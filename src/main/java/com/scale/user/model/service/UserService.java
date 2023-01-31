@@ -146,4 +146,18 @@ public class UserService {
 		return updateUser;
 
 	}
+	
+	public int updateEmail(String userId, String email) {
+		Connection conn = getConnection();
+		int result = new UserDao().updateEmail(conn, userId, email);
+		
+		if(result > 0) {
+			commit(conn);
+		}else{
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result;
+	}
 }
