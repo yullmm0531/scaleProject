@@ -59,6 +59,17 @@ public class ProductDao {
 		
 	}
 	
+	/*
+	public ArrayList<Product> selectProductListPage(Connection conn, int currentPage, int boardLimit){
+		ArrayList<Product> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectProductListPage");
+		
+		
+	}
+		*/
+	
 
 	public ArrayList<Brand> selectBrandList(Connection conn){
 		
@@ -124,9 +135,46 @@ public class ProductDao {
 		
 	}
 	
+	public int insertLike(Connection conn, int userNo, String productCode) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertLike");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			pstmt.setString(2, productCode);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
 	
-
 	
+	public int deleteLike(Connection conn, int userNo, String productCode) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteLike");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			pstmt.setString(2, productCode);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+		
+	}
 
 	public Product selectProduct(Connection conn, String pCode) {
 		

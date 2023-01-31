@@ -22,6 +22,14 @@ public class ProductService {
 		return list;
 	}
 	
+	public ArrayList<Product> selectProductListPage(int currentPage, int boardLimit){
+		Connection conn = getConnection();
+		ArrayList<Product> list = new ProductDao().selectProductListPage(conn,currentPage, boardLimit);
+		close(conn);
+		return list;
+	}
+	
+	
 
 	public ArrayList<Brand> selectBrandList(){
 		Connection conn = getConnection();
@@ -36,9 +44,26 @@ public class ProductService {
 		close(conn);
 		return list;
 	}
+	/*
+	public int clickLike(int userNo, String productCode){
+		Connection conn = getConnection();
+		int result = 0;
+		if(clickLike >0) {
+			result = new ProductDao().deleteLike(conn, userNo, productCode);
+		}else {
+			result = new ProductDao().insertLike(conn, userNo, productCode);
+		}
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		return result;
+	}
 	
-	
-
+	*/
 	
 	public Product selectProduct(String pCode) {
 		

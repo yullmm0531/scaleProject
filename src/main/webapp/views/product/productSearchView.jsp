@@ -5,7 +5,7 @@
 	ArrayList<Product> list = (ArrayList<Product>)request.getAttribute("list");
 	
 	String contextPath = request.getContextPath();
-    request.setCharacerEncoding
+    request.setCharacterEncoding("utf-8");
 %>
 <!DOCTYPE html>
 <html>
