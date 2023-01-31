@@ -12,14 +12,15 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import com.scale.common.model.vo.PageInfo;
+import com.scale.customerCenter.model.vo.Faq;
 import com.scale.customerCenter.model.vo.Notice;
 
-public class NoticeDao {
+public class CustomerCenterDao {
 
 	private Properties prop = new Properties();
 	
-	public NoticeDao() {
-		String filePath = NoticeDao.class.getResource("/db/sql/customerCenter-mapper.xml").getPath();
+	public CustomerCenterDao() {
+		String filePath = CustomerCenterDao.class.getResource("/db/sql/customerCenter-mapper.xml").getPath();
 		
 		try {
 			prop.loadFromXML(new FileInputStream(filePath));
@@ -28,7 +29,8 @@ public class NoticeDao {
 		}
 	}
 	
-	public int selectListCount(Connection conn) {
+	// 공지사항
+	public int selectNoticeListCount(Connection conn) {
 		int listCount = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -301,6 +303,66 @@ public class NoticeDao {
 			close(pstmt);
 		}
 		
+		return list;
+	}
+	
+	// faq
+	
+	public int selectFaqListCount(Connection conn, String category) {
+		int listCount = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectFaqListCount");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, category);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				listCount = rset.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return listCount;
+		
+	}
+	
+	public ArrayList<Faq> selectFaqList(Connection conn, String category, PageInfo pi){
+		ArrayList<Faq> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectFaqList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, category);
+			
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Faq(rset.getInt("faq_no"),
+								 rset.getString("faq_question"),
+								 rset.getString("faq_answer"),
+								 rset.getString("category")
+						));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
 		return list;
 	}
 }

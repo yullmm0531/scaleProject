@@ -37,9 +37,9 @@
         background:black;
         color:white;
     }
-    .table{
+    /* .table{
         text-align:center;
-    }
+    } */
     .paging-area button{
         border:0.5px solid lightgray;
         margin:3px;
@@ -63,31 +63,33 @@
         width:15%;
         height:100%;
     }
-    .category-tabs a{
+    .category-tabs button{
         text-decoration:none;
         color:black;
-        font-size:12px;
+        font-size:14px;
         font-weight:900;
         display:block;
         width:100%;
         height:100%;
         text-align:center;
-        line-height:50px;
+        line-height:35px;
     }
-    .category-tabs a:hover{
-        color:gray;
+
+    #accordion{
+        font-size:14px;
+        text-align:left;
+    }
+    #accordion span{
+        margin-right:50px;
+    }
+    #accordion a{
+        text-decoration:none;
+        color:black;
+        font-weight:600;
+        display:inline-block;
+        width:100%;
     }
     
-    .faq{
-        font-size:14px;
-    }
-    .faq-q:hover{
-        cursor:pointer;
-    }
-    .faq-a{
-        display:none;
-        background:rgb(240, 240, 240);
-    }
 </style>
 </head>
 <body>
@@ -98,7 +100,7 @@
             <ul>
                 <li class="depth1"><a><b>고객센터</b></a></li><br>
                 <li class="depth2"><a href="<%=contextPath%>/list.no?cpage=1"><b>공지사항</b></a></li>
-                <li class="depth2"><a href="<%=contextPath%>/list.faq" style="background:black; color:white;">자주묻는질문</a></li>
+                <li class="depth2"><a href="<%=contextPath%>/listForm.faq" style="background:black; color:white;">자주묻는질문</a></li>
                 <li class="depth2"><a href="">1:1문의</a></li>
                 <li class="depth2"><a href="">검수정책</a></li>
             </ul>
@@ -118,103 +120,115 @@
             <br><br>
             <div class="category">
                 <ul class="category-tabs">
-                    <li><a href="">전체</a></li>
-                    <li><a href="">이용정책</a></li>
-                    <li><a href="">공통</a></li>
-                    <li><a href="">구매</a></li>
-                    <li><a href="">판매</a></li>
+                    <li><button class="btn" value="all" onclick="categoryFilter(this);">전체</button></li>
+                    <li><button class="btn" value="policy" onclick="categoryFilter(this);">이용정책</button></li>
+                    <li><button class="btn" value="common" onclick="categoryFilter(this);">공통</button></li>
+                    <li><button class="btn" value="buy" onclick="categoryFilter(this);">구매</button></li>
+                    <li><button class="btn" value="sell" onclick="categoryFilter(this);">판매</button></li>
                 </ul>
             </div>
             <br>
-            <table class="table faq">
-                <tr class="faq-q">
-                    <th class="q-category">구매</th>
-                    <th class="q-content">이상시세 입찰/거래 취소 정책</th>
-                    <th class="down-arrow"><img src="<%=contextPath%>/resources/images/down_arrow.png" width="35"></th>
-                </tr>
-                <tr class="faq-a">
-                    <td colspan="3">
-                        KREAM은 이용약관 제21조 제3항부터 제6항까지의 규정에 따라 회원의 조작 실수, 착오로 인한 사고 발생을 예방하고,
-                        회원의 조작 실수를 유도하거나 상품 시세를 조작하여 건전한 거래 질서를 어지럽히려는 시도 등 각종 거래 사고와 부정거래 등을 방지하기 위하여 다음과 같이 이상시세 입찰 또는 거래 취소 정책을 실시하고 있습니다.
-                    </td>
-                </tr>
-                <tr class="faq-q">
-                    <th class="q-category">구매</th>
-                    <th class="q-content">이상시세 입찰/거래 취소 정책</th>
-                    <th class="down-arrow"><img src="<%=contextPath%>/resources/images/down_arrow.png" width="35"></th>
-                </tr>
-                <tr class="faq-a">
-                    <td colspan="3">
-                        KREAM은 이용약관 제21조 제3항부터 제6항까지의 규정에 따라 회원의 조작 실수, 착오로 인한 사고 발생을 예방하고,
-                        회원의 조작 실수를 유도하거나 상품 시세를 조작하여 건전한 거래 질서를 어지럽히려는 시도 등 각종 거래 사고와 부정거래 등을 방지하기 위하여 다음과 같이 이상시세 입찰 또는 거래 취소 정책을 실시하고 있습니다.
-                    </td>
-                </tr>
-            </table>
-
-            <button class="btn btn-outline-dark">더보기</button>
-
-            <script>
-                $(function(){
-                    $(".faq-q").click(function(){
-                        const $a = $(this).next()
-                        $a.slideToggle();
-                    })
-    
-                })
-                </script>
-                 <%--
-                        <% if(list.isEmpty()) { %>
-                        <!-- 게시글 없을 경우-->
-                        <tr>
-                            <td colspan="4">등록된 게시글이 없습니다.</td>
-                        </tr>
-                        <% }else { %>
-                            <!-- 게시글 있을 경우-->
-                            <% for(Notice n : list) { %>
-                                <tr>
-                                    <td><%= n.getNoticeNo() %></td>
-                                    <td><%= n.getNoticeTitle() %></td>
-                                    <td><%= n.getCount() %></td>
-                                    <td><%= n.getCreateDate() %></td>
-                                </tr>
-                            <% } %>
-                        <% } %>
-                </table>
+            <!-- 아코디언 -->
+            <div id="accordion">
             </div>
-            <br><br>
-            <!-- 페이징 -->
-            <div class="paging-area">
-                <% if(pi.getCurrentPage() != 1) { %>
-                    <button onclick="location.href='<%=contextPath%>/list.no?cpage=<%=pi.getCurrentPage()-1%>';">&lt;</button>
-                <% } %>
-                
-                <% for(int i=pi.getStartPage(); i<=pi.getEndPage(); i++) { %>
-                    <button onclick="location.href='<%=contextPath%>/list.no?cpage=<%=i%>';"><%= i %></button>
-                <% } %>
-                
-                <% if(pi.getCurrentPage() != pi.getMaxPage() && pi.getMaxPage() != 0) { %>
-                    <button onclick="location.href='<%=contextPath%>/list.no?cpage=<%=pi.getCurrentPage()+1%>';">&gt;</button>
-                <% } %>
+            <br><br><br>
+            <!-- 버튼 -->
+            <div class="btn-area">
+                <button class="btn btn-outline-dark" id="more-btn">더보기</button>
             </div>
-            <br><br>
+        </div>
         </div>
     </div>
-   
-    <script>
-        $(function(){
-            $(".paging-area>button").each(function(){
-                if($(this).text() == "<%=pi.getCurrentPage()%>"){
-                    $(this).addClass("page-active");
-                }
-            })
 
+   </div>
+    <script>
+        let cpage = 0;
+        $(function(){
+            $("#accordion").empty();
+            categoryFilter($(".category-tabs button").eq(0));
+            
             $("#search-input").on("keypress", function(e){
                 if(e.keyCode == 13){
                     $("#search-btn").click();
                 }
             })
         })
+
+        function categoryFilter(e){
+            $("#accordion").empty();
+            let cpage = 1;
+            let category = $(e).val();
+
+            $.ajax({
+                url:"<%=contextPath%>/list.faq",
+                type:"post",
+                data:{"cpage":cpage, "category":category},
+                success:function(map){
+                    let list = map.list;
+                    let pi = map.pi;
+
+                    let value = "";
+                    if(list.length == 0){
+						$("#accordion").append("<div>작성된 글이 없습니다.</div>");
+					}else{
+                        if(cpage > pi.MaxPage){
+                            return;
+                        }
+                        if(list.length < 10){
+                            $("#more-btn").css("display", "none");
+                        }else{
+                            $("#more-btn").css("display", "block");
+                        }
+                        for(let i=0; i<list.length; i++){{
+                            value += "<div class='card'>";
+                            value += "<div class='card-header'>";
+                            value += "<a class='card-link' data-toggle='collapse' href='#collapseOne'>";
+                            value += "<span>[" + list[i].category + "]</span>" + list[i].faqQuestion + "</a></div>";
+                            value += "<div id='collapseOne' class='collapse' data-parent='#accordion'>";
+                            value += "<div class='card-body'>";
+                            value += list[i].faqAnswer;
+                            value += "</div></div></div>";
+                        }}
+                        $("#accordion").append(value);
+                        $("#more-btn").click(function(){
+                            ++cpage;
+                            $.ajax({
+                                url:"<%=contextPath%>/list.faq",
+                                type:"post",
+                                data:{"cpage":cpage, "category":category},
+                                success:function(result){
+                                    let list = result;
+                                    let value = "";
+                                    if(list.length == 0){
+                                        $("#accordion").append("없어 나오지마 제발");
+                                        $("#more-btn").css("display", "none");
+                                    }else{
+                                            
+                                        for(let i=0; i<list.length; i++){{
+                                            value += "<div class='card'>";
+                                            value += "<div class='card-header'>";
+                                            value += "<a class='card-link' data-toggle='collapse' href='#collapseOne'>";
+                                            value += "<span>[" + list[i].category + "]</span>" + list[i].faqQuestion + "</a></div>";
+                                            value += "<div id='collapseOne' class='collapse' data-parent='#accordion'>";
+                                            value += "<div class='card-body'>";
+                                            value += list[i].faqAnswer;
+                                            value += "</div></div></div>";
+                                        }}
+                                        $("#accordion").append(value);
+                                    }
+                                }, error:function(){
+                                    console.log("더보기 통신 실패");
+                                }
+                            })
+                        })
+                    }
+
+                }, error:function(){
+                    console.log("faq 리스트 가져오기 통신 실패");
+                }
+            })
+        }
+            
     </script>
-     --%>
 </body>
 </html>

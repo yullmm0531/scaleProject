@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.scale.common.model.vo.PageInfo;
-import com.scale.customerCenter.model.service.NoticeService;
+import com.scale.customerCenter.model.service.CustomerCenterService;
 import com.scale.customerCenter.model.vo.Notice;
 
 /**
@@ -42,7 +42,7 @@ public class NoticeListController extends HttpServlet {
 		int startPage;
 		int endPage;
 		
-		listCount = new NoticeService().selectListCount();
+		listCount = new CustomerCenterService().selectNoticeListCount();
 		currentPage = Integer.parseInt(request.getParameter("cpage"));
 		pageLimit = 5;
 		boardLimit = 10;
@@ -58,7 +58,7 @@ public class NoticeListController extends HttpServlet {
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 		
 		// 페이지 조회
-		ArrayList<Notice> list = new NoticeService().selectNoticeList(pi);
+		ArrayList<Notice> list = new CustomerCenterService().selectNoticeList(pi);
 		
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);

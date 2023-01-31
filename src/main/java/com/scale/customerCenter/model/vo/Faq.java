@@ -26,6 +26,14 @@ public class Faq {
 		this.faqWriter = faqWriter;
 	}
 
+	public Faq(int faqNo, String faqQuestion, String faqAnswer, String category) {
+		super();
+		this.faqNo = faqNo;
+		this.faqQuestion = faqQuestion;
+		this.faqAnswer = faqAnswer;
+		this.category = category;
+	}
+
 	public int getFaqNo() {
 		return faqNo;
 	}

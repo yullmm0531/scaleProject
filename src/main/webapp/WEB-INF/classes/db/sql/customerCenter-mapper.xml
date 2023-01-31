@@ -119,4 +119,32 @@
  		  WHERE RNUM BETWEEN ? AND ?
 	</entry>
 	
+	<!-- faq -->
+	<entry key="selectFaqListCount">
+		SELECT
+			   COUNT(*) "COUNT"		                      
+          FROM TB_FAQ
+         WHERE STATUS = 'Y'
+           AND CATEGORY = ?
+	</entry>
+	
+	<entry key="selectFaqList">
+		SELECT * 
+  		  FROM (
+		        SELECT ROWNUM RNUM, F.*
+		          FROM (
+		                SELECT
+		                       FAQ_NO
+		                     , FAQ_QUESTION
+                             , FAQ_ANSWER
+                             , CATEGORY
+		                  FROM TB_FAQ
+		                 WHERE STATUS = 'Y'
+                           AND CATEGORY = ?
+		                 ORDER
+		                    BY FAQ_NO DESC
+		                ) F
+       			)
+ 		  WHERE RNUM BETWEEN ? AND ?
+	</entry>
 </properties>
