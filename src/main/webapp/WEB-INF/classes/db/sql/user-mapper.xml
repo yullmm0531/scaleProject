@@ -118,4 +118,16 @@
 		   AND USER_PWD = ?
 		 
 	</entry>
+	
+	<entry key="selectUserByNickname">
+		SELECT
+			   USER_NO
+			 , USER_ID
+			 , USER_NICKNAME
+			 , INTRODUCE
+			 , PROFILE_IMG
+		  FROM TB_USER
+		 WHERE STATUS = 'Y'
+		   AND USER_NICKNAME = ?
+	</entry>
 </properties>

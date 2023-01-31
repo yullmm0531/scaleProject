@@ -79,4 +79,16 @@ public class UserService {
 		close(conn);
 		return result;
 	}
+	
+	/**
+	 * @writer 먼지링
+	 * @param 유저정보를 찾을 때 사용할 nickname
+	 * @return User정보
+	 */
+	public User selectUserByNickname(String nickname) {
+		Connection conn = getConnection();
+		User user = new UserDao().selectUserByNickname(conn, nickname);
+		close(conn);
+		return user;
+	}
 }

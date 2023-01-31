@@ -274,6 +274,194 @@
 	        $("#up-btn").click(function(){
 	            window.scrollTo({ top: 0, behavior: "smooth" });
 	        })
+
+			let cpage = 0;
+
+			$(function(){
+				$(window).scroll();
+			})
+
+			$(window).scroll(function() {
+				if($(window).scrollTop() + $(window).height() == $(document).height()){
+					cpage++;
+					StyleList();
+				}
+			});
+
+			function StyleList(){
+				<% if(loginUser != null) { %>
+					let userNo = <%= loginUser.getUserNo() %>;
+					$.ajax({
+						url:"<%= contextPath %>/trendinglist.ajax",
+						type:"get",
+						data:{"cpage":cpage, "userNo":userNo},
+						success:function(map){
+							let list = map.list;
+							let ilist = map.ilist;
+							let checkLike = map.checkLike;
+							
+							let value = "";
+							for(let i=0; i<list.length; i++){
+								value = "<table class='set'>"
+											+ "<tr>"
+												+ "<td colspan='2' class='style-img'>"
+													+ "<div id='demo" + i + (12 * (cpage - 1)) + "' class='carousel'>"
+														+ "<div class='carousel-inner' data-interval='false'>";
+											for(let j=0; j<ilist.length; j++){
+												if(list[i].styleNo == ilist[j].styleNo && ilist[j].fileLevel == 1) {
+													value += "<div class='carousel-item active'>"
+																+ "<img class='cimg' src='<%= contextPath %>/" + ilist[j].filePath + ilist[j].changeName + "'>"
+															+ "</div>";
+												} else if(list[i].styleNo == ilist[j].styleNo && ilist[j].fileLevel == 2) {
+													value += "<div class='carousel-item'>"
+																+ "<img class='cimg' src='<%= contextPath %>/" + ilist[j].filePath + ilist[j].changeName + "'>"
+															+ "</div>";
+												}
+											}
+												value += "</div>"
+														+ "<a class='carousel-control-prev' href='#demo" +  i + (12 * (cpage - 1)) + "' data-slide='prev'>"
+														+ "<span class='carousel-control-prev-icon'></span>"
+														+ "</a>"
+														+ "<a class='carousel-control-next' href='#demo" + i + (12 * (cpage - 1)) + "' data-slide='next'>"
+														+ "<span class='carousel-control-next-icon'></span>" 
+														+ "</a>"
+													+ "</div>"
+												+ "</td>"
+											+ "</tr>"
+											+ "<tr>"
+												+ "<td class='nickname'>"
+													+ "<img src='<%= contextPath %>/" + list[i].profileImg + "' class='rounded-circle'>"
+													+ "<a href='<%= contextPath %>/profile.st?nickname=" + list[i].styleWriter + "&cpage=1'>" + list[i].styleWriter + "</a>"
+												+ "</td>"
+												+ "<td class='like'>";
+										if(checkLike[i] == 0){
+											value += "<a class='btn smile'>🤍</a>"
+										} else {
+											value += "<a class='btn smile'>❤</a>"
+										}     
+											value += "<input type='hidden' class='styleNo' value='" + list[i].styleNo + "'>"
+													+ "<span>" + list[i].count + "</span>"
+												+ "</td>"
+											+ "</tr>"
+											+ "<tr>"
+												+ "<td colspan='2' class='tag-area'>"
+													+ "<div class='text'>";
+										if(list[i].hashtag != null){
+											let tagArr = list[i].hashtag.split(" ");
+											for(let t=0; t<tagArr.length; t++){
+												const enco= encodeURIComponent(tagArr[t]);
+												value += "<a href='<%= contextPath %>/search.st?keyword=" + enco + "'>" + tagArr[t] + "</a>";
+											}
+										}
+										value += "</div>"
+											+ "</td>"
+										+ "</tr>"
+									+ "</table>";
+								$(".set-container").append(value);
+							}
+						},
+						error:function(){
+							console.log("통신실패");
+						}
+					})
+				<% } else { %>
+					$.ajax({
+						url:"<%= contextPath %>/trendinglist.ajax",
+						type:"get",
+						data:{"cpage":cpage},
+						success:function(map){
+							let list = map.list;
+							let ilist = map.ilist;
+							
+							let value = "";
+							for(let i=0; i<list.length; i++){
+								value = "<table class='set'>"
+											+ "<tr>"
+												+ "<td colspan='2' class='style-img'>"
+													+ "<div id='demo" + i + (12 * (cpage - 1)) + "' class='carousel'>"
+														+ "<div class='carousel-inner' data-interval='false'>";
+											for(let j=0; j<ilist.length; j++){
+												if(list[i].styleNo == ilist[j].styleNo && ilist[j].fileLevel == 1) {
+													value += "<div class='carousel-item active'>"
+																+ "<img class='cimg' src='<%= contextPath %>/" + ilist[j].filePath + ilist[j].changeName + "'>"
+															+ "</div>";
+												} else if(list[i].styleNo == ilist[j].styleNo && ilist[j].fileLevel == 2) {
+													value += "<div class='carousel-item'>"
+																+ "<img class='cimg' src='<%= contextPath %>/" + ilist[j].filePath + ilist[j].changeName + "'>"
+															+ "</div>";
+												}
+											}
+												value += "</div>"
+														+ "<a class='carousel-control-prev' href='#demo" +  i + (12 * (cpage - 1)) + "' data-slide='prev'>"
+														+ "<span class='carousel-control-prev-icon'></span>"
+														+ "</a>"
+														+ "<a class='carousel-control-next' href='#demo" + i + (12 * (cpage - 1)) + "' data-slide='next'>"
+														+ "<span class='carousel-control-next-icon'></span>" 
+														+ "</a>"
+													+ "</div>"
+												+ "</td>"
+											+ "</tr>"
+											+ "<tr>"
+												+ "<td class='nickname'>"
+													+ "<img src='<%= contextPath %>/" + list[i].profileImg + "' class='rounded-circle'>"
+													+ "<a href='<%= contextPath %>/profile.st?nickname=" + list[i].styleWriter + "&cpage=1'>" + list[i].styleWriter + "</a>"
+												+ "</td>"
+												+ "<td class='like'>"
+													+ "<a class='btn smile'>🤍</a>"
+													+ "<input type='hidden' class='styleNo' value='" + list[i].styleNo + "'>"
+													+ "<span>" + list[i].count + "</span>"
+												+ "</td>"
+											+ "</tr>"
+											+ "<tr>"
+												+ "<td colspan='2' class='tag-area'>"
+													+ "<div class='text'>";
+										if(list[i].hashtag != null){
+											let tagArr = list[i].hashtag.split(" ");
+											for(let t=0; t<tagArr.length; t++){
+												const enco= encodeURIComponent(tagArr[t]);
+												value += "<a href='<%= contextPath %>/search.st?keyword=" + enco + "'>" + tagArr[t] + "</a>";
+											}
+										}
+										value += "</div>"
+											+ "</td>"
+										+ "</tr>"
+									+ "</table>";
+								$(".set-container").append(value);
+							}
+						},
+						error:function(){
+							console.log("통신실패");
+						}
+					})
+				<% } %>
+			}
+
+			$(document).on("click", ".smile", function(){
+				let e = $(this);
+				let like = e.text();
+				<% if(loginUser == null) { %>
+					alert("로그인 후 이용가능한 페이지입니다.");
+					location.href = "<%= contextPath %>/loginForm.us";
+				<% } else { %>
+					let userNo = <%= loginUser.getUserNo() %>;
+					$.ajax({
+						url:"increaselike.ajax",
+						data:{"userNo":userNo, "styleNo":$(this).next().val()},
+						success:function(result){
+							if(like == "🤍"){
+								e.text("❤");
+								e.next().next().text(Number(e.next().next().text()) + 1);
+							} else {
+								e.text("🤍");
+								e.next().next().text(Number(e.next().next().text()) - 1);
+							}
+						},
+						error:function(){
+							console.log("실패");
+						}
+					})
+				<% } %>
+			})
         </script>
 
     </div>

@@ -246,4 +246,32 @@ public class UserDao {
 		}
 		return result;
 	}
+	
+	public User selectUserByNickname(Connection conn, String nickname) {
+		User user = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectUserByNickname");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, nickname);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				user = new User();
+				user.setUserNo(rset.getInt("user_no"));
+				user.setUserId(rset.getString("user_id"));
+				user.setUserNickName(rset.getString("user_nickname"));
+				user.setProfileImg(rset.getString("profile_img"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return user;
+	}
 }

@@ -311,10 +311,6 @@
             <% } %>
         }
 
-        $(document).ready(function() {      
-            $('.carousel').carousel('pause');
-        });
-
         $(document).on("click", ".smile", function(){
             let e = $(this);
             let like = e.text();
