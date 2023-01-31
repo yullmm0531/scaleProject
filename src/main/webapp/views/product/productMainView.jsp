@@ -25,7 +25,7 @@
   	 	
         .pwrap{
             width:1200px;
-            height:1000px;
+            
             margin:auto;
         }
         .pwrap>div{width:100%;}
@@ -190,7 +190,7 @@
 	                            <div class="product-name-eng"><%= p.getProductNameEng() %> </div>
 	                            <div class="product-name-ko"><%= p.getProductNameKo() %> </div>
 	                            <div class="product-price">즉시구매가</div>
-	                            <div class="p-like" id = "like"><a href="">♡</a></div>
+	                            <div class="p-like" id = "like">♡</div>
 	                        </li>
                         <% } %>
 
@@ -265,111 +265,131 @@
         });
     </script>
     
-    <!-- 필터 클릭 버튼  -->
+    <!-- 필터  -->
     <script>
-		$(function(){
-			$(".chk").click(function(){
-	    		$(".shbtn").show()
-	    	});
-			
-		});
+	
+	
+	
+    
     </script>
 
-    <!-- 모두 지우기(체크박스 해제) -->
+    <!-- 필터 모두 해제 -->
     <script>
-    	$(function(){
-    		
-    	})
+    	
     </script>
     
     <!-- 무한스크롤 -->
     <script>
-	
-    $(function(){
-    	 var intersectionObserver = new IntersectionObserver(function(entries) {
-       	  // If intersectionRatio is 0, the target is out of view
-       	  // and we do not need to do anything.
-       	  if (entries[0].intersectionRatio <= 0) return;
+         $(document).ready(function() {      
+            $('.carousel').carousel('pause');
+        });
 
-       	  loadItems(12);
-       	  console.log('Loaded new items');
-       	});
-       	// start observing
-       	intersectionObserver.observe(document.querySelector('.scrollerFooter'));
 
-       	const io = new IntersectionObserver((entries, observer) => {
-       		entries.forEach(entry => {
-       		  if (!entry.isIntersecting) return; 
-       			//entry가 interscting 중이 아니라면 함수를 실행하지 않습니다.
-       		  if (page._scrollchk) return;
-       			//현재 page가 불러오는 중임을 나타내는 flag를 통해 불러오는 중이면 함수를 실행하지 않습니다.
-       	    observer.observe(document.getElementById('sentinel'));
-       			//observer를 등록합니다.
-       	    page._page += 1;
-       			//불러올 페이지를 추가합니다.
-       	    page.list.search();
-       			//페이지를 불러오는 함수를 호출합니다.
-       		});
-       	});
+    	let cpage = 0;
+    	$(function(){
+    		$(window).scroll();
+    	})
+    	
+    	$(window).scroll(function(){
+    		if($(window).scrollTop() + $(window).height() == $(document).height(){
+    			cpage++;
+    			ProductList();
+    		} 
+    	});
+    	
+    	function ProductList(){
+    		$.ajax({
+    			url"<%= contextPath%>/productList.pd",
+    			type:"get",
+    			data:{"cpage":cpage, "userNo":userNo},
+    			success:function(pl){
+    				let list = pl.list;
+    				let checkLike = pl.chechLike;
+    				
+    				let value = "";
+                    for(let i =0; i<list.length; i++){
+                        value = "<table class='set'>"
+                                +"<tr>"
+                                    +"<td colspan='2' class='style-img'>"
+                                        +"<div id='demo"+ i + (12 * (cpage -1)) + "'class='carousel '>"
+                                            +"<div class='carousel-inner' data-interval='false'>";
 
-       	io.observe(document.getElementById('sentinel'));
-       	
-       	$.ajax({
-       		url: "/scale/plist.pd",
-       		method: "GET",
-       		dataType: "json",
-       		success: function (result) {
-       		  console.log(result);
-       		},
-       		error: function (err) {
-       		  console.log(err);
-       		},
-       		beforeSend: function () {
-       	    _scrollchk = true; 
-       			//데이터가 로드 중임을 나타내는 flag입니다.
-       			document.getElementById('list').appendChild(skeleton.show());
-       			//skeleton을 그리는 함수를 이용해 DOM에 추가해줍니다.
-       	    $(".loading").show();
-       			//loading animation을 가진 요소를 보여줍니다.
-       		},
-       		complete: function () {
-       	    _scrollchk = false;
-       			//데이터가 로드 중임을 나타내는 flag입니다.
-       	    $(".loading").hide();
-       	    skeleton.hide();
-       			//loading animation 요소와 skeleton을 지우는 함수를 이용해 DOM에서 지워줍니다.
-       		}
-       	});
-	});
-    
-    
-   		
-    
+                                                value += "</div>"
+                                                    + "<a class='carousel-control-prev' href='#demo" +  i + (12 * (cpage - 1)) + "' data-slide='prev'>"
+                                                    + "<span class='carousel-control-prev-icon'></span>"
+                                                    + "</a>"
+                                                    + "<a class='carousel-control-next' href='#demo" + i + (12 * (cpage - 1)) + "' data-slide='next'>"
+                                                    + "<span class='carousel-control-next-icon'></span>" 
+                                                    + "</a>"
+                                                + "</div>"
+                                            + "</td>"
+                                        + "</tr>"
+                                        + "<tr>"
+                                            + "<td class='like'>";
+                                    /*if(clickLike[i] == 0){
+                                                value += "<a class='btn smile'>🤍</a>"
+                                                } else {
+                                                    value += "<a class='btn smile'>❤</a>"
+                                                }     
+                                                    value += "<input type='hidden' class='styleNo' value='" + list[i].styleNo + "'>"
+                                                            + "<span>" + list[i].count + "</span>"
+                                                        + "</td>"
+                                                    + "</tr>"
+                                                    + "<tr>"
+                                                        + "<td colspan='2' class='tag-area'>"
+                                                            + "<div class='text'>"; 
+                                }*/
+                                    
+                    },
+                    error:function(){
+                        console.log("fail");
+                    }
+    				
+    		})
+    	}
+	    
     </script>
     
     
     
     <!-- Like -->
     <script>
-	    $(function like(){
-	  	  $.ajax({
-			    url: "/scale/plist.pd",
-			    type: "POST",
-			    cache: false,
-			    dataType: "json",
-			    data: $('#like_form').serialize(), 
-			    success: 
-			    function(data){      					
-			    	alert("'좋아요'가 반영되었습니다!") ;  
-	                $("#like_result").html(data.like); 
-			    },   
-			    
-			    error: 
-			    function (request, status, error){  
-			      alert("ajax실패")                  
-			    }
-			  });
-	}
+    	$(function(){
+    		$("#like").click(function(){
+    			<% if(loginUser == null) { %>
+	                alert("로그인 후 이용가능한 페이지입니다.");
+	                location.href = "<%= contextPath %>/loginForm.us";
+            	<% } else { %>
+                	let userNo = <%= loginUser.getUserNo() %>;
+    			$.ajax({
+    			    url: "/plike.pd",
+    			    type: "POST",
+    			    dataType: "json",
+    			    data: {"userNo":userNo, "productCode":$(this).next().val()}, 
+    			    success:function(result){
+    			    	if(result == "♡"){
+    			    		e.text("♥")
+    			    		alert("'좋아요'가 반영되었습니다!");
+    			    		e.next().next().text(Number(e.next().next().text()) + 1);
+    			    	}else{
+    			    		e.text("♡")
+    			    		alert("'좋아요'가 취소되었습니다!");
+    			    		e.next().next().text(Number(e.next().next().text()) - 1);
+    			    	}
+    			    	 
+    	                
+    			    },   
+    			    
+    			    error:function (result){  
+    			      alert("실패");                  
+    			    }
+    			  })
+    			<% } %>
+    		})
+    		
+    	})
+	  	  
+	
     
     
     </script>

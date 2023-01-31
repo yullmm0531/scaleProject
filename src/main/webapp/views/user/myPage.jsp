@@ -186,6 +186,8 @@
         #content-1{width:20%}
         #content-2{width:80%}
         
+        .nickName{margin-left: 30%;}
+        
     </style>
 </head>
 <body>
@@ -198,9 +200,9 @@
                     <div class="sideMenu-div">
                         <li><a href="">쇼핑정보</a>
                             <ul>
-                                <li><a href="">구매내역</a></li>
-                                <li><a href="">판매내역</a></li>
-                                <li><a href="">찜목록</a></li>
+                                <li><a href="<%=contextPath %>/userBuyList.us">구매내역</a></li>
+                                <li><a href="<%=contextPath %>/userSellList.us">판매내역</a></li>
+                                <li><a href="<%=contextPath %>/userLikeList.us">찜목록</a></li>
                             </ul>
                         </li>
                     </div>
@@ -247,7 +249,7 @@
                     </div>
                     <br><br>
                     <div class="inside-outer">
-                        <h4 id="sellingList">판매목록</h4>
+                        <h4 id="sellingList">판매내역</h4>
                     <div class="buttonDiv1"><a href="<%=contextPath %>/userSellList.us" type="button" class="btn btn-dark" id="selligDetail">더보기</a></div>
                         <div class="outLine">  
                             <div class="userSelling">
@@ -279,7 +281,7 @@
                         <div class="outLine">
                             
                             <div class="userBuying">
-                                <div id="buyingList-div"><h4 id="buyingList">구매목록</h4></div>
+                                <div id="buyingList-div"><h4 id="buyingList">구매내역</h4></div>
                                 <div class="userBuyingBox" align="center">
                                     <div class="b">
                                         <span>발송중<br>0</span>
