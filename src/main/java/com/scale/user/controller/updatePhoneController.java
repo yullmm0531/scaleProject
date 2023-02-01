@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.scale.user.model.service.UserService;
+import com.scale.user.model.vo.User;
 
 /**
  * Servlet implementation class updatePhoneController
@@ -33,15 +34,17 @@ public class updatePhoneController extends HttpServlet {
 		String userId = request.getParameter("userId");
 		String phone = request.getParameter("phone");
 		
-		int result = new UserService().updatePhone(userId, phone);
+		User updateUser = new UserService().updatePhone(userId, phone);
 		
 		HttpSession session = request.getSession();
-		if(result>0) {
-			session.setAttribute("alertMsg", "연락처를 변경하였습니다");
-			request.getRequestDispatcher("views/user/myPage.jsp").forward(request, response);
-		}else {
+		
+		if(updateUser == null) {
 			session.setAttribute("alertMsg", "연락처 변경에 실패하였습니다");
-			response.sendRedirect(request.getContextPath() + "userInfoUpdate.us");
+			request.getRequestDispatcher("views/user/userInfoUpdateForm.jsp").forward(request, response);
+		}else {
+			session.setAttribute("alertMsg", "연락처를 성공적으로 변경하였습니다.");
+			session.setAttribute("loginUser", updateUser);
+			request.getRequestDispatcher("views/user/userInfoUpdateForm.jsp").forward(request, response);
 		}
 	}
 

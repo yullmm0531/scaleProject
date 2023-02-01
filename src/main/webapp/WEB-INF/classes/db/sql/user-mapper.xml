@@ -167,7 +167,7 @@
 		 	  
 	</entry>
 	
-	<entry key="selectUserForUpdatePwd">
+	<entry key="selectUserForUpdateUser">
 		SELECT 
 			   USER_NO
 			 , USER_ID
@@ -195,6 +195,24 @@
 		UPDATE TB_USER
 		   SET EMAIL = ?
 		 WHERE USER_ID = ?
+		   		 
+
+	</entry>
+	
+	<entry key="userSellList">
+		SELECT
+		    PRODUCT_IMG_M
+		    ,PRODUCT_NAME_ENG
+		    ,BRAND_NAME
+		    ,DEAL_DATE
+		    ,DEAL_STEP
+		FROM
+			TB_PRODUCT
+		JOIN TB_BRAND USING(BRAND_CODE)
+		JOIN TB_BIDDING USING(PRODUCT_CODE)
+			WHERE USER_NO = ?
+			  	AND BIDDING_TYPE = 2
+			    AND DEAL_CHECK != 'N'
 		   		 
 
 	</entry>

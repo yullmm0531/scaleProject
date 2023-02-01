@@ -3,7 +3,9 @@ package com.scale.user.model.service;
 import static com.scale.common.JDBCTemplate.*;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
+import com.scale.product.model.vo.Product;
 import com.scale.user.model.dao.UserDao;
 import com.scale.user.model.vo.Address;
 import com.scale.user.model.vo.User;
@@ -114,18 +116,21 @@ public class UserService {
 	 * @param phone : 사용자가 변경하기 위해 새로 입력한 연락처
 	 * @return
 	 */
-	public int updatePhone(String userId, String phone) {
+	public User updatePhone(String userId, String phone) {
 		Connection conn = getConnection();
 		int result = new UserDao().updatePhone(conn, userId, phone);
 		
+		User updateUser = null;
+		
 		if(result > 0) {
 			commit(conn);
+			updateUser = new UserDao().selectUserForUpdateUser(conn, userId);
 		}else{
 			rollback(conn);
 		}
 		
 		close(conn);
-		return result;
+		return updateUser;
 
 	}
 	
@@ -137,7 +142,7 @@ public class UserService {
 		
 		if(result > 0) {
 			commit(conn);
-			updateUser = new UserDao().selectUserForUpdatePwd(conn, userId);
+			updateUser = new UserDao().selectUserForUpdateUser(conn, userId);
 		}else{
 			rollback(conn);
 		}
@@ -147,17 +152,27 @@ public class UserService {
 
 	}
 	
-	public int updateEmail(String userId, String email) {
+	public User updateEmail(String userId, String email) {
 		Connection conn = getConnection();
 		int result = new UserDao().updateEmail(conn, userId, email);
 		
+		User updateUser = null;
+		
 		if(result > 0) {
 			commit(conn);
+			updateUser = new UserDao().selectUserForUpdateUser(conn, userId);
 		}else{
 			rollback(conn);
 		}
 		
 		close(conn);
-		return result;
+		return updateUser;
+	}
+	
+	public ArrayList<Product> userSellList(int userNo) {
+		Connection conn = getConnection();
+		ArrayList<Product> list = new UserDao().userSellList(conn, userNo);
+		close(conn);
+		return list;
 	}
 }

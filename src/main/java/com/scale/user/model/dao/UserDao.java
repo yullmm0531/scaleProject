@@ -8,8 +8,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Properties;
 
+import com.scale.product.model.vo.Product;
 import com.scale.user.model.vo.Address;
 import com.scale.user.model.vo.User;
 
@@ -375,16 +377,16 @@ public class UserDao {
 	
 	/**
 	 * @param 김진우
-	 * @param 비밀번호 변경 후 전체 user 정보 조회하는 메소드
+	 * @param 마이페이지 내 사항 변경 후 전체 user 정보 조회하는 메소드
 	 * @return
 	 */
-	public User selectUserForUpdatePwd(Connection conn, String userId) {
+	public User selectUserForUpdateUser(Connection conn, String userId) {
 		
 		User updateUser = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
-		String sql = prop.getProperty("selectUserForUpdatePwd");
+		String sql = prop.getProperty("selectUserForUpdateUser");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -446,5 +448,37 @@ public class UserDao {
 		}
 		return result;
 
+	}
+	
+	public ArrayList<Product> userSellList(Connection conn, int userNo) {
+		ArrayList<Product> list = new ArrayList<>();
+				
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("userSellList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Product p = new Product();
+				p.setProductImgM(rset.getString("product_img_m"));
+				p.setProductNameEng(rset.getString("product_name_eng"));
+				p.setBrandName(rset.getString("brand_name"));
+				p.setDealDate(rset.getDate("deal_date"));
+				p.setDealStep(rset.getInt("deal_step"));
+				list.add(p);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
 	}
 }
