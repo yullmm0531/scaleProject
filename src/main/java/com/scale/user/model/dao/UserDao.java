@@ -471,6 +471,8 @@ public class UserDao {
 		}
 		
 		return result;
+	}
+		
 	public ArrayList<Product> userSellList(Connection conn, int userNo) {
 		ArrayList<Product> list = new ArrayList<>();
 				

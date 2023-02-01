@@ -606,6 +606,41 @@
             function addressList(){
 
             }
+
+            var IMP = window.IMP; // 생략 가능
+            IMP.init("imp22538717"); // 예: imp00000000
+			
+            $("#submit").click(function(){
+            	requestPay();
+            })
+            
+            function requestPay() {
+                // IMP.request_pay(param, callback) 결제창 호출
+                IMP.request_pay({ // param
+                    pg: "html5_inicis",
+                    pay_method: "card",
+                    merchant_uid: "ORD20180131-0000011",
+                    name: "<%= p.getProductNameKo() %>",
+                    amount: 1000,
+                    buyer_email: "",
+                    buyer_name: $("#recipient").val(),
+                    buyer_tel: $("#reciPhone").val(),
+                    buyer_addr: "서울특별시 강남구 신사동",
+                    buyer_postcode: "<%= ad.getZipCode() %>"
+                }, function (rsp) { // callback
+                    if (rsp.success) {
+                        alert("결제완료");
+                        // 결제 성공 시 로직,
+                        
+                    } else {
+                        alert("결제실패");
+                        // 결제 실패 시 로직,
+                        
+                    }
+                });
+            }
+
+
         </script>
         <br><br>
     </div>
