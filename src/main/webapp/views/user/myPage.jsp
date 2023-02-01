@@ -193,6 +193,10 @@
 <body>
 	<%@ include file="../common/menubar.jsp" %>
 	
+	<%
+		int userNo = loginUser.getUserNo();
+	%>
+	
 	<div class="wrap">
         <div id="content">
             <div id="content-1">
@@ -201,7 +205,18 @@
                         <li><a href="">쇼핑정보</a>
                             <ul>
                                 <li><a href="<%=contextPath %>/userBuyList.us">구매내역</a></li>
-                                <li><a href="<%=contextPath %>/userSellList.us">판매내역</a></li>
+                                
+                                <li>
+                                	<a href="<%=contextPath %>/userSellList.us?userNo=<%=userNo%>">판매내역</a>
+                                	<!-- 
+                                	<form action="<%= contextPath %>/userSellList.us" method="post">
+					        			<input type="hidden" name="userNo" value="<%=userNo%>">
+					        	
+					        			<button type="submit" class="btn btn-secondary btn-sm" class="moveList">판매내역</button>
+				        			</form>
+				        			 -->
+                                </li>
+                                
                                 <li><a href="<%=contextPath %>/userLikeList.us">찜목록</a></li>
                             </ul>
                         </li>

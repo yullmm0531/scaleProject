@@ -1,12 +1,18 @@
 package com.scale.user.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.scale.product.model.vo.Product;
+import com.scale.user.model.service.UserService;
+import com.scale.user.model.vo.User;
 
 /**
  * Servlet implementation class userSellListController
@@ -28,6 +34,11 @@ public class userSellListController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		
+		int userNo = Integer.parseInt(request.getParameter("userNo"));
+		
+		ArrayList<Product> list = new UserService().userSellList(userNo);
+		
 		HttpSession session = request.getSession();
 		
 		if(session.getAttribute("loginUser") == null) { 
@@ -35,6 +46,7 @@ public class userSellListController extends HttpServlet {
 			response.sendRedirect(request.getContextPath());
 		}else {
 			
+			request.setAttribute("list", list);
 			request.getRequestDispatcher("views/user/userSellList.jsp").forward(request, response);
 		}
 	}
