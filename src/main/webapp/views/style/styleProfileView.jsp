@@ -18,10 +18,10 @@
     }
     .profile{width: 1100px;}
     .header>td{height: 150px;}
-    .header>td>img{width: 100px; height: 100px;}
-    .header>td>span{font-size: 30px; font-weight: bolder; padding-left: 10px;}
-    .id, .introduce{height: 70px; font-size: 20px;}
-    .id>div, .introduce>div{margin-left: 10px;}
+    #profile-img{width: 100px; height: 100px;}
+    #profile-nickname{font-size: 30px; font-weight: bolder; padding-left: 10px;}
+    .id-td, .introduce-td{height: 70px; font-size: 20px;}
+    #profile-id, #profile-introduce{margin-left: 10px;}
 
     .edit-td{text-align: right;}
     .edit-btn{
@@ -76,6 +76,7 @@
 		font-size: 25px;
 		font-weight: bold;
 	}
+	#nickname-input{width: 450px;}
 </style>
 </head>
 <body>
@@ -88,47 +89,57 @@
 				<table class="profile">
 					<tr class="header">
 						<td>
-							<img src="<%= user.getProfileImg() %>" class="rounded-circle">
-							<span><%= user.getUserNickName() %></span>
+							<img src="<%= user.getProfileImg() %>" class="rounded-circle" id="profile-img">
+							<span id="profile-nickname"><%= user.getUserNickName() %></span>
 						</td>
 						<td class="edit-td">
 							<button type="button" class="edit-btn btn-secondary" data-toggle="modal" data-target="#profile-edit">프로필 편집</button>
 						</td>
 					</tr>
 					<tr>
-						<td class="id">
-							<div><%= user.getUserId() %></div>
+						<td class="id-td">
+							<div id="profile-id"><%= user.getUserId() %></div>
 						</td>
 					</tr>
 					<tr>
 						<% if(user.getIntroduce() != null) { %>
-						<td class="introduce">
-							<div><%= user.getIntroduce() %></div>
+						<td class="introduce-td">
+							<div id="profile-introduce"><%= user.getIntroduce() %></div>
+						</td>
+						<% } else { %>
+						<td class="introduce-td">
+							<div id="profile-introduce"></div>
 						</td>
 						<% } %>
 					</tr>
 				</table>
+				<br>
 			<% } else { %>
 				<table class="profile">
 					<tr class="header">
 						<td>
-							<img src="<%= user.getProfileImg() %>" class="rounded-circle">
-							<span><%= user.getUserNickName() %></span>
+							<img src="<%= user.getProfileImg() %>" class="rounded-circle" id="profile-img">
+							<span id="profile-nickname"><%= user.getUserNickName() %></span>
 						</td>
 					</tr>
 					<tr>
-						<td class="id">
-							<div><%= user.getUserId() %></div>
+						<td class="id-td">
+							<div id="profile-id"><%= user.getUserId() %></div>
 						</td>
 					</tr>
 					<tr>
 						<% if(user.getIntroduce() != null) { %>
-						<td class="introduce">
-							<div><%= user.getIntroduce() %></div>
-						</td>
+							<td class="introduce-td">
+								<div id="profile-introduce"><%= user.getIntroduce() %></div>
+							</td>
+						<% } else { %>
+							<td class="introduce-td">
+								<div id="profile-introduce"></div>
+							</td>
 						<% } %>
 					</tr>
 				</table>
+				<br>
 			<% } %>
 		</div>
 
@@ -145,39 +156,126 @@
 	            <!-- Modal Header -->
 	            <div class="modal-header">
 	              <h4 class="modal-title">프로필 편집</h4>
-	              <button type="button" class="close" data-dismiss="modal">&times;</button>
 	            </div>
 	      
 	            <!-- Modal body -->
-	            <form class="modal-body">
-					<table>
-						<tr>
-							<td rowspan="2">
-								<img src="<%= loginUser.getProfileImg() %>" class="rounded-circle" id="modal-img">
-							</td>
-							<td>
-								<span id="modal-nickname"><%= loginUser.getUserNickName() %></span>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<a class="btn btn-outline-secondary btn-sm" id="modal-inputbtn">이미지 변경</a>
-							</td>
-							<td>
-								<a class="btn btn-outline-secondary btn-sm">삭제</a>
-							</td>
-						</tr>
-					</table>
-	                <br>
-	                <div>닉네임*</div>
-	                <input type="text" name="nickname" value="<%= loginUser.getUserNickName() %>">
-	                <br>
-	                <div>소개</div>
-	                <textarea name="introduce" cols="50" rows="5" style="resize: none;"><%= loginUser.getIntroduce() %></textarea>
-	                <br><br>
-	                <button type="submit" class="btn btn-secondary" data-dismiss="modal">변경</button>
-	                <button type="reset" class="btn btn-secondary">초기화</button>
-	            </form>
+				<% if(loginUser != null) { %>
+	            <div class="modal-body">
+					<form id="xxx">
+						<table>
+							<tr>
+								<td rowspan="2">
+									<img src="<%= loginUser.getProfileImg() %>" class="rounded-circle" id="modal-img">
+								</td>
+								<td>
+									<span id="modal-nickname"><%= loginUser.getUserNickName() %></span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="file" id="img-input" style="display: none;" onchange="changeImg(this);">
+									<a class="btn btn-outline-secondary btn-sm" id="modal-imgbtn" onclick="$('#img-input').click();">이미지 변경</a>
+								</td>
+								<td>
+									<a class="btn btn-outline-secondary btn-sm" onclick="deleteImg();">삭제</a>
+									<input type="hidden" value="false" id="delete-flag">
+								</td>
+							</tr>
+						</table>
+
+						<br>
+
+						<div>닉네임<span style="color: red;">*</span></div>
+						<input type="text" value="<%= loginUser.getUserNickName() %>" id="nickname-input" maxlength="20">
+
+						<br>
+
+						<div>소개</div>
+						<% if(loginUser.getIntroduce() != "") { %>
+						<textarea cols="58" rows="5" style="resize: none;" id="introduce"><%= loginUser.getIntroduce() %></textarea>
+						<% } else {%>
+						<textarea cols="58" rows="5" style="resize: none;" id="introduce"></textarea>
+						<% } %>
+
+						<br><br>
+
+						<div align="center">
+							<button type="button" class="btn btn-secondary" onclick="changeProfile();">변경</button>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="document.getElementById('xxx').reset();">취소</button>
+						</div>
+					</form>
+	            </div>
+				<% } %>
+
+				<script>
+					<% if(loginUser != null){ %>
+					let a = <%= loginUser.getUserNo() %>;
+					console.log(a);
+					<% } %>
+
+					$("#nickname-input").keydown(function(){
+						if(event.keyCode == 13) {
+                            event.preventDefault();
+						}
+					})
+
+					function deleteImg(){
+						$('#modal-img').attr('src', '<%= contextPath %>/resources/images/profile/default_img.png');
+						$("#delete-flag").val("true");
+					}
+
+					function changeImg(inputFile){
+						if(inputFile.files.length == 1){ 
+                            const reader = new FileReader();
+							reader.readAsDataURL(inputFile.files[0]);
+							reader.onload = function(e){
+								$("#modal-img").attr("src", e.target.result);
+							}
+						} else {
+							$("#modal-img").attr("src", "<%= contextPath %>/resources/images/profile/default_img.png");
+						}
+					}
+
+					function changeProfile(){
+						event.preventDefault();
+						$('#profile-edit').modal('hide');
+
+						let formData = new FormData();
+						let nickname = $("#nickname-input").val();
+						let introduce = $("#introduce").val();
+						let uploadFile = $("#img-input")[0].files[0];
+						let deleteFlag = $("#delete-flag").val();
+
+						formData.append("nickname", nickname);
+						formData.append("introduce", introduce);
+						formData.append("uploadFile", uploadFile);
+						formData.append("deleteFlag", deleteFlag);
+
+						
+						
+						$.ajax({
+							url:"<%= contextPath %>/updateNickname.ajax",
+							data: formData,
+							processData:false,
+							contentType:false,
+							type:"POST",
+							success:function(updateUser){
+								
+								if(a != updateUser.userNo){
+									alert("프로필 편집을 실패했습니다.");
+								} else {
+									$("#profile-img").attr("src", updateUser.profileImg);
+									$("#profile-nickname").text(updateUser.userNickName);
+									$("#profile-introduce").text(updateUser.introduce);
+								}
+							},
+							error:function(){
+								console.log("통신실패");
+							}
+						})
+					}
+
+				</script>
 	      
 	          </div>
 	        </div>
