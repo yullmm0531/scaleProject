@@ -109,7 +109,7 @@
                 
                 <div id="success" align="center">
                     <br><br><br>
-                    <a href="<%=contextPath%>/loginForm.us" class=" btn btn-dark">로그인 </a><br>
+                    <a href="<%=contextPath%>/loginForm.us" class="btn btn-dark">로그인 </a><br>
                     <a href="<%=contextPath%>/findPwdForm.us" class="btn btn-dark">비밀번호 찾기 </a>
                 </div>
             </div>
