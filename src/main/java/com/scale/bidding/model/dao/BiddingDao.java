@@ -302,4 +302,35 @@ public class BiddingDao {
 		
 	}
 	
+	public ArrayList<Bidding> selectBuyBiddingPrice(Connection conn, String pCode) {
+		
+		ArrayList<Bidding> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectBuyBiddingPriceList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pCode);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Bidding b = new Bidding(rset.getString("product_size"),
+										rset.getInt("bidding_price"));
+				list.add(b);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
+	
 }

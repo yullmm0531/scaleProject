@@ -71,7 +71,7 @@
 	</entry>
 	
 	<entry key="clickLike">
-		SELETE COUNT(*) "COUNT"
+		SELETE COUNT(*) COUNT
 		  FROM TB_LIKE
 		 WHERE USER_NO = ? 
 		   AND PRODUCT_CODE = ?

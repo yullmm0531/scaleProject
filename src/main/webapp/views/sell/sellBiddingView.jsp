@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.scale.product.model.vo.*, java.util.ArrayList, com.scale.bidding.model.vo.Bidding, java.text.DecimalFormat" %>
+<% 
+	Product p = (Product)request.getAttribute("p");
+	ArrayList<Bidding> pList = (ArrayList<Bidding>)request.getAttribute("pList");
+	DecimalFormat formatter = new DecimalFormat("###,###");
+%> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,8 +20,16 @@
         #sizes{
             text-align: center;
         }
+        .size-list{
+            padding-left: 60px;
+        }
         #sizes label{
+            display: inline-block;
             width: 150px;
+            height: 60px;
+            margin-top: 15px;
+            margin-left: 5px;
+            margin-right: 5px;
         }
         .outer{width: 600px; margin: auto; border: 1px solid gray; background-color: whitesmoke;}
         .product-info{height: 180px; padding-left: 30px; padding-top: 15px;}
@@ -75,6 +89,13 @@
             margin-left: 300px;
             font-size: 12px;
         }
+        .green{
+        	color: rgb(24, 163, 24);
+            font-size: 14px;
+        }
+        #priceI, #priceB{
+        	font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -82,59 +103,75 @@
     <br><br><br>
     <div class="outer">
         <form action="">
+        	<input type="hidden" name="co" value="<%= p.getProductCode() %>">
             <div class="product">
-                <div class="product-info row">
-                    <div class="product-img col-sm-4">
-                        <img src="<%= contextPath %>/resources/images/product/nike1.png" alt="">
-                    </div>
-                    <div class="product-name col-sm-8">
-                        <br>
-                        <span id="product-brand">NIKE</span><br>
-                        <span id="product-eng-name">(W) Nike Dunk Low Wolf Grey Rosewood</span><br>
-                        <span id="product-kor-name">(W) 나이키 덩크 로우 울프 그레이 로즈우드</span> <br>
-                        <span id="product-size" name="size" hidden>사이즈</span>
-                    </div>
-                </div>
+            	<% if(p != null) { %>
+	                <div class="product-info row">
+	                    <div class="product-img col-sm-4">
+	                        <img src="<%= contextPath %>/<%= p.getProductImgM() %>" alt="">
+	                    </div>
+	                    <div class="product-name col-sm-8">
+	                        <br>
+	                        <div id="product-brand"><%= p.getBrandName() %></div>
+	                        <div id="product-eng-name"><%= p.getProductNameEng() %></div>
+	                        <div id="product-kor-name"><%= p.getProductNameKo() %></div>
+	                        <span id="product-size" name="size" hidden>사이즈</span>
+	                    </div>
+	                </div>
+	            <% } %>
                 <div class="line"></div>
-                <br><br>
+                <br>
             </div>
 
             <div class="select-size">
-                <div class="size-chart">
+            	<div class="size-chart">
                     <div id="sizes">
-                        <div class="btn-group-toggle" data-toggle="buttons">
-                            <label class="btn btn-outline-secondary">
-                                <input type="radio" name="size" value="사이즈">사이즈
+                        <div class="btn-group-toggle size-list" data-toggle="buttons" align="left">
+                        	<!--
+                            <label class='btn btn-outline-secondary'>
+                                <input type='radio' name='size' value='사이즈'>사이즈
                             </label>
-                            <label class="btn btn-outline-secondary">
-                                <input type="radio" name="size" value="사이즈">사이즈
-                            </label>
-                            <label class="btn btn-outline-secondary">
-                                <input type="radio" name="size" value="사이즈">사이즈
-                            </label>
-                            <br><br>
-                            <label class="btn btn-outline-secondary">
-                                <input type="radio" name="size" value="사이즈">사이즈
-                            </label>
-                            <label class="btn btn-outline-secondary">
-                                <input type="radio" name="size" value="사이즈">사이즈
-                            </label>
-                            <label class="btn btn-outline-secondary">
-                                <input type="radio" name="size" value="사이즈">사이즈
-                            </label>
-                            <br><br>
-                            <label class="btn btn-outline-secondary">
-                                <input type="radio" name="size" value="사이즈">사이즈
-                            </label>
-                            <label class="btn btn-outline-secondary">
-                                <input type="radio" name="size" value="사이즈">사이즈
-                            </label>
-                            <label class="btn btn-outline-secondary">
-                                <input type="radio" name="size" value="사이즈">사이즈
-                            </label>
+                            -->
 
                         </div>
                     </div>
+                    <script>
+                        function toMoney(num) {
+                            return num.toLocaleString('ko-KR');
+                            }
+
+                        $(function(){
+                            var pSizeArr = "<%= p.getProductSize() %>".split(", ");
+                            var sizeOption = "";
+                            
+                            var size = "";
+                            var price = "";
+                            <% if(pList != null && pList.size() != 0) { %> 
+                                <% for(int i=0; i<(pList.size()-1); i++){ %>
+                                    size += <%= (pList.get(i)).getpSize() %> + ", ";
+                                    price += "<%= (pList.get(i)).getbPrice() %>" + "/ ";
+                                <% } %>
+                                size += <%= (pList.get(pList.size()-1)).getpSize() %>;
+                                price += "<%= (pList.get(pList.size()-1)).getbPrice() %>";
+                            <% } %>
+                            var sizeArr = size.split(", ");
+                            var priceArr = price.split("/ ");
+                            let index = "";
+                            for(let i=0; i<pSizeArr.length; i++){
+                                index = sizeArr.indexOf(pSizeArr[i]);
+                                if(index != -1){
+                                    sizeOption += "<label class='btn btn-outline-secondary'>"
+                                        +       "<input type='radio' name='size' value='" + pSizeArr[i] + "'>" + pSizeArr[i] + "<br><span class='green'>" + toMoney(parseInt(priceArr[index])) + "원</span></label>";
+                                } else{
+                                    sizeOption += "<label class='btn btn-outline-secondary'>"
+                                        +       "<input type='radio' name='size' value='" + pSizeArr[i] + "'>" + pSizeArr[i] + "<br><span class='green'>판매입찰</span></label>";
+                                }
+                                
+                            }
+                            $(".size-list").html(sizeOption);
+        
+                        })
+                    </script>
                     
                 </div>
                 <br>
@@ -149,15 +186,47 @@
             <script>
                 
                 $(function(){
-                    var size = $(".size-chart input");
+                    var sizes = $(".size-chart input");
                     let flag = true;
-                    size.change(function(){
-                        for(let i=0; i<size.length; i++){
-                            if(size[i].checked == true){
+                    let checkedSize = "";
+                    sizes.change(function(){
+                        for(let i=0; i<sizes.length; i++){
+                            if(sizes[i].checked == true){
                                 flag = false;
+                                checkedSize = $(this).val();
                             }
                         }
                         $("#goToTerm").attr("disabled", flag);
+                        $("#product-size").html(checkedSize);
+
+                        var size = "";  
+                        var price = "";
+                        <% if(pList != null && pList.size() != 0) { %> 
+                            <% for(int i=0; i<(pList.size()-1); i++){ %>
+                                size += <%= (pList.get(i)).getpSize() %> + ", ";
+                                price += "<%= (pList.get(i)).getbPrice() %>" + "/ ";
+                            <% } %>
+                            size += <%= (pList.get(pList.size()-1)).getpSize() %>;
+                            price += "<%= (pList.get(pList.size()-1)).getbPrice() %>";
+                        <% } %>
+                        var sizeArr = size.split(", ");
+                        var priceArr = price.split("/ ");
+                        let index = sizeArr.indexOf(checkedSize);
+                        console.log(index);
+                        if(index != -1){
+                            $("#priceI").val(toMoney(parseInt(priceArr[index])));
+                        } else{
+                            $("#check1").click();
+                            $("#check2").attr("disabled", true);
+                            $("#priceB").change(function(){
+                                let value = $("#priceB").val();
+                                let priceI = $("#priceI").val();
+                                value = value.replace(/[^0-9]/g,'');
+                                value = value.replace(/[^0-9]/g,'');
+                                
+                                $("#priceB").val(value.replace(/\B(?=(\d{3})+(?!\d))/g, ",")); // 정규식을 이용해서 3자리 마다 , 추가 
+                            })
+                        }
                     })
                 })
             </script>
@@ -274,7 +343,7 @@
                 <br><br>
                 <div align="center">
                     <button type="button" class="btn btn-outline-secondary">취소</button>
-                    <button type="button" class="btn btn-outline-success" id="goToBuyOption" disabled>다음단계</button>
+                    <button type="button" class="btn btn-outline-success" id="goToSellOption" disabled>다음단계</button>
                 </div>
                 <br><br>
             </div>
@@ -298,7 +367,7 @@
                 <div id="sell-immediately">
                     <div class="title">즉시 판매가</div>
                     <br>
-                    <div class="sell-price"><input type="text" id="priceI" class="price" name="priceI" value="203000">원</div>
+                    <div class="sell-price"><input type="text" id="priceI" class="price" name="priceI" value="" readonly>원</div>
                     <br>
                     <div class="line"></div>
                     <br>
@@ -351,9 +420,9 @@
             checkboxes.click(function(){
                 if($("#term1").is(":checked") && $("#term2").is(":checked") 
                         && $("#term3").is(":checked") && $("#term4").is(":checked") && $("#term5").is(":checked")){
-                    $("#goToBuyOption").attr("disabled", false);
+                    $("#goToSellOption").attr("disabled", false);
                 } else{
-                    $("#goToBuyOption").attr("disabled", true);
+                    $("#goToSellOption").attr("disabled", true);
                 }
             })
 
@@ -377,9 +446,25 @@
                     $(".goToPayment").attr("disabled", false);
                 }
             })
-            $("#goToBuyOption").click(function(){
+            $("#goToSellOption").click(function(){
                 $(".term").attr("hidden", true);
                 $(".sell-option").attr("hidden", false);
+            })
+            
+            $("#priceB").change(function(){
+                let value = $("#priceB").val();
+                let priceI = $("#priceI").val();
+                value = value.replace(/[^0-9]/g,'');
+                value = value.replace(/[^0-9]/g,'');
+                priceI = priceI.replace(/[^0-9]/g,'');
+                priceI = priceI.replace(/[^0-9]/g,'');
+                if(parseInt(value) <= parseInt(priceI)){
+                    value="";
+                    $("#priceB").val(value);
+                    $("#check2").click();
+                }
+
+                $("#priceB").val(value.replace(/\B(?=(\d{3})+(?!\d))/g, ",")); // 정규식을 이용해서 3자리 마다 , 추가 
             })
             
         })

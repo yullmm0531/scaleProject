@@ -47,7 +47,7 @@ public class BuyBiddingDetailFormController extends HttpServlet {
 		request.setAttribute("bType", bType);
 		
 		Bidding b = null;
-		if(bType.equals("buyI")) {
+		if("buyI".equals(bType)) {
 			price = Integer.parseInt(request.getParameter("priceI").replaceAll(",", ""));
 			b = new BiddingService().selectSellBidding(pCode, size, price);
 		} else {

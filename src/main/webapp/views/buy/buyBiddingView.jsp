@@ -89,6 +89,13 @@
             margin-left: 300px;
             font-size: 12px;
         }
+        .yellow{
+        	color: rgb(234, 179, 29);
+            font-size: 14px;
+        }
+        #priceI, #priceB{
+        	font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -154,10 +161,10 @@
                                 index = sizeArr.indexOf(pSizeArr[i]);
                                 if(index != -1){
                                     sizeOption += "<label class='btn btn-outline-secondary'>"
-                                        +       "<input type='radio' name='size' value='" + pSizeArr[i] + "'>" + pSizeArr[i] + "<br>" + toMoney(parseInt(priceArr[index])) + "원</label>";
+                                        +       "<input type='radio' name='size' value='" + pSizeArr[i] + "'>" + pSizeArr[i] + "<br><span class='yellow'>" + toMoney(parseInt(priceArr[index])) + "원</span></label>";
                                 } else{
                                     sizeOption += "<label class='btn btn-outline-secondary'>"
-                                        +       "<input type='radio' name='size' value='" + pSizeArr[i] + "'>" + pSizeArr[i] + "<br>-</label>";
+                                        +       "<input type='radio' name='size' value='" + pSizeArr[i] + "'>" + pSizeArr[i] + "<br><span class='yellow'>구매입찰</span></label>";
                                 }
                                 
                             }
