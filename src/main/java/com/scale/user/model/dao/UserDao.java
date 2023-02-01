@@ -268,6 +268,7 @@ public class UserDao {
 				user.setUserId(rset.getString("user_id"));
 				user.setUserNickName(rset.getString("user_nickname"));
 				user.setProfileImg(rset.getString("profile_img"));
+				user.setIntroduce(rset.getString("introduce"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -446,5 +447,27 @@ public class UserDao {
 		}
 		return result;
 
+	}
+	
+	public int updateNickname(Connection conn, User u) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateNickname");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, u.getUserNickName());
+			pstmt.setString(2, u.getProfileImg());
+			pstmt.setString(3, u.getIntroduce());
+			pstmt.setInt(4, u.getUserNo());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
 	}
 }

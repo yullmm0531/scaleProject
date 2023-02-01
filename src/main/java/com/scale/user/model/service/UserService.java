@@ -160,4 +160,18 @@ public class UserService {
 		close(conn);
 		return result;
 	}
+	
+	public User updateNickname(User u) {
+		Connection conn = getConnection();
+		int result = new UserDao().updateNickname(conn, u);
+		User loginUser = null;
+		if(result > 0) {
+			commit(conn);
+			loginUser = new UserDao().userLogin(conn, u.getUserId(), u.getUserPwd());
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		return loginUser;
+	}
 }
