@@ -1,5 +1,6 @@
 package com.scale.user.controller;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -71,15 +72,17 @@ public class AjaxUpdateNicknameController extends HttpServlet {
 			}
 			
 			User updateUser = new UserService().updateNickname(u);
-			System.out.println(updateUser.getProfileImg());
 			
 			response.setContentType("apllication/json; charset=UTF-8");
 			if(updateUser == null) {
-				new Gson().toJson(updateUser, response.getWriter()); 
+				if(multiRequest.getFilesystemName("upfile") != null) {
+					new File(savePath + multiRequest.getFilesystemName("upfile")).delete();
+				}
+				new Gson().toJson(updateUser, response.getWriter());
 			} else {
 				session.setAttribute("loginUser", updateUser);
 				session.setAttribute("User", updateUser);
-				new Gson().toJson(updateUser, response.getWriter()); 
+				new Gson().toJson(updateUser, response.getWriter());
 			}
 			
 		}

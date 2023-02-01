@@ -41,7 +41,7 @@
         <table>
             <tr>
                 <td class="profile">
-                    <img src="resource/img/city1.jpg" class="rounded-circle">
+                    <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="rounded-circle">
                 </td>
                 <td class="n-d">
                     <div class="nickname">닉네임</div>
@@ -53,7 +53,7 @@
             </tr>
             <tr>
                 <td colspan="3" class="style-img">
-                    <img src="resource/img/city1.jpg">
+                    <img src="<%= contextPath %>/resources/images/style/city1.jpg">
                 </td>
             </tr>
             <tr>
@@ -62,19 +62,19 @@
             <tr>
                 <td colspan="3">
                     <div class="pd-img">
-                        <img src="resource/img/city1.jpg">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg">
                         <div>상품정보</div>
                     </div>
                     <div class="pd-img">
-                        <img src="resource/img/city1.jpg">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg">
                         <div>상품정보</div>
                     </div>
                     <div class="pd-img">
-                        <img src="resource/img/city1.jpg">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg">
                         <div>상품정보</div>
                     </div>
                     <div class="pd-img">
-                        <img src="resource/img/city1.jpg">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg">
                         <div>상품정보</div>
                     </div>
                 </td>
@@ -84,7 +84,12 @@
             </tr>
             <tr>
                 <td colspan="3">
-                    <div>올블랙 최고~! #결산템챌린지 #셋업코디</div>
+                    <div>올블랙 최고~!</div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <div>#결산템챌린지 #셋업코디</div>
                 </td>
             </tr>
         </table>
@@ -92,7 +97,7 @@
         <table>
             <tr>
                 <td class="profile">
-                    <img src="resource/img/city1.jpg" class="rounded-circle">
+                    <img src="<%= contextPath %>/resources/images/style/city1.jpg" class="rounded-circle">
                 </td>
                 <td class="n-d">
                     <div class="nickname">닉네임</div>
@@ -104,7 +109,7 @@
             </tr>
             <tr>
                 <td colspan="3" class="style-img">
-                    <img src="resource/img/city1.jpg">
+                    <img src="<%= contextPath %>/resources/images/style/city1.jpg">
                 </td>
             </tr>
             <tr>
@@ -113,19 +118,19 @@
             <tr>
                 <td colspan="3">
                     <div class="pd-img">
-                        <img src="resource/img/city1.jpg">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg">
                         <div>상품정보</div>
                     </div>
                     <div class="pd-img">
-                        <img src="resource/img/city1.jpg">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg">
                         <div>상품정보</div>
                     </div>
                     <div class="pd-img">
-                        <img src="resource/img/city1.jpg">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg">
                         <div>상품정보</div>
                     </div>
                     <div class="pd-img">
-                        <img src="resource/img/city1.jpg">
+                        <img src="<%= contextPath %>/resources/images/style/city1.jpg">
                         <div>상품정보</div>
                     </div>
                 </td>

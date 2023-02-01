@@ -182,24 +182,26 @@
                         value = "<table class='set'>"
                                     + "<tr>"
                                         + "<td colspan='2' class='style-img'>"
-                                            + "<div id='demo" + i + (12 * (cpage - 1)) + "' class='carousel'>"
-                                                + "<div class='carousel-inner' data-interval='false'>";
+                                            + "<div id='demo" + Number(i + (12 * (cpage - 1))) + "' class='carousel' data-interval='false'>"
+                                                + "<div class='carousel-inner'>";
                                     for(let j=0; j<ilist.length; j++){
                                         if(list[i].styleNo == ilist[j].styleNo && ilist[j].fileLevel == 1) {
                                             value += "<div class='carousel-item active'>"
-                                                        + "<img class='cimg' src='<%= contextPath %>/" + ilist[j].filePath + ilist[j].changeName + "'>"
+                                                        + "<img class='cimg' src='<%= contextPath %>/" + ilist[j].filePath + ilist[j].changeName + "' onclick='detail(this);'>"
+                                                        + "<input type='hidden' value='" + list[i].styleNo + "'>"
                                                     + "</div>";
                                         } else if(list[i].styleNo == ilist[j].styleNo && ilist[j].fileLevel == 2) {
                                             value += "<div class='carousel-item'>"
-                                                        + "<img class='cimg' src='<%= contextPath %>/" + ilist[j].filePath + ilist[j].changeName + "'>"
+                                                        + "<img class='cimg' src='<%= contextPath %>/" + ilist[j].filePath + ilist[j].changeName + "' onclick='detail(this);'>"
+                                                        + "<input type='hidden' value='" + list[i].styleNo + "'>"
                                                     + "</div>";
                                         }
                                     }
                                         value += "</div>"
-                                                + "<a class='carousel-control-prev' href='#demo" +  i + (12 * (cpage - 1)) + "' data-slide='prev'>"
+                                                + "<a class='carousel-control-prev' href='#demo" +  Number(i + (12 * (cpage - 1))) + "' data-slide='prev'>"
                                                 + "<span class='carousel-control-prev-icon'></span>"
                                                 + "</a>"
-                                                + "<a class='carousel-control-next' href='#demo" + i + (12 * (cpage - 1)) + "' data-slide='next'>"
+                                                + "<a class='carousel-control-next' href='#demo" + Number(i + (12 * (cpage - 1))) + "' data-slide='next'>"
                                                 + "<span class='carousel-control-next-icon'></span>" 
                                                 + "</a>"
                                             + "</div>"
@@ -208,7 +210,7 @@
                                     + "<tr>"
                                         + "<td class='nickname'>"
                                             + "<img src='<%= contextPath %>/" + list[i].profileImg + "' class='rounded-circle'>"
-                                            + "<a href='<%= contextPath %>/profile.st?nickname=" + list[i].styleWriter + "&cpage=1'>" + list[i].styleWriter + "</a>"
+                                            + "<a href='<%= contextPath %>/profileView.st?nickname=" + list[i].styleWriter + "'>" + list[i].styleWriter + "</a>"
                                         + "</td>"
                                         + "<td class='like'>";
                                 if(checkLike[i] == 0){
@@ -278,6 +280,11 @@
                 })
             <% } %>
         })
+
+        function detail(e){
+            let no = e.nextSibling.value
+            location.href = "<%= contextPath %>/detail.st?no=" + no;
+        }
     </script>
 
 </body>
