@@ -132,6 +132,15 @@
         color: orange;
         font-style: italic;
     }
+    #shippingZipCode{
+        border: none;
+        background-color: whitesmoke;
+        width: 75px;
+    }
+    #shippingAddress{
+        border: none;
+        background-color: whitesmoke;
+    }
 </style>
 </head>
 <body>
@@ -167,18 +176,33 @@
                                 <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#address-list">배송지 목록</button>
                             </td>
                         </tr>
-                        <tr>
-                            <th>받는분</th>
-                            <td><input type="text" id="recipient" name="recipient" value="<%= ad.getRecipient() %>"></td>
-                        </tr>
-                        <tr>
-                            <th>연락처</th>
-                            <td><input type="text" id="reciPhone" name="reciPhone" value="<%= ad.getPhone() %>"></td>
-                        </tr>
-                        <tr>
-                            <th>배송주소</th>
-                            <td><input type="text" id="shippingAddress" name="shippingAddress" value="(<%= ad.getZipCode() %>)<%= ad.getAddress1() %> <%= ad.getAddress2() %>"></td>
-                        </tr>
+                        <% if(ad != null) { %>
+                            <tr>
+                                <th>받는분</th>
+                                <td><input type="text" id="recipient" name="recipient" value="<%= ad.getRecipient() %>" readonly></td>
+                            </tr>
+                            <tr>
+                                <th>연락처</th>
+                                <td><input type="text" id="reciPhone" name="reciPhone" value="<%= ad.getPhone() %>" readonly></td>
+                            </tr>
+                            <tr>
+                                <th>배송주소</th>
+                                <td><input type="text" id="shippingZipCode" name="shippingZipCode" value="(<%= ad.getZipCode() %>)" readonly> <input type="text" id="shippingAddress" name="shippingAddress" value="<%= ad.getAddress1() %> <%= ad.getAddress2() %>" readonly></td>
+                            </tr>
+                        <% } else { %>
+                            <tr>
+                                <th>받는분</th>
+                                <td><input type="text" id="recipient" name="recipient" value="등록된 정보가 없습니다." readonly></td>
+                            </tr>
+                            <tr>
+                                <th>연락처</th>
+                                <td><input type="text" id="reciPhone" name="reciPhone" value="등록된 정보가 없습니다." readonly></td>
+                            </tr>
+                            <tr>
+                                <th>배송주소</th>
+                                <td><input type="text" id="shippingAddress" name="shippingAddress" value="등록된 정보가 없습니다." readonly></td>
+                            </tr>
+                        <% } %>
                         <tr>
                             <th>배송 요청사항</th>
                             <td>
@@ -447,9 +471,9 @@
                         <tr>
                             <th class="total-price-tag" id="total-price">총 결제 금액</th>
                             <% if(bType.equals("buyI")){ %>
-                            	<td class="total-price"><input type="text" class="totalPrice" name="totalPrice" value="<%= formatter.format(b.getbPrice() - b.getDeliveryFee()) %>원"></td>
+                            	<td class="total-price"><input type="text" class="totalPrice" name="totalPrice" value="<%= formatter.format(b.getbPrice() - b.getDeliveryFee()) %>원" readonly></td>
                             <% } else{ %>
-                            	<td class="total-price"><input type="text" class="totalPrice" name="totalPrice" value="<%= formatter.format(price - 3000) %>원"></td>
+                            	<td class="total-price"><input type="text" class="totalPrice" name="totalPrice" value="<%= formatter.format(price - 3000) %>원" readonly></td>
                             <% } %>
                         </tr>
                         <tr>
@@ -644,8 +668,8 @@
                         buyer_email: 'iamport@siot.do',
                         buyer_name: $("#recipient").val(),
                         buyer_tel: $("#reciPhone").val(),
-                        buyer_addr: '서울특별시 강남구 삼성동',
-                        buyer_postcode: "<%= ad.getZipCode() %>",
+                        buyer_addr: $("#shippingAddress").val(),
+                        buyer_postcode: $("#shippingZipCode").val(),
                         
                         /*
                         모바일 결제시,

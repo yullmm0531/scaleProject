@@ -1,5 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.scale.product.model.vo.Product, com.scale.bidding.model.vo.Bidding, java.text.DecimalFormat, com.scale.user.model.vo.*" %>
+<%
+	Product p = (Product)request.getAttribute("p");
+	String size = (String)request.getAttribute("size");
+	String bType = (String)request.getAttribute("bType");
+	Bidding b = (Bidding)request.getAttribute("b");
+	int price = (int)request.getAttribute("price");
+	Address ad = (Address)request.getAttribute("ad");
+	User u = (User)request.getAttribute("u");
+	DecimalFormat formatter = new DecimalFormat("###,###");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -84,9 +95,9 @@
             width: 400px;
         }
         #order-title{
-            font-size: 20px;
-            font-weight: bold;
-            margin-left: 35px;
+            padding-left: 50px;
+	        font-size: 20px;
+	        font-weight: bold;
         }
         #price-detail{
             margin: auto;
@@ -99,11 +110,6 @@
         }
         .total-price-tag{
             font-size: 20px;
-        }
-        .total-price{
-            font-size: 20px;
-            color: rgb(19, 177, 19);
-            font-style: italic;
         }
         .buy-terms, .total-price-info{
             padding-left: 50px;
@@ -134,7 +140,7 @@
         }
         .input_area input{
             border: none;
-            border-bottom: 1px solid gray;
+            border-bottom: 1px solid lightgray;
             width: 300px;
         }
         .add-address-type{
@@ -144,9 +150,31 @@
         #add-address-form div{
             padding-top: 10px;
         }
+        #recipient, #reciPhone, #shippingAddress{
+	        width: 400px;
+	        border: none;
+	        background-color: whitesmoke;
+    	}
         #change-account .modal-content{
             height: 530px;
         }
+        .totalPrice{
+	        width: 100px;
+	        border: none;
+	        background-color: whitesmoke;
+	        font-size: 20px;
+	        color: green;
+	        font-style: italic;
+	    }
+	    #userAccBank{
+	    	border: none;
+	        background-color: whitesmoke;
+            width: 75px;
+	    }
+	    #userAccNum{
+	    	border: none;
+	        background-color: whitesmoke;
+	    }
     </style>
 </head>
 <body>
@@ -154,19 +182,20 @@
     <br><br>
     <div class="order-adjustment">
         <form action="">
+        	<input type="hidden" name="biddingInfo" value="<%= bType %>">
             <br>
             <div id="order-adjustment">
                 <div id="title">주문/정산</div>
                 <div class="product-info row">
                     <div class="product-img col-sm-4">
-                        <img src="<%= contextPath %>/resources/images/product/nike1.png" alt="">
+                        <img src="<%= contextPath %>/<%= p.getProductImgM() %>" alt="">
                     </div>
                     <div class="product-name col-sm-8">
                         <br>
-                        <span id="product-brand">NIKE</span><br>
-                        <span id="product-eng-name">(W) Nike Dunk Low Wolf Grey Rosewood</span><br>
-                        <span id="product-kor-name">(W) 나이키 덩크 로우 울프 그레이 로즈우드</span> <br>
-                        <span id="product-size" name="size">사이즈</span>
+                        <span id="product-brand"><%= p.getBrandName() %></span><br>
+                        <span id="product-eng-name"><%= p.getProductNameEng() %></span><br>
+                        <span id="product-kor-name"><%= p.getProductNameKo() %></span> <br>
+                        <span id="product-size" name="size"><%= size %></span>
                     </div>
                 </div>
                 <div class="line"></div>
@@ -176,17 +205,48 @@
                         <tr>
                             <th id="account-title">판매정산계좌</th>
                         </tr>
-                        <tr>
-                            <th>계좌</th>
-                            <td id="bank-account">카카오뱅크 3333*************</td>
-                            <td rowspan="2" id="account-button">
-                                <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#change-account">변경</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>예금주</th>
-                            <td>정유림</td>
-                        </tr>
+                        <% if(u != null) { %>
+                        	<% if(u.getUserAccBank() == "없음") { %>
+                        		<tr>
+		                            <th>계좌</th>
+		                            <td id="bank-account">등록된 정보가 없습니다.</td>
+		                            <td rowspan="2" id="account-button">
+		                                <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#change-account">변경</button>
+		                            </td>
+		                        </tr>
+		                        <tr>
+		                            <th>예금주</th>
+		                            <td>등록된 정보가 없습니다.</td>
+		                        </tr>
+                        	<% } else{  %>
+		                        <tr>
+		                            <th>계좌</th>
+		                            <td id="bank-account">
+		                            	<input type="text" id="userAccBank" name="userAccBank" value="<%= u.getUserAccBank() %>" readonly>
+                                        <input type="text" id="userAccNum" name="userAccNum" value="<%= u.getUserAccNum() %>" readonly>
+                                    </td>
+		                            <td rowspan="2" id="account-button">
+		                                <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#change-account">변경</button>
+		                            </td>
+		                        </tr>
+		                        <tr>
+		                            <th>예금주</th>
+		                            <td><%= u.getUserName() %></td>
+		                        </tr>
+	                        <% } %>
+                        <% } else { %>
+                        	<tr>
+	                            <th>계좌</th>
+	                            <td id="bank-account">등록된 정보가 없습니다.</td>
+	                            <td rowspan="2" id="account-button">
+	                                <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#change-account">변경</button>
+	                            </td>
+	                        </tr>
+	                        <tr>
+	                            <th>예금주</th>
+	                            <td>등록된 정보가 없습니다.</td>
+	                        </tr>
+                        <% } %>
                     </table>
                 </div>
                 <br>
@@ -206,8 +266,17 @@
                             <div class="modal-body">
                                 <div id="change-account-form">
                                     <div class="account-info">
-                                        <span id="account-info">등록된 계좌 정보</span> <br>
-                                        카카오 3333************/정유림
+                                        <span id="account-info">등록된 계좌 정보</span> 
+                                        <br>
+                                        <% if(u != null) { %>
+                                      		<% if(u.getUserAccBank() == "없음") { %>
+                                        		등록된 정보가 없습니다.
+                                        	<% } else{ %>
+                                        		<%= u.getUserAccBank() %> <%= u.getUserAccNum() %> <%= u.getUserName() %>
+                                        	<% } %>
+                                        <% } else { %>
+                                        	등록된 정보가 없습니다.
+                                        <% } %>
                                     </div>
                                     <br>
                                     <div class="add-account-type">은행명</div>
@@ -259,18 +328,33 @@
                                 <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#address-list">배송지 목록</button>
                             </td>
                         </tr>
-                        <tr>
-                            <th>받는분</th>
-                            <td name="shipping-name">XXX</td>
-                        </tr>
-                        <tr>
-                            <th>연락처</th>
-                            <td name="shipping-phone">010-****-****</td>
-                        </tr>
-                        <tr>
-                            <th>배송주소</th>
-                            <td name="shipping-address">**시**구**********</td>
-                        </tr>
+                        <% if(ad != null) { %>
+	                        <tr>
+	                            <th>받는분</th>
+	                            <td><input type="text" id="recipient" name="recipient" value="<%= ad.getRecipient() %>" readonly></td>
+	                        </tr>
+	                        <tr>
+	                            <th>연락처</th>
+	                            <td><input type="text" id="reciPhone" name="reciPhone" value="<%= ad.getPhone() %>" readonly></td>
+	                        </tr>
+	                        <tr>
+	                            <th>배송주소</th>
+	                            <td><input type="text" id="shippingZipCode" name="shippingZipCode" value="(<%= ad.getZipCode() %>)" readonly> <input type="text" id="shippingAddress" name="shippingAddress" value="<%= ad.getAddress1() %> <%= ad.getAddress2() %>" readonly></td>
+	                        </tr>
+                        <% } else{ %>
+                        	<tr>
+	                            <th>받는분</th>
+	                            <td><input type="text" id="recipient" name="recipient" value="등록된 정보가 없습니다." readonly></td>
+	                        </tr>
+	                        <tr>
+	                            <th>연락처</th>
+	                            <td><input type="text" id="reciPhone" name="reciPhone" value="등록된 정보가 없습니다." readonly></td>
+	                        </tr>
+	                        <tr>
+	                            <th>배송주소</th>
+	                            <td><input type="text" id="shippingAddress" name="shippingAddress" value="등록된 정보가 없습니다." readonly></td>
+	                        </tr>
+                        <% } %>
                         <tr>
                             <th>배송 요청사항</th>
                             <td>
@@ -537,8 +621,13 @@
                     <table id="price-detail">
                         <tr>
                             <th class="total-price-tag" name="total-price">총 정산 금액</th>
-                            <td class="total-price">196,000원</td>
+                            <% if(bType.equals("sellI")){ %>
+                            	<td class="total-price"><input type="text" class="totalPrice" name="totalPrice" value="<%= formatter.format(b.getbPrice() - b.getInspectionCost() - b.getCommission()) %>원"></td>
+                            <% } else{ %>
+                            	<td class="total-price"><input type="text" class="totalPrice" name="totalPrice" value="<%= formatter.format(0.97 * price) %>원"></td>
+                            <% } %>
                         </tr>
+                        <% if(bType.equals("buyI") && b != null){ %>
                         <tr>
                             <td colspan="2">
                                 <div class="line"></div>
@@ -546,20 +635,38 @@
                         </tr>
                         <tr>
                             <th>판매가</th>
-                            <td>202,000원</td>
+                            <td><%= formatter.format(b.getbPrice()) %>원</td>
                         </tr>
                         <tr>
                             <th>검수비</th>
-                            <td>3,000원</td>
+                            <td><%= formatter.format(b.getInspectionCost()) %>원</td>
                         </tr>
                         <tr>
                             <th>수수료</th>
-                            <td>3,000원</td>
+                            <td><%= formatter.format(b.getCommission()) %>원</td>
                         </tr>
                         <tr>
                             <th>배송비</th>
                             <td>선불/판매자부담</td>
                         </tr>
+                        <% } else{ %>
+                        	<tr>
+	                            <th>판매 입찰가</th>
+	                            <td><%= formatter.format(price) %>원</td>
+	                        </tr>
+	                        <tr>
+	                            <th>검수비</th>
+	                            <td><%= formatter.format(0.01 * price) %>원</td>
+	                        </tr>
+	                        <tr>
+	                            <th>수수료</th>
+	                            <td><%= formatter.format(0.02 * price) %>원</td>
+	                        </tr>
+	                        <tr>
+	                            <th>배송비</th>
+	                            <td>선불/판매자부담</td>
+	                        </tr>
+                        <% } %>
                     </table>
                     <br>
                     <div class="line"></div>
@@ -638,8 +745,17 @@
                 <div class="total-price-info">
                     <table id="total-price-info">
                         <tr>
-                            <th class="total-price-tag" name="total-price">총 정산 금액</th>
-                            <td class="total-price">196,000원</td>
+                            <th class="total-price-tag" name="total-price">총 결제 금액</th>
+                        	<% if(bType.equals("sellI")){ %>
+                             	<input type="hidden" name="bNo" value="<%= b.getbNo() %>">
+                            	<td class="totalPrice"><%= formatter.format(b.getbPrice() - b.getInspectionCost() - b.getCommission()) %>원</td>
+                            <% } else{ %>
+                                <input type="hidden" name="pCo" value="<%= p.getProductCode() %>">
+                                <input type="hidden" name="size" value="<%= size %>">
+                                <input type="hidden" name="price" value="<%= price %>">
+                            	<td class="totalPrice"><%= formatter.format(0.97 * price) %>원</td>
+                            <% } %>
+                            
                         </tr>
                     </table>
                 </div>

@@ -333,4 +333,40 @@ public class BiddingDao {
 		
 	}
 	
+	public Bidding selectBuyBidding(Connection conn, String pCode, String size, int price) {
+		
+		Bidding b = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectBuyBidding");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pCode);
+			pstmt.setString(2, size);
+			pstmt.setInt(3, price);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				b = new Bidding(rset.getInt("bidding_no"),
+								rset.getString("product_code"),
+								rset.getString("product_size"),
+								rset.getInt("bidding_price"),
+								rset.getInt("inspection_cost"),
+								rset.getInt("commission"));		
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return b;
+		
+	}
+	
 }

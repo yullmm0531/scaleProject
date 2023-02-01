@@ -8,7 +8,7 @@ public class Bidding {
 	private int bPrice;
 	private String bDate;
 	private int inspectionCost;
-	private int commition;
+	private int commission;
 	private int deliveryFee;
 	private String bStatus;
 	private String dCheck;
@@ -26,7 +26,7 @@ public class Bidding {
 	}
 
 
-	public Bidding(int bNo, String pSize, int bType, int bPrice, String bDate, int inspectionCost, int commition,
+	public Bidding(int bNo, String pSize, int bType, int bPrice, String bDate, int inspectionCost, int commission,
 			int deliveryFee, String bStatus, String dCheck, String dStep, String dDate, String pCode, int userNo) {
 		super();
 		this.bNo = bNo;
@@ -35,7 +35,7 @@ public class Bidding {
 		this.bPrice = bPrice;
 		this.bDate = bDate;
 		this.inspectionCost = inspectionCost;
-		this.commition = commition;
+		this.commission = commission;
 		this.deliveryFee = deliveryFee;
 		this.bStatus = bStatus;
 		this.dCheck = dCheck;
@@ -79,6 +79,16 @@ public class Bidding {
 		this.pSize = pSize;
 		this.bPrice = bPrice;
 		this.deliveryFee = deliveryFee;
+	}
+	
+	public Bidding(int bNo, String pCode, String pSize, int bPrice, int inspectionCost, int commission) {
+		super();
+		this.bNo = bNo;
+		this.pCode = pCode;
+		this.pSize = pSize;
+		this.bPrice = bPrice;
+		this.inspectionCost = inspectionCost;
+		this.commission = commission;
 	}
 
 
@@ -160,13 +170,13 @@ public class Bidding {
 	}
 
 
-	public int getCommition() {
-		return commition;
+	public int getCommission() {
+		return commission;
 	}
 
 
-	public void setCommition(int commition) {
-		this.commition = commition;
+	public void setCommission(int commission) {
+		this.commission = commission;
 	}
 
 
@@ -253,7 +263,7 @@ public class Bidding {
 	@Override
 	public String toString() {
 		return "Bidding [bNo=" + bNo + ", pSize=" + pSize + ", bType=" + bType + ", bPrice=" + bPrice + ", bDate="
-				+ bDate + ", inspectionCost=" + inspectionCost + ", commition=" + commition + ", deliveryFee="
+				+ bDate + ", inspectionCost=" + inspectionCost + ", commission=" + commission + ", deliveryFee="
 				+ deliveryFee + ", bStatus=" + bStatus + ", dCheck=" + dCheck + ", dStep=" + dStep + ", dDate=" + dDate
 				+ ", pCode=" + pCode + ", userNo=" + userNo + "]";
 	}

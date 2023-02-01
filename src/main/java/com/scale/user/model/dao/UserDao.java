@@ -504,4 +504,36 @@ public class UserDao {
 		}
 		return list;
 	}
+	
+	public User selectUserAcc(Connection conn, int userNo) {
+		
+		User u = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectUserAcc");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				u = new User(rset.getInt("user_no"),
+							  rset.getString("user_acc_bank"),
+							  rset.getString("user_acc_number"),
+							  rset.getString("user_name"));	
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return u;
+		
+	}
 }

@@ -102,7 +102,7 @@
     <%@ include file="../common/menubar.jsp" %>
     <br><br><br>
     <div class="outer">
-        <form action="">
+        <form action="<%= contextPath %>/sellDetail.bi">
         	<input type="hidden" name="co" value="<%= p.getProductCode() %>">
             <div class="product">
             	<% if(p != null) { %>

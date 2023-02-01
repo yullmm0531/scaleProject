@@ -106,4 +106,16 @@ public class BiddingService {
 		
 	}
 	
+	
+	public Bidding selectBuyBidding(String pCode, String size, int price) {
+		
+		Connection conn = getConnection();
+		Bidding b = new BiddingDao().selectBuyBidding(conn, pCode, size, price);
+		
+		close(conn);
+		
+		return b;
+		
+	}
+	
 }

@@ -60,6 +60,14 @@ public class User {
 	
 	
 
+	public User(int userNo, String userAccBank, String userAccNum, String userName) {
+		super();
+		this.userNo = userNo;
+		this.userAccBank = userAccBank;
+		this.userAccNum = userAccNum;
+		this.userName = userName;
+	}
+
 	public int getUserNo() {
 		return userNo;
 	}

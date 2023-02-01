@@ -189,4 +189,19 @@ public class UserService {
 		close(conn);
 		return loginUser;
 	}
+	
+	/**
+	 * @author yurim
+	 * @param userNo : 사용자의 계좌 정보를 찾기 위한 회원번호
+	 * @return u
+	 */
+	public User selectUserAcc(int userNo) {
+		
+		Connection conn = getConnection();
+		User u = new UserDao().selectUserAcc(conn, userNo);
+		
+		close(conn);
+		
+		return u;
+	}
 }

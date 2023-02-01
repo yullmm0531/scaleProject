@@ -225,4 +225,15 @@
 		   		 
 
 	</entry>
+	
+	<entry key="selectUserAcc">
+		SELECT
+		       USER_NO
+		     , NVL(USER_ACC_BANK,'없음') "USER_ACC_BANK"
+		     , NVL(USER_ACC_NUMBER,'없음') "USER_ACC_NUMBER"
+		     , USER_NAME
+		  FROM TB_USER
+		 WHERE USER_NO = ?
+	</entry>
+	
 </properties>
