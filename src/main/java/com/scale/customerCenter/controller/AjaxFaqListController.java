@@ -47,13 +47,11 @@ public class AjaxFaqListController extends HttpServlet {
 
 		// 페이징
 		int boardLimit = 10;
-		int maxPage = (int)Math.ceil((double)listCount / boardLimit);
 		
 		PageInfo pi = new PageInfo();
 		pi.setCurrentPage(currentPage);
 		pi.setBoardLimit(boardLimit);
 		pi.setListCount(listCount);
-		pi.setMaxPage(maxPage);
 
 		// 게시글 조회
 		ArrayList<Faq> list = new ArrayList<>();

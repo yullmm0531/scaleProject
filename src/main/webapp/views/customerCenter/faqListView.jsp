@@ -96,7 +96,9 @@
     .card-body{
         background:rgb(247, 247, 247) !important;
     }
-    
+    #search-more-btn{
+        display:none;
+    }
 </style>
 </head>
 <body>
@@ -117,13 +119,12 @@
                 <h2><b>자주묻는질문</b></h2>
                 <br>
             </div>
-            <form class="input-group mb-3" style="width:400px" action="<%=contextPath%>?" method="get">
+            <div class="input-group mb-3" style="width:400px">
                 <input type="text" class="form-control" placeholder="검색어를 입력하세요." id="search-input" name="keyword">
-                <input type="hidden" name="cpage" value="1">
                 <div class="input-group-append">
-                <button class="btn" type="submit" id="search-btn">검색</button>
+                    <button class="btn" type="button" id="search-btn">검색</button>
                 </div>
-            </form>
+            </div>
             <br><br>
             <div class="category">
                     <button class="c-btn active" value="all" onclick="categoryFilter(this);">전체</button>
@@ -140,7 +141,9 @@
             <!-- 버튼 -->
             <div class="btn-area">
                 <button class="btn btn-outline-dark" id="more-btn">더보기</button>
+                <button class="btn btn-outline-dark" id="search-more-btn">더보기</button>
             </div>
+            <br><br>
         </div>
         </div>
     </div>
@@ -149,6 +152,7 @@
     <script>
         let cpage = 0;
         let category = "";
+        let keyword = "";
         
         $(function(){
             $("#accordion").empty();
@@ -182,15 +186,15 @@
                     let pi = map.pi;
                     
                     let value = "";
+                    
+                    if(list.length < 10){
+                        $("#more-btn").css("display", "none");
+                    }
+
                     if(list.length == 0){
 						$("#accordion").append("<div align='center'>작성된 글이 없습니다.</div>");
 					}else{
                         
-                        if(list.length < 10){
-                            $("#more-btn").css("display", "none");
-                        }else{
-                            $("#more-btn").css("display", "block");
-                        }
                         for(let i=0; i<list.length; i++){{
                             switch(list[i].category){
                                 case "policy": list[i].category = "이용정책"; break;
@@ -218,7 +222,6 @@
         }
 
         $("#more-btn").click(function(){
-           console.log(category);
            $.ajax({
                 url:"<%=contextPath%>/list.faq",
                 type:"post",
@@ -226,125 +229,143 @@
                 success:function(map){
                     let list = map.list;
                     let pi = map.pi;
-                    
                     let value = "";
-                    if(list.length == 0){
-						$("#accordion").append("<div align='center'>작성된 글이 없습니다.</div>");
-					}else{
                         
-                        if(list.length < 10){
-                            $("#more-btn").css("display", "none");
-                        }else{
-                            $("#more-btn").css("display", "block");
-                        }
-                        for(let j=0; j<list.length; j++){{
-                            switch(list[j].category){
-                                case "policy": list[j].category = "이용정책"; break;
-                                case "common": list[j].category = "공통"; break;
-                                case "buy": list[j].category = "구매"; break;
-                                case "sell": list[j].category = "판매"; break;
-                            }
-                            var n = 1;
-                            value += "<div class='card'>";
-                            value += "<div class='card-header'>";
-                            value += "<a class='card-link' data-toggle='collapse' href='#collapse" + (j+9) + "'>";
-                            value += "<span>[" + list[j].category + "]</span>" + list[j].faqQuestion + "</a></div>";
-                            value += "<div id='collapse" + (j+9) +"' class='collapse' data-parent='#accordion'>";
-                            value += "<div class='card-body'>";
-                            value += list[j].faqAnswer;
-                            value += "</div></div></div>";
-                            n++;
-                        }}
-                        $("#accordion").append(value);
-                        cpage++;
+                    if(list.length < 10){
+                        $("#more-btn").css("display", "none");
+                    }else{
+                        $("#more-btn").css("display", "block");
                     }
+
+                    for(let j=0; j<list.length; j++){{
+                        switch(list[j].category){
+                            case "policy": list[j].category = "이용정책"; break;
+                            case "common": list[j].category = "공통"; break;
+                            case "buy": list[j].category = "구매"; break;
+                            case "sell": list[j].category = "판매"; break;
+                        }
+                        value += "<div class='card'>";
+                        value += "<div class='card-header'>";
+                        value += "<a class='card-link' data-toggle='collapse' href='#collapse" + (j+(10*(cpage-1))) + "'>";
+                        value += "<span>[" + list[j].category + "]</span>" + list[j].faqQuestion + "</a></div>";
+                        value += "<div id='collapse" + (j+(10*(cpage-1))) +"' class='collapse' data-parent='#accordion'>";
+                        value += "<div class='card-body'>";
+                        value += list[j].faqAnswer;
+                        value += "</div></div></div>";
+                    }}
+                    $("#accordion").append(value);
+                    cpage++;
+                    
                 }, error:function(){
                     console.log("faq 리스트 가져오기 통신 실패");
                 }
             })
         })
-            
-    </script>
-
-    <%-- 
-
-        function categoryFilter(e){
+          
+        // 검색
+        $("#search-btn").click(function(){
             $("#accordion").empty();
-            let cpage = 1;
-            let category = $(e).val();
+            $("#more-btn").css("display", "none");
+            
+            keyword = $("#search-input").val();
+            cpage = 1;
 
             $.ajax({
-                url:"<%=contextPath%>/list.faq",
-                type:"post",
-                data:{"cpage":cpage, "category":category},
+                url:"<%=contextPath%>/search.faq",
+                type:"get",
+                data:{"cpage":cpage, "keyword":keyword},
                 success:function(map){
-                    let list = map.list;
+                    let searchList = map.searchList;
                     let pi = map.pi;
-
                     let value = "";
-                    if(list.length == 0){
-						$("#accordion").append("<div>작성된 글이 없습니다.</div>");
-					}else{
-                        if(cpage > $("#accordion").children().length){
-                            return;
-                        }
-                        if(list.length < 10){
-                            $("#more-btn").css("display", "none");
-                        }else{
-                            $("#more-btn").css("display", "block");
-                        }
-                        for(let i=0; i<list.length; i++){{
-                            value += "<div class='card'>";
-                            value += "<div class='card-header'>";
-                            value += "<a class='card-link' data-toggle='collapse' href='#collapseOne'>";
-                            value += "<span>[" + list[i].category + "]</span>" + list[i].faqQuestion + "</a></div>";
-                            value += "<div id='collapseOne' class='collapse' data-parent='#accordion'>";
-                            value += "<div class='card-body'>";
-                            value += list[i].faqAnswer;
-                            value += "</div></div></div>";
-                        }}
-                        $("#accordion").append(value);
-                        
+                    
+                    if(searchList.length < 10){
+                        $("#search-more-btn").css("display", "none");
+                    }else{
+                        $("#search-more-btn").css("display", "block");
                     }
 
+                    if(searchList.length == 0){
+						$("#accordion").append("<div align='center'>검색 결과가 없습니다.</div>");
+					}else {
+
+                        for(let i=0; i<searchList.length; i++){{
+                            switch(searchList[i].category){
+                                case "policy": searchList[i].category = "이용정책"; break;
+                                case "common": searchList[i].category = "공통"; break;
+                                case "buy": searchList[i].category = "구매"; break;
+                                case "sell": searchList[i].category = "판매"; break;
+                            }
+
+                            value += "<div class='card'>";
+                            value += "<div class='card-header'>";
+                            value += "<a class='card-link' data-toggle='collapse' href='#collapse" + [i] + "'>";
+                            value += "<span>[" + searchList[i].category + "]</span>" + searchList[i].faqQuestion + "</a></div>";
+                            value += "<div id='collapse" + [i] +"' class='collapse' data-parent='#accordion'>";
+                            value += "<div class='card-body'>";
+                            value += searchList[i].faqAnswer;
+                            value += "</div></div></div>";
+                        }}
+                        
+                        $("#accordion").append(value);
+                        cpage++;
+                    }
                 }, error:function(){
-                    console.log("faq 리스트 가져오기 통신 실패");
+                    console.log("faq 검색 통신 실패");
                 }
             })
-        }
+        })
 
+        $("#search-more-btn").click(function(){
+            
+            $.ajax({
+                url:"<%=contextPath%>/search.faq",
+                type:"get",
+                data:{"cpage":cpage, "keyword":keyword},
+                success:function(map){
+                    let searchList = map.searchList;
+                    let pi = map.pi;
+                    let value = "";
+                        
+                    if(searchList.length < 10){
+                        $("#search-more-btn").css("display", "none");
+                    }else{
+                        $("#search-more-btn").css("display", "block");
+                    }
 
-        $("#more-btn").click(function(){
-                            ++cpage;
-                            $.ajax({
-                                url:"<%=contextPath%>/list.faq",
-                                type:"post",
-                                data:{"cpage":cpage, "category":category},
-                                success:function(result){
-                                    let list = result;
-                                    let value = "";
-                                    if(list.length == 0){
-                                        $("#accordion").append("없어 나오지마 제발");
-                                        $("#more-btn").css("display", "none");
-                                    }else{
-                                            
-                                        for(let i=0; i<list.length; i++){{
-                                            value += "<div class='card'>";
-                                            value += "<div class='card-header'>";
-                                            value += "<a class='card-link' data-toggle='collapse' href='#collapseOne'>";
-                                            value += "<span>[" + list[i].category + "]</span>" + list[i].faqQuestion + "</a></div>";
-                                            value += "<div id='collapseOne' class='collapse' data-parent='#accordion'>";
-                                            value += "<div class='card-body'>";
-                                            value += list[i].faqAnswer;
-                                            value += "</div></div></div>";
-                                        }}
-                                        $("#accordion").append(value);
-                                    }
-                                }, error:function(){
-                                    console.log("더보기 통신 실패");
-                                }
-                            })
-                        })
-     --%>
+                    if(searchList.length == 0){
+						$("#accordion").append("<div align='center'>검색 결과가 없습니다.</div>");
+					}else {
+
+                        for(let j=0; j<searchList.length; j++){{
+                            switch(searchList[j].category){
+                                case "policy": searchList[j].category = "이용정책"; break;
+                                case "common": searchList[j].category = "공통"; break;
+                                case "buy": searchList[j].category = "구매"; break;
+                                case "sell": searchList[j].category = "판매"; break;
+                            }
+
+                            value += "<div class='card'>";
+                            value += "<div class='card-header'>";
+                            value += "<a class='card-link' data-toggle='collapse' href='#collapse" + (j+(10*(cpage-1))) + "'>";
+                            value += "<span>[" + searchList[j].category + "]</span>" + searchList[j].faqQuestion + "</a></div>";
+                            value += "<div id='collapse" + (j+(10*(cpage-1))) +"' class='collapse' data-parent='#accordion'>";
+                            value += "<div class='card-body'>";
+                            value += searchList[j].faqAnswer;
+                            value += "</div></div></div>";
+
+                        }}
+                        
+                        $("#accordion").append(value);
+                        cpage++;
+                    }
+                }, error:function(){
+                    console.log("faq 검색리스트 더 가져오기 통신 실패");
+                }
+            })
+        })
+    
+    </script>
+
 </body>
 </html>

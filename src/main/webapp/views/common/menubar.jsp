@@ -27,11 +27,12 @@
 <style>
 
     div{
-        box-sizing: border-box;
+        box-sizing:border-box;
     }
 	
 	.wrap{
-		width:1900px;
+		width:100%;
+        box-sizing:border-box;
 		background:black;
 	}
     #header{

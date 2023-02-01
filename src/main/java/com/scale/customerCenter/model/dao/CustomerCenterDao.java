@@ -421,5 +421,75 @@ public class CustomerCenterDao {
 		return list;
 	}
 	
+	/**
+	 * faq 검색 결과 개수 조회 
+	 * @param conn
+	 * @param keyword
+	 * @return 검색 결과 개수
+	 */
+	public int selectFaqSearchCount(Connection conn, String keyword) {
+		int searchCount = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectFaqSearchCount");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, keyword);
+			pstmt.setString(2, keyword);
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				searchCount = rset.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return searchCount;
+	}
 	
+	/**
+	 * faq 검색결과 리스트 조회
+	 * @param conn
+	 * @param keyword
+	 * @param pi
+	 * @return faq 검색결과 리스트
+	 */
+	public ArrayList<Faq> selectFaqSearchList(Connection conn, String keyword, PageInfo pi){
+		ArrayList<Faq> searchList = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectFaqSearchList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, keyword);
+			pstmt.setString(2, keyword);
+			
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			pstmt.setInt(3, startRow);
+			pstmt.setInt(4, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				searchList.add(new Faq(rset.getInt("faq_no"),
+								 rset.getString("faq_question"),
+								 rset.getString("faq_answer"),
+								 rset.getString("category")
+						));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return searchList;
+	}
 }
