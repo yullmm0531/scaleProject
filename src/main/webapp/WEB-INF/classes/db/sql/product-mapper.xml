@@ -34,14 +34,23 @@
 							 , PRODUCT_NAME_ENG
 							 , PRODUCT_IMG_M
 							 , BRAND_NAME
-						  FROM TB_PRODUCT
-						  
-		  		  		)
-		  		 
-		  		)
-				
-		
-	
+							 , COUNT
+						  FROM (
+						  		SELECT
+						  			   PRODUCT_CODE
+						  			 , COUNT(*) "COUNT"
+						  		  FROM TB_LIKE
+						  		 GROUP
+						  		    BY PRODUCT_CODE
+						  		 ORDER
+						  		    BY COUNT DESC
+						  	   )
+						    RIGHT JOIN TB_PRODUCT P USING (PRODUCT_CODE)
+                                  JOIN TB_BRAND USING(BRAND_CODE)
+						    	 WHERE P.BLIND_CHECK = 'N'
+						  ) A  
+		  		 )
+		 WHERE RNUM BETWEEN ? AND ?
 	</entry>
 	
 	
@@ -60,6 +69,15 @@
 	      AND PRODUCT_NAME_KO LIKE '%' || ? || '%' 
 		   OR PRODUCT_NAME_ENG LIKE '%' || ? || '%'
 	</entry>
+	
+	<entry key="clickLike">
+		SELETE COUNT(*) "COUNT"
+		  FROM TB_LIKE
+		 WHERE USER_NO = ? 
+		   AND PRODUCT_CODE = ?
+	
+	</entry>
+	
 	
 	<entry key="insertLike">
 		INSERT

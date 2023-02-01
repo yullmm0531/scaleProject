@@ -2,6 +2,7 @@ package com.scale.product.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,20 +13,19 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.scale.product.model.service.ProductService;
 import com.scale.product.model.vo.Product;
-import com.scale.style.model.service.StyleService;
-import com.scale.style.model.vo.Style;
+import com.scale.user.model.vo.User;
 
 /**
  * Servlet implementation class AjaxProductList
  */
 @WebServlet("/productList.pd")
-public class AjaxProductList extends HttpServlet {
+public class AjaxProductListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AjaxProductList() {
+    public AjaxProductListController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,30 +34,35 @@ public class AjaxProductList extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/*
-		int listCount = new ProductService().selectListCount();
+		
+		
 		int currentPage = Integer.parseInt(request.getParameter("cpage"));
 		int boardLimit = 12;
 		int userNo = 0;
 		
-		if(request.getParameter("userNo") != null) {
-			userNo = Integer.parseInt(request.getParameter("userNo"));
+		ArrayList<Product> list = new ProductService().selectProductListPage(currentPage, boardLimit);
+		
+		
+		User loginUser = (User)request.getSession().getAttribute("loginUser");
+		if(loginUser != null) {
+			userNo = loginUser.getUserNo();
 		}
 		
-		ArrayList<Product> list = new ProductService().selectProductListPage(currentPage, boardLimit);
 		int[] clickLike = new int[list.size()];
 		for(int i=0; i<list.size(); i++) {
-			int productCode = list.get(i).getproductCode();
+			String productCode = list.get(i).getProductCode();
+			clickLike[i] = new ProductService().clickLike(userNo, productCode);
 		}
 		
-		PdList<String, Object> pl = new PdList();
-		pl.put("list", list);
+		HashMap<String, Object> pmap = new HashMap();
+		pmap.put("list", list);
+		pmap.put("clickLike", clickLike);
 		
 		
 		response.setContentType("application/json; charset=UTF-8");
-		new Gson().toJson(pl, response.getWriter());
+		new Gson().toJson(pmap, response.getWriter());
+	
 		
-		*/
 	}
 
 	/**

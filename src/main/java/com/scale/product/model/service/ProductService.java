@@ -1,6 +1,6 @@
 package com.scale.product.model.service;
 
-import static com.scale.common.JDBCTemplate.close;
+import static com.scale.common.JDBCTemplate.*;
 import static com.scale.common.JDBCTemplate.getConnection;
 
 import java.sql.Connection;
@@ -44,8 +44,15 @@ public class ProductService {
 		close(conn);
 		return list;
 	}
-	/*
+	
 	public int clickLike(int userNo, String productCode){
+		Connection conn = getConnection();
+		int result = new ProductDao().clickLike(conn, userNo, productCode);
+		close(conn);
+		return result;
+	}
+	
+	public int updateLike(int clickLike, int userNo, String productCode) {
 		Connection conn = getConnection();
 		int result = 0;
 		if(clickLike >0) {
@@ -54,16 +61,16 @@ public class ProductService {
 			result = new ProductDao().insertLike(conn, userNo, productCode);
 		}
 		
-		if(result > 0) {
+		if(result>0) {
 			commit(conn);
-		} else {
+		}else {
 			rollback(conn);
 		}
 		
 		return result;
 	}
 	
-	*/
+	
 	
 	public Product selectProduct(String pCode) {
 		

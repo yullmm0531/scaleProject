@@ -49,11 +49,12 @@
         #pheader-3{height:20%;}
 
         #pcontent-1{width:20%;}
-        #pcontent-2{width:80%;}
+        #pcontent-2{width:80%; float:left;}
 
         .img-box > img {
             width:175px;
             display:block;
+            float:left;
             
         }
         .row::after {
@@ -178,23 +179,7 @@
                 </div>
 
                 <div id="plist">
-                    <ul class="row">
-                        <% for(Product p : list){ %>
-	                        <li class="cell">
-	                        	<input type="hidden" value="<%= p.getProductCode() %>">
-	                            <div class="img-box">
-	                                <img src="<%= contextPath %>/<%= p.getProductImgM() %>">
-	                            </div>
-	                            
-	                            <div class="brand-name"><%= p.getBrandName() %></div>
-	                            <div class="product-name-eng"><%= p.getProductNameEng() %> </div>
-	                            <div class="product-name-ko"><%= p.getProductNameKo() %> </div>
-	                            <div class="product-price">즉시구매가</div>
-	                            <div class="p-like" id = "like">♡</div>
-	                        </li>
-                        <% } %>
-
-                    </ul>
+                   
                 </div>
                 
                 <script>
@@ -280,18 +265,13 @@
     
     <!-- 무한스크롤 -->
     <script>
-         $(document).ready(function() {      
-            $('.carousel').carousel('pause');
-        });
-
-
     	let cpage = 0;
     	$(function(){
     		$(window).scroll();
     	})
     	
     	$(window).scroll(function(){
-    		if($(window).scrollTop() + $(window).height() == $(document).height(){
+    		if($(window).scrollTop() + $(window).height() == $(document).height()){
     			cpage++;
     			ProductList();
     		} 
@@ -299,48 +279,45 @@
     	
     	function ProductList(){
     		$.ajax({
-    			url"<%= contextPath%>/productList.pd",
+    			url:"<%= contextPath%>/productList.pd",
     			type:"get",
-    			data:{"cpage":cpage, "userNo":userNo},
+    			data:{"cpage":cpage},
     			success:function(pl){
     				let list = pl.list;
-    				let checkLike = pl.chechLike;
+    				let clickLike = pl.clickLike;
     				
     				let value = "";
                     for(let i =0; i<list.length; i++){
-                        value = "<table class='set'>"
-                                +"<tr>"
-                                    +"<td colspan='2' class='style-img'>"
-                                        +"<div id='demo"+ i + (12 * (cpage -1)) + "'class='carousel '>"
-                                            +"<div class='carousel-inner' data-interval='false'>";
-
-                                                value += "</div>"
-                                                    + "<a class='carousel-control-prev' href='#demo" +  i + (12 * (cpage - 1)) + "' data-slide='prev'>"
-                                                    + "<span class='carousel-control-prev-icon'></span>"
-                                                    + "</a>"
-                                                    + "<a class='carousel-control-next' href='#demo" + i + (12 * (cpage - 1)) + "' data-slide='next'>"
-                                                    + "<span class='carousel-control-next-icon'></span>" 
-                                                    + "</a>"
-                                                + "</div>"
-                                            + "</td>"
-                                        + "</tr>"
-                                        + "<tr>"
-                                            + "<td class='like'>";
-                                    /*if(clickLike[i] == 0){
-                                                value += "<a class='btn smile'>🤍</a>"
-                                                } else {
-                                                    value += "<a class='btn smile'>❤</a>"
-                                                }     
-                                                    value += "<input type='hidden' class='styleNo' value='" + list[i].styleNo + "'>"
-                                                            + "<span>" + list[i].count + "</span>"
-                                                        + "</td>"
-                                                    + "</tr>"
-                                                    + "<tr>"
-                                                        + "<td colspan='2' class='tag-area'>"
-                                                            + "<div class='text'>"; 
-                                }*/
+                        value = "<div class='plist'>"
+                            		+"<ul class ='row'>"
+                           			 +"<li class='cell'>"
+                             		 +"<input type='hidden' value='"+ list[i].productCode +"'>"
+                                	 +"<div class='img-box'><img src='<%= contextPath %>/"+ list[i].productImgM +"'></div>"
+                                   
+                                	 + "<div class='brand-name'>" + list[i].brandName + "</div>"
+                                	 +  "<div class='product-name-eng'>" + list[i].productNameEng + "</div>"
+                                	 +  "<div class='product-name-ko'>" + list[i].productNameKo + "</div>"
+                                 	 +  "<div class='product-price'>즉시구매가</div>"
+                                
+                                     + "<div class='like'>";
+                           if(clickLike[i] == 0){
+                                       value += "<a class='like'>♡</a>"
+                                  } else {
+                                           value += "<a class='like'>♥</a>"
+                                  }     
+                                           value += "<input type='hidden' class='productCode' value='" + list[i].productCode + "'>"
+                                                   + "<span>" + list[i].count + "</span>"
+                                   + "</div>";
+                                           
+           
+                              +"</li>"
+                           + "</ul>"
+                       + "</div>";
+                        $("#plist").append(value);
+                       }
                                     
-                    },
+                    },	
+    			
                     error:function(){
                         console.log("fail");
                     }
@@ -354,44 +331,37 @@
     
     <!-- Like -->
     <script>
-    	$(function(){
-    		$("#like").click(function(){
+    	$(document).on("click", ".like", function(){
+    		let e = $(this);
+            let like = e.text();
+            
     			<% if(loginUser == null) { %>
 	                alert("로그인 후 이용가능한 페이지입니다.");
 	                location.href = "<%= contextPath %>/loginForm.us";
             	<% } else { %>
                 	let userNo = <%= loginUser.getUserNo() %>;
     			$.ajax({
-    			    url: "/plike.pd",
+    			    url: "plike.pd",
     			    type: "POST",
-    			    dataType: "json",
     			    data: {"userNo":userNo, "productCode":$(this).next().val()}, 
     			    success:function(result){
     			    	if(result == "♡"){
     			    		e.text("♥")
-    			    		alert("'좋아요'가 반영되었습니다!");
     			    		e.next().next().text(Number(e.next().next().text()) + 1);
+    			    		alert("'좋아요'가 반영되었습니다!");
     			    	}else{
     			    		e.text("♡")
-    			    		alert("'좋아요'가 취소되었습니다!");
     			    		e.next().next().text(Number(e.next().next().text()) - 1);
+    			    		alert("'좋아요'가 취소되었습니다!");
     			    	}
-    			    	 
-    	                
     			    },   
-    			    
-    			    error:function (result){  
+    			    error:function (){  
     			      alert("실패");                  
     			    }
     			  })
-    			<% } %>
+    		<% } %>
     		})
     		
-    	})
-	  	  
-	
-    
-    
     </script>
     
     

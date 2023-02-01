@@ -59,16 +59,43 @@ public class ProductDao {
 		
 	}
 	
-	/*
+	
 	public ArrayList<Product> selectProductListPage(Connection conn, int currentPage, int boardLimit){
 		ArrayList<Product> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		String sql = prop.getProperty("selectProductListPage");
 		
+		try {
+			int startRow = (currentPage - 1) * boardLimit + 1;
+			int endRow = startRow + boardLimit - 1;
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Product p = new Product();
+				p.setProductCode(rset.getString("product_code"));
+				p.setProductNameKo(rset.getString("product_name_ko"));
+				p.setProductNameEng(rset.getString("product_name_eng"));
+				p.setProductImgM(rset.getString("product_img_m"));
+				p.setBrandName(rset.getString("brand_name"));
+				p.setCount(rset.getInt("Count"));
+				
+				list.add(p);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
 		
+		return list; 
 	}
-		*/
+		
 	
 
 	public ArrayList<Brand> selectBrandList(Connection conn){
@@ -134,6 +161,35 @@ public class ProductDao {
 		return list;
 		
 	}
+	
+	
+	public int clickLike(Connection conn, int userNo, String productCode) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("clickLike");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			pstmt.setString(2, productCode);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	
 	
 	public int insertLike(Connection conn, int userNo, String productCode) {
 		int result = 0;

@@ -31,15 +31,16 @@ public class ProductLikeController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/*
+		
 		int userNo = Integer.parseInt(request.getParameter("userNo"));
 		String productCode = request.getParameter("productCode");
 		
 		int clickLike = new ProductService().clickLike(userNo, productCode);
+		int resultLike = new ProductService().updateLike(clickLike, userNo, productCode);
 		
-		response.getWriter().print(clickLike);
+		response.getWriter().print(resultLike);
 		
-		*/
+		
 	}
 
 	/**

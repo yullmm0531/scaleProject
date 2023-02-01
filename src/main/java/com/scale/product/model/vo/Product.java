@@ -24,8 +24,22 @@ public class Product {
 	private int releasePrice;
 	
 	
+	private int count;
 	
 	
+	
+
+
+	public int getCount() {
+		return count;
+	}
+
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+
 	public String getBrandName() {
 		return brandName;
 	}

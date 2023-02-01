@@ -148,7 +148,7 @@
         </div>
 
         <div id="searchBox">
-            <input type="text" id="searchInput" placeholder="상품을 검색해보세요.">
+            <input type="text" id="searchInput" placeholder="상품을 검색해보세요." onclick="location.href='<%= contextPath %>/psearch.pd'">
             <button type="submit"></button>
         </div>
 

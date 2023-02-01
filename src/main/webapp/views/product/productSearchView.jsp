@@ -85,6 +85,7 @@
                 <form action="" id="search-form">
                     <div id="search-text">
                         <input type="text" id="productInput" name="keyword" placeholder="브랜드, 모델명 등" onkeyup="search(this);">
+                        "<%=contextPath%>/psearch.pd"
                     </div>
                     <div id="search-btn">
                         <input type="submit" value="검색">
