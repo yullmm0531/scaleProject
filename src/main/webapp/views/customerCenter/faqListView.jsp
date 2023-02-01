@@ -109,8 +109,8 @@
             <ul>
                 <li class="depth1"><a><b>고객센터</b></a></li><br>
                 <li class="depth2"><a href="<%=contextPath%>/list.no?cpage=1">공지사항</a></li>
-                <li class="depth2"><a href="<%=contextPath%>/listForm.faq" style="background:black; color:white;">자주묻는질문</a></li>
-                <li class="depth2"><a href="<%=contextPath%>/listForm.inq">1:1 문의</a></li>
+                <li class="depth2"><a href="<%=contextPath%>/listForm.faq" style="background:black; color:white;"><b>자주묻는질문</b></a></li>
+                <li class="depth2"><a href="<%=contextPath%>/listForm.inq?cpage=1">1:1 문의</a></li>
                 <li class="depth2"><a href="">검수정책</a></li>
             </ul>
         </div>

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import com.scale.common.model.vo.PageInfo;
 import com.scale.customerCenter.model.dao.CustomerCenterDao;
 import com.scale.customerCenter.model.vo.Faq;
+import com.scale.customerCenter.model.vo.Inquire;
 import com.scale.customerCenter.model.vo.Notice;
 
 public class CustomerCenterService {
@@ -126,7 +127,7 @@ public class CustomerCenterService {
 	/**
 	 * faq 검색결과 개수 조회
 	 * @param keyword
-	 * @return
+	 * @return faq 검색결과 개수
 	 */
 	public int selectFaqSearchCount(String keyword) {
 		Connection conn = getConnection();
@@ -140,5 +141,32 @@ public class CustomerCenterService {
 		ArrayList<Faq> searchList = new CustomerCenterDao().selectFaqSearchList(conn, keyword, pi);
 		close(conn);
 		return searchList;
+	}
+	
+	// 1:1문의
+	
+	/**
+	 * 1:1문의 개수 조회
+	 * @param userNo
+	 * @return 1:1문의 개수
+	 */
+	public int selectInquireCount(int userNo) {
+		Connection conn = getConnection();
+		int listCount = new CustomerCenterDao().selectInquireCount(conn, userNo);
+		close(conn);
+		return listCount;
+	}
+	
+	/**
+	 * 1:1문의 리스트 조회
+	 * @param userNo
+	 * @param pi
+	 * @return 1:1문의 리스트
+	 */
+	public ArrayList<Inquire> selectInquireList(int userNo, PageInfo pi){
+		Connection conn = getConnection();
+		ArrayList<Inquire> list = new CustomerCenterDao().selectInquireList(conn, userNo, pi);
+		close(conn);
+		return list;
 	}
 }

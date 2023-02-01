@@ -46,6 +46,7 @@
     }
     .table{
         text-align:center;
+        font-size:14px;
     }
     .paging-area button{
         border:0.5px solid lightgray;

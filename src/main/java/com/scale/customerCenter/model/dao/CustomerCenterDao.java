@@ -13,6 +13,7 @@ import java.util.Properties;
 
 import com.scale.common.model.vo.PageInfo;
 import com.scale.customerCenter.model.vo.Faq;
+import com.scale.customerCenter.model.vo.Inquire;
 import com.scale.customerCenter.model.vo.Notice;
 
 public class CustomerCenterDao {
@@ -491,5 +492,68 @@ public class CustomerCenterDao {
 			close(pstmt);
 		}
 		return searchList;
+	}
+	
+	// 1:1 문의
+	public int selectInquireCount(Connection conn, int userNo) {
+		int listCount = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectInquireCount");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				listCount = rset.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return listCount;
+	}
+	
+	public ArrayList<Inquire> selectInquireList(Connection conn, int userNo, PageInfo pi){
+		ArrayList<Inquire> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectInquireList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Inquire(rset.getInt("INQUIRE_NO"),
+									 rset.getString("INQUIRE_TITLE"),
+									 rset.getString("INQUIRE_CONTENT"),
+									 rset.getString("INQUIRE_DATE"),
+									 rset.getString("INQUIRE_IMG"),
+									 rset.getString("ANSWER_CONTENT"),
+									 rset.getString("ANSWER_MODIFY_DATE"),
+									 rset.getString("ANSWER_STATUS"),
+									 rset.getString("CATEGORY")
+						));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
 	}
 }

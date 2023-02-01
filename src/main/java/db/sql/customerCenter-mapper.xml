@@ -204,4 +204,38 @@
        			)
  		  WHERE RNUM BETWEEN ? AND ?
 	</entry>
+	
+	<!-- 1:1문의 개수 -->
+	<entry key="selectInquireCount">
+		SELECT
+			   COUNT(*) "COUNT"		                      
+          FROM TB_INQUIRE
+         WHERE INQUIRE_STATUS = 'Y'
+           AND INQUIRE_USER = ?
+	</entry>
+	
+	<entry key="selectInquireList">
+		SELECT * 
+  		  FROM (
+		        SELECT ROWNUM RNUM, I.*
+		          FROM (
+		                SELECT
+		                       INQUIRE_NO
+		                     , INQUIRE_TITLE
+		                     , INQUIRE_CONTENT
+                             , TO_CHAR(INQUIRE_DATE, 'YYYY.MM.DD') "INQUIRE_DATE"
+                             , INQUIRE_IMG
+                             , ANSWER_CONTENT
+                             , TO_CHAR(ANSWER_MODIFY_DATE, 'YYYY.MM.DD') "ANSWER_MODIFY_DATE"
+                             , ANSWER_STATUS
+                             , CATEGORY
+		                  FROM TB_INQUIRE
+		                 WHERE INQUIRE_STATUS = 'Y'
+                           AND INQUIRE_USER = ?
+		                 ORDER
+		                    BY INQUIRE_NO DESC
+		                ) I
+       			)
+ 		  WHERE RNUM BETWEEN ? AND ?
+	</entry>
 </properties>
