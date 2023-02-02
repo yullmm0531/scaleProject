@@ -17,27 +17,27 @@ public class Like {
 		this.enrollDate = enrollDate;
 	}
 
-	String getProductCode() {
+	public String getProductCode() {
 		return productCode;
 	}
 
-	void setProductCode(String productCode) {
+	public void setProductCode(String productCode) {
 		this.productCode = productCode;
 	}
 
-	int getUserNo() {
+	public int getUserNo() {
 		return userNo;
 	}
 
-	void setUserNo(int userNo) {
+	public void setUserNo(int userNo) {
 		this.userNo = userNo;
 	}
 
-	Date getEnrollDate() {
+	public Date getEnrollDate() {
 		return enrollDate;
 	}
 
-	void setEnrollDate(Date enrollDate) {
+	public void setEnrollDate(Date enrollDate) {
 		this.enrollDate = enrollDate;
 	}
 

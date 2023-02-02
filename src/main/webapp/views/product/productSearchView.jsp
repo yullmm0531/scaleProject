@@ -70,13 +70,7 @@
     </style>
 </head>
 <body>
-	 <div id="root">
-    
-        <button type="button" id="modal_opne_btn">검색</button>
-        
-    </div>
-
-    <div id="modal">
+    <div class = modal id="search">
     
         <div class="modal_content">
             <button type="button" id="modal_close_btn">X</button>
@@ -84,8 +78,8 @@
             <div id="header-1">
                 <form action="" id="search-form">
                     <div id="search-text">
-                        <input type="text" id="productInput" name="keyword" placeholder="브랜드, 모델명 등" onkeyup="search(this);">
-                        "<%=contextPath%>/psearch.pd"
+                        <input type="text" id="productInput" name="keyword" placeholder="브랜드, 모델명 등" onkeyup="search(this);" value="<%=contextPath%>/psearch.pd">
+                        
                     </div>
                     <div id="search-btn">
                         <input type="submit" value="검색">

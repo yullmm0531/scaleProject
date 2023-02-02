@@ -36,9 +36,9 @@ public class ProductLikeController extends HttpServlet {
 		String productCode = request.getParameter("productCode");
 		
 		int clickLike = new ProductService().clickLike(userNo, productCode);
-		int resultLike = new ProductService().updateLike(clickLike, userNo, productCode);
+		int result = new ProductService().updateLike(clickLike, userNo, productCode);
 		
-		response.getWriter().print(resultLike);
+		response.getWriter().print(result);
 		
 		
 	}

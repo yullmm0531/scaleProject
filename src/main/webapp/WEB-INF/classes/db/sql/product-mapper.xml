@@ -9,6 +9,7 @@
 			 , PRODUCT_NAME_ENG
 			 , PRODUCT_IMG_M
 			 , BRAND_NAME
+			 , PRODUCT_CATEGORY
 	      FROM TB_PRODUCT 
 	      JOIN TB_BRAND USING(BRAND_CODE)
 	     WHERE BLIND_CHECK ='N'
@@ -71,7 +72,7 @@
 	</entry>
 	
 	<entry key="clickLike">
-		SELETE COUNT(*) COUNT
+		SELECT COUNT(*) COUNT
 		  FROM TB_LIKE
 		 WHERE USER_NO = ? 
 		   AND PRODUCT_CODE = ?
