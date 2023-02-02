@@ -16,7 +16,7 @@ import com.scale.user.model.vo.User;
 /**
  * Servlet implementation class AjaxDetailController
  */
-@WebServlet("/detail.ajax")
+@WebServlet("/detailView.ajax")
 public class AjaxDetailController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
