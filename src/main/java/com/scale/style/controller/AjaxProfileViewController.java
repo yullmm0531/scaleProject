@@ -36,13 +36,13 @@ public class AjaxProfileViewController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
-		String nickname = request.getParameter("nickname");
+		String id = request.getParameter("id");
 		int no = Integer.parseInt(request.getParameter("userNo"));
 		int boardLimit = 12;
 		int listCount = new StyleService().selectStyleCountByUserNo(no);
 		int maxPage = (int)Math.ceil((double)listCount / boardLimit);
 		
-		ArrayList<Style> list = new StyleService().selectStyleByNickname(cpage, boardLimit, nickname);
+		ArrayList<Style> list = new StyleService().selectStyleByID(cpage, boardLimit, id);
 		ArrayList<StyleImg> ilist = new ArrayList<>();
 		for(Style st : list) {
 			ArrayList<StyleImg> imgs = new StyleService().selectStyleImgByNo(st.getStyleNo());

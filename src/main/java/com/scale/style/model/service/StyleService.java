@@ -14,7 +14,6 @@ import com.scale.style.model.dao.StyleDao;
 import com.scale.style.model.vo.Hashtag;
 import com.scale.style.model.vo.Style;
 import com.scale.style.model.vo.StyleImg;
-import com.scale.user.model.vo.User;
 
 public class StyleService {
 	
@@ -118,9 +117,9 @@ public class StyleService {
 		return result1 * result2 * result3 * result4;
 	}
 	
-	public ArrayList<Style> selectStyleByNickname(int currentPage, int boardLimit, String nickname){
+	public ArrayList<Style> selectStyleByID(int currentPage, int boardLimit, String id){
 		Connection conn = getConnection();
-		ArrayList<Style> list = new StyleDao().selectStyleByNickname(conn, currentPage, boardLimit,nickname);
+		ArrayList<Style> list = new StyleDao().selectStyleByID(conn, currentPage, boardLimit,id);
 		close(conn);
 		return list;
 	}
@@ -156,10 +155,10 @@ public class StyleService {
 		
 		ArrayList<Style> list = new ArrayList<Style>();
 		switch(view) {
-		case "trending": list = new StyleDao().selectTrendingDetailList(conn, cpage, view, boardLimit);  break;
-		case "newest": list = new StyleDao().selectNewestDetailList(conn, cpage, view, boardLimit); break;
-		case "tagsearch": list = new StyleDao().selectTagSearchDetailList(conn, cpage, view, boardLimit, tag); break;
-		case "profile": list = new StyleDao().selectProfileDetailList(conn, cpage, view, boardLimit, nickname); break;
+		case "trending": list = new StyleDao().selectTrendingDetailList(conn, cpage, boardLimit);  break;
+		case "newest": list = new StyleDao().selectNewestDetailList(conn, cpage, boardLimit); break;
+		case "tagsearch": list = new StyleDao().selectTagSearchDetailList(conn, cpage, boardLimit, tag); break;
+		case "profile": list = new StyleDao().selectProfileDetailList(conn, cpage, boardLimit, nickname); break;
 		}
 		close(conn);
 		return list;
@@ -177,11 +176,10 @@ public class StyleService {
 		
 		ArrayList<Style> list = new ArrayList<Style>();
 		switch(view) {
-		case "trending": list = new StyleDao().selectTrendingDetailList(conn, cpage, view, boardLimit);  break;
-		case "profile": list = new StyleDao().selectProfileDetailList(conn, cpage, view, boardLimit, id); break;
-		case "newest": list = new StyleDao().selectNewestDetailList(conn, cpage, view, boardLimit); break;
-		case "tagsearch": list = new StyleDao().selectTagSearchDetailList(conn, cpage, view, boardLimit, tag); break;
-		
+		case "trending": list = new StyleDao().selectTrendingDetailList(conn, cpage, boardLimit);  break;
+		case "profile": list = new StyleDao().selectProfileDetailList(conn, cpage, boardLimit, id); break;
+		case "newest": list = new StyleDao().selectNewestDetailList(conn, cpage, boardLimit); break;
+		case "tagsearch": list = new StyleDao().selectTagSearchDetailList(conn, cpage, boardLimit, tag); break;
 		}
 		
 		ArrayList<StyleImg> ilist = new ArrayList<>();
@@ -196,7 +194,7 @@ public class StyleService {
 				plist.add(pd);
 			}
 		}
-		System.out.println(ilist);
+		
 		int[] checkLike = new int[list.size()];
 		for(int i=0; i<list.size(); i++) {
 			int styleNo = list.get(i).getStyleNo();
@@ -210,5 +208,45 @@ public class StyleService {
 		map.put("checkLike", checkLike);
 		
 		return map;
+	}
+	
+	public HashMap<String, Object> selectAddDetail(String view, int cpage, int userNo, int boardLimit, String tag, String id) {
+		Connection conn = getConnection();
+		
+		ArrayList<Style> list = new ArrayList<Style>();
+		switch(view) {
+		case "trending": list = new StyleDao().selectStyleList(conn, cpage, boardLimit);  break;
+		case "profile": list = new StyleDao().selectStyleByID(conn, cpage, boardLimit, id); break;
+		case "newest": list = new StyleDao().selectNewStyleList(conn, cpage, boardLimit); break;
+		case "tagsearch": list = new StyleDao().selectStyleByHashtag(conn, cpage, boardLimit, tag); break;
+		}
+		
+		ArrayList<StyleImg> ilist = new ArrayList<>();
+		ArrayList<Product> plist = new ArrayList<>();
+		for(Style st : list) {
+			ArrayList<StyleImg> imgs = new StyleDao().selectStyleImgByNo(conn, st.getStyleNo());
+			for(StyleImg si : imgs) {
+				ilist.add(si);
+			}
+			ArrayList<Product> pds = new StyleDao().selectDetailProduct(conn, st.getStyleNo());
+			for(Product pd : pds) {
+				plist.add(pd);
+			}
+		}
+		
+		int[] checkLike = new int[list.size()];
+		for(int i=0; i<list.size(); i++) {
+			int styleNo = list.get(i).getStyleNo();
+			checkLike[i] = new StyleDao().checkLike(conn, userNo, styleNo);
+		}
+		
+		HashMap<String, Object> map = new HashMap();
+		map.put("list", list);
+		map.put("ilist", ilist);
+		map.put("plist", plist);
+		map.put("checkLike", checkLike);
+		
+		return map;
+		
 	}
 }

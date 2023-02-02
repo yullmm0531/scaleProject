@@ -271,8 +271,8 @@
         })
 
         function detail(e){
-            let no = e.nextSibling.value;
-            let cpage = e.nextSibling.nextSibling.value;
+            let no = $(e).next().val();
+            let cpage = $(e).next().next().val();
             location.href = "<%= contextPath %>/detail.st?no=" + no + "&view=trending&cpage=" + cpage;
         }
     </script>

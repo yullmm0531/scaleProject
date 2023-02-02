@@ -122,6 +122,7 @@ public class StyleDao {
 				st.setStyleWriter(rset.getString("user_nickname"));
 				st.setUserId(rset.getString("user_id"));
 				st.setHashtag(rset.getString("hashtag"));
+				st.setEnrollDate(rset.getDate("enroll_date"));
 				
 				list.add(st);
 				
@@ -398,18 +399,18 @@ public class StyleDao {
 		return result;
 	}
 	
-	public ArrayList<Style> selectStyleByNickname(Connection conn, int currentPage, int boardLimit, String nickname){
+	public ArrayList<Style> selectStyleByID(Connection conn, int currentPage, int boardLimit, String id){
 		ArrayList<Style> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("selectStyleByNickname");
+		String sql = prop.getProperty("selectStyleByID");
 		
 		try {
 			int startRow = (currentPage - 1) * boardLimit + 1;
 			int endRow = startRow + boardLimit - 1;
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, nickname);
+			pstmt.setString(1, id);
 			pstmt.setInt(2, startRow);
 			pstmt.setInt(3, endRow);
 			
@@ -503,7 +504,7 @@ public class StyleDao {
 		return result;
 	}
 	
-	public ArrayList<Style> selectTrendingDetailList(Connection conn, int cpage, String view, int boardLimit){
+	public ArrayList<Style> selectTrendingDetailList(Connection conn, int cpage, int boardLimit){
 		ArrayList<Style> list = new ArrayList<Style>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -540,7 +541,7 @@ public class StyleDao {
 		return list;
 	}
 	
-	public ArrayList<Style> selectNewestDetailList(Connection conn, int cpage, String view, int boardLimit) {
+	public ArrayList<Style> selectNewestDetailList(Connection conn, int cpage, int boardLimit) {
 		ArrayList<Style> list = new ArrayList<Style>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -563,6 +564,7 @@ public class StyleDao {
 				st.setCount(rset.getInt("count"));
 				st.setStyleWriter(rset.getString("user_nickname"));
 				st.setHashtag(rset.getString("hashtag"));
+				st.setEnrollDate(rset.getDate("enroll_date"));
 				
 				list.add(st);
 			}
@@ -576,7 +578,7 @@ public class StyleDao {
 		return list;
 	}
 	
-	public ArrayList<Style> selectTagSearchDetailList(Connection conn, int cpage, String view, int boardLimit, String tag) {
+	public ArrayList<Style> selectTagSearchDetailList(Connection conn, int cpage, int boardLimit, String tag) {
 		ArrayList<Style> list = new ArrayList<Style>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -600,6 +602,7 @@ public class StyleDao {
 				st.setCount(rset.getInt("count"));
 				st.setStyleWriter(rset.getString("user_nickname"));
 				st.setHashtag(rset.getString("hashtag"));
+				st.setEnrollDate(rset.getDate("enroll_date"));
 				
 				list.add(st);
 			}
@@ -613,7 +616,7 @@ public class StyleDao {
 		return list;
 	}
 	
-	public ArrayList<Style> selectProfileDetailList(Connection conn, int cpage, String view, int boardLimit, String id) {
+	public ArrayList<Style> selectProfileDetailList(Connection conn, int cpage, int boardLimit, String id) {
 		ArrayList<Style> list = new ArrayList<Style>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -637,6 +640,7 @@ public class StyleDao {
 				st.setCount(rset.getInt("count"));
 				st.setStyleWriter(rset.getString("user_nickname"));
 				st.setHashtag(rset.getString("hashtag"));
+				st.setEnrollDate(rset.getDate("enroll_date"));
 				
 				list.add(st);
 			}

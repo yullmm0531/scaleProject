@@ -243,7 +243,7 @@
 				<script>
 					<% if(loginUser != null){ %>
 					let a = <%= loginUser.getUserNo() %>;
-					console.log(a);
+					
 					<% } %>
 
 					$("#nickname-input").keydown(function(){
@@ -335,7 +335,7 @@
 				$.ajax({
 					url:"<%= contextPath %>/profile.ajax",
 					type:"get",
-					data:{"cpage":cpage, "nickname":"<%= user.getUserNickName() %>", "userNo":"<%= user.getUserNo() %>"},
+					data:{"cpage":cpage, "id":"<%= user.getUserId() %>", "userNo":"<%= user.getUserNo() %>"},
 					success:function(map){
 						let list = map.list;
 						let ilist = map.ilist;
