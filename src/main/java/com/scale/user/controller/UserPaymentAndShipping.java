@@ -31,7 +31,7 @@ public class UserPaymentAndShipping extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("되나?");
+		
 		
 		String zipCode = request.getParameter("zipCode");
 		String defaultAdd = request.getParameter("defaultAdd");
@@ -50,6 +50,8 @@ public class UserPaymentAndShipping extends HttpServlet {
 		if(result > 0) { 
 			
 			session.setAttribute("alertMsg", "배송지를 추가하였습니다");
+			ad = new UserService().selectBasicAddress(userNo);
+			request.setAttribute("ad", ad);
 			request.getRequestDispatcher("views/user/userPaymentAndShipping.jsp").forward(request, response);
 			
 		}else {

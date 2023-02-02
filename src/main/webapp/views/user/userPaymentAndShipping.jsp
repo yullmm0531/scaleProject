@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="com.scale.user.model.vo.Address"%>
+    
+    <%
+	Address ad = (Address)request.getAttribute("ad");
+	
+	%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -185,7 +190,9 @@
 				                </div>
 				            </div>
 				            <br><br>
-				
+						</form>
+						
+						
 				            <div id="shipping-div">
 				                <div id="shipping-box">
 				                    <div id="address-title">
@@ -242,7 +249,7 @@
 											                </div>
 												        	
 												        	<button type="submit" class="btn btn-danger btn-sm">추가하기</button>
-											
+																	
 
 														</form>
 
@@ -317,7 +324,7 @@
 				                    
 				                    <div id="shipping-address-box">
 				                        <input type="radio" name="basicAddress" value="주소를 담은 변수" id="address-radio">
-				                        <label for="">주소를 담은 변수 출력?</label>
+				                        <label for="">주소를 담은 변수?</label>
 				                        
 				                    
 				                    </div>
@@ -333,12 +340,10 @@
 				            <br>
 				            <div class="underline"></div>
 				            <br>
-				            <div id="update-submit-div">
-				                <input type="submit" name="update" value="수정하기" >
-				            </div>
+				            
 				
 				        </div>
-   				 </form>
+   				 
 			</div>
 </body>
 </html>

@@ -13,7 +13,17 @@ public class Address {
 	
 	private int userNo;
 	
-	public Address() {}
+	public Address(int addresNo, String zipCode, String address1, String address2, String recipient, int userNo, String defaultAdd) {
+		super();
+		this.addresNo = addresNo;
+		this.zipCode = zipCode;
+		this.address1 = address1;
+		this.address2 = address2;
+		this.recipient = recipient;
+		this.phone = phone;
+		this.userNo = userNo;
+		this.defaultAdd = defaultAdd;
+	}
 	
 	
 
@@ -70,6 +80,30 @@ public class Address {
 	}
 
 	
+	
+
+
+
+
+	public Address(int addresNo, String zipCode, String address1, String address2, String recipient, String phone
+			,int userNo, String defaultAdd) {
+		super();
+		this.addresNo = addresNo;
+		this.zipCode = zipCode;
+		this.address1 = address1;
+		this.address2 = address2;
+		this.recipient = recipient;
+		this.phone = phone;
+		this.userNo = userNo;
+		this.defaultAdd = defaultAdd;
+	}
+
+
+
+
+	
+
+
 
 
 	public int getUserNo() {

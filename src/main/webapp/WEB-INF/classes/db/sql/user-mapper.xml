@@ -302,4 +302,19 @@
 		  , ?
 		  )
 	</entry>
+	
+	<entry key="selectBasicAddress">
+		SELECT 
+			ADDRESS_NO
+		  , ZIPCODE
+		  , ADDRESS1
+		  , ADDRESS2
+		  , RECIPIENT
+		  , PHONE
+		  , DEFAULT_ADD
+		  , USER_NO
+		  FROM TB_ADDRESS
+		 WHERE USER_NO = ?
+		   AND STATUS = 'Y'
+	</entry>
 </properties>

@@ -658,4 +658,41 @@ public class UserDao {
 		}
 		return result;
 	}
+	
+	public Address selectBasicAddress(Connection conn, int userNo) {
+		
+		Address ad = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectBasicAddress");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				ad = new Address(rset.getInt("address_no")
+								,rset.getString("address1")
+								,rset.getString("address2")
+								,rset.getString("recipient")
+								,rset.getString("phone")								
+								,rset.getInt("userNo")
+								,rset.getString("default_add")
+								
+						);
+						
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return ad;
+		
+	}
 }

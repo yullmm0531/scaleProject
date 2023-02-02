@@ -262,14 +262,28 @@ public Product userDetailImg(int biddingNo) {
 	
 	public int updatePaymentAndShipping(Address ad) {
 		
+		
 		Connection conn = getConnection();
 		int result = new UserDao().updatePaymentAndShipping(conn, ad);
+		
+		Address ba = null;
 		if(result > 0) {
 			commit(conn);
+			
 		} else {
 			rollback(conn);
 		}
 		close(conn);
 		return result;
+	}
+	
+	public Address selectBasicAddress(int userNo) {
+		
+		Connection conn = getConnection();
+		Address ad = new UserDao().selectBasicAddress(conn, userNo);
+		
+		close(conn);
+		
+		return ad;
 	}
 }
