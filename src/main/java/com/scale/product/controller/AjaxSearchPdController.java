@@ -1,6 +1,7 @@
-package com.scale.style.controller;
+package com.scale.product.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,20 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.scale.product.model.service.ProductService;
 import com.scale.product.model.vo.Product;
-import com.scale.style.model.service.StyleService;
 
 /**
- * Servlet implementation class AjaxSearchPCodeController
+ * Servlet implementation class AjaxSearchPdController
  */
-@WebServlet("/searchPCode.st")
-public class AjaxSearchPCodeController extends HttpServlet {
+@WebServlet("/searchPd.ajax")
+public class AjaxSearchPdController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AjaxSearchPCodeController() {
+    public AjaxSearchPdController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,10 +32,11 @@ public class AjaxSearchPCodeController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String pCode = request.getParameter("pCode");
-		Product p = new StyleService().selectPCode(pCode);
-		response.setContentType("apllication/json; charset=UTF-8");
-		new Gson().toJson(p, response.getWriter());
+		String keyword = request.getParameter("keyword");
+		
+		ArrayList<Product> list = new ProductService().selectPdSearchList(keyword);
+		response.setContentType("application/json; charset=UTF-8");
+		new Gson().toJson(list, response.getWriter());
 	}
 
 	/**

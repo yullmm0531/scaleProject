@@ -69,27 +69,6 @@ public class StyleService {
 		return list;
 	}
 	
-	public ArrayList<Product> selectPdAllList(){
-		Connection conn = getConnection();
-		ArrayList<Product> list = new StyleDao().selectPdAllList(conn);
-		close(conn);
-		return list;
-	}
-	
-	public ArrayList<Product> selectPdSearchList(String keyword){
-		Connection conn = getConnection();
-		ArrayList<Product> list = new StyleDao().selectPdSearchList(conn, keyword);
-		close(conn);
-		return list;
-	}
-	
-	public Product selectPCode(String pCode) {
-		Connection conn = getConnection();
-		Product p = new StyleDao().selectPCode(conn, pCode);
-		close(conn);
-		return p;
-	}
-	
 	public int insertStyle(Style s, ArrayList<StyleImg> list, String pcode) {
 		Connection conn = getConnection();
 		

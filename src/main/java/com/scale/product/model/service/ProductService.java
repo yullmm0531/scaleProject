@@ -1,7 +1,6 @@
 package com.scale.product.model.service;
 
 import static com.scale.common.JDBCTemplate.*;
-import static com.scale.common.JDBCTemplate.getConnection;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -10,6 +9,7 @@ import com.scale.product.model.dao.ProductDao;
 import com.scale.product.model.vo.Brand;
 import com.scale.product.model.vo.Product;
 import com.scale.product.model.vo.ProductImg;
+import com.scale.style.model.dao.StyleDao;
 
 
 public class ProductService {
@@ -92,6 +92,20 @@ public class ProductService {
 		
 		return list;
 		
+	}
+	
+	public ArrayList<Product> selectPdSearchList(String keyword){
+		Connection conn = getConnection();
+		ArrayList<Product> list = new ProductDao().selectPdSearchList(conn, keyword);
+		close(conn);
+		return list;
+	}
+	
+	public Product selectPCode(String pCode) {
+		Connection conn = getConnection();
+		Product p = new ProductDao().selectPCode(conn, pCode);
+		close(conn);
+		return p;
 	}
 	
 }

@@ -143,34 +143,6 @@
 		 WHERE RNUM BETWEEN ? AND ?
 	</entry>
 	
-	<entry key="selectPdSearchList">
-		SELECT
-		       PRODUCT_CODE
-		     , PRODUCT_NAME_KO
-		     , PRODUCT_NAME_ENG
-		     , PRODUCT_IMG_M
-		     , BRAND_NAME
-		  FROM TB_PRODUCT
-		  JOIN TB_BRAND USING (BRAND_CODE)
-		 WHERE BLIND_CHECK = 'N'
-		   AND PRODUCT_NAME_KO LIKE '%' || ? || '%' 
-		    OR PRODUCT_NAME_ENG LIKE '%' || ? || '%'
-		 ORDER
-		    BY PRODUCT_NAME_KO ASC
-	</entry>
-	
-	<entry key="selectPCode">
-		SELECT
-		       PRODUCT_CODE
-		     , PRODUCT_NAME_KO
-		     , PRODUCT_NAME_ENG
-		     , PRODUCT_IMG_M
-		     , BRAND_NAME
-		  FROM TB_PRODUCT
-		  JOIN TB_BRAND USING (BRAND_CODE)
-		 WHERE PRODUCT_CODE = ?
-	</entry>
-	
 	<entry key="insertStyle">
 		INSERT
 		  INTO TB_STYLE
