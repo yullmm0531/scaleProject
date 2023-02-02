@@ -73,8 +73,8 @@
                 <li class="depth1"><a><b>고객센터</b></a></li><br>
                 <li class="depth2"><a href="<%=contextPath%>/list.no?cpage=1">공지사항</a></li>
                 <li class="depth2"><a href="<%=contextPath%>/listForm.faq">자주묻는질문</a></li>
-                <li class="depth2"><a href="<%=contextPath%>/listForm.inq?cpage=1" style="background:black; color:white;"><b>1:1 문의</b></a></li>
-                <li class="depth2"><a href="">검수정책</a></li>
+                <li class="depth2"><a href="<%=contextPath%>/list.inq?cpage=1" style="background:black; color:white;"><b>1:1 문의</b></a></li>
+                <li class="depth2"><a href="<%=contextPath%>/inspection.po">검수정책</a></li>
             </ul>
         </div>
         <div class="outer-2">
@@ -91,10 +91,10 @@
             </div>
 
             <div class="inquire-btn" align="right">
-                <a href="" class="btn btn-outline-dark">문의하기</a>
+                <a href="<%=contextPath%>/insertForm.inq" class="btn btn-outline-dark">문의하기</a>
                 <br>
             </div>
-            <form action="<%=contextPath%>">
+            <!-- <form action="<%=contextPath%>/delete.inq"> -->
                 <table class="table table-hover">
                     <thead class="thead-dark">
                         <tr>
@@ -123,55 +123,62 @@
                         		}	
                         		%>
 	                        <!-- case2. 문의 내역 있을 때 -->
-	                        <tr class="my-inquire">
-	                            <td><%= iq.getCategory() %></td>
-	                            <td>
-	                                <div>
-	                                    <p class="inquire-title"><%= iq.getInquireTitle() %></p>
-	                                    <div class="inquire-content-wrap">
-	                                        <div class="inquire-content">
-	                                            <%= iq.getInquireContent() %>
-	                                            <br>
-	                                            <% if(iq.getInquireImg() != null) {%>
-	                                            	<img src="<%= iq.getInquireImg() %>" width="300">
-	                                            <%} %>
-	                                            <hr>
-	                                            
-	                                            <% if(iq.getAnswerStatus().equals("Y")) {%>
-		                                            <!-- 답변 있을 때... -->
-		                                            <div class="inquire-answer">
-		                                                <br>
-		                                                <p><%= iq.getAnswerContent() %></p>
-	                                                </div>
-                                                <%}else {%>
-                                                	<div class="inquire-answer">
-		                                                <br>
-		                                                <p>답변이 아직 등록되지 않았습니다.</p>
-                                                	</div>
-                                                <%} %>
+                            <form action="<%=contextPath%>/delete.inq">
+                                <tr class="my-inquire">
+                                    <td><%= iq.getCategory() %></td>
+                                    <td class="inquire-title">
+                                        <div>
+                                            <p><%= iq.getInquireTitle() %></p>
+                                            <div class="inquire-content-wrap">
+                                                <div class="inquire-content">
+                                                    <%= iq.getInquireContent() %>
+                                                    <br>
+                                                    <% if(iq.getInquireImg() != null) {%>
+                                                        <img src="<%=contextPath%>/<%=iq.getInquireImg() %>" width="300">
+                                                    <%} %>
+                                                    <hr>
+                                                    
+                                                    <% if(iq.getAnswerStatus().equals("Y")) {%>
+                                                        <!-- 답변 있을 때 -->
+                                                        <div class="inquire-answer">
+                                                            <br>
+                                                            <p><%= iq.getAnswerContent() %></p>
+                                                        </div>
+                                                    <%}else {%>
+                                                        <div class="inquire-answer">
+                                                            <br>
+                                                            <p>답변이 아직 등록되지 않았습니다.</p>
+                                                        </div>
+                                                    <%} %>
+                                                </div>
                                             </div>
                                         </div>
-                                     </div>
-                                </td>
-	                            <td><%= iq.getInquireDate() %></td>
-	                            <td><%= iq.getAnswerStatus() %></td>
-	                            <td>
-	                                <button type="submit" class="btn btn-sm btn-secondary">삭제</button>
-	                            </td>
-	                        </tr>
+                                    </td>
+                                    <td><%= iq.getInquireDate() %></td>
+                                    <td><%= iq.getAnswerStatus() %></td>
+                                    <td>
+                                        <button type="submit" class="btn btn-sm btn-secondary" id="delete-btn<%=iq.getInquireNo()%>" name="inquireNo" value="<%=iq.getInquireNo()%>">삭제</button>
+                                    </td>
+                                </tr>
+                            </form>
 	                        <%} %>
                         <%} %>
                     </tbody>
                 </table>
                 <br><br>
-            </form>
+            <!-- </form> -->
             <script>
             $(function(){
-                    $(".my-inquire").click(function(){
+                    $(".inquire-title").click(function(){
                         $(this).find($(".inquire-content-wrap")).slideToggle();
                     })
 
+                    $("button[type=submit]").on("click", function(){
+                       return confirm("문의를 삭제하시겠습니까?");
+                    })
+
             })
+
             </script>
             <!-- 페이징 -->
             <div class="paging-area">
@@ -190,4 +197,5 @@
             <br><br>
         </div>
     </div>
+  </body>
 </html>

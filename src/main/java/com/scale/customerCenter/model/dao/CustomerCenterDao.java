@@ -556,4 +556,48 @@ public class CustomerCenterDao {
 		}
 		return list;
 	}
+
+	public int deleteInquire(Connection conn, int inquireNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteInquire");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, inquireNo);
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public int insertInquire(Connection conn, Inquire iq) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertInquire");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, iq.getInquireTitle());
+			pstmt.setString(2, iq.getInquireContent());
+			pstmt.setString(3, iq.getInquireImg());
+			pstmt.setString(4, iq.getInquireUser());
+			pstmt.setString(5, iq.getCategory());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 }

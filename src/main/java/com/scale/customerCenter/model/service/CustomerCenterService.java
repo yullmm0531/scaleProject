@@ -1,7 +1,6 @@
 package com.scale.customerCenter.model.service;
 
-import static com.scale.common.JDBCTemplate.close;
-import static com.scale.common.JDBCTemplate.getConnection;
+import static com.scale.common.JDBCTemplate.*;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -168,5 +167,43 @@ public class CustomerCenterService {
 		ArrayList<Inquire> list = new CustomerCenterDao().selectInquireList(conn, userNo, pi);
 		close(conn);
 		return list;
+	}
+	
+	/**
+	 * 1:1 문의글 삭제
+	 * @param inquireNo
+	 * @return 성공 개수
+	 */
+	public int deleteInquire(int inquireNo) {
+		Connection conn = getConnection();
+		int result = new CustomerCenterDao().deleteInquire(conn, inquireNo);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result;
+	}
+	
+	/**
+	 * 1:1 문의글 등록
+	 * @param iq
+	 * @return 성공 개수
+	 */
+	public int insertInquire(Inquire iq) {
+		Connection conn = getConnection();
+		int result = new CustomerCenterDao().insertInquire(conn, iq);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result;
 	}
 }

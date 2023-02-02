@@ -18,14 +18,14 @@ import com.scale.user.model.vo.User;
 /**
  * Servlet implementation class InquireListFormController
  */
-@WebServlet("/listForm.inq")
-public class InquireListFormController extends HttpServlet {
+@WebServlet("/list.inq")
+public class InquireListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InquireListFormController() {
+    public InquireListController() {
         super();
         // TODO Auto-generated constructor stub
     }

@@ -65,8 +65,8 @@
                 <li class="depth1"><a><b>고객센터</b></a></li><br>
                 <li class="depth2"><a href="<%=contextPath%>/list.no?cpage=1" style="background:black; color:white;"><b>공지사항</b></a></li>
                 <li class="depth2"><a href="<%=contextPath%>/listForm.faq">자주묻는질문</a></li>
-                <li class="depth2"><a href="<%=contextPath%>/listForm.inq?cpage=1">1:1 문의</a></li>
-                <li class="depth2"><a href="">검수정책</a></li>
+                <li class="depth2"><a href="<%=contextPath%>/list.inq?cpage=1">1:1 문의</a></li>
+                <li class="depth2"><a href="<%=contextPath%>/inspection.po">검수정책</a></li>
             </ul>
         </div>
         <div class="outer-2">

@@ -205,7 +205,7 @@
  		  WHERE RNUM BETWEEN ? AND ?
 	</entry>
 	
-	<!-- 1:1문의 개수 -->
+	<!-- 1:1문의 조회 -->
 	<entry key="selectInquireCount">
 		SELECT
 			   COUNT(*) "COUNT"		                      
@@ -237,5 +237,36 @@
 		                ) I
        			)
  		  WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<!-- 1:1문의 삭제 -->
+	<entry key="deleteInquire">
+		UPDATE TB_INQUIRE
+		   SET INQUIRE_STATUS = 'N'
+		 WHERE INQUIRE_NO = ?
+	</entry>
+	
+	<!-- 1:1 문의 등록 -->
+	<entry key="insertInquire">
+		INSERT
+		  INTO TB_INQUIRE
+			  (
+			    INQUIRE_NO
+			  , INQUIRE_TITLE
+			  , INQUIRE_CONTENT
+			  , INQUIRE_IMG
+			  , INQUIRE_USER
+			  , CATEGORY
+			  )	
+			  VALUES
+			  (
+			  	SEQ_INO.NEXTVAL
+			  , ?
+			  , ?
+			  , ?
+			  , ?
+			  , ?
+			  )
+			  	  
 	</entry>
 </properties>
