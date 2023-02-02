@@ -536,4 +536,39 @@ public class UserDao {
 		return u;
 		
 	}
+	
+	public ArrayList<Address> selectAddressList(Connection conn, int userNo){
+		
+		ArrayList<Address> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectAddressList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Address ad = new Address(rset.getInt("address_no"),
+										 rset.getString("zipcode"),
+										 rset.getString("address1"),
+										 rset.getString("address2"),
+										 rset.getString("recipient"),
+										 rset.getString("phone"));
+				list.add(ad);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
 }

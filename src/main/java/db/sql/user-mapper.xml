@@ -236,4 +236,18 @@
 		 WHERE USER_NO = ?
 	</entry>
 	
+	<entry key="selectAddressList">
+		SELECT
+		       ADDRESS_NO
+		     , ZIPCODE
+		     , ADDRESS1
+		     , ADDRESS2
+		     , RECIPIENT
+		     , PHONE
+		  FROM TB_ADDRESS
+		 WHERE USER_NO = ?
+		   AND DEFAULT_ADD = 'N'
+		 ORDER
+		    BY ADDRESS_NO DESC
+	</entry>
 </properties>

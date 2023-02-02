@@ -1,6 +1,9 @@
 package com.scale.user.model.service;
 
-import static com.scale.common.JDBCTemplate.*;
+import static com.scale.common.JDBCTemplate.close;
+import static com.scale.common.JDBCTemplate.commit;
+import static com.scale.common.JDBCTemplate.getConnection;
+import static com.scale.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -100,7 +103,12 @@ public class UserService {
 		close(conn);
 		return user;
 	}
-
+	
+	/**
+	 * @author yurim
+	 * @param userNo
+	 * @return Address 기본배송지 정보
+	 */
 	public Address selectDefaultAddress(int userNo) {
 		
 		Connection conn = getConnection();
@@ -203,5 +211,22 @@ public class UserService {
 		close(conn);
 		
 		return u;
+	}
+	
+	
+	/**
+	 * @author yurim
+	 * @param userNo : 사용자의 기본배송지 제외한 배송지 목록을 조회하기 위해 사용하는 회원번호
+	 * @return list : 여러개의 배송지 Address가 담긴 ArrayList
+	 */
+	public ArrayList<Address> selectAddressList(int userNo){
+		
+		Connection conn = getConnection();
+		ArrayList<Address> list = new UserDao().selectAddressList(conn, userNo);
+		
+		close(conn);
+		
+		return list;
+		
 	}
 }

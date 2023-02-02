@@ -71,7 +71,9 @@
             padding-left: 15px;
             padding-right: 25px;
         }
-
+        .modalList{
+            height: 280px;
+        }
         .view-more{
             width: 100%;
         }
@@ -191,7 +193,7 @@
                                 <td style="width: 360px;">사이즈</td>
                                 <td style="width: 360px;">
                                     <div align="right">
-                                        <select name="pSize" id="pSize" style="width: 120px;" onchange="selectSize();">
+                                        <select name="pSize" id="pSize" style="width: 120px;" onchange="ajaxSelectSizeResult();">
                                             
                                         </select>
                                     </div>
@@ -464,7 +466,7 @@
                                                 <div id="product-eng-name"><%= p.getProductNameEng() %></div>
                                                 <div id="product-kor-name"><%= p.getProductNameKo() %></div>
                                                 <span id="product-size">
-                                                    <select id="modalPdSize" style="width: 120px;" onchange="modalSelectSize();">
+                                                    <select id="modalPdSize" style="width: 120px;" onchange="ajaxSelectSizeResult();">
                                                         
                                                     </select>
                                                     <script>
@@ -496,7 +498,7 @@
                                                 </div>
                                             </div>
                                             <br>
-                                            <div>
+                                            <div class="modalList" style="overflow: auto;">
                                                 <!--체결거래 클릭시-->
                                                 <div id="modalDeal">
                                                     <table id="modalDeal-size" class="price-detail" style="width: 100%;">
@@ -622,36 +624,45 @@
                             })
                         })
                         
-                        function selectSize(){
-                        	var pSize = $("#pSize").val();
-                        	console.log(pSize);
-                        	$("#modalPdSize").val(pSize);
-                        	var dCount = <%= dList.size() %>;
-							var sCount = <%= sList.size() %>;
-							var bCount = <%= bList.size() %>;
-                        	$.ajax({
+                        var dCount = <%= dList.size() %>;
+                        var sCount = <%= sList.size() %>;
+                        var bCount = <%= bList.size() %>;
+
+                        function ajaxSelectSizeResult(){
+
+                            var pSize = $(window.event.target).val();
+                            $.ajax({
                         		url:"<%= contextPath %>/bSizeList.bi",
             					data:{
             						co: <%= p.getProductCode() %>,
-            						size: pSize  
+            						size: pSize
             					},
-            					success:function(list){
-            						console.log(list);
-            					
+            					success:function(list){            					
             						if(list.length != 0){
             							var dSizeList = list[0];
                                         var sSizeList = list[1];
                                         var bSizeList = list[2];
                                         if(dCount != 0 && sCount != 0 && bCount != 0){
+                                            // 페이지
                                         	for(let i=1; i<=5; i++){
 	                                            $("#deal-size tbody").children().eq(i).html("");
 	                                            $("#sellBidding-size tbody").children().eq(i).html("");
 	                                            $("#buyBidding-size tbody").children().eq(i).html("");
-                                        	}	
+                                        	}
+                                            // 모달
+                                            for(let i=1; i<= dCount; i++){
+                                                $("#modalDeal-size tbody").children().eq(i).html("");
+                                            }
+                                            for(let i=1; i<= sCount; i++){
+                                                $("#modalSellBidding-size tbody").children().eq(i).html("");
+                                            }
+                                            for(let i=1; i<= bCount; i++){
+                                                $("#modalBuyBidding-size tbody").children().eq(i).html("");
+                                            }
                                         }
                                         
             							if(dSizeList.length != 0){
-            								
+            								// 페이지
             								if(dSizeList.length < 5){
             									for(let i=0; i<dSizeList.length; i++){
             										$("#deal-size tbody").children().eq(i+1).html("<td>" + dSizeList[i].pSize + "</td>"
@@ -666,14 +677,23 @@
 																								+ "<td align='right'>" + dSizeList[i].dDate + "</td>");
             									}
             								}
-            								
+                                            // 모달
+            								for(let i=0; i<dSizeList.length; i++){
+        										$("#modalDeal-size tbody").children().eq(i+1).html("<td>" + dSizeList[i].pSize + "</td>"
+																							+ "<td align='right'>" + dSizeList[i].bPrice + "</td>"
+																							+ "<td align='right'>" + dSizeList[i].dDate + "</td>");
+        									}
             								
             							} else{
+                                            // 페이지
                                             $("#deal-size tbody").children().eq(3).html("<td colspan='3' style='text-align:center;'>체결된 거래가 아직 없습니다.</td>");
+                                            // 모달
+                                            $("#modalDeal-size tbody").children().eq(3).html("<td colspan='3' style='text-align:center;'>체결된 거래가 아직 없습니다.</td>");
+
                                         }
 
                                         if(sSizeList.length != 0){
-            								
+            								// 페이지
             								if(sSizeList.length < 5){
             									for(let i=0; i<sSizeList.length; i++){
             										$("#sellBidding-size tbody").children().eq(i+1).html("<td>" + sSizeList[i].pSize + "</td>"
@@ -688,13 +708,23 @@
                                                                                                         + "<td align='right'>" + sSizeList[i].count + "</td>");
             									}
             								}
+                                            // 모달
+                                            for(let i=0; i<sSizeList.length; i++){
+        										$("#modalSellBidding-size tbody").children().eq(i+1).html("<td>" + sSizeList[i].pSize + "</td>"
+                                                                                                    + "<td align='right'>" + sSizeList[i].bPrice + "</td>"
+                                                                                                    + "<td align='right'>" + sSizeList[i].count + "</td>");
+        									}
             								
             							} else{
+                                            // 페이지
                                             $("#sellBidding-size tbody").children().eq(3).html("<td colspan='3' style='text-align:center;'>판매 희망가가 아직 없습니다.</td>");
+                                            // 모달
+                                            $("#modalSellBidding-size tbody").children().eq(3).html("<td colspan='3' style='text-align:center;'>판매 희망가가 아직 없습니다.</td>");
+
                                         }
 
                                         if(bSizeList.length != 0){
-            								
+            								// 페이지
             								if(bSizeList.length < 5){
             									for(let i=0; i<bSizeList.length; i++){
             										$("#buyBidding-size tbody").children().eq(i+1).html("<td>" + bSizeList[i].pSize + "</td>"
@@ -709,80 +739,8 @@
                                                                                                         + "<td align='right'>" + bSizeList[i].count + "</td>");
             									}
             								}
-            								
-            							} else{
-                                            $("#buyBidding-size tbody").children().eq(3).html("<td colspan='3' style='text-align:center;'>구매 희망가가 아직 없습니다.</td>");
-                                        }
-
-            						} else{
-                                        console.log("사이즈별 조회용 ajax 결과조회 실패")
-                                    }
-            						
-            					},
-            					error:function(){
-            						console.log("사이즈별 조회용 ajax 통신 실패");	
-            					}
-                        	})
-                            modalSelectSize();
-                        	
-                        }
-
-                        function modalSelectSize(){
-                            var pSize = $("#modalPdSize").val();
-                        	console.log(pSize);
-                        	$("#psize").val(pSize); // 왜 상세페이지 사이즈는 안바뀔까요?
-							var dCount = <%= dList.size() %>;
-							var sCount = <%= sList.size() %>;
-							var bCount = <%= bList.size() %>;
-                            $.ajax({
-                        		url:"<%= contextPath %>/bSizeModalList.bi",
-            					data:{
-            						co: <%= p.getProductCode() %>,
-            						size: pSize  
-            					},
-            					success:function(list){
-            						console.log(list);
-            					
-            						if(list.length != 0){
-            							var dSizeList = list[0];
-                                        var sSizeList = list[1];
-                                        var bSizeList = list[2];
-                                        for(let i=1; i<= dCount; i++){
-                                            $("#modalDeal-size tbody").children().eq(i).html("");
-                                        }
-                                        for(let i=1; i<= sCount; i++){
-                                            $("#modalSellBidding-size tbody").children().eq(i).html("");
-                                        }
-                                        for(let i=1; i<= bCount; i++){
-                                            $("#modalBuyBidding-size tbody").children().eq(i).html("");
-                                        }
-            							if(dSizeList.length != 0){
-            								
-            								for(let i=0; i<dSizeList.length; i++){
-        										$("#modalDeal-size tbody").children().eq(i+1).html("<td>" + dSizeList[i].pSize + "</td>"
-																							+ "<td align='right'>" + dSizeList[i].bPrice + "</td>"
-																							+ "<td align='right'>" + dSizeList[i].dDate + "</td>");
-        									}
-            								
-            							} else{
-                                            $("#modalDeal-size tbody").children().eq(3).html("<td colspan='3' style='text-align:center;'>체결된 거래가 아직 없습니다.</td>");
-                                        }
-
-                                        if(sSizeList.length != 0){
-            								
-                                        	for(let i=0; i<sSizeList.length; i++){
-        										$("#modalSellBidding-size tbody").children().eq(i+1).html("<td>" + sSizeList[i].pSize + "</td>"
-                                                                                                    + "<td align='right'>" + sSizeList[i].bPrice + "</td>"
-                                                                                                    + "<td align='right'>" + sSizeList[i].count + "</td>");
-        									}
-            								
-            							} else{
-                                            $("#modalSellBidding-size tbody").children().eq(3).html("<td colspan='3' style='text-align:center;'>판매 희망가가 아직 없습니다.</td>");
-                                        }
-
-                                        if(bSizeList.length != 0){
-            								
-                                        	for(let i=0; i<bSizeList.length; i++){
+                                            // 모달
+                                            for(let i=0; i<bSizeList.length; i++){
         										$("#modalBuyBidding-size tbody").children().eq(i+1).html("<td>" + bSizeList[i].pSize + "</td>"
                                                                                                     + "<td align='right'>" + bSizeList[i].bPrice + "</td>"
                                                                                                     + "<td align='right'>" + bSizeList[i].count + "</td>");
@@ -790,8 +748,14 @@
         									}
             								
             							} else{
+                                            // 페이지
+                                            $("#buyBidding-size tbody").children().eq(3).html("<td colspan='3' style='text-align:center;'>구매 희망가가 아직 없습니다.</td>");
+                                            // 모달
                                             $("#modalBuyBidding-size tbody").children().eq(3).html("<td colspan='3' style='text-align:center;'>구매 희망가가 아직 없습니다.</td>");
+
                                         }
+
+
 
             						} else{
                                         console.log("사이즈별 조회용 ajax 결과조회 실패")
@@ -802,8 +766,26 @@
             						console.log("사이즈별 조회용 ajax 통신 실패");	
             					}
                         	})
-                           
+
+                            $("#modalPdSize").val(pSize);
+                            $("#pSize").val(pSize);
                         }
+
+                        /*
+                        function selectSize(){
+                        	var pSize = $("#pSize").val();
+                        	$("#modalPdSize").val(pSize);
+                        	ajaxSelectSizeResult(); 
+                        	
+                            
+                        }
+
+                        function modalSelectSize(){
+                            var pSize = $("#modalPdSize").val();
+                        	$("#pSize").val(pSize);
+                            ajaxSelectSizeResult(); 
+                        }
+                        */
 
                     </script>
                     

@@ -166,6 +166,15 @@
 	        color: green;
 	        font-style: italic;
 	    }
+        #shippingZipCode{
+            border: none;
+            background-color: whitesmoke;
+            width: 75px;
+        }
+        #shippingAddress{
+            border: none;
+            background-color: whitesmoke;
+        }
 	    #userAccBank{
 	    	border: none;
 	        background-color: whitesmoke;
@@ -175,6 +184,35 @@
 	    	border: none;
 	        background-color: whitesmoke;
 	    }
+        #add-address-form{
+            margin:auto;
+            padding:10px;
+        }
+        #zipCode{
+            width:350px; display:inline-block;
+        }
+        ::placeholder{font-size:12px;}
+        .check-input{
+            color:red;
+            font-size:11px;
+            padding:3px 10px;
+        }
+        #btn-area{
+            text-align:center;
+            padding : 30px;
+        }
+        .form-fields button{
+            font-size:14px;
+            width:90px;
+        }
+        .rq-mark{color:red; margin:7px;}
+        #address-add .modal-content{
+            height: 750px;
+        }
+        .bank-account, .bank-owner{
+            border: none;
+            background-color: whitesmoke;
+        }
     </style>
 </head>
 <body>
@@ -206,17 +244,17 @@
                             <th id="account-title">판매정산계좌</th>
                         </tr>
                         <% if(u != null) { %>
-                        	<% if(u.getUserAccBank() == "없음") { %>
+                        	<% if(u.getUserAccBank().equals("없음")) { %>
                         		<tr>
 		                            <th>계좌</th>
-		                            <td id="bank-account">등록된 정보가 없습니다.</td>
+		                            <td id="bank-account"><input type="text" class="bank-account" placeholder="등록된 정보가 없습니다." readonly required></td>
 		                            <td rowspan="2" id="account-button">
 		                                <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#change-account">변경</button>
 		                            </td>
 		                        </tr>
 		                        <tr>
 		                            <th>예금주</th>
-		                            <td>등록된 정보가 없습니다.</td>
+		                            <td><input type="text" class="bank-owner" placeholder="등록된 정보가 없습니다." readonly required></td>
 		                        </tr>
                         	<% } else{  %>
 		                        <tr>
@@ -269,7 +307,7 @@
                                         <span id="account-info">등록된 계좌 정보</span> 
                                         <br>
                                         <% if(u != null) { %>
-                                      		<% if(u.getUserAccBank() == "없음") { %>
+                                      		<% if(u.getUserAccBank().equals("없음")) { %>
                                         		등록된 정보가 없습니다.
                                         	<% } else{ %>
                                         		<%= u.getUserAccBank() %> <%= u.getUserAccNum() %> <%= u.getUserName() %>
@@ -325,7 +363,7 @@
                             <th id="shipping-title">반송주소</th>
                             <td id="shipping-address-button">
                                 <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#address-add">배송지 추가</button>
-                                <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#address-list">배송지 목록</button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm" id="addressList();" data-toggle="modal" data-target="#address-list">배송지 목록</button>
                             </td>
                         </tr>
                         <% if(ad != null) { %>
@@ -443,8 +481,25 @@
                         </div>
                     </div>
                 </div>
+                <!--  
+                <script>
+               
+                    $(function(){
+                        $("#addressList").click(function(){
+                            $.ajax({
+                                url:"<%= contextPath %>/addressList.us",
+                                data:{userNo:<%= loginUser.getUserNo() %>},
+                                success:function(response){
 
-
+                                },
+                                error:function(){
+                                    alert("배송지 목록 조회에 실패했습니다.");
+                                }
+                            })
+                        })
+                    })
+                </script>
+	-->
                 <!-- 배송지 추가 모달 -->
                 <div class="modal" id="address-add">
                     <div class="modal-dialog">
@@ -459,81 +514,60 @@
                             
                             <!-- Modal body -->
                             <div class="modal-body">
-                                <div id="add-address-form" align="center">
-                                    <table>
-                                        <tr>
-                                            <th colspan="2">
-                                                <div class="add-account-type">* 이름</div>
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">
-                                                <div class="input_area"><input type="text" maxlength="5" name="userName" placeholder="이름입력"></div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2">
-                                                <div class="add-account-type">* 전화번호</div>
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">
-                                                <div class="input_area"><input type="text" maxlength="13" name="phone"
-                                                    placeholder="숫자만입력" onKeyup ="addHypen(this);"></div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2">
-                                                <div class="add-account-type">* 우편번호</div>
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="input_area">
-                                                    <input type="text" id="sample6_postcode" placeholder="우편번호">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div>
-                                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">검색</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">
-                                                <div class="input_area"><input type="text" id="sample6_address" placeholder="주소"></div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">
-                                                <div class="input_area"><input type="text" id="sample6_extraAddress" placeholder="참고항목"></div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">
-                                                <div class="input_area"><input type="text" id="sample6_detailAddress" placeholder="상세주소"></div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">
-                                                <div>
-                                                    <input type="checkbox" name="defaultAD" value="Y" id="defaultAD">
-                                                    <label for="defaultAD">기본배송지 설정</label>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
+                                <div id="add-address-form">
+                                    <div class="form-group">
+                                        <label for="userName"><span class="rq-mark">*</span>이름</label>
+                                        <input type="text" class="form-control" name="userName" id="userName" placeholder="이름을 입력해주세요." required>
+                                        <div class="check-input" id="check-input-name"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="phone"><span class="rq-mark">*</span>휴대폰번호</label>
+                                        <input type="text" class="form-control" name="phone" id="phone" placeholder="휴대폰번호 숫자만 입력해주세요." onKeyup="addHypen(this);" required>
+                                        <div class="check-input" id="check-input-phone"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="zipCode"><span class="rq-mark">*</span>주소</label> <br>
+                                        <input type="text" class="form-control" id="zipCode" name="zipCode" placeholder="주소를 검색해주세요." required readonly>
+                                        <button type="button" class="btn btn-dark" onclick="sample6_execDaumPostcode();">주소 검색</button>
+                                    </div>
+                    
+                                    <div class="form-group" id="addrGroup">
+                                        <input type="text" class="form-control" id="address" name="address" required><br>
+                                        <label for="detailAddress">상세주소</label> <br>
+                                        <input type="text" class="form-control" id="detailAddress" name="detailAddress">
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" name="defaultAD" value="Y" id="defaultAD">
+                                        <label for="defaultAD">기본배송지 설정</label>
+                                    </div>
                                     <br><br>
                                     <div align="center">
                                         <button type="button" class="btn btn-outline-secondary class" data-dismiss="modal">취소</button>
                                         <button type="button" class="btn btn-secondary" disabled>확인</button>
                                     </div>
-                                    
+                                                
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <script>
+                    $(function(){
+                        // 휴대폰번호 유효성 체크
+                        $phone.focusout(function(){
+                            if($phone.val() == ""){
+                                $checkInputPhone.html("휴대폰번호를 입력해주세요.");
+                            }else{
+                                $checkInputPhone.html("");
+                            }
+                        })
+
+                        
+                    })
+                </script>
+
 
                 <script>
                     function addHypen(obj) {
@@ -563,6 +597,7 @@
                 }
                 </script>
 
+                <!-- 주소 api -->
                 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
                 <script>
                     function sample6_execDaumPostcode() {
@@ -598,17 +633,18 @@
                                         extraAddr = ' (' + extraAddr + ')';
                                     }
                                     // 조합된 참고항목을 해당 필드에 넣는다.
-                                    document.getElementById("sample6_extraAddress").value = extraAddr;
+                                    document.getElementById('address').value = extraAddr;
                                 
                                 } else {
-                                    document.getElementById("sample6_extraAddress").value = '';
+                                    document.getElementById('detailAddress').value = '';
                                 }
 
                                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                                document.getElementById('sample6_postcode').value = data.zonecode;
-                                document.getElementById("sample6_address").value = addr;
+                                document.getElementById('zipCode').value = data.zonecode;
+                                document.getElementById('address').value = addr;
                                 // 커서를 상세주소 필드로 이동한다.
-                                document.getElementById("sample6_detailAddress").focus();
+                                document.getElementById('addrGroup').style.display = 'block';
+                                document.getElementById('detailAddress').focus();
                             }
                         }).open();
                     }
@@ -622,9 +658,9 @@
                         <tr>
                             <th class="total-price-tag" name="total-price">총 정산 금액</th>
                             <% if(bType.equals("sellI")){ %>
-                            	<td class="total-price"><input type="text" class="totalPrice" name="totalPrice" value="<%= formatter.format(b.getbPrice() - b.getInspectionCost() - b.getCommission()) %>원"></td>
+                            	<td class="total-price"><input type="text" class="totalPrice" name="totalPrice" value="<%= formatter.format(b.getbPrice() - b.getInspectionCost() - b.getCommission()) %>원" readonly></td>
                             <% } else{ %>
-                            	<td class="total-price"><input type="text" class="totalPrice" name="totalPrice" value="<%= formatter.format(0.97 * price) %>원"></td>
+                            	<td class="total-price"><input type="text" class="totalPrice" name="totalPrice" value="<%= formatter.format(0.97 * price) %>원" readonly></td>
                             <% } %>
                         </tr>
                         <% if(bType.equals("buyI") && b != null){ %>
