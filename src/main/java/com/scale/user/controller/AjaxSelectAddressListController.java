@@ -1,4 +1,4 @@
-package com.scale.product.controller;
+package com.scale.user.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,20 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.scale.product.model.service.ProductService;
-import com.scale.product.model.vo.Product;
+import com.google.gson.Gson;
+import com.scale.user.model.service.UserService;
+import com.scale.user.model.vo.Address;
 
 /**
- * Servlet implementation class ProductLikeController
+ * Servlet implementation class AjaxSelectAddressListController
  */
-@WebServlet("/plike.pd")
-public class ProductLikeController extends HttpServlet {
+@WebServlet("/addressList.us")
+public class AjaxSelectAddressListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ProductLikeController() {
+    public AjaxSelectAddressListController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,12 +34,14 @@ public class ProductLikeController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		int userNo = Integer.parseInt(request.getParameter("userNo"));
-		String productCode = request.getParameter("productCode");
 		
-		int clickLike = new ProductService().clickLike(userNo, productCode);
-		int result = new ProductService().updateLike(clickLike, userNo, productCode);
+		Address ad = new UserService().selectDefaultAddress(userNo);
+		ArrayList<Address> list = new UserService().selectAddressList(userNo);
+		list.add(0, ad);
 		
-		response.getWriter().print(result);
+		
+		response.setContentType("application/json; charset=UTF-8");
+		new Gson().toJson(list, response.getWriter());
 		
 		
 	}

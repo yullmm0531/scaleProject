@@ -156,7 +156,7 @@
 	        background-color: whitesmoke;
     	}
         #change-account .modal-content{
-            height: 530px;
+            height: 600px;
         }
         .totalPrice{
 	        width: 100px;
@@ -166,6 +166,15 @@
 	        color: green;
 	        font-style: italic;
 	    }
+        #shippingZipCode{
+            border: none;
+            background-color: whitesmoke;
+            width: 75px;
+        }
+        #shippingAddress{
+            border: none;
+            background-color: whitesmoke;
+        }
 	    #userAccBank{
 	    	border: none;
 	        background-color: whitesmoke;
@@ -175,6 +184,50 @@
 	    	border: none;
 	        background-color: whitesmoke;
 	    }
+        #add-address-form{
+            margin:auto;
+            padding:10px;
+        }
+        #zipCode{
+            width:350px; display:inline-block;
+        }
+        ::placeholder{font-size:12px;}
+        .check-input{
+            color:red;
+            font-size:11px;
+            padding:3px 10px;
+        }
+        #btn-area{
+            text-align:center;
+            padding : 30px;
+        }
+        .form-fields button{
+            font-size:14px;
+            width:90px;
+        }
+        .rq-mark{color:red; margin:7px;}
+        #address-add .modal-content{
+            height: 750px;
+        }
+        .bank-account, .bank-owner{
+            border: none;
+            background-color: whitesmoke;
+        }
+        .address-option input[type="radio"] {
+            display: none;
+        }
+     
+        .address-option input[type="radio"] + span {
+            background-color: whitesmoke;
+            text-align: left;
+            cursor: pointer;
+        }
+        .test_obj input[type="radio"]:checked + span {
+            background-color: rgb(81, 81, 81);
+        }
+        .address-option{
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -206,17 +259,17 @@
                             <th id="account-title">판매정산계좌</th>
                         </tr>
                         <% if(u != null) { %>
-                        	<% if(u.getUserAccBank() == "없음") { %>
+                        	<% if(u.getUserAccBank().equals("없음")) { %>
                         		<tr>
 		                            <th>계좌</th>
-		                            <td id="bank-account">등록된 정보가 없습니다.</td>
+		                            <td id="bank-account"><input type="text" class="bank-account" placeholder="등록된 정보가 없습니다." readonly required></td>
 		                            <td rowspan="2" id="account-button">
 		                                <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#change-account">변경</button>
 		                            </td>
 		                        </tr>
 		                        <tr>
 		                            <th>예금주</th>
-		                            <td>등록된 정보가 없습니다.</td>
+		                            <td><input type="text" class="bank-owner" placeholder="등록된 정보가 없습니다." readonly required></td>
 		                        </tr>
                         	<% } else{  %>
 		                        <tr>
@@ -269,7 +322,7 @@
                                         <span id="account-info">등록된 계좌 정보</span> 
                                         <br>
                                         <% if(u != null) { %>
-                                      		<% if(u.getUserAccBank() == "없음") { %>
+                                      		<% if(u.getUserAccBank().equals("없음")) { %>
                                         		등록된 정보가 없습니다.
                                         	<% } else{ %>
                                         		<%= u.getUserAccBank() %> <%= u.getUserAccNum() %> <%= u.getUserName() %>
@@ -279,18 +332,39 @@
                                         <% } %>
                                     </div>
                                     <br>
-                                    <div class="add-account-type">은행명</div>
-                                    <div class="account_input_area"><input type="text" id="bankName" name="bankName" placeholder="은행명"></div>
-                                    <br>
-                                    <div class="add-account-type">계좌번호</div>
-                                    <div class="account_input_area"><input type="text" id="bankAccount" name="bankAccount"
-                                        placeholder="-없이 입력하세요"></div>
-                                    <br>
-                                    <div class="add-account-type">예금주</div>
-                                    <div class="account_input_area">
-                                        <input type="text" id="accountOwner" placeholder="예금주명을 정확히 입력하세요." name="accountOwner">
+                                    
+                                    <div class="form-group">
+                                        <label for="userName"><span class="rq-mark">*</span>은행명</label>
+
+                                        <select name="bankName" class="form-control" id="bankName" name="bankName">
+                                            <option value="NoSelect">선택하세요</option>
+                                            <option value="국민은행">국민은행</option>
+                                            <option value="신한은행">신한은행</option>
+                                            <option value="우리은행">우리은행</option>
+                                            <option value="하나은행">하나은행</option>
+                                            <option value="기업은행">기업은행</option>
+                                            <option value="농협">농협</option>
+                                            <option value="sc은행">sc은행</option>
+                                            <option value="우체국">우체국</option>
+                                            <option value="한국씨티은행">한국씨티은행</option>
+                                            <option value="산업은행">산업은행</option>
+                                            <option value="카카오뱅크">카카오뱅크</option>
+                                            <option value="부산은행">부산은행</option>
+                                            <option value="대구은행">대구은행</option>
+                                        </select>
+                                        <div class="check-input" id="check-input-bankName"></div>
                                     </div>
-  
+
+                                    <div class="form-group">
+                                        <label for="phone"><span class="rq-mark">*</span>계좌번호</label>
+                                        <input type="text" class="form-control" name="bankAccount" id="bankAccount" placeholder="-포함하여 입력해주세요.">
+                                        <div class="check-input" id="check-input-bankAccount"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone"><span class="rq-mark">*</span>예금주</label>
+                                        <input type="text" class="form-control" name="bankAccountOwner" id="bankAccountOwner" placeholder="예금주명을 입력해주세요.">
+                                        <div class="check-input" id="check-input-bankAccountOwner"></div>
+                                    </div>
                                     <br><br>
                                     <div align="center">
                                         <button type="button" class="btn btn-outline-secondary class" data-dismiss="modal">취소</button>
@@ -304,14 +378,60 @@
                 </div>
 
                 <script>
+                    
                     $(function(){
-                        $("#change-account-form input").on('input', function(){
-                            if(($("#bankName").val() != '') && ($("#bankAccount").val() != '') && ($("#accountOwner").val() != '')){
+                        const $bankName = $("#bankName");
+                        const $bankAccount = $("#bankAccount");
+                        const $bankAccountOwner = $("#bankAccountOwner");
+                        const $checkInputBankName = $("#check-input-bankName");
+                        const $checkInputBankAccount = $("#check-input-bankAccount");
+                        const $checkInputBankAccountOwner = $("#check-input-bankAccountOwner");
+                        // 이름 유효성 체크
+                        $bankAccountOwner.focusout(function(){
+                            if($bankAccountOwner.val() == ""){
+                                $checkInputBankAccountOwner.html("이름을 입력해주세요.");
+                            }else if($bankAccountOwner.val() == "<%= loginUser.getUserName() %>"){
+                                $checkInputBankAccountOwner.html("");
+                            }else{
+                                $checkInputBankAccountOwner.html("본인 명의의 계좌를 등록해주세요.");
+                            }
+                        })
+
+                        $bankName.focusout(function(){
+                            if($bankName.val() == 'NoSelect'){
+                                $checkInputBankName.html("은행명을 선택해주세요.");
+                            } else{
+                                $checkInputBankName.html("");
+                            }
+                        })
+
+                        $("#change-account-form input, #change-account-form select").on("change", function(){
+                            if(($bankName.val() != 'NoSelect') && ($bankAccount.val() != '') && ($bankAccountOwner.val() == "<%= loginUser.getUserName() %>")){
                                 $("#change-account-button").attr("disabled", false);
                             } else{
                                 $("#change-account-button").attr("disabled", true);
                             }
-                        }) 
+                        })
+
+                        $("#change-account-button").click(function(){
+                           	$.ajax({
+                           		url:"<%= contextPath %>/insertAcc.us",
+                                data:{
+                                    userNo: <%= loginUser.getUserNo() %>,
+                                    accBank: $bankName.val(),
+                                    accBankNum: $bankAccount.val()
+                                },
+                                type:"post",
+                                success:function(){
+                                    
+                                },
+                                error:function(){
+                                    console.log("댓글 작성용 ajax 통신 실패");
+                                }
+                           	})
+                        })
+
+
                     })
                 </script>
 
@@ -325,7 +445,7 @@
                             <th id="shipping-title">반송주소</th>
                             <td id="shipping-address-button">
                                 <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#address-add">배송지 추가</button>
-                                <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#address-list">배송지 목록</button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm" id="addressList();" data-toggle="modal" data-target="#address-list">배송지 목록</button>
                             </td>
                         </tr>
                         <% if(ad != null) { %>
@@ -398,8 +518,8 @@
                     
                             <!-- Modal Header -->
                             <div class="modal-header">
-                            <h5 class="modal-title">배송지 목록</h5>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h5 class="modal-title">배송지 목록</h5>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
                             
                             </div>
                             
@@ -408,43 +528,81 @@
                                 <div id="addresses">
                                     
                                     <div class="address">
-                                        <div class="address-check">
-                                            <!--기본배송지인경우-->
-                                            <span class="badge badge-pill badge-secondary">기본배송지</span>
-                                            <!--선택한 배송지-->
-                                            <span>✓</span>
-                                        </div>
-                                        <div class="address-name">
-                                            정유림
-                                        </div>
-                                        <div class="address-phone">
-                                            010-****-****
-                                        </div>
-                                        <div class="address-detail">
-                                            (*****)서울시 강서구 공항대로161-17 108동 303호
-                                        </div>
+                                        
+                                        
                                     </div>
                                     <br>
                                     <div class="line2"></div>
-                                    <br>
-                                    <div class="address">
-                                        <div class="address-name">
-                                            정유림
-                                        </div>
-                                        <div class="address-phone">
-                                            010-****-****
-                                        </div>
-                                        <div class="address-detail">
-                                            (*****)서울시 강서구 공항대로161-17 108동 303호
-                                        </div>
-                                    </div>
+                                    
+                                </div>
+                                <div align="center">
+                                    <button type="button" class="btn btn-outline-secondary class" data-dismiss="modal">취소</button>
+                                    <button type="button" class="btn btn-secondary" id="change-account-button" disabled>확인</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                
+                <script>
+               
+                    $(function(){
+                        $("#addressList").click(function(){
+                            $.ajax({
+                                url:"<%= contextPath %>/addressList.us",
+                                data:{userNo:<%= loginUser.getUserNo() %>},
+                                success:function(response){
+                                    if(response.size() != 0){
+                                        var str = "<label class='address-option btn btn-outline-secondary'>"
+                                                +   "<input type='radio' name='heckedAddress' value='" + request.get(0).getAddresNo() + "'>"
+                                                +   "<span>"
+                                                +      "<div class='address-check'>"
+                                                +       "<!--기본배송지인경우-->"
+                                                +       "<span class='badge badge-pill badge-secondary'>기본배송지</span>"
+                                                +      "</div>"
+                                                +      "<div class='address-name'>"
+                                                +          response.get(0).getRecipient()
+                                                +      "</div>"
+                                                +      "<div class='address-phone'>"
+                                                +          request.get(0).getPhone()
+                                                +      "</div>"
+                                                +      "<div class='address-detail'>"
+                                                +          "(" + request.get(0).getZipCode() + ")" + request.get(0).getAddress1() + request.get(0).getAddress2();
+                                                +      "</div></span>"
+                                                + "</label>";
 
+                                        for(let i=1; i<response.size(); i++){
+                                            str += "<br><br>"
+                                                +  "<label class='address-option btn btn-outline-secondary'>"
+                                                    +   "<input type='radio' name='heckedAddress' value='" + response.get(i).getAddresNo() + "'>"
+                                                    +   "<span>"
+                                                    +      "<div class='address-check'>"
+                                                    +       "<!--기본배송지인경우-->"
+                                                    +       "<span class='badge badge-pill badge-secondary'>기본배송지</span>"
+                                                    +      "</div>"
+                                                    +      "<div class='address-name'>"
+                                                    +          response.get(0).getRecipient()
+                                                    +      "</div>"
+                                                    +      "<div class='address-phone'>"
+                                                    +          request.get(0).getPhone()
+                                                    +      "</div>"
+                                                    +      "<div class='address-detail'>"
+                                                    +          "(" + request.get(0).getZipCode() + ")" + request.get(0).getAddress1() + request.get(0).getAddress2();
+                                                    +      "</div></span>"
+                                                    + "</label>";
+                                        }
+                                        $("#address").html(str);
 
+                                    }
+                                },
+                                error:function(){
+                                    alert("배송지 목록 조회에 실패했습니다.");
+                                }
+                            })
+                        })
+                    })
+                </script>
+	
                 <!-- 배송지 추가 모달 -->
                 <div class="modal" id="address-add">
                     <div class="modal-dialog">
@@ -459,81 +617,74 @@
                             
                             <!-- Modal body -->
                             <div class="modal-body">
-                                <div id="add-address-form" align="center">
-                                    <table>
-                                        <tr>
-                                            <th colspan="2">
-                                                <div class="add-account-type">* 이름</div>
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">
-                                                <div class="input_area"><input type="text" maxlength="5" name="userName" placeholder="이름입력"></div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2">
-                                                <div class="add-account-type">* 전화번호</div>
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">
-                                                <div class="input_area"><input type="text" maxlength="13" name="phone"
-                                                    placeholder="숫자만입력" onKeyup ="addHypen(this);"></div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2">
-                                                <div class="add-account-type">* 우편번호</div>
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="input_area">
-                                                    <input type="text" id="sample6_postcode" placeholder="우편번호">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div>
-                                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">검색</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">
-                                                <div class="input_area"><input type="text" id="sample6_address" placeholder="주소"></div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">
-                                                <div class="input_area"><input type="text" id="sample6_extraAddress" placeholder="참고항목"></div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">
-                                                <div class="input_area"><input type="text" id="sample6_detailAddress" placeholder="상세주소"></div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">
-                                                <div>
-                                                    <input type="checkbox" name="defaultAD" value="Y" id="defaultAD">
-                                                    <label for="defaultAD">기본배송지 설정</label>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
+                                <div id="add-address-form">
+                                    <div class="form-group">
+                                        <label for="userName"><span class="rq-mark">*</span>이름</label>
+                                        <input type="text" class="form-control" name="userName" id="userName" placeholder="이름을 입력해주세요." required>
+                                        <div class="check-input" id="check-input-name"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="phone"><span class="rq-mark">*</span>휴대폰번호</label>
+                                        <input type="text" class="form-control" name="phone" id="phone" placeholder="휴대폰번호 숫자만 입력해주세요." onKeyup="addHypen(this);" required>
+                                        <div class="check-input" id="check-input-phone"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="zipCode"><span class="rq-mark">*</span>주소</label> <br>
+                                        <input type="text" class="form-control" id="zipCode" name="zipCode" placeholder="주소를 검색해주세요." required readonly>
+                                        <button type="button" class="btn btn-dark" onclick="sample6_execDaumPostcode();">주소 검색</button>
+                                    </div>
+                    
+                                    <div class="form-group" id="addrGroup">
+                                        <input type="text" class="form-control" id="address" name="address" required><br>
+                                        <label for="detailAddress">상세주소</label> <br>
+                                        <input type="text" class="form-control" id="detailAddress" name="detailAddress">
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" name="defaultAD" value="Y" id="defaultAD">
+                                        <label for="defaultAD">기본배송지 설정</label>
+                                    </div>
                                     <br><br>
                                     <div align="center">
                                         <button type="button" class="btn btn-outline-secondary class" data-dismiss="modal">취소</button>
                                         <button type="button" class="btn btn-secondary" disabled>확인</button>
                                     </div>
-                                    
+                                                
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <script>
+                    $(function(){
+                        const $userName = $("#userName");
+                        const $checkInputName = $("#check-input-name");
+                        const $phone = $("#phone");
+                        const $checkInputPhone = $("#check-input-phone");
+
+                        // 이름 유효성 체크
+                        $userName.focusout(function(){
+                            if($userName.val() == ""){
+                                $checkInputName.html("이름을 입력해주세요.");
+                            }else{
+                                $checkInputName.html("");
+                            }
+                        })
+
+
+                        // 휴대폰번호 유효성 체크
+                        $phone.focusout(function(){
+                            if($phone.val() == ""){
+                                $checkInputPhone.html("휴대폰번호를 입력해주세요.");
+                            }else{
+                                $checkInputPhone.html("");
+                            }
+                        })
+
+                    })
+                </script>
+
 
                 <script>
                     function addHypen(obj) {
@@ -563,6 +714,7 @@
                 }
                 </script>
 
+                <!-- 주소 api -->
                 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
                 <script>
                     function sample6_execDaumPostcode() {
@@ -598,17 +750,18 @@
                                         extraAddr = ' (' + extraAddr + ')';
                                     }
                                     // 조합된 참고항목을 해당 필드에 넣는다.
-                                    document.getElementById("sample6_extraAddress").value = extraAddr;
+                                    document.getElementById('address').value = extraAddr;
                                 
                                 } else {
-                                    document.getElementById("sample6_extraAddress").value = '';
+                                    document.getElementById('detailAddress').value = '';
                                 }
 
                                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                                document.getElementById('sample6_postcode').value = data.zonecode;
-                                document.getElementById("sample6_address").value = addr;
+                                document.getElementById('zipCode').value = data.zonecode;
+                                document.getElementById('address').value = addr;
                                 // 커서를 상세주소 필드로 이동한다.
-                                document.getElementById("sample6_detailAddress").focus();
+                                document.getElementById('addrGroup').style.display = 'block';
+                                document.getElementById('detailAddress').focus();
                             }
                         }).open();
                     }
@@ -622,9 +775,9 @@
                         <tr>
                             <th class="total-price-tag" name="total-price">총 정산 금액</th>
                             <% if(bType.equals("sellI")){ %>
-                            	<td class="total-price"><input type="text" class="totalPrice" name="totalPrice" value="<%= formatter.format(b.getbPrice() - b.getInspectionCost() - b.getCommission()) %>원"></td>
+                            	<td class="total-price"><input type="text" class="totalPrice" name="totalPrice" value="<%= formatter.format(b.getbPrice() - b.getInspectionCost() - b.getCommission()) %>원" readonly></td>
                             <% } else{ %>
-                            	<td class="total-price"><input type="text" class="totalPrice" name="totalPrice" value="<%= formatter.format(0.97 * price) %>원"></td>
+                            	<td class="total-price"><input type="text" class="totalPrice" name="totalPrice" value="<%= formatter.format(0.97 * price) %>원" readonly></td>
                             <% } %>
                         </tr>
                         <% if(bType.equals("buyI") && b != null){ %>

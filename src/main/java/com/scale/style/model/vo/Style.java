@@ -16,11 +16,12 @@ public class Style {
 	private int count;
 	private String userId;
 	private String introduce;
+	private int rowNum;
 
 	public Style() {}
 
 	public Style(int styleNo, String content, Date enrollDate, Date modifyDate, String status, String hashtag,
-			String styleWriter, String profileImg, int count, String userId, String introduce) {
+			String styleWriter, String profileImg, int count, String userId, String introduce, int rowNum) {
 		super();
 		this.styleNo = styleNo;
 		this.content = content;
@@ -33,6 +34,7 @@ public class Style {
 		this.count = count;
 		this.userId = userId;
 		this.introduce = introduce;
+		this.rowNum = rowNum;
 	}
 
 	public int getStyleNo() {
@@ -123,12 +125,20 @@ public class Style {
 		this.introduce = introduce;
 	}
 
+	public int getRowNum() {
+		return rowNum;
+	}
+
+	public void setRowNum(int rowNum) {
+		this.rowNum = rowNum;
+	}
+
 	@Override
 	public String toString() {
 		return "Style [styleNo=" + styleNo + ", content=" + content + ", enrollDate=" + enrollDate + ", modifyDate="
 				+ modifyDate + ", status=" + status + ", hashtag=" + hashtag + ", styleWriter=" + styleWriter
 				+ ", profileImg=" + profileImg + ", count=" + count + ", userId=" + userId + ", introduce=" + introduce
-				+ "]";
+				+ ", rowNum=" + rowNum + "]";
 	}
 	
 }

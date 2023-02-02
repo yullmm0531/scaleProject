@@ -473,7 +473,7 @@
                             <% if(bType.equals("buyI")){ %>
                             	<td class="total-price"><input type="text" class="totalPrice" name="totalPrice" value="<%= formatter.format(b.getbPrice() - b.getDeliveryFee()) %>원" readonly></td>
                             <% } else{ %>
-                            	<td class="total-price"><input type="text" class="totalPrice" name="totalPrice" value="<%= formatter.format(price - 3000) %>원" readonly></td>
+                            	<td class="total-price"><input type="text" class="totalPrice" name="totalPrice" value="<%= formatter.format(price - 3000) %>원" rea></td>
                             <% } %>
                         </tr>
                         <tr>

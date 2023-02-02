@@ -222,16 +222,16 @@
 		<!-- 첨부파일 정보를 넘기고싶으면 반드시 enctype="multipart/form-data" 속성 작성해야함 -->
 
             <div id="file-area" style="display: none;">
-                <input type="file" name="file1" onchange="loadImg(this, 1);">
-                <input type="file" name="file2" onchange="loadImg(this, 2);">
-                <input type="file" name="file3" onchange="loadImg(this, 3);">
-                <input type="file" name="file4" onchange="loadImg(this, 4);">
-                <input type="file" name="file5" onchange="loadImg(this, 5);">
-                <input type="file" name="file6" onchange="loadImg(this, 6);">
-                <input type="file" name="file7" onchange="loadImg(this, 7);">
-                <input type="file" name="file8" onchange="loadImg(this, 8);">
-                <input type="file" name="file9" onchange="loadImg(this, 9);">
-                <input type="file" name="file10" onchange="loadImg(this, 10);">
+                <input type="file" id="1" name="file1" onchange="loadImg(this, 1);">
+                <input type="file" id="2" name="file2" onchange="loadImg(this, 2);">
+                <input type="file" id="3" name="file3" onchange="loadImg(this, 3);">
+                <input type="file" id="4" name="file4" onchange="loadImg(this, 4);">
+                <input type="file" id="5" name="file5" onchange="loadImg(this, 5);">
+                <input type="file" id="6" name="file6" onchange="loadImg(this, 6);">
+                <input type="file" id="7" name="file7" onchange="loadImg(this, 7);">
+                <input type="file" id="8" name="file8" onchange="loadImg(this, 8);">
+                <input type="file" id="9" name="file9" onchange="loadImg(this, 9);">
+                <input type="file" id="10" name="file10" onchange="loadImg(this, 10);">
             </div>
 
             <table>
@@ -335,6 +335,7 @@
                             }
 
                             $(document).on("click", ".delete-btn", function(){
+                                $("input[name=file" + $(this).attr("id").substring(3) + "]").val("");
                                 $(this).prev().attr("src", "<%= contextPath %>/resources/images/style/plus.png");
                                 $(this).parent().css("border", "5px dotted lightgray");
                                 $(this).css("display", "none");

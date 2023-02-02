@@ -71,15 +71,12 @@
             padding:0 10px;
             margin-top:20px;
             cursor:pointer;
+            font:1px;
         }
         .listbox .row {
             margin:0 -10px;
         }
-        .listbox.cell > .prod-name, .list-box-1 .cell > .prod-price {
-            text-align:center;
-            font-weight:bold;
-            margin-top:5px;
-        }
+        
 		.cell:hover{
     	opacity: 0.7;
     	cursor : pointer;
@@ -110,9 +107,6 @@
                   
             </div>
             <div id="pheader-3">
-            
-                <img src="" alt="">배너
-                   
             </div>
         </div>
       
@@ -174,6 +168,7 @@
                         <select name="sort" id="sort">
                             <option value="popular">인기순</option>
                             <option value="newest">최신순</option>
+                            
                         </select>
                     </div>
                 </div>
@@ -249,14 +244,6 @@
             });
         });
     </script>
-    
-    <!-- 필터  -->
-    <script>
-	
-	
-	
-    
-    </script>
 
     <!-- 필터 모두 해제 -->
     <script>
@@ -292,6 +279,7 @@
                             		+"<ul class ='row'>"
                            			 +"<li class='cell'>"
                              		 +"<input type='hidden' value='"+ list[i].productCode +"'>"
+                             		 +"<input type='hidden' value='"+ list[i].productCategory+"'>"
                                 	 +"<div class='img-box'><img src='<%= contextPath %>/"+ list[i].productImgM +"'></div>"
                                    
                                 	 + "<div class='brand-name'>" + list[i].brandName + "</div>"
@@ -301,15 +289,17 @@
                                 
                                      + "<div class='like'>";
                            if(clickLike[i] == 0){
-                                       value += "<a class='like'>♡</a>"
+                                       value += "<a class='heart'>♡</a>"
+                                    	+ "<input type='hidden' class='productCode' value='" + list[i].productCode + "'>"
+                                			 + "<span>" + list[i].count + "</span>"
                                   } else {
-                                           value += "<a class='like'>♥</a>"
+                                           value += "<a class='heart'>♥</a>"
+                                        	   value +=  "<input type='hidden' class='productCode' value='" + list[i].productCode + "'>"
+                                    			 + "<span>" + list[i].count + "</span>"
                                   }     
-                                           value += "<input type='hidden' class='productCode' value='" + list[i].productCode + "'>"
-                                                   + "<span>" + list[i].count + "</span>"
-                                   + "</div>";
                                            
-           
+                                   + "</div>"
+                                           
                               +"</li>"
                            + "</ul>"
                        + "</div>";
@@ -324,17 +314,13 @@
     				
     		})
     	}
-	    
-    </script>
-    
-    
-    
+	 
     <!-- Like -->
-    <script>
-    	$(document).on("click", ".like", function(){
+
+    	$(document).on("click", ".heart", function(){
     		let e = $(this);
             let like = e.text();
-            
+         
     			<% if(loginUser == null) { %>
 	                alert("로그인 후 이용가능한 페이지입니다.");
 	                location.href = "<%= contextPath %>/loginForm.us";
@@ -342,17 +328,16 @@
                 	let userNo = <%= loginUser.getUserNo() %>;
     			$.ajax({
     			    url: "plike.pd",
-    			    type: "POST",
     			    data: {"userNo":userNo, "productCode":$(this).next().val()}, 
     			    success:function(result){
-    			    	if(result == "♡"){
+    			    	if(like == "♡"){
     			    		e.text("♥")
     			    		e.next().next().text(Number(e.next().next().text()) + 1);
-    			    		alert("'좋아요'가 반영되었습니다!");
+    			    		
     			    	}else{
     			    		e.text("♡")
     			    		e.next().next().text(Number(e.next().next().text()) - 1);
-    			    		alert("'좋아요'가 취소되었습니다!");
+    			    		
     			    	}
     			    },   
     			    error:function (){  
