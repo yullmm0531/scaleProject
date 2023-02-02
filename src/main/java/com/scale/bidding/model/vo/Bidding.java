@@ -20,6 +20,8 @@ public class Bidding {
 	private int count;
 	
 	private String biddingPrice;
+	private String productImg;
+	
 	
 	public Bidding() {
 		
@@ -90,6 +92,18 @@ public class Bidding {
 		this.inspectionCost = inspectionCost;
 		this.commission = commission;
 	}
+	
+	
+
+
+	public Bidding(int bNo, int bPrice, int inspectionCost, int commission, String productImg) {
+		super();
+		this.bNo = bNo;
+		this.bPrice = bPrice;
+		this.inspectionCost = inspectionCost;
+		this.commission = commission;
+		this.productImg = productImg;
+	}
 
 
 	public int getCount() {
@@ -130,13 +144,13 @@ public class Bidding {
 	}
 
 
-	public int getpType() {
+	public int getbType() {
 		return bType;
 	}
 
 
-	public void setpType(int pType) {
-		this.bType = pType;
+	public void setbType(int bType) {
+		this.bType = bType;
 	}
 
 
@@ -257,6 +271,16 @@ public class Bidding {
 
 	public void setBiddingPrice(String biddingPrice) {
 		this.biddingPrice = biddingPrice;
+	}
+	
+
+	public String getProductImg() {
+		return productImg;
+	}
+
+
+	public void setProductImg(String productImg) {
+		this.productImg = productImg;
 	}
 
 

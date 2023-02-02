@@ -1,13 +1,13 @@
 package com.scale.bidding.model.service;
 
-import static com.scale.common.JDBCTemplate.close;
-import static com.scale.common.JDBCTemplate.getConnection;
+import static com.scale.common.JDBCTemplate.*;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 
 import com.scale.bidding.model.dao.BiddingDao;
 import com.scale.bidding.model.vo.Bidding;
+import com.scale.bidding.model.vo.Seller;
 
 public class BiddingService {
 	
@@ -116,6 +116,62 @@ public class BiddingService {
 		
 		return b;
 		
+	}
+	
+	
+	public int insertBidding(Bidding b, Seller sr) {
+		
+		Connection conn = getConnection();
+		int result1 = new BiddingDao().insertBidding(conn, b);
+		int result2 = new BiddingDao().insertSeller(conn, sr);
+		
+		if(result1 * result2 > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return (result1 * result2);
+	}
+	
+	
+	public Bidding selectSellBiddingSuccess(int userNo) {
+		
+		Connection conn = getConnection();
+		Bidding b = new BiddingDao().selectSellBiddingSuccess(conn, userNo);
+		
+		close(conn);
+		
+		return b;
+	}
+	
+	public int updateDealCheck(int bNo, Seller sr) {
+		
+		Connection conn = getConnection();
+		int result1 = new BiddingDao().updateDealCheck(conn, bNo);
+		int result2 = new BiddingDao().updateSeller(conn, bNo, sr);
+		if(result1 * result2 > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return (result1 * result2);
+		
+	}
+	
+	public Bidding selectSellImediatelySuccess(int bNo) {
+		
+		Connection conn = getConnection();
+		Bidding b = new BiddingDao().selectSellImediatelySuccess(conn, bNo);
+		
+		close(conn);
+		
+		return b;
 	}
 	
 }

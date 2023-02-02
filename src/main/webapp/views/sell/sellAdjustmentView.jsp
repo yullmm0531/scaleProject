@@ -174,6 +174,7 @@
         #shippingAddress{
             border: none;
             background-color: whitesmoke;
+            width: 320px;
         }
 	    #userAccBank{
 	    	border: none;
@@ -234,8 +235,8 @@
 	<%@ include file="../common/menubar.jsp" %>
     <br><br>
     <div class="order-adjustment">
-        <form action="">
-        	<input type="hidden" name="biddingInfo" value="<%= bType %>">
+        <form action="<%= contextPath %>/sellbidding.bi">
+        	<input type="hidden" name="bType" value="<%= bType %>">
             <br>
             <div id="order-adjustment">
                 <div id="title">주문/정산</div>
@@ -370,7 +371,7 @@
                                         <button type="button" id="changeAccClose" class="btn btn-outline-secondary" data-dismiss="modal">취소</button>
                                         <button type="button" class="btn btn-secondary" id="change-account-button" disabled>확인</button>
                                     </div>
-                                    
+                                    <br><br>
                                 </div>
                             </div>
                         </div>
@@ -664,7 +665,7 @@
                                     </div>
                     
                                     <div class="form-group" id="addrGroup">
-                                        <input type="text" class="form-control" id="address" name="address" required><br>
+                                        <input type="text" class="form-control" id="address" name="address"><br>
                                         <label for="detailAddress">상세주소</label> <br>
                                         <input type="text" class="form-control" id="detailAddress" name="detailAddress">
                                     </div>

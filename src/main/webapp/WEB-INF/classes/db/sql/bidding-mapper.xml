@@ -179,4 +179,148 @@
 		            BY BIDDING_DATE ASC)
 		 WHERE ROWNUM = 1
 	</entry>
+	
+	<entry key="insertBidding">
+		INSERT
+		  INTO TB_BIDDING
+		     (
+		       BIDDING_NO
+		     , PRODUCT_SIZE
+		     , BIDDING_TYPE
+		     , BIDDING_PRICE
+		     , BIDDING_DATE
+		     , INSPECTION_COST
+		     , COMMISSION
+		     , DELIVERY_FEE
+		     , BIDDING_STATUS
+		     , DEAL_CHECK
+		     , PRODUCT_CODE
+		     , USER_NO
+		     )
+		VALUES
+		     (
+		       SEQ_BNO.NEXTVAL
+		     , ?
+		     , ?
+		     , ?
+		     , SYSDATE
+		     , ?
+		     , ?
+		     , 3000
+		     , 'Y'
+		     , 'N'
+		     , ?
+		     , ?
+		     )
+	</entry>
+	
+	<entry key="insertSeller">
+		INSERT
+		  INTO TB_SELLER
+		     (
+		       BIDDING_NO
+		     , SELLER_NO
+		     , RECIPIENT_NAME
+		     , RECIPIENT_PHONE
+		     , RECIPIENT_ZIPCODE
+		     , RECIPIENT_ADDRESS
+		     , RECIPIENT_SHIPPING_MSG
+		     , BANK_NAME
+		     , BANK_ACCOUNT
+		     , BANK_OWNER_NAME
+		     , ADJUSTMENT_PRICE
+		     )
+		VALUES
+		     (
+		       SEQ_BNO.CURRVAL
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     )
+	</entry>
+	
+	<entry key="selectSellBiddingSuccess">
+		SELECT 
+		       ROWNUM
+		     , BIDDING_NO
+		     , BIDDING_PRICE
+		     , INSPECTION_COST
+		     , COMMISSION
+		     , PRODUCT_IMG_M
+		  FROM (SELECT
+		               ROWNUM
+		             , BIDDING_NO
+		             , BIDDING_PRICE
+		             , INSPECTION_COST
+		             , COMMISSION
+		             , PRODUCT_IMG_M
+		          FROM TB_BIDDING B
+		          JOIN TB_PRODUCT USING (PRODUCT_CODE)
+		         WHERE USER_NO = ?
+		           AND BIDDING_TYPE = 2
+		           AND BIDDING_STATUS = 'Y'
+		           AND DEAL_CHECK = 'N'
+		         ORDER
+		            BY BIDDING_NO DESC)
+		 WHERE ROWNUM = 1
+	</entry>
+	
+	<entry key="updateDealCheck">
+		UPDATE TB_BIDDING
+		   SET DEAL_CHECK = 'Y',
+		       DEAL_STEP = 0,
+		       DEAL_DATE = SYSDATE
+		 WHERE BIDDING_NO = ?
+	</entry>
+	
+	<entry key="updateSeller">
+		INSERT
+		  INTO TB_SELLER
+		     (
+		       BIDDING_NO
+		     , SELLER_NO
+		     , RECIPIENT_NAME
+		     , RECIPIENT_PHONE
+		     , RECIPIENT_ZIPCODE
+		     , RECIPIENT_ADDRESS
+		     , RECIPIENT_SHIPPING_MSG
+		     , BANK_NAME
+		     , BANK_ACCOUNT
+		     , BANK_OWNER_NAME
+		     , ADJUSTMENT_PRICE
+		     )
+		VALUES
+		     (
+		       ?
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     )
+	</entry>
+	
+	<entry key="selectSellImediatelySuccess">
+		SELECT
+		       BIDDING_NO
+		     , BIDDING_PRICE
+		     , INSPECTION_COST
+		     , COMMISSION
+		     , PRODUCT_IMG_M
+		  FROM TB_BIDDING B
+		  JOIN TB_PRODUCT USING (PRODUCT_CODE)
+		 WHERE BIDDING_NO = ?
+	</entry>
 </properties>

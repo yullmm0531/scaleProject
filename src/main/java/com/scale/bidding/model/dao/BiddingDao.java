@@ -1,5 +1,7 @@
 package com.scale.bidding.model.dao;
 
+import static com.scale.common.JDBCTemplate.close;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -8,10 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
-import static com.scale.common.JDBCTemplate.*;
 
 import com.scale.bidding.model.vo.Bidding;
-import com.scale.product.model.dao.ProductDao;
+import com.scale.bidding.model.vo.Seller;
 
 public class BiddingDao {
 	
@@ -368,5 +369,191 @@ public class BiddingDao {
 		return b;
 		
 	}
+	
+	
+	public int insertBidding(Connection conn, Bidding b) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertBidding");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, b.getpSize());
+			pstmt.setInt(2, b.getbType());
+			pstmt.setInt(3, b.getbPrice());
+			pstmt.setInt(4, (int)(0.01 * b.getbPrice()));
+			pstmt.setInt(5, (int)(0.02 * b.getbPrice()));
+			pstmt.setString(6, b.getpCode());
+			pstmt.setInt(7, b.getUserNo());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	public int insertSeller(Connection conn, Seller sr) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertSeller");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, sr.getSellerNo());
+			pstmt.setString(2, sr.getRecipientName());
+			pstmt.setString(3, sr.getRecipientPhone());
+			pstmt.setString(4, sr.getRecipientZipCode());
+			pstmt.setString(5, sr.getRecipientAddress());
+			pstmt.setString(6, sr.getRecipientShiippingMsg());
+			pstmt.setString(7, sr.getBankName());
+			pstmt.setString(8, sr.getBankAccount());
+			pstmt.setString(9, sr.getBankAccountOwner());
+			pstmt.setInt(10, sr.getAdjustmentPrice());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	
+	public Bidding selectSellBiddingSuccess(Connection conn, int userNo) {
+		
+		Bidding b = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectSellBiddingSuccess");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				b = new Bidding(rset.getInt("bidding_no"),
+								rset.getInt("bidding_price"),
+								rset.getInt("inspection_cost"),
+								rset.getInt("commission"),
+								rset.getString("product_img_m"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return b;
+		
+	}
+	
+	
+	public int updateDealCheck(Connection conn, int bNo) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("updateDealCheck");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	public int updateSeller(Connection conn, int bNo, Seller sr) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("updateSeller");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bNo);
+			pstmt.setInt(2, sr.getSellerNo());
+			pstmt.setString(3, sr.getRecipientName());
+			pstmt.setString(4, sr.getRecipientPhone());
+			pstmt.setString(5, sr.getRecipientZipCode());
+			pstmt.setString(6, sr.getRecipientAddress());
+			pstmt.setString(7, sr.getRecipientShiippingMsg());
+			pstmt.setString(8, sr.getBankName());
+			pstmt.setString(9, sr.getBankAccount());
+			pstmt.setString(10, sr.getBankAccountOwner());
+			pstmt.setInt(11, sr.getAdjustmentPrice());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	
+	public Bidding selectSellImediatelySuccess(Connection conn, int bNo) {
+		
+		Bidding b = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectSellImediatelySuccess");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				b = new Bidding(rset.getInt("bidding_no"),
+								rset.getInt("bidding_price"),
+								rset.getInt("inspection_cost"),
+								rset.getInt("commission"),
+								rset.getString("product_img_m"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return b;
+		
+	}
+	
 	
 }
