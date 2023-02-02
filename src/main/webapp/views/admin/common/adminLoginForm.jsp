@@ -5,13 +5,21 @@
 <head>
 <meta charset="UTF-8">
 <title>관리자 로그인</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<!-- Popper JS -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <style>
 	
     div{box-sizing:border-box;}
     .outer{
         width:1200px;
         margin:auto;
-        margin-top:50px;
+        margin-top:150px;
         margin-bottom:70px;
     }
     /* area */
@@ -24,25 +32,17 @@
     #logo-area{height:20%;}
     #input-area{height:35%;}
     #button-area{height:15%;}
-    #utilities-area{height:25%;}
+    #login-util-area{height:25%;}
 
     /*logo*/
-    #logo-area{
-        position:relative;
-    }
-    #logo-area>img{
-        width:50%;
-        margin:auto;
-        position:absolute;
-        top:0;
-        bottom:0;
-        left:0;
-        right:0;
-    }
+    #logo-area>div{
+        display:inline-block;
+    } 
 
     /* input */
     #input-area{padding:20px 10px;}
-    #userId, #userPwd{
+    #input-area>input{
+        box-sizing:border-box;
         width:100%;
         height:48px;
         margin-bottom:20px;
@@ -86,13 +86,6 @@
 
     /* etc-area */
     #login-util-area{padding:10px;}
-    #login-util-area>a{
-        margin:20px;
-        text-decoration:none;
-        color:black;
-        font-size:13px;
-        font-weight:500;
-    }
     #login-util-area>p{
         margin-top:25px;
         color:rgb(166, 166, 166);
@@ -104,9 +97,8 @@
     <%@ include file="adminMenubar.jsp"%>
     <div class="outer" align="center">
         <div class="login-wrapper">
-        	<h1>관리자</h1>
             <div id="logo-area">
-                <img src="<%= request.getContextPath() %>/resources/images/logo_black.png">
+                <h1>SCALE 관리자</h1>
             </div>
             <div id="input-area">
                 <input type="text" id="userId" placeholder="아이디" required>
@@ -119,10 +111,6 @@
                 <button type="button" id="login-btn" disabled onclick="login();">로그인</button>
             </div>
             <div id="login-util-area">
-                <a href="<%=contextPath%>/join.us">회원가입</a>
-                <a href="<%=contextPath%>/findIdForm.us">아이디찾기</a>
-                <a href="<%=contextPath%>/findPwdForm.us">비밀번호찾기</a>
-                <br><br>
                 <p>Copyright © Scale Corp. All Rights Reserved.</p>
             </div>
         </div>
@@ -151,11 +139,11 @@
             $.ajax({
                 url:"<%=contextPath%>/login.ad",
                 data:{userId:$("#userId").val(), userPwd:$("#userPwd").val()},
-                success:function(loginUser){
-                    if(loginUser == null){
+                success:function(adminUser){
+                    if(adminUser == null){
                         $("#validateMsg").css("visibility", "visible")
                     }else{
-                        location.href = "<%=contextPath%>";
+                        location.href = "<%=contextPath%>/main.us";
                     }
                 }, error:function(){
                     console.log("로그인 통신 실패")

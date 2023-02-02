@@ -24,7 +24,7 @@
     #logo-area{height:20%;}
     #input-area{height:35%;}
     #button-area{height:15%;}
-    #utilities-area{height:25%;}
+    #login-util-area{height:25%;}
 
     /*logo*/
     #logo-area{
