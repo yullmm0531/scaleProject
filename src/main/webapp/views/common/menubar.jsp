@@ -148,7 +148,7 @@
         </div>
 
         <div id="searchBox">
-            <input type="text" id="searchInput" placeholder="상품을 검색해보세요.">
+            <input type="text" id="searchInput" placeholder="상품을 검색해보세요."  data-toggle="modal" data-target="#myModal">
             <button type="submit"></button>
         </div>
 
@@ -173,5 +173,8 @@
         </div>
     </div>
    </div>
+   
+   
+   
 </body>       
 </html>

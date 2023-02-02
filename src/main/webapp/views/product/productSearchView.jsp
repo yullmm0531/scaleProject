@@ -70,15 +70,22 @@
     </style>
 </head>
 <body>
-    <div class = modal id="search">
-    
-        <div class="modal_content">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+        검색
+      </button>
+    <!-- The Modal -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            
+            <!-- Modal Header -->
+            
             <button type="button" id="modal_close_btn">X</button>
             
             <div id="header-1">
                 <form action="" id="search-form">
                     <div id="search-text">
-                        <input type="text" id="productInput" name="keyword" placeholder="브랜드, 모델명 등" onkeyup="search(this);" value="<%=contextPath%>/psearch.pd">
+                        <input type="text" id="productInput" name="keyword" placeholder="상품명을 입력하세요" onkeyup="search(this);" value="<%=contextPath%>/psearch.pd">
                         
                     </div>
                     <div id="search-btn">

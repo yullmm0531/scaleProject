@@ -69,6 +69,7 @@
 	     WHERE BLIND_CHECK ='N'
 	      AND PRODUCT_NAME_KO LIKE '%' || ? || '%' 
 		   OR PRODUCT_NAME_ENG LIKE '%' || ? || '%'
+		   
 	</entry>
 	
 	

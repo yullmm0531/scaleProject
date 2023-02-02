@@ -98,15 +98,16 @@
             	
             	 <% for(Brand b : blist){ %>
          		 <div class="thumbnail-1" style="float:left;">
-         		 		
+         		 
                         <img src="<%= contextPath %>/<%= b.getBrandImg() %>" width="70" height="77">
                         <p><%= b.getBrandName() %></p>
-                        	
+                      
                  </div>
                  <% } %>
                   
             </div>
             <div id="pheader-3">
+            <input type="text"><a href="<%=contextPath%>/psearch.pd"></a>
             </div>
         </div>
       
@@ -165,7 +166,7 @@
                         
                     </span>
                     <div class="sortbar" align="right"> 
-                        <select name="sort" id="sort">
+                        <select name="sortlist" id="sort">
                             <option value="popular">인기순</option>
                             <option value="newest">최신순</option>
                             
@@ -194,7 +195,7 @@
         </div>
 
     </div>
-
+    
     <!-- 필터바 -->
     <script>
         $(".cate").click(function(){
@@ -350,7 +351,20 @@
     </script>
     
     
-    
+    <script>
+        const popular [
+            {}
+        ]
+
+        popular.sort(function(a,b){
+            if(a.popular > b.popular) return 1;
+            if(a.popular < b.popular) return -1;
+
+            if(a.priorty > b.priorty) return 1;
+            if(a.priorty < b.priorty) return -1;
+        });
+
+    </script>
     
 </body>
 </html>
