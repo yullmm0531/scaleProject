@@ -1,27 +1,28 @@
 package com.scale.user.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
 import com.scale.user.model.service.UserService;
 import com.scale.user.model.vo.User;
 
 /**
- * Servlet implementation class updateEmailController
+ * Servlet implementation class AjaxUpdateBankAccountInfoController
  */
-@WebServlet("/updateEmail.us")
-public class updateEmailController extends HttpServlet {
+@WebServlet("/updateAcc.us")
+public class AjaxUpdateBankAccountInfoController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public updateEmailController() {
+    public AjaxUpdateBankAccountInfoController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,21 +32,20 @@ public class updateEmailController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String userId = request.getParameter("userId");
-		String email = request.getParameter("email");
+		int userNo = Integer.parseInt(request.getParameter("userNo"));
+		String accBank = request.getParameter("accBank");
+		String accNum = request.getParameter("accNum");
 		
-		User updateUser = new UserService().updateEmail(userId, email);
+		User u = new User();
+		u.setUserNo(userNo);
+		u.setUserAccBank(accBank);
+		u.setUserAccNum(accNum);
 		
-		HttpSession session = request.getSession();
+		int result = new UserService().updateUserAcc(u);
 		
-		if(updateUser == null) {
-			session.setAttribute("alertMsg", "이메일 변경에 실패하였습니다");
-			request.getRequestDispatcher("views/user/userInfoUpdateForm.jsp").forward(request, response);
-		}else {
-			session.setAttribute("alertMsg", "이메일을 성공적으로 변경하였습니다.");
-			session.setAttribute("loginUser", updateUser);
-			request.getRequestDispatcher("views/user/userInfoUpdateForm.jsp").forward(request, response);
-		}
+		response.setContentType("application/json; charset=UTF-8");
+		new Gson().toJson(result, response.getWriter());
+		
 	}
 
 	/**

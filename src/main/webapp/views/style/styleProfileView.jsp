@@ -60,12 +60,20 @@
     	position: fixed; 
     	right: 50px; 
     	bottom: 30px;
+    	z-index: 999;
+        width: 50px;
+        height: 50px;
     }
+    #up-btn{cursor: pointer;}
     #insert-btn{
     	position: fixed; 
-    	right: 120px; 
+    	right: 130px; 
     	bottom: 30px;
+    	z-index: 999;
+        width: 50px;
+        height: 50px;
     }
+    #insert-btn{cursor: pointer;}
 
 	#modal-img{
 		width: 90px; 
@@ -152,6 +160,27 @@
 	    <div id="table-container">
 	        
 	    </div>
+
+		<img id="up-btn" src="<%= contextPath %>/resources/images/style/up.jpg">
+		<img id="insert-btn" src="<%= contextPath %>/resources/images/style/insert.jpg">
+		<br><br>
+
+		<script>
+			$("#up-btn").click(function(){
+				window.scrollTo({ top: 0, behavior: "smooth" });
+			})
+
+			$(function(){
+				$("#insert-btn").click(function(){
+					<% if(loginUser == null) { %>
+							alert("로그인 후 이용가능한 페이지입니다.");
+							location.href = "<%= contextPath %>/loginForm.us";
+					<% } else { %>
+							location.href = "<%= contextPath %>/enrollForm.st";
+					<% } %>
+				})
+			})
+		</script>
 	
 	    <div class="modal" id="profile-edit">
 	        <div class="modal-dialog">
@@ -283,8 +312,6 @@
 	      
 	          </div>
 	        </div>
-        <button id="up-btn">UP</button>
-        <button id="insert-btn">+</button>
         
         <script>
 	        $("#up-btn").click(function(){
@@ -331,12 +358,12 @@
 												if(list[i].styleNo == ilist[j].styleNo && ilist[j].fileLevel == 1) {
 													value += "<div class='carousel-item active'>"
 																+ "<img class='cimg' src='<%= contextPath %>/" + ilist[j].filePath + ilist[j].changeName + "' onclick='detail(this);'>"
-																+ "<input type='hidden' value='" + list[i].styleNo + "'>"
+																+ "<input type='hidden' id='" + list[i].styleNo + "' value='" + list[i].styleNo + "'>"
 															+ "</div>";
 												} else if(list[i].styleNo == ilist[j].styleNo && ilist[j].fileLevel == 2) {
 													value += "<div class='carousel-item'>"
 																+ "<img class='cimg' src='<%= contextPath %>/" + ilist[j].filePath + ilist[j].changeName + "' onclick='detail(this);'>"
-																+ "<input type='hidden' value='" + list[i].styleNo + "'>"
+																+ "<input type='hidden' id='" + list[i].styleNo + "' value='" + list[i].styleNo + "'>"
 															+ "</div>";
 												}
 											}
@@ -423,8 +450,8 @@
 			})
 
 			function detail(e){
-				let no = e.nextSibling.value
-				location.href = "<%= contextPath %>/detail.st?no=" + no;
+				let no = e.nextSibling.value;
+				location.href = "<%= contextPath %>/detail.st?no=" + no + "&view=trending";
 			}
         </script>
 

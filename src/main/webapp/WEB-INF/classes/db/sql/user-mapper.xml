@@ -215,6 +215,7 @@
 		    ,BRAND_NAME
 		    ,DEAL_DATE
 		    ,DEAL_STEP
+		    ,BIDDING_NO
 		FROM
 			TB_PRODUCT
 		JOIN TB_BRAND USING(BRAND_CODE)
@@ -236,6 +237,23 @@
 		 WHERE USER_NO = ?
 	</entry>
 	
+
+	<entry key="userDetailImg">
+		SELECT
+		    PRODUCT_IMG_M
+		    ,PRODUCT_NAME_ENG
+		    ,BRAND_NAME
+		    
+		FROM
+			TB_PRODUCT
+		JOIN TB_BRAND USING(BRAND_CODE)
+		JOIN TB_BIDDING USING(PRODUCT_CODE)
+			WHERE BIDDING_NO = ?
+			  	AND BIDDING_TYPE = 2
+			    AND DEAL_CHECK != 'N'
+	</entry>
+	
+
 	<entry key="selectAddressList">
 		SELECT
 		       ADDRESS_NO
@@ -249,5 +267,13 @@
 		   AND DEFAULT_ADD = 'N'
 		 ORDER
 		    BY ADDRESS_NO DESC
+	</entry>
+	
+	<entry key="updateUserAcc">
+		UPDATE 
+			   TB_USER
+		   SET USER_ACC_BANK = ?,
+		       USER_ACC_NUMBER = ?
+		 WHERE USER_NO = ?
 	</entry>
 </properties>

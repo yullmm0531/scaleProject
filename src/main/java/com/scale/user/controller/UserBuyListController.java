@@ -12,13 +12,13 @@ import javax.servlet.http.HttpSession;
  * Servlet implementation class userBuyList
  */
 @WebServlet("/userBuyList.us")
-public class userBuyListController extends HttpServlet {
+public class UserBuyListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public userBuyListController() {
+    public UserBuyListController() {
         super();
         // TODO Auto-generated constructor stub
     }

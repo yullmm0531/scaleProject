@@ -1,6 +1,6 @@
 package com.scale.user.model.dao;
 
-import static com.scale.common.JDBCTemplate.close;
+import static com.scale.common.JDBCTemplate.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -493,6 +493,7 @@ public class UserDao {
 				p.setBrandName(rset.getString("brand_name"));
 				p.setDealDate(rset.getDate("deal_date"));
 				p.setDealStep(rset.getInt("deal_step"));
+				p.setBiddingNo(rset.getInt("bidding_no"));
 				list.add(p);
 			}
 		} catch (SQLException e) {
@@ -537,6 +538,38 @@ public class UserDao {
 		
 	}
 	
+
+	public Product userDetailImg(Connection conn, int biddingNo) {
+		
+		Product p = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("userDetailImg");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, biddingNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				p = new Product(
+				rset.getString("product_name_eng")
+				,rset.getString("product_img_m")
+				,rset.getString("brand_name")
+				);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return p;
+	}
 	public ArrayList<Address> selectAddressList(Connection conn, int userNo){
 		
 		ArrayList<Address> list = new ArrayList<>();
@@ -571,4 +604,32 @@ public class UserDao {
 		return list;
 		
 	}
+	
+	
+	public int updateUserAcc(Connection conn, User u) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("updateUserAcc");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, u.getUserAccBank());
+			pstmt.setString(2, u.getUserAccNum());
+			pstmt.setInt(3, u.getUserNo());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	
 }

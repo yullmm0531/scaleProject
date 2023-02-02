@@ -18,6 +18,7 @@ public class Product {
 	private String brandName;
 	private Date dealDate;
 	private int dealStep;
+	private int biddingNo;
 
 	private String color;
 	private Date releaseDate;
@@ -96,16 +97,40 @@ public class Product {
 	
 	
 
-	public Product(String productNameEng, String productImgM, String brandName, Date dealDate, int dealStep) {
+	public Product(String productNameEng, String productImgM, String brandName, Date dealDate, int dealStep, int biddingNo) {
 		super();
 		this.productNameEng = productNameEng;
 		this.productImgM = productImgM;
 		this.brandName = brandName;
 		this.dealDate = dealDate;
 		this.dealStep = dealStep;
+		this.biddingNo = biddingNo;
 	}
 	
 	
+	
+
+
+	
+
+	public Product(String productNameEng, String productImgM, String brandName) {
+		super();
+		this.productNameEng = productNameEng;
+		this.productImgM = productImgM;
+		this.brandName = brandName;
+	}
+	
+	
+
+
+	public int getBiddingNo() {
+		return biddingNo;
+	}
+
+
+	public void setBiddingNo(int biddingNo) {
+		this.biddingNo = biddingNo;
+	}
 
 
 	public Date getDealDate() {

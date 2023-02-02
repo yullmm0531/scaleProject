@@ -1,29 +1,26 @@
 package com.scale.user.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import com.google.gson.Gson;
 import com.scale.user.model.service.UserService;
-import com.scale.user.model.vo.Address;
 
 /**
- * Servlet implementation class AjaxSelectAddressListController
+ * Servlet implementation class deleteUserController
  */
-@WebServlet("/addressList.us")
-public class AjaxSelectAddressListController extends HttpServlet {
+@WebServlet("/deleteUser.us")
+public class DeleteUserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AjaxSelectAddressListController() {
+    public DeleteUserController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,17 +30,20 @@ public class AjaxSelectAddressListController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		int userNo = Integer.parseInt(request.getParameter("userNo"));
+		String userId = request.getParameter("userId");
+		String userPwd = request.getParameter("userPwd");
 		
-		Address ad = new UserService().selectDefaultAddress(userNo);
-		ArrayList<Address> list = new UserService().selectAddressList(userNo);
-		list.add(0, ad);
+		int result = new UserService().deleteUser(userId, userPwd);
 		
-		
-		response.setContentType("application/json; charset=UTF-8");
-		new Gson().toJson(list, response.getWriter());
-		
-		
+		HttpSession session = request.getSession();
+		if(result>0) {
+			session.setAttribute("alertMsg", "성공적으로 탈퇴되었습니다");
+			session.removeAttribute("loginUser");
+			response.sendRedirect(request.getContextPath());
+		}else {
+			session.setAttribute("alertMsg", "비밀번호를 확인해주십시오");
+			response.sendRedirect(request.getContextPath() + "myPage.us");
+		}
 	}
 
 	/**

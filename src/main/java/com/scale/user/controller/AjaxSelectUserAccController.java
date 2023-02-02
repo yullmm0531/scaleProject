@@ -1,24 +1,28 @@
 package com.scale.user.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+
+import com.google.gson.Gson;
+import com.scale.user.model.service.UserService;
+import com.scale.user.model.vo.User;
 
 /**
- * Servlet implementation class userInfoUpdateController
+ * Servlet implementation class AjaxSelectUserAccController
  */
-@WebServlet("/userInfoUpdate.us")
-public class userInfoUpdateController extends HttpServlet {
+@WebServlet("/selectAcc.us")
+public class AjaxSelectUserAccController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public userInfoUpdateController() {
+    public AjaxSelectUserAccController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,15 +32,15 @@ public class userInfoUpdateController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		HttpSession session = request.getSession();
+		int userNo = Integer.parseInt(request.getParameter("userNo"));
 		
-		if(session.getAttribute("loginUser") == null) { 
-			session.setAttribute("alertMsg", "로그인 후 이용가능한 서비스입니다.");
-			response.sendRedirect(request.getContextPath());
-		}else {
-			
-			request.getRequestDispatcher("views/user/userInfoUpdateForm.jsp").forward(request, response);
-		}
+		User u = new UserService().selectUserAcc(userNo);
+		
+		response.setContentType("application/json; charset=UTF-8");
+		new Gson().toJson(u, response.getWriter());
+		
+		
+		
 	}
 
 	/**

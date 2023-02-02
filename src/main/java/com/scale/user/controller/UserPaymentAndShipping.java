@@ -8,20 +8,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.scale.user.model.service.UserService;
-import com.scale.user.model.vo.User;
-
 /**
- * Servlet implementation class updatePhoneController
+ * Servlet implementation class UserPaymentAndShipping
  */
-@WebServlet("/updatePhone.us")
-public class updatePhoneController extends HttpServlet {
+@WebServlet("/UserPaymentAndShipping.us")
+public class UserPaymentAndShipping extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public updatePhoneController() {
+    public UserPaymentAndShipping() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,20 +28,14 @@ public class updatePhoneController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String userId = request.getParameter("userId");
-		String phone = request.getParameter("phone");
-		
-		User updateUser = new UserService().updatePhone(userId, phone);
-		
 		HttpSession session = request.getSession();
 		
-		if(updateUser == null) {
-			session.setAttribute("alertMsg", "연락처 변경에 실패하였습니다");
-			request.getRequestDispatcher("views/user/userInfoUpdateForm.jsp").forward(request, response);
+		if(session.getAttribute("loginUser") == null) { 
+			session.setAttribute("alertMsg", "로그인 후 이용가능한 서비스입니다.");
+			response.sendRedirect(request.getContextPath());
 		}else {
-			session.setAttribute("alertMsg", "연락처를 성공적으로 변경하였습니다.");
-			session.setAttribute("loginUser", updateUser);
-			request.getRequestDispatcher("views/user/userInfoUpdateForm.jsp").forward(request, response);
+			
+			request.getRequestDispatcher("views/user/userPaymentAndShipping.jsp").forward(request, response);
 		}
 	}
 

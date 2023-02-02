@@ -1,29 +1,24 @@
 package com.scale.user.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.google.gson.Gson;
-import com.scale.user.model.service.UserService;
-import com.scale.user.model.vo.Address;
+import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class AjaxSelectAddressListController
+ * Servlet implementation class userLikeListController
  */
-@WebServlet("/addressList.us")
-public class AjaxSelectAddressListController extends HttpServlet {
+@WebServlet("/userLikeList.us")
+public class UserLikeListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AjaxSelectAddressListController() {
+    public UserLikeListController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,17 +28,15 @@ public class AjaxSelectAddressListController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		int userNo = Integer.parseInt(request.getParameter("userNo"));
+		HttpSession session = request.getSession();
 		
-		Address ad = new UserService().selectDefaultAddress(userNo);
-		ArrayList<Address> list = new UserService().selectAddressList(userNo);
-		list.add(0, ad);
-		
-		
-		response.setContentType("application/json; charset=UTF-8");
-		new Gson().toJson(list, response.getWriter());
-		
-		
+		if(session.getAttribute("loginUser") == null) { 
+			session.setAttribute("alertMsg", "로그인 후 이용가능한 서비스입니다.");
+			response.sendRedirect(request.getContextPath());
+		}else {
+			
+			request.getRequestDispatcher("views/user/userLikeList.jsp").forward(request, response);
+		}
 	}
 
 	/**

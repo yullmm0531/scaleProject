@@ -213,6 +213,16 @@ public class UserService {
 		return u;
 	}
 	
+
+public Product userDetailImg(int biddingNo) {
+		
+		Connection conn = getConnection();
+		Product p = new UserDao().userDetailImg(conn, biddingNo);
+		
+		close(conn);
+		
+		return p;
+}
 	
 	/**
 	 * @author yurim
@@ -227,6 +237,26 @@ public class UserService {
 		close(conn);
 		
 		return list;
+		
+	}
+	
+	
+	/**
+	 * @author yurim
+	 * @param u: 회원번호, 계좌정보가 담겨있는 User객
+	 * @return result: 정보변경 성공 유무를 담은 int형 변수
+	 */
+	public int updateUserAcc(User u) {
+		
+		Connection conn = getConnection();
+		int result = new UserDao().updateUserAcc(conn, u);
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
 		
 	}
 }
