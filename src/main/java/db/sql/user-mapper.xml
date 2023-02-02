@@ -215,6 +215,7 @@
 		    ,BRAND_NAME
 		    ,DEAL_DATE
 		    ,DEAL_STEP
+		    ,BIDDING_NO
 		FROM
 			TB_PRODUCT
 		JOIN TB_BRAND USING(BRAND_CODE)
@@ -234,6 +235,21 @@
 		     , USER_NAME
 		  FROM TB_USER
 		 WHERE USER_NO = ?
+	</entry>
+	
+	<entry key="userDetailImg">
+		SELECT
+		    PRODUCT_IMG_M
+		    ,PRODUCT_NAME_ENG
+		    ,BRAND_NAME
+		    
+		FROM
+			TB_PRODUCT
+		JOIN TB_BRAND USING(BRAND_CODE)
+		JOIN TB_BIDDING USING(PRODUCT_CODE)
+			WHERE BIDDING_NO = ?
+			  	AND BIDDING_TYPE = 2
+			    AND DEAL_CHECK != 'N'
 	</entry>
 	
 </properties>

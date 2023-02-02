@@ -8,17 +8,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.scale.product.model.vo.Product;
+import com.scale.user.model.service.UserService;
+
 /**
- * Servlet implementation class userInfoUpdateController
+ * Servlet implementation class UserDetailSellListController
  */
-@WebServlet("/userInfoUpdate.us")
-public class userInfoUpdateController extends HttpServlet {
+@WebServlet("/UserDetailSellList.us")
+public class UserDetailSellListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public userInfoUpdateController() {
+    public UserDetailSellListController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,6 +31,14 @@ public class userInfoUpdateController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		
+		int biddingNo = Integer.parseInt(request.getParameter("biddingNo"));
+		
+		
+		Product p = new UserService().userDetailImg(biddingNo);
+		
+		System.out.println(p);
+		
 		HttpSession session = request.getSession();
 		
 		if(session.getAttribute("loginUser") == null) { 
@@ -35,7 +46,8 @@ public class userInfoUpdateController extends HttpServlet {
 			response.sendRedirect(request.getContextPath());
 		}else {
 			
-			request.getRequestDispatcher("views/user/userInfoUpdateForm.jsp").forward(request, response);
+			request.setAttribute("userDetailImg", p);
+			request.getRequestDispatcher("views/user/userDetailSellList.jsp").forward(request, response);
 		}
 	}
 

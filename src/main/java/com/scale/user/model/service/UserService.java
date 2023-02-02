@@ -204,4 +204,14 @@ public class UserService {
 		
 		return u;
 	}
+	
+	public Product userDetailImg(int biddingNo) {
+		
+		Connection conn = getConnection();
+		Product p = new UserDao().userDetailImg(conn, biddingNo);
+		
+		close(conn);
+		
+		return p;
+	}
 }

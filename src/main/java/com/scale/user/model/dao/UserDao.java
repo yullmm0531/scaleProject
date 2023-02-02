@@ -493,6 +493,7 @@ public class UserDao {
 				p.setBrandName(rset.getString("brand_name"));
 				p.setDealDate(rset.getDate("deal_date"));
 				p.setDealStep(rset.getInt("deal_step"));
+				p.setBiddingNo(rset.getInt("bidding_no"));
 				list.add(p);
 			}
 		} catch (SQLException e) {
@@ -535,5 +536,37 @@ public class UserDao {
 		
 		return u;
 		
+	}
+	
+	public Product userDetailImg(Connection conn, int biddingNo) {
+		
+		Product p = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("userDetailImg");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, biddingNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				p = new Product(
+				rset.getString("product_name_eng")
+				,rset.getString("product_img_m")
+				,rset.getString("brand_name")
+				);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return p;
 	}
 }

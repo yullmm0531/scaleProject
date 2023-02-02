@@ -15,13 +15,13 @@ import com.scale.user.model.vo.User;
  * Servlet implementation class updatePwdController
  */
 @WebServlet("/updatePwd.us")
-public class updatePwdController extends HttpServlet {
+public class UpdatePwdController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public updatePwdController() {
+    public UpdatePwdController() {
         super();
         // TODO Auto-generated constructor stub
     }

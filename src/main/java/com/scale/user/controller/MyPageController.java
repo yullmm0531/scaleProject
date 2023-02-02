@@ -9,16 +9,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class userLikeListController
+ * Servlet implementation class myPageController
  */
-@WebServlet("/userLikeList.us")
-public class userLikeListController extends HttpServlet {
+@WebServlet("/myPage.us")
+public class MyPageController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public userLikeListController() {
+    public MyPageController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,7 +35,7 @@ public class userLikeListController extends HttpServlet {
 			response.sendRedirect(request.getContextPath());
 		}else {
 			
-			request.getRequestDispatcher("views/user/userLikeList.jsp").forward(request, response);
+			request.getRequestDispatcher("views/user/myPage.jsp").forward(request, response);
 		}
 	}
 

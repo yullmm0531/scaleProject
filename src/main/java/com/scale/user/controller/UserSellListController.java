@@ -1,6 +1,8 @@
 package com.scale.user.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,20 +10,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.scale.product.model.vo.Product;
 import com.scale.user.model.service.UserService;
 import com.scale.user.model.vo.User;
 
 /**
- * Servlet implementation class updateEmailController
+ * Servlet implementation class userSellListController
  */
-@WebServlet("/updateEmail.us")
-public class updateEmailController extends HttpServlet {
+@WebServlet("/userSellList.us")
+public class UserSellListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public updateEmailController() {
+    public UserSellListController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,20 +34,20 @@ public class updateEmailController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String userId = request.getParameter("userId");
-		String email = request.getParameter("email");
 		
-		User updateUser = new UserService().updateEmail(userId, email);
+		int userNo = Integer.parseInt(request.getParameter("userNo"));
+		
+		ArrayList<Product> list = new UserService().userSellList(userNo);
 		
 		HttpSession session = request.getSession();
 		
-		if(updateUser == null) {
-			session.setAttribute("alertMsg", "이메일 변경에 실패하였습니다");
-			request.getRequestDispatcher("views/user/userInfoUpdateForm.jsp").forward(request, response);
+		if(session.getAttribute("loginUser") == null) { 
+			session.setAttribute("alertMsg", "로그인 후 이용가능한 서비스입니다.");
+			response.sendRedirect(request.getContextPath());
 		}else {
-			session.setAttribute("alertMsg", "이메일을 성공적으로 변경하였습니다.");
-			session.setAttribute("loginUser", updateUser);
-			request.getRequestDispatcher("views/user/userInfoUpdateForm.jsp").forward(request, response);
+			
+			request.setAttribute("list", list);
+			request.getRequestDispatcher("views/user/userSellList.jsp").forward(request, response);
 		}
 	}
 

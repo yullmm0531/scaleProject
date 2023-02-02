@@ -25,17 +25,22 @@
         #sellingList-div3{float: left;}
         
         .wrap-div{
-            border:5px solid red;
+            
             width:60%;
             height:250px;
         }
 
         .sell-product-div1, .sell-product-div2, .sell-product-div3, .sell-product-div4{
-            border:5px solid blue;
+            
             height:100%;
             box-sizing:border-box;
             /*display:inline-block;*/
             float:left;
+        }
+        #sell-img{
+        	width:100%;
+        	height:100%;
+        	
         }
         .sell-product-div1{
             width:30%;
@@ -45,23 +50,36 @@
         }
         .sell-product-div3{
             width:25%;
+            text-align: center;
+            padding: 100px 0;
+            
         }
         .sell-product-div4{
             width:20%;
+            text-align: center;
+            padding: 100px 0;
         }
+        
+        
 
         
-        .product-name, .product-ex{
-            border:5px solid yellow;
+        .brand-name, .product-ex{
+            
             width:100%;
             /*height:50%;*/
             box-sizing:border-box;
         }
-        .product-name{
+        .brand-name{
             height:40%;
+            text-align: center;
+            padding: 20px 0;
+            font-weight: 800;
         }
         .product-ex{
             height:60%;
+            text-align: center;
+            margin-top: -30%;
+            font-weight: 500;
         }
         
         
@@ -210,12 +228,15 @@
         </div>
         <div class="underline"></div>
         <br><br>
-        <div class="title-div"><h4>판매한 상품 목록</h4></div>
+        <div class="title-div">
+        	<h4>판매한 상품 목록</h4>
+        </div>
         
         
         <% for(Product p : list){ %>
-         <div class="wrap-div">
-         
+         <div class="wrap-div" style=" cursor: pointer;" onclick="test1(this);">
+         		
+         		<input type="hidden" value="<%= p.getBiddingNo() %>">
             <div class="sell-product-div1">
                 <div class="img">
                     <img src="<%=p.getProductImgM() %>" alt="사용자이미지" id="sell-img">
@@ -223,6 +244,7 @@
             </div>
             <div class="sell-product-div2">
                 <div class="brand-name"><%=p.getBrandName() %></div>
+                <br><br>
                 <div class="product-ex"><%=p.getProductNameEng() %></div>
             </div>
             <div class="sell-product-div3"><%=p.getDealDate() %></div>
@@ -230,7 +252,8 @@
             
             <div class="sell-product-div4">
             
-            	<%if(p.getDealStep() == 0) {%>
+            	
+            		<%if(p.getDealStep() == 0) {%>
             		입고전
             	<% }%>
             	
@@ -257,11 +280,21 @@
             	<%if(p.getDealStep() == 6) {%>
             		거래완료
             	<% }%>
+            	
             
             </div>
             
         </div>
         <% } %>
+        
+        <script>
+    	
+    	
+    	function test1(e){
+    		
+    		location.href = "<%=contextPath%>/UserDetailSellList.us?biddingNo=" + $(e).children("input").val();
+    	}
+    </script>
         
     </div>
 	 

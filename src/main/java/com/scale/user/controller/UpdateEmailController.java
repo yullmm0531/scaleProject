@@ -9,18 +9,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.scale.user.model.service.UserService;
+import com.scale.user.model.vo.User;
 
 /**
- * Servlet implementation class deleteUserController
+ * Servlet implementation class updateEmailController
  */
-@WebServlet("/deleteUser.us")
-public class deleteUserController extends HttpServlet {
+@WebServlet("/updateEmail.us")
+public class UpdateEmailController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public deleteUserController() {
+    public UpdateEmailController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,18 +32,19 @@ public class deleteUserController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String userId = request.getParameter("userId");
-		String userPwd = request.getParameter("userPwd");
+		String email = request.getParameter("email");
 		
-		int result = new UserService().deleteUser(userId, userPwd);
+		User updateUser = new UserService().updateEmail(userId, email);
 		
 		HttpSession session = request.getSession();
-		if(result>0) {
-			session.setAttribute("alertMsg", "성공적으로 탈퇴되었습니다");
-			session.removeAttribute("loginUser");
-			response.sendRedirect(request.getContextPath());
+		
+		if(updateUser == null) {
+			session.setAttribute("alertMsg", "이메일 변경에 실패하였습니다");
+			request.getRequestDispatcher("views/user/userInfoUpdateForm.jsp").forward(request, response);
 		}else {
-			session.setAttribute("alertMsg", "비밀번호를 확인해주십시오");
-			response.sendRedirect(request.getContextPath() + "myPage.us");
+			session.setAttribute("alertMsg", "이메일을 성공적으로 변경하였습니다.");
+			session.setAttribute("loginUser", updateUser);
+			request.getRequestDispatcher("views/user/userInfoUpdateForm.jsp").forward(request, response);
 		}
 	}
 
