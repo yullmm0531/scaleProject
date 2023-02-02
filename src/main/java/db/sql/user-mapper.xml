@@ -276,4 +276,30 @@
 		       USER_ACC_NUMBER = ?
 		 WHERE USER_NO = ?
 	</entry>
+	
+	<entry key="updatePaymentAndShipping">
+		INSERT
+		  INTO TB_ADDRESS
+		  (
+		  	ADDRESS_NO
+		  , ZIPCODE
+		  , ADDRESS1
+		  , ADDRESS2
+		  , RECIPIENT
+		  , PHONE
+		  , DEFAULT_ADD
+		  , USER_NO
+		  )
+		  VALUES
+		  (
+		  	SEQ_ANO.NEXTVAL
+		  , ?
+		  , ?
+		  , ?
+		  , ?
+		  , ?
+		  , ?
+		  , ?
+		  )
+	</entry>
 </properties>

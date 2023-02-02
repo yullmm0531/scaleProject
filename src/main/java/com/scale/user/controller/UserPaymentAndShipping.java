@@ -8,10 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.scale.user.model.service.UserService;
+import com.scale.user.model.vo.Address;
+
 /**
  * Servlet implementation class UserPaymentAndShipping
  */
-@WebServlet("/UserPaymentAndShipping.us")
+@WebServlet("/userPaymentAndShipping.us")
 public class UserPaymentAndShipping extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -28,14 +31,31 @@ public class UserPaymentAndShipping extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		System.out.println("되나?");
+		
+		String zipCode = request.getParameter("zipCode");
+		String defaultAdd = request.getParameter("defaultAdd");
+		String address1 = request.getParameter("address");
+		String address2 = request.getParameter("detailAddress");
+		String recipient = request.getParameter("recipient");
+		String Phone = request.getParameter("Phone");
+		int userNo = Integer.parseInt(request.getParameter("userNo"));
+		
+		Address ad = new Address(zipCode, address1, address2, recipient, Phone, defaultAdd, userNo);
+		
+		int result = new UserService().updatePaymentAndShipping(ad);
+		
 		HttpSession session = request.getSession();
 		
-		if(session.getAttribute("loginUser") == null) { 
-			session.setAttribute("alertMsg", "로그인 후 이용가능한 서비스입니다.");
-			response.sendRedirect(request.getContextPath());
-		}else {
+		if(result > 0) { 
 			
+			session.setAttribute("alertMsg", "배송지를 추가하였습니다");
 			request.getRequestDispatcher("views/user/userPaymentAndShipping.jsp").forward(request, response);
+			
+		}else {
+			session.setAttribute("alertMsg", "배송지 추가에 실패하였습니다.");
+			request.getRequestDispatcher("views/user/userPaymentAndShipping.jsp").forward(request, response);
+			
 		}
 	}
 

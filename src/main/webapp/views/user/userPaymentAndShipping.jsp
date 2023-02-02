@@ -117,7 +117,7 @@
 	                        <li><a href="">내정보</a>
 	                            <ul>
 	                                <li><a href="<%=contextPath%>/userInfoUpdate.us">회원정보수정</a></li>
-	                                <li><a href="">결제 및 배송정보</a></li>
+	                                <li><a href="<%=contextPath%>/paymentAndShippingOnlyView.us">결제 및 배송정보</a></li>
 	                                
 	                            </ul>
 	                        </li>
@@ -207,7 +207,7 @@
 												
 												      <!-- Modal Header -->
 												      <div class="modal-header">
-												        <h4 class="modal-title">베송지 추가</h4>
+												        <h4 class="modal-title">배송지 추가</h4>
 												        <button type="button" class="close" data-dismiss="modal">&times;</button>
 												      </div>
 												
@@ -216,17 +216,37 @@
 												        
 												        <b>배송지를 추가하시겠습니까?<br>새 배송지를 입력해주십시오.</b> <br><br>
 												        
-												        <form action="<%= contextPath %>/" method="post">
-												        	
-												        	<input type="hidden" name="userId" value="<%= userId %>">
-												        	<input type="text" class="form-control" id="zipCode" name="zipCode" placeholder="주소를 검색해주세요." required readonly>
-                    										<button type="button" class="btn btn-dark" onclick="sample6_execDaumPostcode();">주소 검색</button> <br><br>
+														<form action="<%= contextPath %>/userPaymentAndShipping.us">
+															<input type="hidden" name="userNo" value="<%= userNo %>">
+												        	<div class="form-group">
+											                    <label for="zipCode"><span class="rq-mark"></span>주소입력</label> <br>
+											                    <input type="text" class="form-control" id="zipCode" name="zipCode" placeholder="주소를 검색해주세요." required readonly>
+											                    <button type="button" class="btn btn-dark" onclick="sample6_execDaumPostcode();">주소 검색</button>
+											                </div>
+											
+											                <div class="form-group" id="addrGroup" style="display:none">
+											               		<input type="radio" class="form-control" id="basicAddress" name="defaultAdd" value="Y" required><br>
+											               		<label for="basicAddress">기본배송지 설정</label>
+											               		<input type="radio" class="form-control" id="basicAddress" name="defaultAdd" value="N" required><br>
+											               		<label for="basicAddress">기본배송지 설정 안함</label>
+											                    <input type="text" class="form-control" id="address" name="address" required><br>
+											                    <label for="detailAddress">상세주소</label> <br>
+											                    <input type="text" class="form-control" id="detailAddress" name="detailAddress">
+											                </div>
+											                
+											                <div class="form-group">
+											                    
+											                    <input type="text" class="form-control"  name="recipient" placeholder="수령인을 입력하세요" required>
+											                     <input type="text" class="form-control" name="Phone" placeholder="수령인 연락처를 입력하세요" required>
+											                    
+											                </div>
 												        	
 												        	<button type="submit" class="btn btn-danger btn-sm">추가하기</button>
-												        	
-												        	
-												        	
-												        </form>
+											
+
+														</form>
+
+												        
 												        
 												      </div>
 												

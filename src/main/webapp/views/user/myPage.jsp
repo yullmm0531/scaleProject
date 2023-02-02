@@ -226,7 +226,7 @@
                         <li><a href="">내정보</a>
                             <ul>
                                 <li><a href="<%=contextPath%>/userInfoUpdate.us">회원정보수정</a></li>
-                                <li><a href="<%=contextPath%>/UserPaymentAndShipping.us">결제 및 배송정보</a></li>
+                                <li><a href="<%=contextPath%>/paymentAndShippingOnlyView.us">결제 및 배송정보</a></li>
                                 
                             </ul>
                         </li>

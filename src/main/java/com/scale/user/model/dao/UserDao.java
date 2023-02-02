@@ -630,6 +630,32 @@ public class UserDao {
 		return result;
 		
 	}
-	
-	
+
+	public int updatePaymentAndShipping(Connection conn, Address ad) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("updatePaymentAndShipping");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, ad.getZipCode());
+			pstmt.setString(2, ad.getAddress1());
+			pstmt.setString(3, ad.getAddress2());
+			pstmt.setString(4, ad.getRecipient());
+			pstmt.setString(5, ad.getPhone());
+			pstmt.setString(6, ad.getDefaultAdd());
+			pstmt.setInt(7, ad.getUserNo());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
 }

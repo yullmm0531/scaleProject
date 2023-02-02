@@ -11,6 +11,8 @@ public class Address {
 	private String defaultAdd;
 	private String addWriter;
 	
+	private int userNo;
+	
 	public Address() {}
 	
 	
@@ -52,6 +54,37 @@ public class Address {
 		this.recipient = recipient;
 		this.phone = phone;
 	}
+	
+	
+
+	public Address(String zipCode, String address1, String address2, String recipient, String phone, String defaultAdd,
+			int userNo) {
+		super();
+		this.zipCode = zipCode;
+		this.address1 = address1;
+		this.address2 = address2;
+		this.recipient = recipient;
+		this.phone = phone;
+		this.defaultAdd = defaultAdd;
+		this.userNo = userNo;
+	}
+
+	
+
+
+	public int getUserNo() {
+		return userNo;
+	}
+
+
+
+
+	public void setUserNo(int userNo) {
+		this.userNo = userNo;
+	}
+
+
+
 
 	public int getAddresNo() {
 		return addresNo;
