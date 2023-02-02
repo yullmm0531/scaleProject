@@ -42,37 +42,10 @@ public class AjaxStyleDetailController extends HttpServlet {
 		String tag = request.getParameter("tag") != null ? request.getParameter("tag") : "";
 		String nickname = request.getParameter("nickname") != null ? request.getParameter("nickname") : "";
 		
-		ArrayList<Style> list = new StyleService().selectDetailList(cpage, view, boardLimit, tag, nickname);
-		
-		ArrayList<StyleImg> ilist = new ArrayList<>();
-		ArrayList<Product> plist = new ArrayList<>();
-		for(Style st : list) {
-			ArrayList<StyleImg> imgs = new StyleService().selectStyleImgByNo(st.getStyleNo());
-			for(StyleImg si : imgs) {
-				ilist.add(si);
-			}
-			ArrayList<Product> pds = new StyleService().selectDetailProduct(st.getStyleNo());
-			for(Product pd : pds) {
-				plist.add(pd);
-			}
-		}
-		
-		int userNo = 0;
 		User loginUser = (User)request.getSession().getAttribute("loginUser");
-		if(loginUser != null) {
-			userNo = loginUser.getUserNo();
-		}
-		int[] checkLike = new int[list.size()];
-		for(int i=0; i<list.size(); i++) {
-			int styleNo = list.get(i).getStyleNo();
-			checkLike[i] = new StyleService().checkLike(userNo, styleNo);
-		}
+		int userNo = loginUser != null ? loginUser.getUserNo() : 0;
 		
-		HashMap<String, Object> map=new HashMap();
-		map.put("list", list);
-		map.put("ilist", ilist);
-		map.put("plist", plist);
-		map.put("checkLike", checkLike);
+		HashMap<String, Object> map = new StyleService().selectDetail(cpage, view, boardLimit, tag, nickname, userNo);
 		
 		response.setContentType("application/json; charset=UTF-8");
 		new Gson().toJson(map, response.getWriter());

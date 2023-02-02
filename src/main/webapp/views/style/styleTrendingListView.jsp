@@ -189,7 +189,7 @@
                                                     + "</div>";
                                         } else if(list[i].styleNo == ilist[j].styleNo && ilist[j].fileLevel == 2) {
                                             value += "<div class='carousel-item'>"
-                                                        + "<img class='cimg' vlaue='dd' src='<%= contextPath %>/" + ilist[j].filePath + ilist[j].changeName + "' onclick='detail(this);'>"
+                                                        + "<img class='cimg' src='<%= contextPath %>/" + ilist[j].filePath + ilist[j].changeName + "' onclick='detail(this);'>"
                                                         + "<input type='hidden' id='" + list[i].styleNo + "' value='" + list[i].styleNo + "'>"
                                                     + "</div>";
                                         }

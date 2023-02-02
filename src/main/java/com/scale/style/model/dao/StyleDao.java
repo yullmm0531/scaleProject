@@ -120,9 +120,11 @@ public class StyleDao {
 				st.setProfileImg(rset.getString("profile_img"));
 				st.setCount(rset.getInt("count"));
 				st.setStyleWriter(rset.getString("user_nickname"));
+				st.setUserId(rset.getString("user_id"));
 				st.setHashtag(rset.getString("hashtag"));
 				
 				list.add(st);
+				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -156,6 +158,8 @@ public class StyleDao {
 				st.setProfileImg(rset.getString("profile_img"));
 				st.setCount(rset.getInt("count"));
 				st.setStyleWriter(rset.getString("user_nickname"));
+				st.setUserId(rset.getString("user_id"));
+				st.setEnrollDate(rset.getDate("enroll_date"));
 				st.setHashtag(rset.getString("hashtag"));
 				
 				list.add(st);
@@ -250,6 +254,8 @@ public class StyleDao {
 				st.setProfileImg(rset.getString("profile_img"));
 				st.setCount(rset.getInt("count"));
 				st.setStyleWriter(rset.getString("user_nickname"));
+				st.setUserId(rset.getString("user_id"));
+				st.setEnrollDate(rset.getDate("enroll_date"));
 				st.setHashtag(rset.getString("hashtag"));
 				
 				list.add(st);
@@ -417,6 +423,7 @@ public class StyleDao {
 				st.setUserId(rset.getString("user_id"));
 				st.setIntroduce(rset.getString("introduce"));
 				st.setStyleWriter(rset.getString("user_nickname"));
+				st.setEnrollDate(rset.getDate("enroll_date"));
 				st.setHashtag(rset.getString("hashtag"));
 				
 				list.add(st);
@@ -519,6 +526,7 @@ public class StyleDao {
 				st.setCount(rset.getInt("count"));
 				st.setStyleWriter(rset.getString("user_nickname"));
 				st.setHashtag(rset.getString("hashtag"));
+				st.setEnrollDate(rset.getDate("enroll_date"));
 				
 				list.add(st);
 			}
@@ -605,18 +613,18 @@ public class StyleDao {
 		return list;
 	}
 	
-	public ArrayList<Style> selectProfileDetailList(Connection conn, int cpage, String view, int boardLimit, String nickname) {
+	public ArrayList<Style> selectProfileDetailList(Connection conn, int cpage, String view, int boardLimit, String id) {
 		ArrayList<Style> list = new ArrayList<Style>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("selectStyleByHashtag");
+		String sql = prop.getProperty("selectStyleByNickname");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			int startRow = 1;
 			int endRow = ((cpage - 1) * boardLimit + 1) + boardLimit - 1;
 			
-			pstmt.setString(1, nickname);
+			pstmt.setString(1, id);
 			pstmt.setInt(2, startRow);
 			pstmt.setInt(3, endRow);
 			rset = pstmt.executeQuery();
@@ -643,10 +651,36 @@ public class StyleDao {
 	}
 	
 	public ArrayList<Product> selectDetailProduct(Connection conn, int styleNo) {
-		ArrayList<Product> list = new ArrayList<>();
+		ArrayList<Product> plist = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("selectStyleByHashtag");
+		String sql = prop.getProperty("selectDetailProduct");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, styleNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Product pd = new Product();
+				pd.setStyleNo(rset.getInt("style_no"));
+				pd.setProductCode(rset.getString("product_code"));
+				pd.setProductNameKo(rset.getString("product_name_ko"));
+				pd.setProductNameEng(rset.getString("product_name_eng"));
+				pd.setProductImgM(rset.getString("product_img_m"));
+				pd.setBrandName(rset.getString("brand_name"));
+				
+				plist.add(pd);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return plist;
 	}
 	
 }

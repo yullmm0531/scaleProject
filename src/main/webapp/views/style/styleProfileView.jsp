@@ -226,7 +226,7 @@
 						<div>소개</div>
 						<% if(loginUser.getIntroduce() != null) { %>
 						<textarea cols="58" rows="5" style="resize: none;" id="introduce"><%= loginUser.getIntroduce() %></textarea>
-						<% } else {%>
+						<% } else { %>
 						<textarea cols="58" rows="5" style="resize: none;" id="introduce"></textarea>
 						<% } %>
 
@@ -451,7 +451,7 @@
 
 			function detail(e){
 				let no = e.nextSibling.value;
-				location.href = "<%= contextPath %>/detail.st?no=" + no + "&view=trending";
+				location.href = "<%= contextPath %>/detail.st?no=" + no + "&view=profile&userNo=" + $("#profile-id").val();
 			}
         </script>
 

@@ -36,6 +36,8 @@
 		                     , PROFILE_IMG
 		                     , COUNT
 		                     , USER_NICKNAME
+		                     , USER_ID
+		                     , S.ENROLL_DATE
 		                     , HASHTAG
 		                  FROM (SELECT
 		                               STYLE_NO
@@ -65,6 +67,8 @@
 				     , COUNT
 				     , PROFILE_IMG
 				     , USER_NICKNAME
+				     , USER_ID
+				     , S.ENROLL_DATE
 				     , HASHTAG
 				  FROM (
 				        SELECT
@@ -97,6 +101,8 @@
 				             , PROFILE_IMG
 				             , COUNT
 				             , USER_NICKNAME
+				             , USER_ID
+				             , S.ENROLL_DATE
 				             , HASHTAG
 				          FROM (SELECT
 				                       STYLE_NO
@@ -225,7 +231,7 @@
 		 WHERE KEYWORD = ?
 	</entry>
 	
-	<entry key="selectStyleByNickname">
+	<entry key="selectStyleByID">
 		SELECT *
 		  FROM (
 		        SELECT
@@ -238,6 +244,7 @@
 				             , COUNT
 				             , USER_ID
 				             , USER_NICKNAME
+				             , S.ENROLL_DATE
 				             , INTRODUCE
 				             , HASHTAG
 				          FROM (SELECT
@@ -250,7 +257,7 @@
 				          RIGHT JOIN TB_STYLE S USING (STYLE_NO)
 				          JOIN TB_USER USING (USER_NO)
 				         WHERE S.STATUS = 'Y'
-                           AND USER_NICKNAME = ?
+                           AND USER_ID = ?
 				         ORDER
 				            BY STYLE_NO DESC
 				        ) A

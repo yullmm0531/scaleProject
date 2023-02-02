@@ -1,11 +1,16 @@
 package com.scale.style.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.scale.style.model.service.StyleService;
+import com.scale.user.model.vo.User;
 
 /**
  * Servlet implementation class StyleDetailViewController
@@ -28,9 +33,22 @@ public class StyleDetailViewController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
 		String no = request.getParameter("no");
+		String view = request.getParameter("view");
+		int boardLimit = 12;
+		String tag = request.getParameter("tag") != null ? request.getParameter("tag") : "";
+		String id = request.getParameter("id") != null ? request.getParameter("id") : "";
+		User loginUser = (User)request.getSession().getAttribute("loginUser");
+		int userNo = loginUser != null ? loginUser.getUserNo() : 0;
 		
+		HashMap<String, Object> map = new StyleService().selectDetail(cpage, view, boardLimit, tag, id, userNo);
+		
+		request.setAttribute("list", map.get("list"));
+		request.setAttribute("ilist", map.get("ilist"));
+		request.setAttribute("plist", map.get("plist"));
+		request.setAttribute("checkLike", map.get("checkLike"));
 		request.setAttribute("cpage", cpage);
 		request.setAttribute("no", no);
+		request.setAttribute("view", view);
 		request.getRequestDispatcher("views/style/styleDetailView.jsp").forward(request, response);
 		
 	}
