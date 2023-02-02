@@ -603,6 +603,33 @@ public class UserDao {
 		
 		return list;
 		
-
 	}
+	
+	
+	public int updateUserAcc(Connection conn, User u) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("updateUserAcc");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, u.getUserAccBank());
+			pstmt.setString(2, u.getUserAccNum());
+			pstmt.setInt(3, u.getUserNo());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	
 }

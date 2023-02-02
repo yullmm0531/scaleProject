@@ -268,5 +268,12 @@
 		 ORDER
 		    BY ADDRESS_NO DESC
 	</entry>
-
+	
+	<entry key="updateUserAcc">
+		UPDATE 
+			   TB_USER
+		   SET USER_ACC_BANK = ?,
+		       USER_ACC_NUMBER = ?
+		 WHERE USER_NO = ?
+	</entry>
 </properties>

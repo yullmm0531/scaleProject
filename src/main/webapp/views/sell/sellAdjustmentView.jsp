@@ -269,7 +269,7 @@
 		                        </tr>
 		                        <tr>
 		                            <th>예금주</th>
-		                            <td><input type="text" class="bank-owner" placeholder="등록된 정보가 없습니다." readonly required></td>
+		                            <td id="bank-Owner"><input type="text" class="bank-owner" placeholder="등록된 정보가 없습니다." readonly required></td>
 		                        </tr>
                         	<% } else{  %>
 		                        <tr>
@@ -284,7 +284,7 @@
 		                        </tr>
 		                        <tr>
 		                            <th>예금주</th>
-		                            <td><%= u.getUserName() %></td>
+		                            <td id="bank-Owner"><%= u.getUserName() %></td>
 		                        </tr>
 	                        <% } %>
                         <% } else { %>
@@ -297,7 +297,7 @@
 	                        </tr>
 	                        <tr>
 	                            <th>예금주</th>
-	                            <td>등록된 정보가 없습니다.</td>
+	                            <td id="bank-Owner">등록된 정보가 없습니다.</td>
 	                        </tr>
                         <% } %>
                     </table>
@@ -367,7 +367,7 @@
                                     </div>
                                     <br><br>
                                     <div align="center">
-                                        <button type="button" class="btn btn-outline-secondary class" data-dismiss="modal">취소</button>
+                                        <button type="button" id="changeAccClose" class="btn btn-outline-secondary" data-dismiss="modal">취소</button>
                                         <button type="button" class="btn btn-secondary" id="change-account-button" disabled>확인</button>
                                     </div>
                                     
@@ -415,14 +415,21 @@
 
                         $("#change-account-button").click(function(){
                            	$.ajax({
-                           		url:"<%= contextPath %>/insertAcc.us",
+                           		url:"<%= contextPath %>/updateAcc.us",
                                 data:{
                                     userNo: <%= loginUser.getUserNo() %>,
                                     accBank: $bankName.val(),
-                                    accBankNum: $bankAccount.val()
+                                    accNum: $bankAccount.val()
                                 },
                                 type:"post",
-                                success:function(){
+                                success:function(result){
+                                    if(result > 0){
+                                        $('#change-account').modal('hide')
+                                        selectUserAcc();
+
+                                    } else{
+                                        alert("계좌정보 변경에 실패했습니다.");
+                                    }
                                     
                                 },
                                 error:function(){
@@ -430,6 +437,26 @@
                                 }
                            	})
                         })
+
+                        function selectUserAcc(){
+                            $.ajax({
+                                url:"<%= contextPath %>/selectAcc.us",
+                                data:{userNo: <%= loginUser.getUserNo() %>},
+                                success:function(response){
+                                    let value="";
+                                    if(response.userAccBank != '없음'){
+                                        $("#bank-account").html("<input type='text' id='userAccBank' name='userAccBank' value='" + response.userAccBank + "' readonly required><input type='text' id='userAccNum' name='userAccNum' value='" + response.userAccNum + "' readonly>")
+                                        $("#bank-Owner").html("<input type='text' class='bank-owner' value='" + response.userName + "' readonly required>")
+                                    } else{
+                                        $("#bank-account").html("<input type='text' class='bank-account' placeholder='등록된 정보가 없습니다.' readonly required>")
+                                        $("#bank-Owner").html("<input type='text' class='bank-owner' placeholder='등록된 정보가 없습니다.' readonly required>")
+                                    }
+                                },
+                                error:function(){
+                                    console.log("계좌정보 조회용 ajax 통신 실패");
+                                }
+                            })
+                        }
 
 
                     })
@@ -620,19 +647,19 @@
                                 <div id="add-address-form">
                                     <div class="form-group">
                                         <label for="userName"><span class="rq-mark">*</span>이름</label>
-                                        <input type="text" class="form-control" name="userName" id="userName" placeholder="이름을 입력해주세요." required>
+                                        <input type="text" class="form-control" name="userName" id="userName" placeholder="이름을 입력해주세요.">
                                         <div class="check-input" id="check-input-name"></div>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="phone"><span class="rq-mark">*</span>휴대폰번호</label>
-                                        <input type="text" class="form-control" name="phone" id="phone" placeholder="휴대폰번호 숫자만 입력해주세요." onKeyup="addHypen(this);" required>
+                                        <input type="text" class="form-control" name="phone" id="phone" placeholder="휴대폰번호 숫자만 입력해주세요." onKeyup="addHypen(this);">
                                         <div class="check-input" id="check-input-phone"></div>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="zipCode"><span class="rq-mark">*</span>주소</label> <br>
-                                        <input type="text" class="form-control" id="zipCode" name="zipCode" placeholder="주소를 검색해주세요." required readonly>
+                                        <input type="text" class="form-control" id="zipCode" name="zipCode" placeholder="주소를 검색해주세요." readonly>
                                         <button type="button" class="btn btn-dark" onclick="sample6_execDaumPostcode();">주소 검색</button>
                                     </div>
                     
