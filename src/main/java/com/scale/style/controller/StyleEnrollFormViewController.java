@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.scale.product.model.service.ProductService;
 import com.scale.product.model.vo.Product;
-import com.scale.style.model.service.StyleService;
 
 /**
  * Servlet implementation class EnrollFormController
@@ -31,7 +31,7 @@ public class StyleEnrollFormViewController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Product> listAll = new StyleService().selectPdAllList();
+		ArrayList<Product> listAll = new ProductService().selectProductList();
 		request.setAttribute("listAll", listAll);
 		request.getRequestDispatcher("views/style/styleEnrollForm.jsp").forward(request, response);
 	}
