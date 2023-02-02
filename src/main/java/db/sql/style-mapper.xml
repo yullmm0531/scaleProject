@@ -85,34 +85,6 @@
 		 WHERE RNUM BETWEEN ? AND ?
 	</entry>
 	
-	<entry key="selectStyleImgByNo">
-		SELECT
-		       IMG_NO
-		     , CHANGE_NAME
-		     , FILE_PATH
-		     , STYLE_NO
-		     , FILE_LEVEL
-		  FROM TB_STYLE_IMG
-		 WHERE STATUS = 'Y'
-		   AND STYLE_NO = ?
-	</entry>
-	
-	<entry key="selectTagList">
-		SELECT *
-		  FROM (SELECT
-				       ROWNUM RNUM
-				     , A.*
-				  FROM (SELECT
-				               HASHTAG_NO
-				             , KEYWORD
-				          FROM TB_HASHTAG
-				         ORDER
-				            BY COUNT DESC
-				        ) A
-				)
-		 WHERE RNUM BETWEEN 1 AND 6
-	</entry>
-	
 	<entry key="selectNewStyleList">
 		SELECT *
 		  FROM (
@@ -141,6 +113,34 @@
 				                ) A
 		        )
 		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="selectStyleImgByNo">
+		SELECT
+		       IMG_NO
+		     , CHANGE_NAME
+		     , FILE_PATH
+		     , STYLE_NO
+		     , FILE_LEVEL
+		  FROM TB_STYLE_IMG
+		 WHERE STATUS = 'Y'
+		   AND STYLE_NO = ?
+	</entry>
+	
+	<entry key="selectTagList">
+		SELECT *
+		  FROM (SELECT
+				       ROWNUM RNUM
+				     , A.*
+				  FROM (SELECT
+				               HASHTAG_NO
+				             , KEYWORD
+				          FROM TB_HASHTAG
+				         ORDER
+				            BY COUNT DESC
+				        ) A
+				)
+		 WHERE RNUM BETWEEN 1 AND 6
 	</entry>
 	
 	<entry key="insertStyle">
@@ -282,6 +282,20 @@
 		    ?
 		  , ?
 		  )
+	</entry>
+	
+	<entry key="selectDetailProduct">
+		SELECT
+		       STYLE_NO
+		     , PRODUCT_CODE
+		     , PRODUCT_NAME_KO
+		     , PRODUCT_NAME_ENG
+		     , PRODUCT_IMG_M
+		     , BRAND_NAME
+		  FROM TB_STYLE_PD
+		  JOIN TB_PRODUCT USING (PRODUCT_CODE)
+		  JOIN TB_BRAND USING (BRAND_CODE)
+		 WHERE STYLE_NO = ?
 	</entry>
 	
 </properties>

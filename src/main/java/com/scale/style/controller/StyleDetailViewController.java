@@ -26,7 +26,13 @@ public class StyleDetailViewController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int cpage = Integer.parseInt(request.getParameter("cpage"));
+		String no = request.getParameter("no");
+		
+		request.setAttribute("cpage", cpage);
+		request.setAttribute("no", no);
 		request.getRequestDispatcher("views/style/styleDetailView.jsp").forward(request, response);
+		
 	}
 
 	/**

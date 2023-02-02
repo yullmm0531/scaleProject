@@ -184,12 +184,13 @@
                                         if(list[i].styleNo == ilist[j].styleNo && ilist[j].fileLevel == 1) {
                                             value += "<div class='carousel-item active'>"
                                                         + "<img class='cimg' src='<%= contextPath %>/" + ilist[j].filePath + ilist[j].changeName + "' onclick='detail(this);'>"
-                                                        + "<input type='hidden' value='" + list[i].styleNo + "'>"
+                                                        + "<input type='hidden' id='" + list[i].styleNo + "' value='" + list[i].styleNo + "'>"
+                                                        + "<input type='hidden' value='" + cpage + "'>"
                                                     + "</div>";
                                         } else if(list[i].styleNo == ilist[j].styleNo && ilist[j].fileLevel == 2) {
                                             value += "<div class='carousel-item'>"
                                                         + "<img class='cimg' vlaue='dd' src='<%= contextPath %>/" + ilist[j].filePath + ilist[j].changeName + "' onclick='detail(this);'>"
-                                                        + "<input type='hidden' value='" + list[i].styleNo + "'>"
+                                                        + "<input type='hidden' id='" + list[i].styleNo + "' value='" + list[i].styleNo + "'>"
                                                     + "</div>";
                                         }
                                     }
@@ -270,8 +271,9 @@
         })
 
         function detail(e){
-            let no = e.nextSibling.value
-            location.href = "<%= contextPath %>/detail.st?no=" + no;
+            let no = e.nextSibling.value;
+            let cpage = e.nextSibling.nextSibling.value;
+            location.href = "<%= contextPath %>/detail.st?no=" + no + "&view=trending&cpage=" + cpage;
         }
     </script>
 

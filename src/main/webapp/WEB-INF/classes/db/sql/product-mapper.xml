@@ -71,6 +71,7 @@
 		   OR PRODUCT_NAME_ENG LIKE '%' || ? || '%'
 	</entry>
 	
+	
 	<entry key="clickLike">
 		SELECT COUNT(*) COUNT
 		  FROM TB_LIKE
