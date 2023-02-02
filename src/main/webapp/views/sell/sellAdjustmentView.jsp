@@ -156,7 +156,7 @@
 	        background-color: whitesmoke;
     	}
         #change-account .modal-content{
-            height: 530px;
+            height: 600px;
         }
         .totalPrice{
 	        width: 100px;
@@ -212,6 +212,21 @@
         .bank-account, .bank-owner{
             border: none;
             background-color: whitesmoke;
+        }
+        .address-option input[type="radio"] {
+            display: none;
+        }
+     
+        .address-option input[type="radio"] + span {
+            background-color: whitesmoke;
+            text-align: left;
+            cursor: pointer;
+        }
+        .test_obj input[type="radio"]:checked + span {
+            background-color: rgb(81, 81, 81);
+        }
+        .address-option{
+            width: 100%;
         }
     </style>
 </head>
@@ -317,18 +332,39 @@
                                         <% } %>
                                     </div>
                                     <br>
-                                    <div class="add-account-type">은행명</div>
-                                    <div class="account_input_area"><input type="text" id="bankName" name="bankName" placeholder="은행명"></div>
-                                    <br>
-                                    <div class="add-account-type">계좌번호</div>
-                                    <div class="account_input_area"><input type="text" id="bankAccount" name="bankAccount"
-                                        placeholder="-없이 입력하세요"></div>
-                                    <br>
-                                    <div class="add-account-type">예금주</div>
-                                    <div class="account_input_area">
-                                        <input type="text" id="accountOwner" placeholder="예금주명을 정확히 입력하세요." name="accountOwner">
+                                    
+                                    <div class="form-group">
+                                        <label for="userName"><span class="rq-mark">*</span>은행명</label>
+
+                                        <select name="bankName" class="form-control" id="bankName" name="bankName">
+                                            <option value="NoSelect">선택하세요</option>
+                                            <option value="국민은행">국민은행</option>
+                                            <option value="신한은행">신한은행</option>
+                                            <option value="우리은행">우리은행</option>
+                                            <option value="하나은행">하나은행</option>
+                                            <option value="기업은행">기업은행</option>
+                                            <option value="농협">농협</option>
+                                            <option value="sc은행">sc은행</option>
+                                            <option value="우체국">우체국</option>
+                                            <option value="한국씨티은행">한국씨티은행</option>
+                                            <option value="산업은행">산업은행</option>
+                                            <option value="카카오뱅크">카카오뱅크</option>
+                                            <option value="부산은행">부산은행</option>
+                                            <option value="대구은행">대구은행</option>
+                                        </select>
+                                        <div class="check-input" id="check-input-bankName"></div>
                                     </div>
-  
+
+                                    <div class="form-group">
+                                        <label for="phone"><span class="rq-mark">*</span>계좌번호</label>
+                                        <input type="text" class="form-control" name="bankAccount" id="bankAccount" placeholder="-포함하여 입력해주세요.">
+                                        <div class="check-input" id="check-input-bankAccount"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone"><span class="rq-mark">*</span>예금주</label>
+                                        <input type="text" class="form-control" name="bankAccountOwner" id="bankAccountOwner" placeholder="예금주명을 입력해주세요.">
+                                        <div class="check-input" id="check-input-bankAccountOwner"></div>
+                                    </div>
                                     <br><br>
                                     <div align="center">
                                         <button type="button" class="btn btn-outline-secondary class" data-dismiss="modal">취소</button>
@@ -342,14 +378,60 @@
                 </div>
 
                 <script>
+                    
                     $(function(){
-                        $("#change-account-form input").on('input', function(){
-                            if(($("#bankName").val() != '') && ($("#bankAccount").val() != '') && ($("#accountOwner").val() != '')){
+                        const $bankName = $("#bankName");
+                        const $bankAccount = $("#bankAccount");
+                        const $bankAccountOwner = $("#bankAccountOwner");
+                        const $checkInputBankName = $("#check-input-bankName");
+                        const $checkInputBankAccount = $("#check-input-bankAccount");
+                        const $checkInputBankAccountOwner = $("#check-input-bankAccountOwner");
+                        // 이름 유효성 체크
+                        $bankAccountOwner.focusout(function(){
+                            if($bankAccountOwner.val() == ""){
+                                $checkInputBankAccountOwner.html("이름을 입력해주세요.");
+                            }else if($bankAccountOwner.val() == "<%= loginUser.getUserName() %>"){
+                                $checkInputBankAccountOwner.html("");
+                            }else{
+                                $checkInputBankAccountOwner.html("본인 명의의 계좌를 등록해주세요.");
+                            }
+                        })
+
+                        $bankName.focusout(function(){
+                            if($bankName.val() == 'NoSelect'){
+                                $checkInputBankName.html("은행명을 선택해주세요.");
+                            } else{
+                                $checkInputBankName.html("");
+                            }
+                        })
+
+                        $("#change-account-form input, #change-account-form select").on("change", function(){
+                            if(($bankName.val() != 'NoSelect') && ($bankAccount.val() != '') && ($bankAccountOwner.val() == "<%= loginUser.getUserName() %>")){
                                 $("#change-account-button").attr("disabled", false);
                             } else{
                                 $("#change-account-button").attr("disabled", true);
                             }
-                        }) 
+                        })
+
+                        $("#change-account-button").click(function(){
+                           	$.ajax({
+                           		url:"<%= contextPath %>/insertAcc.us",
+                                data:{
+                                    userNo: <%= loginUser.getUserNo() %>,
+                                    accBank: $bankName.val(),
+                                    accBankNum: $bankAccount.val()
+                                },
+                                type:"post",
+                                success:function(){
+                                    
+                                },
+                                error:function(){
+                                    console.log("댓글 작성용 ajax 통신 실패");
+                                }
+                           	})
+                        })
+
+
                     })
                 </script>
 
@@ -436,8 +518,8 @@
                     
                             <!-- Modal Header -->
                             <div class="modal-header">
-                            <h5 class="modal-title">배송지 목록</h5>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h5 class="modal-title">배송지 목록</h5>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
                             
                             </div>
                             
@@ -446,42 +528,22 @@
                                 <div id="addresses">
                                     
                                     <div class="address">
-                                        <div class="address-check">
-                                            <!--기본배송지인경우-->
-                                            <span class="badge badge-pill badge-secondary">기본배송지</span>
-                                            <!--선택한 배송지-->
-                                            <span>✓</span>
-                                        </div>
-                                        <div class="address-name">
-                                            정유림
-                                        </div>
-                                        <div class="address-phone">
-                                            010-****-****
-                                        </div>
-                                        <div class="address-detail">
-                                            (*****)서울시 강서구 공항대로161-17 108동 303호
-                                        </div>
+                                        
+                                        
                                     </div>
                                     <br>
                                     <div class="line2"></div>
-                                    <br>
-                                    <div class="address">
-                                        <div class="address-name">
-                                            정유림
-                                        </div>
-                                        <div class="address-phone">
-                                            010-****-****
-                                        </div>
-                                        <div class="address-detail">
-                                            (*****)서울시 강서구 공항대로161-17 108동 303호
-                                        </div>
-                                    </div>
+                                    
+                                </div>
+                                <div align="center">
+                                    <button type="button" class="btn btn-outline-secondary class" data-dismiss="modal">취소</button>
+                                    <button type="button" class="btn btn-secondary" id="change-account-button" disabled>확인</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!--  
+                
                 <script>
                
                     $(function(){
@@ -490,7 +552,48 @@
                                 url:"<%= contextPath %>/addressList.us",
                                 data:{userNo:<%= loginUser.getUserNo() %>},
                                 success:function(response){
+                                    if(response.size() != 0){
+                                        var str = "<label class='address-option btn btn-outline-secondary'>"
+                                                +   "<input type='radio' name='heckedAddress' value='" + request.get(0).getAddresNo() + "'>"
+                                                +   "<span>"
+                                                +      "<div class='address-check'>"
+                                                +       "<!--기본배송지인경우-->"
+                                                +       "<span class='badge badge-pill badge-secondary'>기본배송지</span>"
+                                                +      "</div>"
+                                                +      "<div class='address-name'>"
+                                                +          response.get(0).getRecipient()
+                                                +      "</div>"
+                                                +      "<div class='address-phone'>"
+                                                +          request.get(0).getPhone()
+                                                +      "</div>"
+                                                +      "<div class='address-detail'>"
+                                                +          "(" + request.get(0).getZipCode() + ")" + request.get(0).getAddress1() + request.get(0).getAddress2();
+                                                +      "</div></span>"
+                                                + "</label>";
 
+                                        for(let i=1; i<response.size(); i++){
+                                            str += "<br><br>"
+                                                +  "<label class='address-option btn btn-outline-secondary'>"
+                                                    +   "<input type='radio' name='heckedAddress' value='" + response.get(i).getAddresNo() + "'>"
+                                                    +   "<span>"
+                                                    +      "<div class='address-check'>"
+                                                    +       "<!--기본배송지인경우-->"
+                                                    +       "<span class='badge badge-pill badge-secondary'>기본배송지</span>"
+                                                    +      "</div>"
+                                                    +      "<div class='address-name'>"
+                                                    +          response.get(0).getRecipient()
+                                                    +      "</div>"
+                                                    +      "<div class='address-phone'>"
+                                                    +          request.get(0).getPhone()
+                                                    +      "</div>"
+                                                    +      "<div class='address-detail'>"
+                                                    +          "(" + request.get(0).getZipCode() + ")" + request.get(0).getAddress1() + request.get(0).getAddress2();
+                                                    +      "</div></span>"
+                                                    + "</label>";
+                                        }
+                                        $("#address").html(str);
+
+                                    }
                                 },
                                 error:function(){
                                     alert("배송지 목록 조회에 실패했습니다.");
@@ -499,7 +602,7 @@
                         })
                     })
                 </script>
-	-->
+	
                 <!-- 배송지 추가 모달 -->
                 <div class="modal" id="address-add">
                     <div class="modal-dialog">
@@ -555,6 +658,21 @@
                 </div>
                 <script>
                     $(function(){
+                        const $userName = $("#userName");
+                        const $checkInputName = $("#check-input-name");
+                        const $phone = $("#phone");
+                        const $checkInputPhone = $("#check-input-phone");
+
+                        // 이름 유효성 체크
+                        $userName.focusout(function(){
+                            if($userName.val() == ""){
+                                $checkInputName.html("이름을 입력해주세요.");
+                            }else{
+                                $checkInputName.html("");
+                            }
+                        })
+
+
                         // 휴대폰번호 유효성 체크
                         $phone.focusout(function(){
                             if($phone.val() == ""){
@@ -564,7 +682,6 @@
                             }
                         })
 
-                        
                     })
                 </script>
 
