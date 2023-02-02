@@ -87,7 +87,10 @@
         height: 50px;
     }
     #insert-btn{cursor: pointer;}
-
+    
+    .style-img{
+        width: 260px;
+    }
 </style>
 </head>
 <body>
