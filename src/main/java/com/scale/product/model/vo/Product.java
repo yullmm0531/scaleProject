@@ -22,12 +22,17 @@ public class Product {
 	private String color;
 	private Date releaseDate;
 	private int releasePrice;
-	
+	private int styleNo;
 	
 	private int count;
-	
-	
-	
+
+	public int getStyleNo() {
+		return styleNo;
+	}
+
+	public void setStyleNo(int styleNo) {
+		this.styleNo = styleNo;
+	}
 
 
 	public int getCount() {

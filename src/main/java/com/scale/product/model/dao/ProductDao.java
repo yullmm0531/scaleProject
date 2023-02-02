@@ -47,6 +47,7 @@ public class ProductDao {
 				p.setProductNameEng(rset.getString("product_name_eng"));
 				p.setProductImgM(rset.getString("product_img_m"));
 				p.setBrandName(rset.getString("brand_name"));
+				p.setProductCategory(rset.getString("product_category"));
 				list.add(p);
 			}
 		} catch (SQLException e) {
@@ -295,6 +296,7 @@ public class ProductDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
+			
 			close(rset);
 			close(pstmt);
 		}

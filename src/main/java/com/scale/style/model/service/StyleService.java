@@ -144,5 +144,25 @@ public class StyleService {
 		
 		return result;
 	}
+	
+	public ArrayList<Style> selectDetailList(int cpage, String view, int boardLimit, String tag, String nickname){
+		Connection conn = getConnection();
+		
+		ArrayList<Style> list = new ArrayList<Style>();
+		switch(view) {
+		case "trending": list = new StyleDao().selectTrendingDetailList(conn, cpage, view, boardLimit);  break;
+		case "newest": list = new StyleDao().selectNewestDetailList(conn, cpage, view, boardLimit); break;
+		case "tagsearch": list = new StyleDao().selectTagSearchDetailList(conn, cpage, view, boardLimit, tag); break;
+		case "profile": list = new StyleDao().selectProfileDetailList(conn, cpage, view, boardLimit, nickname); break;
+		}
+		close(conn);
+		return list;
+	}
+	
+	public ArrayList<Product> selectDetailProduct(int styleNo) {
+		Connection conn = getConnection();
+		
+		ArrayList<Product> plist = new StyleDao().selectDetailProduct(conn, styleNo);
+	}
 
 }
