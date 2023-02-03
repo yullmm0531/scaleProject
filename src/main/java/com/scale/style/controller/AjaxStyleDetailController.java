@@ -20,7 +20,7 @@ import com.scale.user.model.vo.User;
 /**
  * Servlet implementation class StyleDetailViewController
  */
-@WebServlet("/detail.ajax")
+@WebServlet("/detailStyle.ajax")
 public class AjaxStyleDetailController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -40,12 +40,11 @@ public class AjaxStyleDetailController extends HttpServlet {
 		String view = request.getParameter("view");
 		int boardLimit = 12;
 		String tag = request.getParameter("tag") != null ? request.getParameter("tag") : "";
-		String nickname = request.getParameter("nickname") != null ? request.getParameter("nickname") : "";
-		
+		String userID = request.getParameter("userID") != null ? request.getParameter("userID") : "";
 		User loginUser = (User)request.getSession().getAttribute("loginUser");
 		int userNo = loginUser != null ? loginUser.getUserNo() : 0;
 		
-		HashMap<String, Object> map = new StyleService().selectDetail(cpage, view, boardLimit, tag, nickname, userNo);
+		HashMap<String, Object> map = new StyleService().selectAddDetail(cpage, view, boardLimit, tag, userID, userNo);
 		
 		response.setContentType("application/json; charset=UTF-8");
 		new Gson().toJson(map, response.getWriter());
