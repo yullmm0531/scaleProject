@@ -194,6 +194,7 @@
                                             value += "<div class='carousel-item'>"
                                                         + "<img class='cimg' src='<%= contextPath %>/" + ilist[j].filePath + ilist[j].changeName + "' onclick='detail(this);'>"
                                                         + "<input type='hidden' id='" + list[i].styleNo + "' value='" + list[i].styleNo + "'>"
+                                                        + "<input type='hidden' value='" + cpage + "'>"
                                                     + "</div>";
                                         }
                                     }
@@ -257,6 +258,7 @@
                 $.ajax({
                     url:"increaselike.ajax",
                     data:{"userNo":userNo, "styleNo":$(this).next().val()},
+                    async : false,
                     success:function(result){
                         if(like == "🤍"){
                             e.text("❤");
@@ -276,6 +278,7 @@
         function detail(e){
             let no = $(e).next().val();
             let cpage = $(e).next().next().val();
+            
             location.href = "<%= contextPath %>/detail.st?no=" + no + "&view=trending&cpage=" + cpage;
         }
     </script>

@@ -223,7 +223,7 @@
             text-align: left;
             cursor: pointer;
         }
-        .test_obj input[type="radio"]:checked + span {
+        .address-option input[type="radio"]:checked + span {
             background-color: rgb(81, 81, 81);
         }
         .address-option{
@@ -434,7 +434,7 @@
                                     
                                 },
                                 error:function(){
-                                    console.log("댓글 작성용 ajax 통신 실패");
+                                    console.log("계좌정보 변경용 ajax 통신 실패");
                                 }
                            	})
                         })
@@ -473,7 +473,7 @@
                             <th id="shipping-title">반송주소</th>
                             <td id="shipping-address-button">
                                 <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#address-add">배송지 추가</button>
-                                <button type="button" class="btn btn-outline-secondary btn-sm" id="addressList();" data-toggle="modal" data-target="#address-list">배송지 목록</button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm" id="addressList" data-toggle="modal" data-target="#address-list">배송지 목록</button>
                             </td>
                         </tr>
                         <% if(ad != null) { %>
@@ -556,7 +556,7 @@
                                 <div id="addresses">
                                     
                                     <div class="address">
-                                        
+                                        <label class='address-option btn btn-outline-secondary'><input type='radio' name='heckedAddress' value='2'><span><div class='address-check'><!--기본배송지인경우--><span class='badge badge-pill badge-secondary'>기본배송지</span></div><div class='address-name'>신짱구</div><div class='address-phone'>010-1112-3568</div><div class='address-detail'>(13607)경기 성남시 분당구 내정로 54602동 108호</div></span></label><div class='line2'></div>
                                         
                                     </div>
                                     <br>
@@ -580,46 +580,50 @@
                                 url:"<%= contextPath %>/addressList.us",
                                 data:{userNo:<%= loginUser.getUserNo() %>},
                                 success:function(response){
-                                    if(response.size() != 0){
-                                        var str = "<label class='address-option btn btn-outline-secondary'>"
-                                                +   "<input type='radio' name='heckedAddress' value='" + request.get(0).getAddresNo() + "'>"
-                                                +   "<span>"
-                                                +      "<div class='address-check'>"
-                                                +       "<!--기본배송지인경우-->"
-                                                +       "<span class='badge badge-pill badge-secondary'>기본배송지</span>"
-                                                +      "</div>"
-                                                +      "<div class='address-name'>"
-                                                +          response.get(0).getRecipient()
-                                                +      "</div>"
-                                                +      "<div class='address-phone'>"
-                                                +          request.get(0).getPhone()
-                                                +      "</div>"
-                                                +      "<div class='address-detail'>"
-                                                +          "(" + request.get(0).getZipCode() + ")" + request.get(0).getAddress1() + request.get(0).getAddress2();
-                                                +      "</div></span>"
-                                                + "</label>";
+                                    console.log(response);
+                                    var str = "";
+                                    if(response.length != 0){
+                                        str += "<label class='address-option btn btn-outline-secondary'>"
+                                            +   "<input type='radio' name='heckedAddress' value='" + response[0].addresNo + "'>"
+                                            +   "<span>"
+                                            +      "<div class='address-check'>"
+                                            +       "<!--기본배송지인경우-->"
+                                            +       "<span class='badge badge-pill badge-secondary'>기본배송지</span>"
+                                            +      "</div>"
+                                            +      "<div class='address-name'>"
+                                            +          response[0].recipient
+                                            +      "</div>"
+                                            +      "<div class='address-phone'>"
+                                            +          response[0].phone
+                                            +      "</div>"
+                                            +      "<div class='address-detail'>"
+                                            +          "(" + response[0].zipCode + ")" + response[0].address1 + response[0].address2
+                                            +      "</div></span>"
+                                            + "</label>"
+                                            + "<div class='line2'></div>";
 
-                                        for(let i=1; i<response.size(); i++){
+                                        for(let i=1; i<response.length; i++){
                                             str += "<br><br>"
                                                 +  "<label class='address-option btn btn-outline-secondary'>"
-                                                    +   "<input type='radio' name='heckedAddress' value='" + response.get(i).getAddresNo() + "'>"
+                                                    +   "<input type='radio' name='heckedAddress' value='" + response[i].addresNo + "'>"
                                                     +   "<span>"
                                                     +      "<div class='address-check'>"
                                                     +       "<!--기본배송지인경우-->"
                                                     +       "<span class='badge badge-pill badge-secondary'>기본배송지</span>"
                                                     +      "</div>"
                                                     +      "<div class='address-name'>"
-                                                    +          response.get(0).getRecipient()
+                                                    +          response[i].recipient
                                                     +      "</div>"
                                                     +      "<div class='address-phone'>"
-                                                    +          request.get(0).getPhone()
+                                                    +          response[i].phone
                                                     +      "</div>"
                                                     +      "<div class='address-detail'>"
-                                                    +          "(" + request.get(0).getZipCode() + ")" + request.get(0).getAddress1() + request.get(0).getAddress2();
+                                                    +          "(" + response[i].zipCode + ")" + response[i].address1 + response[i].address2
                                                     +      "</div></span>"
-                                                    + "</label>";
+                                                    + "</label>"
+                                                    + "<div class='line2'></div>";
                                         }
-                                        $("#address").html(str);
+                                        $(".address").html(str);
 
                                     }
                                 },
@@ -640,7 +644,8 @@
                             <!-- Modal Header -->
                             <div class="modal-header">
                             <h5 class="modal-title">배송지 추가</h5>
-                            
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+
                             </div>
                             
                             <!-- Modal body -->

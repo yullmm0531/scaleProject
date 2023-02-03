@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import com.scale.bidding.model.vo.Bidding;
+import com.scale.bidding.model.vo.Buyer;
 import com.scale.bidding.model.vo.Seller;
 
 public class BiddingDao {
@@ -414,7 +415,7 @@ public class BiddingDao {
 			pstmt.setString(3, sr.getRecipientPhone());
 			pstmt.setString(4, sr.getRecipientZipCode());
 			pstmt.setString(5, sr.getRecipientAddress());
-			pstmt.setString(6, sr.getRecipientShiippingMsg());
+			pstmt.setString(6, sr.getRecipientShippingMsg());
 			pstmt.setString(7, sr.getBankName());
 			pstmt.setString(8, sr.getBankAccount());
 			pstmt.setString(9, sr.getBankAccountOwner());
@@ -433,13 +434,13 @@ public class BiddingDao {
 	}
 	
 	
-	public Bidding selectSellBiddingSuccess(Connection conn, int userNo) {
+	public Bidding selectBiddingSuccess(Connection conn, int userNo) {
 		
 		Bidding b = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
-		String sql = prop.getProperty("selectSellBiddingSuccess");
+		String sql = prop.getProperty("selectBiddingSuccess");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -452,6 +453,7 @@ public class BiddingDao {
 								rset.getInt("bidding_price"),
 								rset.getInt("inspection_cost"),
 								rset.getInt("commission"),
+								rset.getInt("delivery_fee"),
 								rset.getString("product_img_m"));
 			}
 			
@@ -504,7 +506,7 @@ public class BiddingDao {
 			pstmt.setString(4, sr.getRecipientPhone());
 			pstmt.setString(5, sr.getRecipientZipCode());
 			pstmt.setString(6, sr.getRecipientAddress());
-			pstmt.setString(7, sr.getRecipientShiippingMsg());
+			pstmt.setString(7, sr.getRecipientShippingMsg());
 			pstmt.setString(8, sr.getBankName());
 			pstmt.setString(9, sr.getBankAccount());
 			pstmt.setString(10, sr.getBankAccountOwner());
@@ -542,6 +544,100 @@ public class BiddingDao {
 								rset.getInt("bidding_price"),
 								rset.getInt("inspection_cost"),
 								rset.getInt("commission"),
+								rset.getString("product_img_m"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return b;
+		
+	}
+	
+	public int insertBuyer(Connection conn, Buyer br) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertBuyer");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, br.getBuyerNo());
+			pstmt.setString(2, br.getRecipientName());
+			pstmt.setString(3, br.getRecipientPhone());
+			pstmt.setString(4, br.getRecipientZipCode());
+			pstmt.setString(5, br.getRecipientAddress());
+			pstmt.setString(6, br.getRecipientShippingMsg());
+			pstmt.setString(7, br.getPaymentNum());
+			pstmt.setString(8, br.getPaymentMethod());
+			pstmt.setInt(9, br.getPaymentPrice());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	public int updateBuyer(Connection conn, int bNo, Buyer br) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("updateBuyer");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bNo);
+			pstmt.setInt(2, br.getBuyerNo());
+			pstmt.setString(3, br.getRecipientName());
+			pstmt.setString(4, br.getRecipientPhone());
+			pstmt.setString(5, br.getRecipientZipCode());
+			pstmt.setString(6, br.getRecipientAddress());
+			pstmt.setString(7, br.getRecipientShippingMsg());
+			pstmt.setString(8, br.getPaymentNum());
+			pstmt.setString(9, br.getPaymentMethod());
+			pstmt.setInt(10, br.getPaymentPrice());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	public Bidding selectBuyImediatelySuccess(Connection conn, int bNo) {
+		
+		Bidding b = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectBuyImediatelySuccess");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				b = new Bidding(rset.getInt("bidding_no"),
+								rset.getInt("bidding_price"),
+								rset.getInt("delivery_fee"),
 								rset.getString("product_img_m"));
 			}
 			

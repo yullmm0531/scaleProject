@@ -141,6 +141,31 @@
         border: none;
         background-color: whitesmoke;
     }
+    #add-address-form{
+        margin:auto;
+        padding:10px;
+    }
+    #zipCode{
+        width:350px; display:inline-block;
+    }
+    ::placeholder{font-size:12px;}
+    .check-input{
+        color:red;
+        font-size:11px;
+        padding:3px 10px;
+    }
+    #btn-area{
+        text-align:center;
+        padding : 30px;
+    }
+    .form-fields button{
+        font-size:14px;
+        width:90px;
+    }
+    .rq-mark{color:red; margin:7px;}
+    #address-add .modal-content{
+        height: 750px;
+    }
 </style>
 </head>
 <body>
@@ -148,8 +173,8 @@
     <br><br>
     <div class="shipping-payment">
     
-        <form action="" method="">
-        	<input type="hidden" name="biddingInfo" value="<%= bType %>">
+        <form action="<%= contextPath %>/buybidding.bi" id="buyBiddingForm">
+        	<input type="hidden" name="bType" value="<%= bType %>">
             <br>
             <div id="shipping-payment">
 	                <div id="title">배송/결제</div>
@@ -308,110 +333,104 @@
                             
                             <!-- Modal body -->
                             <div class="modal-body">
-                                <div id="add-address-form" align="center">
-                                    <table>
-                                        <tr>
-                                            <th colspan="2">
-                                                <div class="add-address-type">* 이름</div>
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">
-                                                <div class="input_area"><input type="text" maxlength="5" placeholder="이름입력"></div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2">
-                                                <div class="add-address-type">* 전화번호</div>
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">
-                                                <div class="input_area"><input type="text" maxlength="13"
-                                                    placeholder="숫자만입력" onKeyup ="addHypen(this);"></div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th colspan="2">
-                                                <div class="add-address-type">* 우편번호</div>
-                                            </th>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="input_area">
-                                                    <input type="text" id="sample6_postcode" placeholder="우편번호">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div>
-                                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">검색</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">
-                                                <div class="input_area"><input type="text" id="sample6_address" placeholder="주소"></div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">
-                                                <div class="input_area"><input type="text" id="sample6_extraAddress" placeholder="참고항목"></div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">
-                                                <div class="input_area"><input type="text" id="sample6_detailAddress" placeholder="상세주소"></div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">
-                                                <div>
-                                                    <input type="checkbox" value="Y" id="defaultAD">
-                                                    <label for="defaultAD">기본배송지 설정</label>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
+                                <div id="add-address-form">
+                                    <div class="form-group">
+                                        <label for="userName"><span class="rq-mark">*</span>이름</label>
+                                        <input type="text" class="form-control" name="userName" id="userName" placeholder="이름을 입력해주세요.">
+                                        <div class="check-input" id="check-input-name"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="phone"><span class="rq-mark">*</span>휴대폰번호</label>
+                                        <input type="text" class="form-control" name="phone" id="phone" placeholder="휴대폰번호 숫자만 입력해주세요." onKeyup="addHypen(this);">
+                                        <div class="check-input" id="check-input-phone"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="zipCode"><span class="rq-mark">*</span>주소</label> <br>
+                                        <input type="text" class="form-control" id="zipCode" name="zipCode" placeholder="주소를 검색해주세요." readonly>
+                                        <button type="button" class="btn btn-dark" onclick="sample6_execDaumPostcode();">주소 검색</button>
+                                    </div>
+                    
+                                    <div class="form-group" id="addrGroup">
+                                        <input type="text" class="form-control" id="address" name="address"><br>
+                                        <label for="detailAddress">상세주소</label> <br>
+                                        <input type="text" class="form-control" id="detailAddress" name="detailAddress">
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" name="defaultAD" value="Y" id="defaultAD">
+                                        <label for="defaultAD">기본배송지 설정</label>
+                                    </div>
                                     <br><br>
                                     <div align="center">
-                                        <button type="button" class="btn btn-outline-secondary">취소</button>
+                                        <button type="button" class="btn btn-outline-secondary class" data-dismiss="modal">취소</button>
                                         <button type="button" class="btn btn-secondary" disabled>확인</button>
                                     </div>
-                                    
+                                                
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <script>
+                    $(function(){
+                        const $userName = $("#userName");
+                        const $checkInputName = $("#check-input-name");
+                        const $phone = $("#phone");
+                        const $checkInputPhone = $("#check-input-phone");
+
+                        // 이름 유효성 체크
+                        $userName.focusout(function(){
+                            if($userName.val() == ""){
+                                $checkInputName.html("이름을 입력해주세요.");
+                            }else{
+                                $checkInputName.html("");
+                            }
+                        })
+
+
+                        // 휴대폰번호 유효성 체크
+                        $phone.focusout(function(){
+                            if($phone.val() == ""){
+                                $checkInputPhone.html("휴대폰번호를 입력해주세요.");
+                            }else{
+                                $checkInputPhone.html("");
+                            }
+                        })
+
+                    })
+                </script>
+
 
                 <script>
                     function addHypen(obj) {
-                var number = obj.value.replace(/[^0-9]/g, "");
-                var phone = "";
+                   var number = obj.value.replace(/[^0-9]/g, "");
+                   var phone = "";
                 
-                if(number.length < 4) {
-                    return number;
-                } else if(number.length < 7) {
-                    phone += number.substr(0, 3);
-                    phone += "-";
-                    phone += number.substr(3);
-                } else if(number.length < 11) {
-                    phone += number.substr(0, 3);
-                    phone += "-";
-                    phone += number.substr(3, 3);
-                    phone += "-";
-                    phone += number.substr(6);
-                } else {
-                    phone += number.substr(0, 3);
-                    phone += "-";
-                    phone += number.substr(3, 4);
-                    phone += "-";
-                    phone += number.substr(7);
-                }
-                obj.value = phone;
+                   if(number.length < 4) {
+                       return number;
+                   } else if(number.length < 7) {
+                       phone += number.substr(0, 3);
+                       phone += "-";
+                       phone += number.substr(3);
+                   } else if(number.length < 11) {
+                       phone += number.substr(0, 3);
+                       phone += "-";
+                       phone += number.substr(3, 3);
+                       phone += "-";
+                       phone += number.substr(6);
+                   } else {
+                       phone += number.substr(0, 3);
+                       phone += "-";
+                       phone += number.substr(3, 4);
+                       phone += "-";
+                       phone += number.substr(7);
+                   }
+                   obj.value = phone;
                 }
                 </script>
 
+                <!-- 주소 api -->
                 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
                 <script>
                     function sample6_execDaumPostcode() {
@@ -447,17 +466,18 @@
                                         extraAddr = ' (' + extraAddr + ')';
                                     }
                                     // 조합된 참고항목을 해당 필드에 넣는다.
-                                    document.getElementById("sample6_extraAddress").value = extraAddr;
+                                    document.getElementById('address').value = extraAddr;
                                 
                                 } else {
-                                    document.getElementById("sample6_extraAddress").value = '';
+                                    document.getElementById('detailAddress').value = '';
                                 }
 
                                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                                document.getElementById('sample6_postcode').value = data.zonecode;
-                                document.getElementById("sample6_address").value = addr;
+                                document.getElementById('zipCode').value = data.zonecode;
+                                document.getElementById('address').value = addr;
                                 // 커서를 상세주소 필드로 이동한다.
-                                document.getElementById("sample6_detailAddress").focus();
+                                document.getElementById('addrGroup').style.display = 'block';
+                                document.getElementById('detailAddress').focus();
                             }
                         }).open();
                     }
@@ -471,9 +491,9 @@
                         <tr>
                             <th class="total-price-tag" id="total-price">총 결제 금액</th>
                             <% if(bType.equals("buyI")){ %>
-                            	<td class="total-price"><input type="text" class="totalPrice" name="totalPrice" value="<%= formatter.format(b.getbPrice() - b.getDeliveryFee()) %>원" readonly></td>
+                            	<td class="total-price"><input type="text" class="totalPrice" name="totalPrice" value="<%= formatter.format(b.getbPrice() + b.getDeliveryFee()) %>원" readonly></td>
                             <% } else{ %>
-                            	<td class="total-price"><input type="text" class="totalPrice" name="totalPrice" value="<%= formatter.format(price - 3000) %>원" rea></td>
+                            	<td class="total-price"><input type="text" class="totalPrice" name="totalPrice" value="<%= formatter.format(price + 3000) %>원" rea></td>
                             <% } %>
                         </tr>
                         <tr>
@@ -578,18 +598,20 @@
                             <th class="total-price-tag" name="total-price">총 결제 금액</th>
                              <% if(bType.equals("buyI")){ %>
                              	<input type="hidden" name="bNo" value="<%= b.getbNo() %>">
-                            	<td class="totalPrice"><%= formatter.format(b.getbPrice() - b.getDeliveryFee()) %>원</td>
+                            	<td class="totalPrice"><%= formatter.format(b.getbPrice() + b.getDeliveryFee()) %>원</td>
                             <% } else{ %>
                                 <input type="hidden" name="pCo" value="<%= p.getProductCode() %>">
                                 <input type="hidden" name="size" value="<%= size %>">
                                 <input type="hidden" name="price" value="<%= price %>">
-                            	<td class="totalPrice"><%= formatter.format(price - 3000) %>원</td>
+                            	<td class="totalPrice"><%= formatter.format(price + 3000) %>원</td>
                             <% } %>
                             
                         </tr>
                     </table>
                 </div>
                 <br><br>
+                <input type="hidden" id="paymentNumber" name="paymentNumber" value="">
+                <input type="hidden" id="paymentMethod" name="paymentMethod" value="">
                 <div align="center">
                     <button type="button" class="btn btn-outline-secondary">취소</button>
                     <input id="requestPay" type="button" class="btn btn-outline-warning" value="다음단계">
@@ -626,6 +648,7 @@
                     }
                 })
                 
+                const zipCode = $("#shippingZipCode").val().replace("(", "").replace(")", "");
 
                 $("#requestPay").click(function () {
                     var IMP = window.IMP; // 생략가능
@@ -665,11 +688,11 @@
                         //결제창에서 보여질 이름
                         amount: 1000,
                         //가격
-                        buyer_email: 'iamport@siot.do',
+                        buyer_email: '<%= loginUser.getEmail() %>',
                         buyer_name: $("#recipient").val(),
                         buyer_tel: $("#reciPhone").val(),
                         buyer_addr: $("#shippingAddress").val(),
-                        buyer_postcode: $("#shippingZipCode").val(),
+                        buyer_postcode: zipCode,
                         
                         /*
                         모바일 결제시,
@@ -677,18 +700,17 @@
                         (카카오페이, 페이코, 다날의 경우는 필요없음. PC와 마찬가지로 callback함수로 결과가 떨어짐)
                         */
                     }, function (rsp) {
-                        console.log(rsp);
                         if (rsp.success) {
-                            var msg = '결제가 완료되었습니다.';
-                            msg += '고유ID : ' + rsp.imp_uid;
-                            msg += '상점 거래ID : ' + rsp.merchant_uid;
-                            msg += '결제 금액 : ' + rsp.paid_amount;
-                            msg += '카드 승인번호 : ' + rsp.apply_num;
+                        	console.log(rsp.merchant_uid);
+                        	// 결제 번호
+                            $("#paymentNumber").val(rsp.merchant_uid);
+                            // 결제 방법
+                        	$("#paymentMethod").val(rsp.card_name + " " + rsp.card_number);
+                            $("#buyBiddingForm").submit();
                         } else {
-                            var msg = '결제에 실패하였습니다.';
-                            msg += '에러내용 : ' + rsp.error_msg;
+                            alert("결제에 실패하였습니다. 에러 내용: " +  rsp.error_msg);
                         }
-                        alert(msg);
+                        
                     });
                 });
 

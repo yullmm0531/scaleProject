@@ -217,11 +217,15 @@
 				        			 -->
                                 </li>
                                 
+                                <li><a href="">구매입찰</a></li>
+
+                                <li><a href="<%=contextPath %>/userSellBidding.us?userNo=<%=userNo%>">판매입찰</a></li>
+                                
                                 <li><a href="<%=contextPath %>/userLikeList.us">찜목록</a></li>
                             </ul>
                         </li>
                     </div>
-                    <br><br><br><br><br><br><br><br>
+                    <br><br><br><br><br><br><br><br><br><br><br>
                     <div class="sideMenu-div">
                         <li><a href="">내정보</a>
                             <ul>

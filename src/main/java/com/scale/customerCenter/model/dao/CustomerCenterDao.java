@@ -600,4 +600,32 @@ public class CustomerCenterDao {
 		
 		return result;
 	}
+	
+	// --------------------------어드민--------------------
+	
+	// 공지사항
+	
+	public int insertNotice(Connection conn, String title, String content, String display, String noticeWriter) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertNotice");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, title);
+			pstmt.setString(2, content);
+			pstmt.setString(3, display);
+			pstmt.setString(4, noticeWriter);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 }

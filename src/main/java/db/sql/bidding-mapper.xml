@@ -246,27 +246,26 @@
 		     )
 	</entry>
 	
-	<entry key="selectSellBiddingSuccess">
+	<entry key="selectBiddingSuccess">
 		SELECT 
 		       ROWNUM
 		     , BIDDING_NO
 		     , BIDDING_PRICE
 		     , INSPECTION_COST
 		     , COMMISSION
+		     , DELIVERY_FEE
 		     , PRODUCT_IMG_M
-		  FROM (SELECT
+		  FROM (SELECT 
 		               ROWNUM
 		             , BIDDING_NO
 		             , BIDDING_PRICE
 		             , INSPECTION_COST
 		             , COMMISSION
+		             , DELIVERY_FEE
 		             , PRODUCT_IMG_M
 		          FROM TB_BIDDING B
 		          JOIN TB_PRODUCT USING (PRODUCT_CODE)
 		         WHERE USER_NO = ?
-		           AND BIDDING_TYPE = 2
-		           AND BIDDING_STATUS = 'Y'
-		           AND DEAL_CHECK = 'N'
 		         ORDER
 		            BY BIDDING_NO DESC)
 		 WHERE ROWNUM = 1
@@ -318,6 +317,77 @@
 		     , BIDDING_PRICE
 		     , INSPECTION_COST
 		     , COMMISSION
+		     , PRODUCT_IMG_M
+		  FROM TB_BIDDING B
+		  JOIN TB_PRODUCT USING (PRODUCT_CODE)
+		 WHERE BIDDING_NO = ?
+	</entry>
+	
+	<entry key="insertBuyer">
+		INSERT
+		  INTO TB_BUYER
+		     (
+		       BIDDING_NO
+		     , BUYER_NO
+		     , RECIPIENT_NAME
+		     , RECIPIENT_PHONE
+		     , RECIPIENT_ZIPCODE
+		     , RECIPIENT_ADDRESS
+		     , RECIPIENT_SHIPPING_MSG
+		     , PAYMENT_NUMBER
+		     , PAYMENT_METHOD
+		     , PAYMENT_PRICE
+		     )
+		VALUES
+		     (
+		       SEQ_BNO.CURRVAL
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     )
+	</entry>
+	
+	<entry key="updateBuyer">
+		INSERT
+		  INTO TB_Buyer
+		     (
+		       BIDDING_NO
+		     , BUYER_NO
+		     , RECIPIENT_NAME
+		     , RECIPIENT_PHONE
+		     , RECIPIENT_ZIPCODE
+		     , RECIPIENT_ADDRESS
+		     , RECIPIENT_SHIPPING_MSG
+		     , PAYMENT_NUMBER
+		     , PAYMENT_METHOD
+		     , PAYMENT_PRICE
+		     )
+		VALUES
+		     (
+		       ?
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     , ?
+		     )
+	</entry>
+	
+	<entry key="selectBuyImediatelySuccess">
+		SELECT
+		       BIDDING_NO
+		     , BIDDING_PRICE
+		     , DELIVERY_FEE
 		     , PRODUCT_IMG_M
 		  FROM TB_BIDDING B
 		  JOIN TB_PRODUCT USING (PRODUCT_CODE)

@@ -9,21 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
+import com.scale.product.model.vo.Product;
 import com.scale.user.model.service.UserService;
-import com.scale.user.model.vo.Address;
 
 /**
- * Servlet implementation class AjaxSelectAddressListController
+ * Servlet implementation class UserSellBiddingController
  */
-@WebServlet("/addressList.us")
-public class AjaxSelectAddressListController extends HttpServlet {
+@WebServlet("/userSellBidding.us")
+public class UserSellBiddingController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AjaxSelectAddressListController() {
+    public UserSellBiddingController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,14 +34,10 @@ public class AjaxSelectAddressListController extends HttpServlet {
 		
 		int userNo = Integer.parseInt(request.getParameter("userNo"));
 		
-		Address ad = new UserService().selectDefaultAddress(userNo);
-		ArrayList<Address> list = new UserService().selectAddressList(userNo);
-		list.add(0, ad);
+		ArrayList<Product> list = new UserService().userSellBidding(userNo);
 		
-		response.setContentType("application/json; charset=UTF-8");
-		new Gson().toJson(list, response.getWriter());
-		
-		
+		request.setAttribute("list", list);
+		request.getRequestDispatcher("views/user/userSellBidding.jsp").forward(request, response);
 	}
 
 	/**

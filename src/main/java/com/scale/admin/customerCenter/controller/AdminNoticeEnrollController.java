@@ -1,29 +1,25 @@
-package com.scale.user.controller;
+package com.scale.admin.customerCenter.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-import com.scale.user.model.service.UserService;
-import com.scale.user.model.vo.Address;
+import com.scale.customerCenter.model.service.CustomerCenterService;
 
 /**
- * Servlet implementation class AjaxSelectAddressListController
+ * Servlet implementation class AdminNoticeEnrollController
  */
-@WebServlet("/addressList.us")
-public class AjaxSelectAddressListController extends HttpServlet {
+@WebServlet("/enrollNotice.ad")
+public class AdminNoticeEnrollController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AjaxSelectAddressListController() {
+    public AdminNoticeEnrollController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,16 +28,21 @@ public class AjaxSelectAddressListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		
-		int userNo = Integer.parseInt(request.getParameter("userNo"));
+		String title = request.getParameter("title");
+		String content = request.getParameter("noticeDoc");
+		String display = request.getParameter("display");
+		String noticeWriter = request.getParameter("noticeWriter");
 		
-		Address ad = new UserService().selectDefaultAddress(userNo);
-		ArrayList<Address> list = new UserService().selectAddressList(userNo);
-		list.add(0, ad);
+		int result = new CustomerCenterService().insertNotice(title, content, display, noticeWriter);
 		
-		response.setContentType("application/json; charset=UTF-8");
-		new Gson().toJson(list, response.getWriter());
-		
+		if(result > 0) {
+			request.getSession().setAttribute("alertMsg", "공지사항이 등록되었습니다.");
+			response.sendRedirect(request.getContextPath() + "/noticeList.ad?cpage=1");
+		}else {
+			request.getSession().setAttribute("alertMsg", "공지사항 등록 실패");
+		}
 		
 	}
 

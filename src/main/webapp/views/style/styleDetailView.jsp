@@ -41,9 +41,10 @@
     .report-td{text-align: right;}
 
     .pd-tag{font-size: 20px; font-weight: bold;}
+    .pd-info{width: 400px;}
     .pd-info>div{float: left; width: 70px; margin-right: 5px;}
     .pd-info img{width: 70px; height: 70px; box-sizing: border-box;}
-    .pd-info div{width: 70px; font-size: 12px;text-overflow:ellipsis; 
+    .pd-info>div>div{width: 70px; font-size: 12px;text-overflow:ellipsis; 
     	overflow:hidden;
     	white-space:nowrap;}
 
@@ -65,6 +66,28 @@
     #title{
         width: 462px;
     }
+    .style-img{
+        width: 260px;
+    }
+
+    #up-btn{
+    	position: fixed; 
+    	right: 50px; 
+    	bottom: 30px;
+    	z-index: 999;
+        width: 50px;
+        height: 50px;
+    }
+    #up-btn{cursor: pointer;}
+    #insert-btn{
+    	position: fixed; 
+    	right: 130px; 
+    	bottom: 30px;
+    	z-index: 999;
+        width: 50px;
+        height: 50px;
+    }
+    #insert-btn{cursor: pointer;}
 </style>
 </head>
 <body>
@@ -74,10 +97,9 @@
 	<div class="outer">
         <div class="set-container">
             <% for(int i=0; i< list.size() ; i++) { %>
-            <table>
+            <table id="<%= list.get(i).getStyleNo() %>">
                 <tr>
                     <td class="profile-td">
-                        <input type='hidden' id='<%= no %>' value='<%= no %>'>
                         <img src="<%= contextPath %>/<%= list.get(i).getProfileImg() %>" class="rounded-circle">
                     </td>
                     <td class="nickname-td">
@@ -88,7 +110,7 @@
                         <div class="dropdown">
                             <button type="button" data-toggle="dropdown" class="dropdown">❗</button>
                             <div class="dropdown-menu">
-                              <a class="dropdown-item" href="#" data-toggle="modal" data-target="#myModal">스타일 신고</a>
+                              <a class="dropdown-item report-btn" data-toggle="modal" data-target="#myModal">스타일 신고</a>
                             </div>
                         </div>
                     </td>
@@ -170,48 +192,81 @@
             </table>
             <% } %>
         </div>
+
+        <img id="up-btn" src="<%= contextPath %>/resources/images/style/up.jpg">
+        <img id="insert-btn" src="<%= contextPath %>/resources/images/style/insert.jpg">
+        <br><br>
     </div>
     
     <!-- The Modal -->
     <div class="modal" id="myModal">
         <div class="modal-dialog">
-        <div class="modal-content">
-    
-            <!-- Modal Header -->
-            <div class="modal-header">
-            <h4 class="modal-title">문의유형 - 스타일 신고</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="modal-content">
+        
+                <!-- Modal Header -->
+                <div class="modal-header">
+                <h4 class="modal-title">문의유형 - 스타일 신고</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+        
+                <!-- Modal body -->
+                    <div class="modal-body">
+                        <div>신고할 아이디 : <span>xxxx</span></div>
+                        <br>
+                        제목*
+                        <br>
+                        <input type="text" name="title" id="title">
+                        <br><br>
+                        내용*
+                        <br>
+                        <textarea cols="60" rows="10" name="content" id="content" style="resize: none;"></textarea>
+                    </div>
+            
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="report();">제출하기</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                <script>
+                    function report(){
+                        let 
+                        let title = $("#title").val();
+                        let content = $("#content").text();
+                        $.ajax({
+                            url:"",
+                            data:{"title":title, "content":content},
+                            success:function(){
+
+                            },
+                            error:function(){
+
+                            }
+                        })
+                    }
+                </script>
             </div>
-    
-            <!-- Modal body -->
-            <div class="modal-body">
-            <form action="">
-                신고할 아이디 : <span>xxxx</span>
-                <br><br>
-                제목*
-                <br>
-                <input type="text" name="title" id="title">
-                <br><br>
-                내용*
-                <br>
-                <textarea cols="60" rows="10" name="content" id="content"></textarea>
-                </form>
-            </div>
-    
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-secondary">제출하기</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-            </div>
-    
-        </div>
         </div>
     </div>
 	
     <script>
+        $(".report-btn").click(function(){
+            <% if(loginUser == null) { %>
+                $(this).attr("data-target", "");
+                alert("로그인 후 이용가능한 서비스입니다.");
+                location.href = "<%= contextPath %>/loginForm.us";
+            <% } %>
+        })
+
         let cpage = <%= cpage %>;
         let no = <%= no %>;
         let view = "<%= view %>";
+            
+        $(document).ready(function () {
+            console.log(no);
+            $('html, body').animate({
+                scrollTop: $('#<%= no %>').offset().top - (300 * (no / 10))
+            }, 'fast');
+        });
 
         $(window).scroll(function() {
             if($(window).scrollTop() + $(window).height() == $(document).height()){
@@ -222,9 +277,10 @@
 
         function StyleList(){
             $.ajax({
-                url:"<%= contextPath %>/detail.ajax",
+                url:"<%= contextPath %>/detailStyle.ajax",
                 type:"POST",
                 data:{"cpage":cpage, "view":view},
+                async : false,
                 success:function(map){
                     let list = map.list;
                     let ilist = map.ilist;
@@ -233,10 +289,10 @@
                     
                     let value = "";
                     for(let i=0; i<list.length; i++){
-                        value = "<table>"
+                        value = "<table id='" + list[i].styleNo + "'>"
                                 + "<tr>"
                                     + "<td class='profile-td'>"
-                                        + "<input type='hidden' id='<%= no %>' value='<%= no %>'>"
+                                        + "<input type='hidden' value='<%= no %>'>"
                                         + "<img src='<%= contextPath %>/" + list[i].profileImg + "' class='rounded-circle'>"
                                     + "</td>"
                                     + "<td class='nickname-td'>"
@@ -263,7 +319,7 @@
                                                 + "</div>";
                                         } else if(list[i].styleNo == ilist[j].styleNo && ilist[j].fileLevel == 2) {
                                         value += "<div class='carousel-item'>"
-                                                    + "<img class='cimg' src='<%= contextPath %> /" + ilist[j].filePath + ilist[j].changeName + "'>"
+                                                    + "<img class='cimg' src='<%= contextPath %>/" + ilist[j].filePath + ilist[j].changeName + "'>"
                                                 + "</div>";
                                         }
                                     }
@@ -279,14 +335,14 @@
                                     + "</td>"
                                 + "</tr>"
                                 + "<tr>"
-                                    + "<td class='pd-tag' colspan='3'>";
-                                        + "<span>상품태그</span>";
+                                    + "<td class='pd-tag' colspan='3'>"
+                                        + "<span>상품태그</span>"
                                     + "</td>"
                                 + "</tr>"
                                 + "<tr>"
                                     + "<td colspan='3' class='pd-info'>";
                         for(let p=0; p<plist.length; p++){
-                            if(list.get(i).getStyleNo() == plist.get(p).getStyleNo()) {
+                            if(list[i].styleNo == plist[p].styleNo) {
                                 value += "<div>"
                                             + "<img src='<%= contextPath %>/" + plist[p].productImgM + "'>"
                                             + "<div> + " + plist[p].brandName + "</div>"
@@ -368,12 +424,26 @@
 
         $(function(){
             $(".pd-info").each(function(){
-                
                 if($(this).children().length == 0){
                     $(this).parent().prev().children().children().remove();
                 }
             })
         })
+
+        $("#up-btn").click(function(){
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        })
+
+    	$(function(){
+    		$("#insert-btn").click(function(){
+        		 <% if(loginUser == null) { %>
+	        		 	alert("로그인 후 이용가능한 페이지입니다.");
+	        		 	location.href = "<%= contextPath %>/loginForm.us";
+        		 <% } else { %>
+        		 		location.href = "<%= contextPath %>/enrollForm.st";
+        		 <% } %>
+        	})
+    	})
     </script>
 
 </body>

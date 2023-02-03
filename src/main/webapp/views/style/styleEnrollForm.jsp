@@ -346,9 +346,6 @@
                                     $("#style-box span").show();
                                 }
                             })
-                            
-                            
-                            
 
                         </script>
 
