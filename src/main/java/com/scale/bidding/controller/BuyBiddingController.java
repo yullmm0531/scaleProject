@@ -11,20 +11,20 @@ import javax.servlet.http.HttpSession;
 
 import com.scale.bidding.model.service.BiddingService;
 import com.scale.bidding.model.vo.Bidding;
-import com.scale.bidding.model.vo.Seller;
+import com.scale.bidding.model.vo.Buyer;
 import com.scale.user.model.vo.User;
 
 /**
- * Servlet implementation class SellBiddingController
+ * Servlet implementation class BuyBiddingController
  */
-@WebServlet("/sellbidding.bi")
-public class SellBiddingController extends HttpServlet {
+@WebServlet("/buybidding.bi")
+public class BuyBiddingController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SellBiddingController() {
+    public BuyBiddingController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,16 +36,13 @@ public class SellBiddingController extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		int userNo = ((User)session.getAttribute("loginUser")).getUserNo();
-		String userName = ((User)session.getAttribute("loginUser")).getUserName();
 		String bType = request.getParameter("bType");
-		String userAccBank = request.getParameter("userAccBank");
-		String userAccNum = request.getParameter("userAccNum");
+		
 		String recipient = request.getParameter("recipient");
 		String reciPhone = request.getParameter("reciPhone");
 		String shippingZipCode = request.getParameter("shippingZipCode");
 		shippingZipCode = shippingZipCode.replace("(", "");
 		shippingZipCode = shippingZipCode.replace(")", "");
-		//System.out.println(shippingZipCode);
 		
 		String shippingAddress = request.getParameter("shippingAddress");
 		String shippingMsgNum = request.getParameter("shipping-msg");
@@ -59,13 +56,14 @@ public class SellBiddingController extends HttpServlet {
 		} else {
 			shippingMsg = request.getParameter("shipping-msg-user");
 		}
-		//System.out.println(shippingMsg);
 		
 		int totalPrice = Integer.parseInt(request.getParameter("totalPrice").replaceAll(",", "").replace("원", ""));
 		String pCo = request.getParameter("pCo");
 		String size = request.getParameter("size");
-		
-		//System.out.println(totalPrice);
+		// 결제 고유번호
+		String paymentNum = request.getParameter("paymentNumber");
+		// 결제 방법
+		String paymentMethod = request.getParameter("paymentMethod");
 		
 		Bidding b = new Bidding();
 		b.setpCode(pCo);
@@ -73,45 +71,47 @@ public class SellBiddingController extends HttpServlet {
 		
 		b.setUserNo(userNo);
 		
-		Seller sr = new Seller(userNo, recipient, reciPhone, shippingZipCode, shippingAddress, shippingMsg, userAccBank, userAccNum, userName, totalPrice);
+		Buyer br = new Buyer(userNo, recipient, reciPhone, shippingZipCode, shippingAddress, shippingMsg, paymentNum, paymentMethod, totalPrice);
 		
 		
-		
-		if(bType.equals("sellB")) {
+		if(("buyB").equals(bType)) {
 			int price = Integer.parseInt(request.getParameter("price"));
-			b.setbType(2);
+			b.setbType(1);
 			b.setbPrice(price);
-			int result = new BiddingService().insertBidding(b, sr);
+			int result = new BiddingService().insertBuyBidding(b, br);
 			
 			if(result > 0) {
 				
-				session.setAttribute("alertMsg", "판매 입찰 성공");
+				session.setAttribute("alertMsg", "구매 입찰 성공");
 				
 				Bidding success = new BiddingService().selectBiddingSuccess(userNo);
+				System.out.println(success);
 				request.setAttribute("success", success);
-				request.getRequestDispatcher("views/sell/sellBiddingSuccess.jsp").forward(request, response);
+				request.getRequestDispatcher("views/buy/buyBiddingSuccess.jsp").forward(request, response);
 				
 			} else {
-				request.setAttribute("errorMsg", "판매 입찰 실패");
+				request.setAttribute("errorMsg", "구매 입찰 실패");
 				response.sendRedirect(request.getContextPath() + "/detail.pd?co=" + pCo);
 			}
 			
 		} else {
 			int bNo = Integer.parseInt(request.getParameter("bNo"));
-			int result = new BiddingService().updateDealCheckSeller(bNo, sr);
+			int result = new BiddingService().updateDealCheckBuyer(bNo, br);
 			
 			if(result > 0) {
 				
-				session.setAttribute("alertMsg", "즉시 판매 성공");
+				session.setAttribute("alertMsg", "즉시 구매 성공");
 				
-				Bidding success = new BiddingService().selectSellImediatelySuccess(bNo);
+				Bidding success = new BiddingService().selectBuyImediatelySuccess(bNo);
 				request.setAttribute("success", success);
-				request.getRequestDispatcher("views/sell/sellImediatelySuccess.jsp").forward(request, response);
+				request.getRequestDispatcher("views/buy/buyImediatelySuccess.jsp").forward(request, response);
 			} else {
 				request.setAttribute("errorMsg", "즉시 판매 실패");
 				response.sendRedirect(request.getContextPath() + "/detail.pd?co=" + pCo);
 			}
 		}
+		
+		
 		
 	}
 

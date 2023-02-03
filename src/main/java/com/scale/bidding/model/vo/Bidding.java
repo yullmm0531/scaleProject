@@ -96,12 +96,34 @@ public class Bidding {
 	
 
 
+	public Bidding(int bNo, int bPrice, int inspectionCost, int commission, int deliveryFee, String productImg) {
+		super();
+		this.bNo = bNo;
+		this.bPrice = bPrice;
+		this.inspectionCost = inspectionCost;
+		this.commission = commission;
+		this.deliveryFee = deliveryFee;
+		this.productImg = productImg;
+	}
+	
+	
 	public Bidding(int bNo, int bPrice, int inspectionCost, int commission, String productImg) {
 		super();
 		this.bNo = bNo;
 		this.bPrice = bPrice;
 		this.inspectionCost = inspectionCost;
 		this.commission = commission;
+		this.productImg = productImg;
+	}
+	
+	
+
+
+	public Bidding(int bNo, int bPrice, int deliveryFee, String productImg) {
+		super();
+		this.bNo = bNo;
+		this.bPrice = bPrice;
+		this.deliveryFee = deliveryFee;
 		this.productImg = productImg;
 	}
 
