@@ -94,7 +94,6 @@
 </style>
 </head>
 <body>
-    <%@ include file="adminMenubar.jsp"%>
     <div class="outer" align="center">
         <div class="login-wrapper">
             <div id="logo-area">
@@ -143,7 +142,7 @@
                     if(adminUser == null){
                         $("#validateMsg").css("visibility", "visible")
                     }else{
-                        location.href = "<%=contextPath%>/main.us";
+                        location.href = "<%=contextPath%>/noticeList.ad?cpage=1";
                     }
                 }, error:function(){
                     console.log("로그인 통신 실패")
