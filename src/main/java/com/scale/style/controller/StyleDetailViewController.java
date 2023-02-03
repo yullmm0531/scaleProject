@@ -36,7 +36,7 @@ public class StyleDetailViewController extends HttpServlet {
 		String view = request.getParameter("view");
 		int boardLimit = 12;
 		String tag = request.getParameter("tag") != null ? request.getParameter("tag") : "";
-		String id = request.getParameter("id") != null ? request.getParameter("id") : "";
+		String id = request.getParameter("userID") != null ? request.getParameter("userID") : "";
 		User loginUser = (User)request.getSession().getAttribute("loginUser");
 		int userNo = loginUser != null ? loginUser.getUserNo() : 0;
 		
@@ -50,7 +50,6 @@ public class StyleDetailViewController extends HttpServlet {
 		request.setAttribute("no", no);
 		request.setAttribute("view", view);
 		request.getRequestDispatcher("views/style/styleDetailView.jsp").forward(request, response);
-		
 	}
 
 	/**

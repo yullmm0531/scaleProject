@@ -210,13 +210,13 @@ public class StyleService {
 		return map;
 	}
 	
-	public HashMap<String, Object> selectAddDetail(String view, int cpage, int userNo, int boardLimit, String tag, String id) {
+	public HashMap<String, Object> selectAddDetail(int cpage, String view, int boardLimit, String tag, String userID, int userNo) {
 		Connection conn = getConnection();
 		
 		ArrayList<Style> list = new ArrayList<Style>();
 		switch(view) {
 		case "trending": list = new StyleDao().selectStyleList(conn, cpage, boardLimit);  break;
-		case "profile": list = new StyleDao().selectStyleByID(conn, cpage, boardLimit, id); break;
+		case "profile": list = new StyleDao().selectStyleByID(conn, cpage, boardLimit, userID); break;
 		case "newest": list = new StyleDao().selectNewStyleList(conn, cpage, boardLimit); break;
 		case "tagsearch": list = new StyleDao().selectStyleByHashtag(conn, cpage, boardLimit, tag); break;
 		}

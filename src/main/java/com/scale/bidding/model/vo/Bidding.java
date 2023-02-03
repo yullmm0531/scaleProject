@@ -1,5 +1,7 @@
 package com.scale.bidding.model.vo;
 
+import java.sql.Date;
+
 public class Bidding {
 	
 	private int bNo;
@@ -21,6 +23,23 @@ public class Bidding {
 	
 	private String biddingPrice;
 	private String productImg;
+	
+	private int productSize;
+	private Date biddingDate;
+	
+	private String recipientName;
+	private String recipientPhone;
+	private String recipientZipCode;
+	private String recipientAddress;
+	private String recipientShippingMsg;
+	private String bankName;
+	private String bankAccount;
+	private String bankOwnerName;
+	private String adjustmentPrice;
+	private String productImgM;
+	private String productNameEng;
+	private String productNameKo;
+	private String dealCheck;
 	
 	
 	public Bidding() {
@@ -119,12 +138,193 @@ public class Bidding {
 	
 
 
+
+	public Bidding(int productSize, String biddingPrice, Date biddingDate, int inspectionCost, int commission, int deliveryFee,
+			int userNo, String recipientName, String recipientPhone, String recipientZipCode, String recipientAddress,
+			String recipientShippingMsg, String bankName, String bankAccount, String bankOwnerName,
+			String adjustmentPrice, String productImgM, String productNameEng, String productNameKo, String dealCheck) {
+		super();
+		this.productSize = productSize;
+		this.biddingPrice = biddingPrice;
+		this.biddingDate = biddingDate;
+		this.inspectionCost = inspectionCost;
+		this.commission = commission;
+		this.deliveryFee = deliveryFee;
+		this.userNo = userNo;
+		this.recipientName = recipientName;
+		this.recipientPhone = recipientPhone;
+		this.recipientZipCode = recipientZipCode;
+		this.recipientAddress = recipientAddress;
+		this.recipientShippingMsg = recipientShippingMsg;
+		this.bankName = bankName;
+		this.bankAccount = bankAccount;
+		this.bankOwnerName = bankOwnerName;
+		this.adjustmentPrice = adjustmentPrice;
+		this.productImgM = productImgM;
+		this.productNameEng = productNameEng;
+		
+		this.productNameKo = productNameKo;
+		this.dealCheck = dealCheck;
+	}
+	
+	
+	
+
+	public int getProductSize() {
+		return productSize;
+	}
+
+
+	public void setProductSize(int productSize) {
+		this.productSize = productSize;
+	}
+
+
+	public Date getBiddingDate() {
+		return biddingDate;
+	}
+
+
+	public void setBiddingDate(Date biddingDate) {
+		this.biddingDate = biddingDate;
+	}
+
+
+	public String getProductNameKo() {
+		return productNameKo;
+	}
+
+
+	public void setProductNameKo(String productNameKo) {
+		this.productNameKo = productNameKo;
+	}
+
+
+	public String getDealCheck() {
+		return dealCheck;
+	}
+
+
+	public void setDealCheck(String dealCheck) {
+		this.dealCheck = dealCheck;
+	}
+
+
+	public String getRecipientName() {
+		return recipientName;
+	}
+
+
+	public void setRecipientName(String recipientName) {
+		this.recipientName = recipientName;
+	}
+
+
+	public String getRecipientPhone() {
+		return recipientPhone;
+	}
+
+
+	public void setRecipientPhone(String recipientPhone) {
+		this.recipientPhone = recipientPhone;
+	}
+
+
+	public String getRecipientZipCode() {
+		return recipientZipCode;
+	}
+
+
+	public void setRecipientZipCode(String recipientZipCode) {
+		this.recipientZipCode = recipientZipCode;
+	}
+
+
+	public String getRecipientAddress() {
+		return recipientAddress;
+	}
+
+
+	public void setRecipientAddress(String recipientAddress) {
+		this.recipientAddress = recipientAddress;
+	}
+
+
+	public String getRecipientShippingMsg() {
+		return recipientShippingMsg;
+	}
+
+
+	public void setRecipientShippingMsg(String recipientShippingMsg) {
+		this.recipientShippingMsg = recipientShippingMsg;
+	}
+
+
+	public String getBankName() {
+		return bankName;
+	}
+
+
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+
+
+	public String getBankAccount() {
+		return bankAccount;
+	}
+
+
+	public void setBankAccount(String bankAccount) {
+		this.bankAccount = bankAccount;
+	}
+
+
+	public String getBankOwnerName() {
+		return bankOwnerName;
+	}
+
+
+	public void setBankOwnerName(String bankOwnerName) {
+		this.bankOwnerName = bankOwnerName;
+	}
+
+
+	public String getAdjustmentPrice() {
+		return adjustmentPrice;
+	}
+
+
+	public void setAdjustmentPrice(String adjustmentPrice) {
+		this.adjustmentPrice = adjustmentPrice;
+	}
+
+
+	public String getProductImgM() {
+		return productImgM;
+	}
+
+
+	public void setProductImgM(String productImgM) {
+		this.productImgM = productImgM;
+	}
+
+
+	public String getProductNameEng() {
+		return productNameEng;
+	}
+
+
+	public void setProductNameEng(String productNameEng) {
+		this.productNameEng = productNameEng;
+	}
 	public Bidding(int bNo, int bPrice, int deliveryFee, String productImg) {
 		super();
 		this.bNo = bNo;
 		this.bPrice = bPrice;
 		this.deliveryFee = deliveryFee;
 		this.productImg = productImg;
+
 	}
 
 

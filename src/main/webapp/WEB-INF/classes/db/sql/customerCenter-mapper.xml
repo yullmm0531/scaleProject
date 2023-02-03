@@ -267,6 +267,29 @@
 			  , ?
 			  , ?
 			  )
-			  	  
+	</entry>
+	
+	<!-- 어드민 -->
+	
+	<!-- 공지사항 -->
+	<entry key="insertNotice">
+		INSERT
+		  INTO TB_NOTICE
+		  	 ( 
+		  	   NOTICE_NO
+		  	 , NOTICE_TITLE
+		  	 , NOTICE_CONTENT
+		  	 , DISPLAY_STATUS
+		  	 , NOTICE_WRITER
+		  	  )
+		  	 VALUES
+		  	 (
+		  	   SEQ_NNO.NEXTVAL
+		  	 , ?
+		  	 , ?
+		  	 , ?
+		  	 , ?
+		  	 )
+		
 	</entry>
 </properties>

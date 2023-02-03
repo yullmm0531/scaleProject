@@ -123,6 +123,7 @@ public class StyleDao {
 				st.setUserId(rset.getString("user_id"));
 				st.setHashtag(rset.getString("hashtag"));
 				st.setEnrollDate(rset.getDate("enroll_date"));
+				st.setRowNum(rset.getInt("rnum"));
 				
 				list.add(st);
 				
@@ -162,6 +163,7 @@ public class StyleDao {
 				st.setUserId(rset.getString("user_id"));
 				st.setEnrollDate(rset.getDate("enroll_date"));
 				st.setHashtag(rset.getString("hashtag"));
+				st.setRowNum(rset.getInt("rnum"));
 				
 				list.add(st);
 			}
@@ -258,6 +260,7 @@ public class StyleDao {
 				st.setUserId(rset.getString("user_id"));
 				st.setEnrollDate(rset.getDate("enroll_date"));
 				st.setHashtag(rset.getString("hashtag"));
+				st.setRowNum(rset.getInt("rnum"));
 				
 				list.add(st);
 			}
@@ -426,6 +429,7 @@ public class StyleDao {
 				st.setStyleWriter(rset.getString("user_nickname"));
 				st.setEnrollDate(rset.getDate("enroll_date"));
 				st.setHashtag(rset.getString("hashtag"));
+				st.setRowNum(rset.getInt("rnum"));
 				
 				list.add(st);
 			}
@@ -620,7 +624,7 @@ public class StyleDao {
 		ArrayList<Style> list = new ArrayList<Style>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("selectStyleByNickname");
+		String sql = prop.getProperty("selectStyleByID");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -630,6 +634,7 @@ public class StyleDao {
 			pstmt.setString(1, id);
 			pstmt.setInt(2, startRow);
 			pstmt.setInt(3, endRow);
+			
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {

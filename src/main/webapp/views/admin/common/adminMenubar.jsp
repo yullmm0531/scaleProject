@@ -2,7 +2,7 @@
     pageEncoding="UTF-8" import="com.scale.admin.user.model.vo.AdminUser"%>
 <% 
 	String contextPath = request.getContextPath();
-	AdminUser adminUser = (AdminUser)request.getAttribute("adminUser");
+	AdminUser adminUser = (AdminUser)session.getAttribute("adminUser");
 	String alertMsg = (String)session.getAttribute("alertMsg");
 %>
 
