@@ -61,14 +61,11 @@
 			   PRODUCT_CODE
 			 , PRODUCT_NAME_KO
 			 , PRODUCT_NAME_ENG
-			 , MODEL_CODE
 			 , PRODUCT_IMG_M
-			 , BRAND_NAME
 	      FROM TB_PRODUCT 
-	      JOIN TB_BRAND USING(BRAND_CODE)
 	     WHERE BLIND_CHECK ='N'
-	      AND PRODUCT_NAME_KO LIKE '%' || ? || '%' 
-		   OR PRODUCT_NAME_ENG LIKE '%' || ? || '%'
+	       AND PRODUCT_NAME_KO LIKE '%' || ? || '%' 
+		    OR PRODUCT_NAME_ENG LIKE '%' || ? || '%'
 		   
 	</entry>
 	

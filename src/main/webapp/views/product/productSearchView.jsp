@@ -70,28 +70,22 @@
     </style>
 </head>
 <body>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-        검색
-      </button>
-    <!-- The Modal -->
-    <div class="modal" id="myModal">
-        <div class="modal-dialog">
-        <div class="modal-content">
-            
-            <!-- Modal Header -->
-            
+    <div class = modal >
+       
+        <div class="modal_content">
             <button type="button" id="modal_close_btn">X</button>
             
             <div id="header-1">
                 <form action="" id="search-form">
                     <div id="search-text">
-                        <input type="text" id="productInput" name="keyword" placeholder="상품명을 입력하세요" onkeyup="search(this);" value="<%=contextPath%>/psearch.pd">
+                        <input type="text" id="productInput" name="keyword" placeholder="상품명을 입력하세요" onkeyup="search(this);">
                         
                     </div>
                     <div id="search-btn">
-                        <input type="submit" value="검색">
+                        <button>검색</button>
                     </div>
-                    <%if(list.isEmpty()){ %>
+                    
+                    <% if(list.isEmpty()){ %>
                         <div id="nolsit">검색하신 결과가 없습니다.</div>
                     <%} else {%>
                     	<% for(Product p : list) { %>
@@ -116,9 +110,9 @@
                 <h4>카테고리</h4>
                 <table>
                     <tr>
-                        <td><img src="resources/s_sample.jpg" alt="" width=100px></td>
-                        <td><img src="resources/s_sample.jpg" alt="" width=100px></td>
-                        <td><img src="resources/s_sample.jpg" alt="" width=100px></td>
+                        <td><img src="resources/images/product/SS-1.jpg"  width=100px></td>
+                        <td><img src="resources/images/product/WT-17.jpg" width=100px></td>
+                        <td><img src="resources/images/product/WT-26.jpg" width=100px></td>
                     </tr>
                     <tr>
                         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;신발</td>
@@ -134,9 +128,9 @@
                 <h4>인기브랜드</h4>
                 <table>
                     <tr>
-                        <td><img src="resources/s_sample.jpg" alt="" width=100px></td>
-                        <td><img src="resources/s_sample.jpg" alt="" width=100px></td>
-                        <td><img src="resources/s_sample.jpg" alt="" width=100px></td>
+                        <td><img src="resources/s_sample.jpg" width=100px></td>
+                        <td><img src="resources/s_sample.jpg" width=100px></td>
+                        <td><img src="resources/s_sample.jpg" width=100px></td>
                     </tr>
                     <tr>
                         <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Nike</td>
@@ -154,6 +148,7 @@
                     <img src="resources/s_sample.jpg" width=100px>
                     <p>브랜드명</p>
                     <p>영문상품명</p>
+                    
                 </div>        
         
         

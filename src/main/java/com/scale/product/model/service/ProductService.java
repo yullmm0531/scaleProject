@@ -29,8 +29,6 @@ public class ProductService {
 		return list;
 	}
 	
-	
-
 	public ArrayList<Brand> selectBrandList(){
 		Connection conn = getConnection();
 		ArrayList<Brand> blist = new ProductDao().selectBrandList(conn);
@@ -69,6 +67,15 @@ public class ProductService {
 		
 		return result;
 	}
+	
+	
+	public ArrayList<Product> selectProductFilter(String filter){
+		Connection conn = getConnection();
+		ArrayList<Product> list = new ProductDao().selectProductFilter(conn, filter);
+		close(conn);
+		return list;
+	}
+	
 	
 	
 	

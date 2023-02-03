@@ -19,8 +19,8 @@
         }
 
 		ul, li {  
-		list-style:none;
-  	 	padding-left:0px;
+		    list-style:none;
+  	 	    padding-left:0px;
   	 	}
   	 	
         .pwrap{
@@ -49,7 +49,8 @@
         #pheader-3{height:20%;}
 
         #pcontent-1{width:20%;}
-        #pcontent-2{width:80%; float:left;}
+        #pcontent-2{width:80%;}
+        
 
         .img-box > img {
             width:175px;
@@ -57,6 +58,11 @@
             float:left;
             
         }
+
+        .row {
+            margin:auto;
+        }
+
         .row::after {
             content:"";
             display:block;
@@ -65,6 +71,8 @@
         .cell {
             float:left;
             box-sizing:border-box
+            
+            
         }
         .cell {
             width:20%;
@@ -72,15 +80,22 @@
             margin-top:20px;
             cursor:pointer;
             font:1px;
+            text-overflow:ellipsis; 
         }
         .listbox .row {
             margin:0 -10px;
         }
         
 		.cell:hover{
-    	opacity: 0.7;
-    	cursor : pointer;
+	    	opacity: 0.7;
+	    	cursor : pointer;
     	}
+    	
+    	.thumbnail-1 {
+    		box-sizing:border-box
+    		
+    	}
+    	
         
   </style>
 </head>
@@ -100,14 +115,15 @@
          		 <div class="thumbnail-1" style="float:left;">
          		 
                         <img src="<%= contextPath %>/<%= b.getBrandImg() %>" width="70" height="77">
-                        <p><%= b.getBrandName() %></p>
+                        <p align="center" ><%= b.getBrandName() %></p>
                       
                  </div>
+                 &nbsp;&nbsp;&nbsp;&nbsp;
                  <% } %>
                   
             </div>
             <div id="pheader-3">
-            <input type="text"><a href="<%=contextPath%>/psearch.pd"></a>
+            
             </div>
         </div>
       
@@ -179,11 +195,16 @@
                 </div>
                 
                 <script>
+                
 					$(function(){
 						$(".cell").click(function(){
 							location.href = "<%=contextPath%>/detail.pd?co=" + $(this).children('input').val();
 						})
 					})
+					
+					
+					
+				
 				</script>
                 
                 
@@ -352,17 +373,6 @@
     
     
     <script>
-        const popular [
-            {}
-        ]
-
-        popular.sort(function(a,b){
-            if(a.popular > b.popular) return 1;
-            if(a.popular < b.popular) return -1;
-
-            if(a.priorty > b.priorty) return 1;
-            if(a.priorty < b.priorty) return -1;
-        });
 
     </script>
     

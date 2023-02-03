@@ -138,6 +138,7 @@ public class ProductDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, keyword);
+			pstmt.setString(2, keyword);
 			rset = pstmt.executeQuery();
 			
 			
@@ -146,9 +147,7 @@ public class ProductDao {
 				p.setProductCode(rset.getString("product_code"));
 				p.setProductNameKo(rset.getString("product_name_ko"));
 				p.setProductNameEng(rset.getString("product_name_eng"));
-				p.setModelCode(rset.getString("model_code"));
 				p.setProductImgM(rset.getString("product_img_m"));
-				p.setBrandName(rset.getString("brand_name"));
 				
 				list.add(p);
 			}
@@ -232,6 +231,45 @@ public class ProductDao {
 		return result;
 		
 	}
+	
+	
+	public ArrayList<Product> selectProductFilter(Connection conn, String filter) {
+		ArrayList<Product> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectProductFilter");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, filter);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Product p = new Product();
+				p.setProductCode(rset.getString("product_code"));
+				p.setProductNameKo(rset.getString("product_name_ko"));
+				p.setProductNameEng(rset.getString("product_name_eng"));
+				p.setProductImgM(rset.getString("product_img_m"));
+				p.setProductCategory(rset.getString("product_category"));
+				p.setProductSize(rset.getString("product_size"));
+				p.setBrandName(rset.getString("brand_name"));
+			
+				list.add(p);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
+	
+	
 
 	public Product selectProduct(Connection conn, String pCode) {
 		
