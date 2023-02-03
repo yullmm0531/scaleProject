@@ -7,7 +7,7 @@ public class Seller {
 	private String recipientPhone;
 	private String recipientZipCode;
 	private String recipientAddress;
-	private String recipientShiippingMsg;
+	private String recipientShippingMsg;
 	private String bankName;
 	private String bankAccount;
 	private String bankAccountOwner;
@@ -18,7 +18,7 @@ public class Seller {
 	}
 
 	public Seller(int bNo, int sellerNo, String recipientName, String recipientPhone, String recipientZipCode,
-			String recipientAddress, String recipientShiippingMsg, String bankName, String bankAccount,
+			String recipientAddress, String recipientShippingMsg, String bankName, String bankAccount,
 			String bankAccountOwner, int adjustmentPrice) {
 		super();
 		this.bNo = bNo;
@@ -27,7 +27,7 @@ public class Seller {
 		this.recipientPhone = recipientPhone;
 		this.recipientZipCode = recipientZipCode;
 		this.recipientAddress = recipientAddress;
-		this.recipientShiippingMsg = recipientShiippingMsg;
+		this.recipientShippingMsg = recipientShippingMsg;
 		this.bankName = bankName;
 		this.bankAccount = bankAccount;
 		this.bankAccountOwner = bankAccountOwner;
@@ -37,7 +37,7 @@ public class Seller {
 	
 
 	public Seller(int sellerNo, String recipientName, String recipientPhone, String recipientZipCode,
-			String recipientAddress, String recipientShiippingMsg, String bankName, String bankAccount,
+			String recipientAddress, String recipientShippingMsg, String bankName, String bankAccount,
 			String bankAccountOwner, int adjustmentPrice) {
 		super();
 		this.sellerNo = sellerNo;
@@ -45,7 +45,7 @@ public class Seller {
 		this.recipientPhone = recipientPhone;
 		this.recipientZipCode = recipientZipCode;
 		this.recipientAddress = recipientAddress;
-		this.recipientShiippingMsg = recipientShiippingMsg;
+		this.recipientShippingMsg = recipientShippingMsg;
 		this.bankName = bankName;
 		this.bankAccount = bankAccount;
 		this.bankAccountOwner = bankAccountOwner;
@@ -100,12 +100,12 @@ public class Seller {
 		this.recipientAddress = recipientAddress;
 	}
 
-	public String getRecipientShiippingMsg() {
-		return recipientShiippingMsg;
+	public String getRecipientShippingMsg() {
+		return recipientShippingMsg;
 	}
 
-	public void setRecipientShiippingMsg(String recipientShiippingMsg) {
-		this.recipientShiippingMsg = recipientShiippingMsg;
+	public void setrecipientShippingMsg(String recipientShippingMsg) {
+		this.recipientShippingMsg = recipientShippingMsg;
 	}
 
 	public String getBankName() {
@@ -144,7 +144,7 @@ public class Seller {
 	public String toString() {
 		return "Seller [bNo=" + bNo + ", sellerNo=" + sellerNo + ", recipientName=" + recipientName
 				+ ", recipientPhone=" + recipientPhone + ", recipientZipCode=" + recipientZipCode
-				+ ", recipientAddress=" + recipientAddress + ", recipientShiippingMsg=" + recipientShiippingMsg
+				+ ", recipientAddress=" + recipientAddress + ", recipientShippingMsg=" + recipientShippingMsg
 				+ ", bankName=" + bankName + ", bankAccount=" + bankAccount + ", bankAccountOwner=" + bankAccountOwner
 				+ ", adjustmentPrice=" + adjustmentPrice + "]";
 	}
