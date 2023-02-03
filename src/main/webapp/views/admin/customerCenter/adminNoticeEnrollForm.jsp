@@ -1,10 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ page import="com.scale.common.model.vo.PageInfo, java.util.ArrayList, com.scale.customerCenter.model.vo.Notice" %>
-<%
-	PageInfo pi = (PageInfo)request.getAttribute("pi");
-	ArrayList<Notice> list = (ArrayList<Notice>)request.getAttribute("list");
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,14 +22,24 @@
         text-align:center;
         font-size:14px;
     }
-    .paging-area button{
-        border:0.5px solid lightgray;
-        margin:3px;
+    .rq-mark{color:red; margin-right:7px;}
+    .table input[type=radio]{
+	    margin:0px 10px;
+	}
+    .enroll-form{
+        text-align:center;
+        font-size:14px;
     }
-    .page-active{
-        background:black;
-        color:white;
-    }
+	.enroll-form textarea{
+	    width:60%;
+	}
+	.enroll-form input[type=text]{
+	    width:60%;
+        height:40px;
+	}
+	.enroll-form td{
+	    text-align:left
+	}
 </style>
 </head>
 <body>
@@ -46,11 +51,58 @@
                 <br>
             </div>
             <div class="form-area">
+            <form class="enroll-form" action="enrollNotice.ad" method="post">
+                <table class="table enroll-form">
+                    <tr>
+                        <th><span class="rq-mark">*</span>제목</th>
+                        <td><input type="text" name="title" placeholder="공지사항 제목을 입력해주세요."></td>
+                    </tr>
+                    <tr>
+                        <th height="200"><span class="rq-mark">*</span>내용</th>
+                        <td>
+                            <textarea name="noticeDoc" id="summernote"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><span class="rq-mark">*</span>공개여부</th>
+                        <td>
+                            <input type="radio" name="display" value="Y"> 공개
+                            <input type="radio" name="display" value="N" checked> 비공개
+                        </td>
+                   		
+                    </tr>
+                </table>
+                <input type="hidden" name="noticeWriter" value="<%=adminUser.getUserNo()%>">
+                <button type="submit" class="btn btn-dark">등록</button>
+            </form>
             <br><br>
-        </div>
+        	</div>
+    </div>
     </div>
 
-    <script>
-    </script>
+<!-- include summernote css/js-->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+
+<script>
+    $(function() {
+        $('#summernote').summernote({
+             height: 300,                 // set editor height
+             minHeight: null,             // set minimum height of editor
+             maxHeight: null,             // set maximum height of editor
+             focus: true                  // set focus to editable area after initializing summernote
+        });
+    });
+
+    $(function() {
+	    $('#summernote').summernote();
+	});
+</script>
+
+<script>
+    function validate(){
+
+    }
+</script>
 </body>
 </html>

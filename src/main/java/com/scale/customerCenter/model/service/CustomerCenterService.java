@@ -206,4 +206,20 @@ public class CustomerCenterService {
 		close(conn);
 		return result;
 	}
+	
+	// ---------------------어드민----------------------------------
+	
+	// 공지사항
+	public int insertNotice(String title, String content, String display, String noticeWriter) {
+		Connection conn = getConnection();
+		int result = new CustomerCenterDao().insertNotice(conn, title, content, display, noticeWriter);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
 }

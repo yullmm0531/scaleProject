@@ -60,7 +60,7 @@
                 </form>
                 <br>
                 <div align="right">
-                    <a class="btn btn-dark" href="<%=contextPath%>/enrollFormNotice.ad">공지사항 등록</a>
+                    <a class="btn btn-outline-dark" href="<%=contextPath%>/enrollFormNotice.ad">공지사항 등록</a>
                 </div>
                 <br>
                 <table class="table table-hover">

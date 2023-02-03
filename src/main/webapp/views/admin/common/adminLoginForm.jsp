@@ -136,13 +136,13 @@
         function login(){
             
             $.ajax({
-                url:"<%=contextPath%>/login.ad",
+                url:"<%=request.getContextPath()%>/login.ad",
                 data:{userId:$("#userId").val(), userPwd:$("#userPwd").val()},
                 success:function(adminUser){
                     if(adminUser == null){
                         $("#validateMsg").css("visibility", "visible")
                     }else{
-                        location.href = "<%=contextPath%>/noticeList.ad?cpage=1";
+                        location.href = "<%=request.getContextPath()%>/noticeList.ad?cpage=1";
                     }
                 }, error:function(){
                     console.log("로그인 통신 실패")
