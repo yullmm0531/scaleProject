@@ -75,7 +75,9 @@ public class CustomerCenterDao {
 				list.add(new Notice(rset.getInt("notice_no"),
 									rset.getString("notice_title"),
 									rset.getString("create_date"),
-									rset.getInt("count")
+									rset.getInt("count"),
+									rset.getString("display_status"),
+									rset.getString("notice_writer")
 						));
 			}
 		} catch (SQLException e) {
@@ -209,7 +211,9 @@ public class CustomerCenterDao {
 				list.add(new Notice(rset.getInt("notice_no"),
 									rset.getString("notice_title"),
 									rset.getString("create_date"),
-									rset.getInt("count")
+									rset.getInt("count"),
+									rset.getString("display_status"),
+									rset.getString("notice_writer")
 						));
 			}
 			
@@ -251,7 +255,9 @@ public class CustomerCenterDao {
 				list.add(new Notice(rset.getInt("notice_no"),
 									rset.getString("notice_title"),
 									rset.getString("create_date"),
-									rset.getInt("count")
+									rset.getInt("count"),
+									rset.getString("display_status"),
+									rset.getString("notice_writer")
 						));
 			}
 			
@@ -293,7 +299,9 @@ public class CustomerCenterDao {
 				list.add(new Notice(rset.getInt("notice_no"),
 									rset.getString("notice_title"),
 									rset.getString("create_date"),
-									rset.getInt("count")
+									rset.getInt("count"),
+									rset.getString("display_status"),
+									rset.getString("notice_writer")
 						));
 			}
 			
@@ -305,6 +313,55 @@ public class CustomerCenterDao {
 		}
 		
 		return list;
+	}
+	
+	public int increaseNoticeCount(Connection conn, int noticeNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("increaseNoticeCount");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, noticeNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public Notice selectNoticeDetail(Connection conn, int noticeNo) {
+		Notice n = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectNoticeDetail");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, noticeNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				n = new Notice(rset.getInt("notice_no"),
+						rset.getString("notice_title"),
+						rset.getString("notice_content"),
+						rset.getString("create_date"),
+						rset.getInt("count")
+						);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return n;
 	}
 	
 	// faq

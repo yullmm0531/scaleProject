@@ -45,6 +45,12 @@
 </style>
 </head>
 <body>
+	<% if(alertMsg != null){ %>
+		<script>
+			alert("<%=alertMsg%>");
+		</script>
+		<% session.removeAttribute("alertMsg"); %>
+	<% } %>
 <div class="wrap">
 	<div id="navigator">
 		<ul id="navi">
