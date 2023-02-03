@@ -39,7 +39,6 @@ public class AjaxSelectAddressListController extends HttpServlet {
 		ArrayList<Address> list = new UserService().selectAddressList(userNo);
 		list.add(0, ad);
 		
-		
 		response.setContentType("application/json; charset=UTF-8");
 		new Gson().toJson(list, response.getWriter());
 		
