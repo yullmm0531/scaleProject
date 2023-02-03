@@ -311,10 +311,63 @@
 		  , ADDRESS2
 		  , RECIPIENT
 		  , PHONE
-		  , DEFAULT_ADD
 		  , USER_NO
+		  , DEFAULT_ADD
 		  FROM TB_ADDRESS
 		 WHERE USER_NO = ?
-		   AND STATUS = 'Y'
+		   
+	</entry>
+	
+	<entry key="userSellBidding">
+		SELECT
+		    PRODUCT_IMG_M
+		    ,PRODUCT_NAME_ENG
+		    ,BRAND_NAME
+		    ,BIDDING_DATE
+		    ,BIDDING_NO
+		FROM
+			TB_PRODUCT
+		JOIN TB_BRAND USING(BRAND_CODE)
+		JOIN TB_BIDDING USING(PRODUCT_CODE)
+			WHERE USER_NO = ?
+			  	AND BIDDING_TYPE = 2
+			    AND DEAL_CHECK = 'N'
+		   		 
+
+	</entry>
+	
+	<entry key="userDetailSellBidding">
+		SELECT
+		    B.PRODUCT_SIZE
+		    ,BIDDING_PRICE
+		    ,BIDDING_DATE
+		    ,INSPECTION_COST
+		    ,COMMISSION
+		    ,DELIVERY_FEE
+		    ,SELLER_NO
+		    ,RECIPIENT_NAME
+			,RECIPIENT_PHONE
+			,RECIPIENT_ZIPCODE
+			,RECIPIENT_ADDRESS
+			,RECIPIENT_SHIPPING_MSG
+			,BANK_NAME
+			,BANK_ACCOUNT
+			,BANK_OWNER_NAME
+			,ADJUSTMENT_PRICE
+			,PRODUCT_IMG_M
+		    ,PRODUCT_NAME_ENG
+		    ,PRODUCT_NAME_KO
+		    ,DEAL_CHECK
+		    
+		FROM
+			TB_BIDDING B
+		JOIN TB_SELLER USING(BIDDING_NO)
+		JOIN TB_PRODUCT USING(PRODUCT_CODE)
+		
+			WHERE BIDDING_NO = ?
+			  	AND BIDDING_TYPE = 2
+			    AND DEAL_CHECK = 'N'
+		   		 
+
 	</entry>
 </properties>

@@ -8,6 +8,7 @@ import static com.scale.common.JDBCTemplate.rollback;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import com.scale.bidding.model.vo.Bidding;
 import com.scale.product.model.vo.Product;
 import com.scale.user.model.dao.UserDao;
 import com.scale.user.model.vo.Address;
@@ -285,5 +286,22 @@ public Product userDetailImg(int biddingNo) {
 		close(conn);
 		
 		return ad;
+	}
+	
+	public ArrayList<Product> userSellBidding(int userNo) {
+		Connection conn = getConnection();
+		ArrayList<Product> list = new UserDao().userSellBidding(conn, userNo);
+		close(conn);
+		return list;
+	}
+	
+	public Bidding userDetailSellBidding(int biddingNo) {
+		
+		Connection conn = getConnection();
+		Bidding b = new UserDao().userDetailSellBidding(conn, biddingNo);
+		
+		close(conn);
+		
+		return b;
 	}
 }

@@ -17,6 +17,7 @@ public class Product {
 	
 	private String brandName;
 	private Date dealDate;
+	private Date biddingDate;
 	private int dealStep;
 	private int biddingNo;
 
@@ -97,10 +98,11 @@ public class Product {
 	
 	
 
-	public Product(String productNameEng, String productImgM, String brandName, Date dealDate, int dealStep, int biddingNo) {
+	public Product(String productImgM, String productNameEng, String brandName, Date dealDate, int dealStep, int biddingNo) {
 		super();
-		this.productNameEng = productNameEng;
+		
 		this.productImgM = productImgM;
+		this.productNameEng = productNameEng;
 		this.brandName = brandName;
 		this.dealDate = dealDate;
 		this.dealStep = dealStep;
@@ -122,6 +124,26 @@ public class Product {
 	
 	
 
+
+	public Product(String productImgM, String productNameEng, String brandName, Date biddingDate, int biddingNo) {
+		super();
+		
+		this.productImgM = productImgM;
+		this.productNameEng = productNameEng;
+		this.brandName = brandName;
+		this.biddingDate = biddingDate;
+		this.biddingNo = biddingNo;
+	}
+	
+	
+
+	public Date getBiddingDate() {
+		return biddingDate;
+	}
+
+	public void setBiddingDate(Date biddingDate) {
+		this.biddingDate = biddingDate;
+	}
 
 	public int getBiddingNo() {
 		return biddingNo;

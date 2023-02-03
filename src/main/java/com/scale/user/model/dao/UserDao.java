@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import com.scale.bidding.model.vo.Bidding;
 import com.scale.product.model.vo.Product;
 import com.scale.user.model.vo.Address;
 import com.scale.user.model.vo.User;
@@ -675,6 +676,7 @@ public class UserDao {
 			
 			if(rset.next()) {
 				ad = new Address(rset.getInt("address_no")
+								,rset.getString("zipCode")
 								,rset.getString("address1")
 								,rset.getString("address2")
 								,rset.getString("recipient")
@@ -694,5 +696,86 @@ public class UserDao {
 		}
 		return ad;
 		
+	}
+	
+	public ArrayList<Product> userSellBidding(Connection conn, int userNo) {
+		ArrayList<Product> list = new ArrayList<>();
+				
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("userSellBidding");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Product p = new Product();
+				p.setProductImgM(rset.getString("product_img_m"));
+				p.setProductNameEng(rset.getString("product_name_eng"));
+				p.setBrandName(rset.getString("brand_name"));
+				p.setDealDate(rset.getDate("bidding_date"));
+				p.setBiddingNo(rset.getInt("bidding_no"));
+				list.add(p);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+	}
+	
+	public Bidding userDetailSellBidding(Connection conn, int biddingNo) {
+		
+		Bidding b = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("userDetailSellBidding");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, biddingNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				
+				b = new Bidding(rset.getInt("product_size")
+						,rset.getString("BIDDING_PRICE")
+						,rset.getDate("BIDDING_DATE")
+						,rset.getInt("INSPECTION_COST")
+						,rset.getInt("COMMISSION")
+						,rset.getInt("DELIVERY_FEE")								
+						,rset.getInt("SELLER_NO")
+						,rset.getString("RECIPIENT_NAME")
+						,rset.getString("RECIPIENT_PHONE")
+						,rset.getString("RECIPIENT_ZIPCODE")
+						,rset.getString("RECIPIENT_ADDRESS")
+						,rset.getString("RECIPIENT_SHIPPING_MSG")
+						,rset.getString("BANK_NAME")
+						,rset.getString("BANK_ACCOUNT")
+						,rset.getString("BANK_OWNER_NAME")
+						,rset.getString("ADJUSTMENT_PRICE")
+						,rset.getString("PRODUCT_IMG_M")
+						,rset.getString("PRODUCT_NAME_ENG")
+						,rset.getString("PRODUCT_NAME_KO")
+						,rset.getString("DEAL_CHECK")
+						);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+			
+		}
+		return b;
 	}
 }
