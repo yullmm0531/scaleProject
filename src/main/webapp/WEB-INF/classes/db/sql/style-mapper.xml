@@ -35,10 +35,12 @@
 		                       STYLE_NO
 		                     , PROFILE_IMG
 		                     , COUNT
+		                     , USER_NO
 		                     , USER_NICKNAME
 		                     , USER_ID
 		                     , S.ENROLL_DATE
 		                     , HASHTAG
+		                     , STYLE_CONTENT
 		                  FROM (SELECT
 		                               STYLE_NO
 		                             , COUNT(*) "COUNT"
@@ -66,10 +68,12 @@
 				       STYLE_NO
 				     , COUNT
 				     , PROFILE_IMG
+				     , USER_NO
 				     , USER_NICKNAME
 				     , USER_ID
 				     , S.ENROLL_DATE
 				     , HASHTAG
+				     , STYLE_CONTENT
 				  FROM (
 				        SELECT
 				               STYLE_NO
@@ -102,8 +106,10 @@
 				             , COUNT
 				             , USER_NICKNAME
 				             , USER_ID
+				             , USER_NO
 				             , S.ENROLL_DATE
 				             , HASHTAG
+				             , STYLE_CONTENT
 				          FROM (SELECT
 				                       STYLE_NO
 				                     , COUNT(*) "COUNT"
@@ -231,7 +237,7 @@
 		 WHERE KEYWORD = ?
 	</entry>
 	
-	<entry key="selectStyleByID">
+	<entry key="selectStyleByUserNo">
 		SELECT *
 		  FROM (
 		        SELECT
@@ -242,11 +248,12 @@
 				               STYLE_NO
 				             , PROFILE_IMG
 				             , COUNT
+				             , USER_NO
 				             , USER_ID
 				             , USER_NICKNAME
 				             , S.ENROLL_DATE
-				             , INTRODUCE
 				             , HASHTAG
+				             , STYLE_CONTENT
 				          FROM (SELECT
 				                       STYLE_NO
 				                     , COUNT(*) "COUNT"
@@ -257,7 +264,7 @@
 				          RIGHT JOIN TB_STYLE S USING (STYLE_NO)
 				          JOIN TB_USER USING (USER_NO)
 				         WHERE S.STATUS = 'Y'
-                           AND USER_ID = ?
+                           AND USER_NO = ?
 				         ORDER
 				            BY STYLE_NO DESC
 				        ) A
@@ -305,4 +312,25 @@
 		 WHERE STYLE_NO = ?
 	</entry>
 	
+	<entry key="insertStyleReport">
+		INSERT
+		  INTO TB_STYLE_REP
+		  (
+		    REPORT_NO
+		  , REPORTED_USER_NO
+		  , REPORTING_USER_NO
+		  , REPORT_TITLE
+		  , REPORT_CONTENT
+		  , STYLE_NO
+		  )
+		  VALUES
+		  (
+		    SEQ_RNO.NEXTVAL
+		  , ?
+		  , ?
+		  , ?
+		  , ?
+		  , ?
+		  )
+	</entry>
 </properties>

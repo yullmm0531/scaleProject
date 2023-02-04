@@ -555,7 +555,7 @@
                             
                             <!-- Modal body -->
                             <div class="modal-body">
-                                <div id="addresses">
+                                <div id="addresses" style="overflow: auto;">
                                     
                                     <div class="address">
                                         
@@ -567,7 +567,7 @@
                                 </div>
                                 <div align="center">
                                     <button type="button" class="btn btn-outline-secondary class" data-dismiss="modal">취소</button>
-                                    <button type="button" class="btn btn-secondary" id="change-address-button" disabled>확인</button>
+                                    <button type="button" class="btn btn-secondary" id="change-address-button" onclick="changeAddress();">확인</button>
                                 </div>
                             </div>
                         </div>
@@ -598,7 +598,7 @@
                                                 +          response[0].phone
                                                 +      "</div>"
                                                 +      "<div class='address-detail'>"
-                                                +          "(" + response[0].zipCode + ")" + response[0].address1 + response[0].address2
+                                                +          "(" + response[0].zipCode + ")" + response[0].address1 + " " + response[0].address2
                                                 +      "</div></span>"
                                                 + "</label>"
                                                 + "<div class='line2'></div>";
@@ -606,9 +606,7 @@
                                         for(let i=1; i<response.length; i++){
                                             str +=   "<input type='radio' id='" + response[i].addresNo + "' name='checkedAddress' value='" + response[i].addresNo + "'>"
                                                     +   "<label for='" + response[i].addresNo + "'  class='address-option btn'><span>"
-                                                    +      "<div class='address-check'>"
-                                                    +       "<!--기본배송지인경우-->"
-                                                    +       "<span class='badge badge-pill badge-secondary'>기본배송지</span>"
+                                                    +      "<div class='address-check'>"     
                                                     +      "</div>"
                                                     +      "<div class='address-name'>"
                                                     +          response[i].recipient
@@ -617,7 +615,7 @@
                                                     +          response[i].phone
                                                     +      "</div>"
                                                     +      "<div class='address-detail'>"
-                                                    +          "(" + response[i].zipCode + ")" + response[i].address1 + response[i].address2
+                                                    +          "(" + response[i].zipCode + ")" + response[i].address1 + " " + response[i].address2
                                                     +      "</div></span>"
                                                     + "</label>"
                                                     + "<div class='line2'></div>";
@@ -630,14 +628,23 @@
                                     alert("배송지 목록 조회에 실패했습니다.");
                                 }
                             })
+
                         })
 
-                        $("#addressList input").change(function(){
-                            $(this).next().attr("checked", true);
-                        })
-                        
-                    
                     })
+
+                    function changeAddress(){
+                        
+                        if ($("input[type=radio][name=checkedAddress]:checked").val()) {
+                            console.log($("input[type=radio][name=checkedAddress]:checked").val());
+
+
+                        }
+                        else {
+                            alert("배송지를 선택해주세요.");
+                        }
+
+                    }
                 </script>
 	
                 <!-- 배송지 추가 모달 -->
@@ -726,38 +733,65 @@
                     })
 
                     function addAddress(){
+                        const $recipient = $("#userName").val();
+                        const $recipientPhone = $("#phone").val();
+                        const $zipCode = $("#zipCode").val()
+                        const $address = $("#address").val() + $("#detailAddress").val();
+
+                        var defaultAddress = "";
+                        if($("#defaultAD").is(":checked")){
+                            defaultAddress = "Y"
+                        } else{
+                            defaultAddress = "N"
+                        }
+
                         if($("#userName").val() == "" || $("#phone").val() == "" || $("#address").val() == ""){
                             alert("배송지를 제대로 입력하십시오.")
                         } else{
                             $.ajax({
                                 url:"<%= contextPath %>/insertAddress.us",
-                             data:{
-                                 userNo: <%= loginUser.getUserNo() %>,
-                                 recipientName: $("#userName").val(),
-                                 recipientPhone: $("phone").val(),
-                                 zipCode: $("zipCode").val(),
-                                 address: $("#address").val(),
-                                 detailAddress: $("#detailAddress").val(),
-                                 defaultAD: $("#defaultAD").is("checked")
-                             },
-                             type:"post",
-                             success:function(result){
-                                 if(result > 0){
-                                     $('#address-add').modal('hide')
-                                     //selectUserAcc();
+                                data:{
+                                    userNo: <%= loginUser.getUserNo() %>,
+                                    recipientName: $recipient,
+                                    recipientPhone: $recipientPhone,
+                                    zipCode: $zipCode,
+                                    address: $("#address").val(),
+                                    detailAddress: $("#detailAddress").val(),
+                                    defaultAD: defaultAddress
+                                },
+                                type:"post",
+                                success:function(result){
+                                    if(result > 0){
+                                        // 모달 닫기
+                                        $('#address-add').modal('hide')
 
-                                 } else{
-                                     alert("계좌정보 변경에 실패했습니다.");
-                                 }
-                                 
-                             },
-                             error:function(){
-                                 console.log("계좌정보 변경용 ajax 통신 실패");
-                             }
+                                        // 주문서에 배송지 정보 입력하기
+                                        $("#recipient").val($recipient);
+                                        $("#reciPhone").val($recipientPhone);
+                                        $("#shippingZipCode").val("(" + $zipCode + ")");
+                                        $("#shippingAddress").val($address);
+                                        
+                                        // 모달에 입력한 값 비워주기
+                                        $("#userName").val("");
+                                        $("#phone").val("");
+                                        $("#zipCode").val("")
+                                        $("#address").val("");
+                                        $("#detailAddress").val("");
+
+                                    } else{
+                                        alert("배송지 변경에 실패했습니다.");
+                                    }
+                                    
+                                },
+                                error:function(){
+                                    console.log("배송지 변경용 ajax 통신 실패");
+                                }
                             })
                     
                         }
                     }
+
+                   
                 </script>
 
 
