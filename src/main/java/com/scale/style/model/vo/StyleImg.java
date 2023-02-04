@@ -28,6 +28,15 @@ public class StyleImg {
 		this.fileLevel = fileLevel;
 	}
 
+	public StyleImg(int imgNo, String changeName, String filePath, int styleNo, int fileLevel) {
+		super();
+		this.imgNo = imgNo;
+		this.changeName = changeName;
+		this.filePath = filePath;
+		this.styleNo = styleNo;
+		this.fileLevel = fileLevel;
+	}
+
 	public int getImgNo() {
 		return imgNo;
 	}

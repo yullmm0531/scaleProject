@@ -736,4 +736,34 @@ public class StyleDao {
 		return result;
 	}
 	
+	public Style selectStyle(Connection conn, int styleNo) {
+		Style st = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectStyle");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, styleNo);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				st = new Style();
+				st.setStyleNo(rset.getInt("style_no"));
+				st.setContent(rset.getString("style_content"));
+				st.setEnrollDate(rset.getDate("enroll_date"));
+				st.setHashtag(rset.getString("hashtag"));
+				st.setStyleWriter(rset.getString("user_nickname"));
+				st.setUserNo(rset.getInt("user_no"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return st;
+	}
+	
 }
