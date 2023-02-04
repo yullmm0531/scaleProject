@@ -1,31 +1,27 @@
-package com.scale.style.controller;
+package com.scale.admin.customerCenter.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.scale.style.model.service.StyleService;
-import com.scale.style.model.vo.Style;
-import com.scale.user.model.service.UserService;
-import com.scale.user.model.vo.User;
+import com.scale.customerCenter.model.service.CustomerCenterService;
+import com.scale.customerCenter.model.vo.Notice;
 
 /**
- * Servlet implementation class StyleProfileViewController
+ * Servlet implementation class NoticeDetailViewController
  */
-@WebServlet("/profileView.st")
-public class StyleProfileViewController extends HttpServlet {
+@WebServlet("/detail.no")
+public class NoticeDetailViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public StyleProfileViewController() {
+    public NoticeDetailViewController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,10 +30,19 @@ public class StyleProfileViewController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int userNo = Integer.parseInt(request.getParameter("userNo"));
-		User user = new UserService().selectUserByUserNo(userNo);
-		request.setAttribute("user", user);
-		request.getRequestDispatcher("views/style/styleProfileView.jsp").forward(request, response);
+		int noticeNo = Integer.parseInt(request.getParameter("noticeNo")); 
+		
+		int result = new CustomerCenterService().increaseNoticeCount(noticeNo);
+		
+		if(result > 0) {
+			Notice n = new CustomerCenterService().selectNoticeDetail(noticeNo);
+			request.setAttribute("n", n);
+			request.getRequestDispatcher("views/customerCenter/noticeDetailView.jsp").forward(request, response);
+		}else {
+			request.getSession().setAttribute("alertMsg", "유효하지 않은 공지사항입니다.");
+			response.sendRedirect(request.getContextPath() + "/list.no?cpage=1");
+		}
+		
 		
 	}
 

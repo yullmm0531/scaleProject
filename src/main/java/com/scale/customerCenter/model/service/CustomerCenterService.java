@@ -73,6 +73,36 @@ public class CustomerCenterService {
 		return list;
 	}
 	
+	/** 
+	 * 공지사항 카운트 증가
+	 * @param noticeNo
+	 * @return int result
+	 */
+	public int increaseNoticeCount(int noticeNo) {
+		Connection conn = getConnection();
+		int result = new CustomerCenterDao().increaseNoticeCount(conn, noticeNo);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result;
+	}
+	
+	/**
+	 * 공지사항 상세 조회
+	 * @param noticeNo
+	 * @return Notice n
+	 */
+	public Notice selectNoticeDetail(int noticeNo) {
+		Connection conn = getConnection();
+		Notice n = new CustomerCenterDao().selectNoticeDetail(conn, noticeNo);
+		close(conn);
+		return n;
+	}
 	
 	// faq
 	/**

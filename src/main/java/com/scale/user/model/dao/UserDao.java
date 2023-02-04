@@ -254,15 +254,15 @@ public class UserDao {
 	
 
 
-	public User selectUserByNickname(Connection conn, String nickname) {
+	public User selectUserByUserNo(Connection conn, int userNo) {
 		User user = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("selectUserByNickname");
+		String sql = prop.getProperty("selectUserByUserNo");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, nickname);
+			pstmt.setInt(1, userNo);
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
@@ -736,6 +736,8 @@ public class UserDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
+		System.out.println("dao biddingNo : " + biddingNo);
+		
 		String sql = prop.getProperty("userDetailSellBidding");
 		
 		try {
@@ -774,7 +776,7 @@ public class UserDao {
 		}finally {
 			close(rset);
 			close(pstmt);
-			
+			System.out.println("dao : " + b);
 		}
 		return b;
 	}

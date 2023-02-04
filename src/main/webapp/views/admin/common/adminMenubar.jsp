@@ -45,6 +45,12 @@
 </style>
 </head>
 <body>
+	<% if(alertMsg != null){ %>
+		<script>
+			alert("<%=alertMsg%>");
+		</script>
+		<% session.removeAttribute("alertMsg"); %>
+	<% } %>
 <div class="wrap">
 	<div id="navigator">
 		<ul id="navi">
@@ -67,10 +73,8 @@
 			</li>
 			<li><a href="">스타일 관리</a>
 				<ul>
-					<li><a href="">JDBC</a></li>
-					<li><a href="">Servlet</a></li>
-					<li><a href="">JSP</a></li>
-					<li><a href="">AJAX</a></li>
+					<li><a href="<%= contextPath %>/stylelist.ad">피드관리</a></li>
+					<li><a href="<%= contextPath %>/stylereport.ad">신고관리</a></li>
 				</ul>
 			</li>
 			<li><a href="">고객센터 관리</a>

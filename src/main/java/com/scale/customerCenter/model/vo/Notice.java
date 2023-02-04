@@ -27,10 +27,21 @@ public class Notice {
 		this.noticeWriter = noticeWriter;
 	}
 
-	public Notice(int noticeNo, String noticeTitle, String createDate, int count) {
+	public Notice(int noticeNo, String noticeTitle, String createDate, int count, String displayStatus, String noticeWriter) {
 		super();
 		this.noticeNo = noticeNo;
 		this.noticeTitle = noticeTitle;
+		this.createDate = createDate;
+		this.count = count;
+		this.displayStatus = displayStatus;
+		this.noticeWriter = noticeWriter;
+	}
+
+	public Notice(int noticeNo, String noticeTitle, String noticeContent, String createDate, int count) {
+		super();
+		this.noticeNo = noticeNo;
+		this.noticeTitle = noticeTitle;
+		this.noticeContent = noticeContent;
 		this.createDate = createDate;
 		this.count = count;
 	}

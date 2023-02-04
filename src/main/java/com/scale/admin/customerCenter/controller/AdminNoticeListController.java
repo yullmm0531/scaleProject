@@ -64,7 +64,6 @@ public class AdminNoticeListController extends HttpServlet {
 		
 		// 페이지 조회
 		ArrayList<Notice> list = new CustomerCenterService().selectNoticeList(pi);
-		System.out.println(list);
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
 		

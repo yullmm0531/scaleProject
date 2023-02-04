@@ -95,12 +95,12 @@ public class UserService {
 
 	/**
 	 * @writer 먼지링
-	 * @param 유저정보를 찾을 때 사용할 nickname
+	 * @param 유저정보를 찾을 때 사용할 userNo
 	 * @return User정보
 	 */
-	public User selectUserByNickname(String nickname) {
+	public User selectUserByUserNo(int userNo) {
 		Connection conn = getConnection();
-		User user = new UserDao().selectUserByNickname(conn, nickname);
+		User user = new UserDao().selectUserByUserNo(conn, userNo);
 		close(conn);
 		return user;
 	}
