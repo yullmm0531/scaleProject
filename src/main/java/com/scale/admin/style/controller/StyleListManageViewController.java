@@ -1,31 +1,23 @@
-package com.scale.style.controller;
+package com.scale.admin.style.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import com.scale.style.model.service.StyleService;
-import com.scale.style.model.vo.Style;
-import com.scale.user.model.service.UserService;
-import com.scale.user.model.vo.User;
 
 /**
- * Servlet implementation class StyleProfileViewController
+ * Servlet implementation class StyleListManageViewController
  */
-@WebServlet("/profileView.st")
-public class StyleProfileViewController extends HttpServlet {
+@WebServlet("/stylelist.ad")
+public class StyleListManageViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public StyleProfileViewController() {
+    public StyleListManageViewController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,11 +26,8 @@ public class StyleProfileViewController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int userNo = Integer.parseInt(request.getParameter("userNo"));
-		User user = new UserService().selectUserByUserNo(userNo);
-		request.setAttribute("user", user);
-		request.getRequestDispatcher("views/style/styleProfileView.jsp").forward(request, response);
-		
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**

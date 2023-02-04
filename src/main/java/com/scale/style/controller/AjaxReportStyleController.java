@@ -1,8 +1,6 @@
 package com.scale.style.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,24 +8,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-import com.scale.product.model.vo.Product;
 import com.scale.style.model.service.StyleService;
-import com.scale.style.model.vo.Style;
-import com.scale.style.model.vo.StyleImg;
+import com.scale.style.model.vo.StyleReport;
 import com.scale.user.model.vo.User;
 
 /**
- * Servlet implementation class StyleDetailViewController
+ * Servlet implementation class AjaxReportStyleController
  */
-@WebServlet("/detailStyle.ajax")
-public class AjaxStyleDetailController extends HttpServlet {
+@WebServlet("/reportStyle.ajax")
+public class AjaxReportStyleController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AjaxStyleDetailController() {
+    public AjaxReportStyleController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,18 +31,16 @@ public class AjaxStyleDetailController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int cpage = Integer.parseInt(request.getParameter("cpage"));
-		String view = request.getParameter("view");
-		int boardLimit = 12;
-		String tag = request.getParameter("tag") != null ? request.getParameter("tag") : "";
-		int no = request.getParameter("no") != null ? Integer.parseInt(request.getParameter("no")) : 0;
-		User loginUser = (User)request.getSession().getAttribute("loginUser");
-		int userNo = loginUser != null ? loginUser.getUserNo() : 0;
+		int reportedNo = Integer.parseInt(request.getParameter("reportedUserNo"));
+		int reportingNo = ((User)request.getSession().getAttribute("loginUser")).getUserNo();
+		String title = request.getParameter("title");
+		String content = request.getParameter("content");
+		int styleNo = Integer.parseInt(request.getParameter("reportedStyleNo"));
 		
-		HashMap<String, Object> map = new StyleService().selectAddDetail(cpage, view, boardLimit, tag, no, userNo);
+		StyleReport rep = new StyleReport(reportedNo, reportingNo, title, content, styleNo);
+		int result = new StyleService().insertStyleReport(rep);
 		
-		response.setContentType("application/json; charset=UTF-8");
-		new Gson().toJson(map, response.getWriter());
+		response.getWriter().print(result);
 	}
 
 	/**

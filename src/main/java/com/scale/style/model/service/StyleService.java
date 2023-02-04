@@ -14,6 +14,7 @@ import com.scale.style.model.dao.StyleDao;
 import com.scale.style.model.vo.Hashtag;
 import com.scale.style.model.vo.Style;
 import com.scale.style.model.vo.StyleImg;
+import com.scale.style.model.vo.StyleReport;
 
 public class StyleService {
 	
@@ -117,9 +118,9 @@ public class StyleService {
 		return result1 * result2 * result3 * result4;
 	}
 	
-	public ArrayList<Style> selectStyleByID(int currentPage, int boardLimit, String id){
+	public ArrayList<Style> selectStyleByUserNo(int currentPage, int boardLimit, int userNo){
 		Connection conn = getConnection();
-		ArrayList<Style> list = new StyleDao().selectStyleByID(conn, currentPage, boardLimit,id);
+		ArrayList<Style> list = new StyleDao().selectStyleByUserNo(conn, currentPage, boardLimit, userNo);
 		close(conn);
 		return list;
 	}
@@ -210,13 +211,13 @@ public class StyleService {
 		return map;
 	}
 	
-	public HashMap<String, Object> selectAddDetail(int cpage, String view, int boardLimit, String tag, String userID, int userNo) {
+	public HashMap<String, Object> selectAddDetail(int cpage, String view, int boardLimit, String tag, int no, int userNo) {
 		Connection conn = getConnection();
 		
 		ArrayList<Style> list = new ArrayList<Style>();
 		switch(view) {
 		case "trending": list = new StyleDao().selectStyleList(conn, cpage, boardLimit);  break;
-		case "profile": list = new StyleDao().selectStyleByID(conn, cpage, boardLimit, userID); break;
+		case "profile": list = new StyleDao().selectStyleByUserNo(conn, cpage, boardLimit, no); break;
 		case "newest": list = new StyleDao().selectNewStyleList(conn, cpage, boardLimit); break;
 		case "tagsearch": list = new StyleDao().selectStyleByHashtag(conn, cpage, boardLimit, tag); break;
 		}
@@ -247,6 +248,17 @@ public class StyleService {
 		map.put("checkLike", checkLike);
 		
 		return map;
-		
+	}
+	
+	public int insertStyleReport(StyleReport rep) {
+		Connection conn = getConnection();
+		int result = new StyleDao().insertStyleReport(conn, rep);
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
 	}
 }

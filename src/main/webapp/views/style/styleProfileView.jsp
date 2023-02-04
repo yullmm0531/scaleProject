@@ -335,7 +335,7 @@
 				$.ajax({
 					url:"<%= contextPath %>/profile.ajax",
 					type:"get",
-					data:{"cpage":cpage, "id":"<%= user.getUserId() %>", "userNo":"<%= user.getUserNo() %>"},
+					data:{"cpage":cpage, "userNo":"<%= user.getUserNo() %>"},
 					success:function(map){
 						let list = map.list;
 						let ilist = map.ilist;
@@ -382,7 +382,7 @@
 											+ "<tr>"
 												+ "<td class='nickname'>"
 													+ "<img src='<%= contextPath %>/" + list[i].profileImg + "' class='rounded-circle'>"
-													+ "<a href='<%= contextPath %>/profileView.st?nickname=" + list[i].styleWriter + "'>" + list[i].styleWriter + "</a>"
+													+ "<a href='<%= contextPath %>/profileView.st?userNo=" + list[i].userNo + "'>" + list[i].styleWriter + "</a>"
 												+ "</td>"
 												+ "<td class='like'>";
 										if(checkLike[i] == 0){
