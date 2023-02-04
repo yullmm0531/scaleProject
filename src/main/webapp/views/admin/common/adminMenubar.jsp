@@ -85,8 +85,8 @@
 			<li><a href="">고객센터 관리</a>
 				<ul>
 					<li><a href="<%=contextPath%>/noticeList.ad?cpage=1">공지사항 관리</a></li>
-					<li><a href="">자주묻는질문 관리</a></li>
-					<li><a href="">1:1문의 관리</a></li>
+					<li><a href="<%=contextPath%>/faqList.ad?cpage=1">자주묻는질문 관리</a></li>
+					<li><a href="<%=contextPath%>/inquireList.ad?cpage=1">1:1문의 관리</a></li>
 				</ul>
 			</li>
 			<li><a href="">배너 관리</a>
