@@ -64,7 +64,7 @@
 			</li>
 			<li><a href="">결제 관리</a>
 				<ul>
-					<li><a href="">거래 리스트</a></li>
+					<li><a href="<%= contextPath %>/biddingList.ad?cpage=1">거래 리스트</a></li>
 					<li><a href="">검수내역</a></li>
 				</ul>
 			</li>
