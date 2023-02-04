@@ -227,7 +227,9 @@
             background-color: rgb(81, 81, 81);
         }
         .address-option{
-            width: 100%;
+            width: 90%;
+            text-align: left !important; 
+            border: none;
         }
     </style>
 </head>
@@ -556,16 +558,16 @@
                                 <div id="addresses">
                                     
                                     <div class="address">
-                                        <label class='address-option btn btn-outline-secondary'><input type='radio' name='heckedAddress' value='2'><span><div class='address-check'><!--기본배송지인경우--><span class='badge badge-pill badge-secondary'>기본배송지</span></div><div class='address-name'>신짱구</div><div class='address-phone'>010-1112-3568</div><div class='address-detail'>(13607)경기 성남시 분당구 내정로 54602동 108호</div></span></label><div class='line2'></div>
+                                        
                                         
                                     </div>
                                     <br>
-                                    <div class="line2"></div>
+                                    
                                     
                                 </div>
                                 <div align="center">
                                     <button type="button" class="btn btn-outline-secondary class" data-dismiss="modal">취소</button>
-                                    <button type="button" class="btn btn-secondary" id="change-account-button" disabled>확인</button>
+                                    <button type="button" class="btn btn-secondary" id="change-address-button" disabled>확인</button>
                                 </div>
                             </div>
                         </div>
@@ -583,30 +585,27 @@
                                     console.log(response);
                                     var str = "";
                                     if(response.length != 0){
-                                        str += "<label class='address-option btn btn-outline-secondary'>"
-                                            +   "<input type='radio' name='heckedAddress' value='" + response[0].addresNo + "'>"
-                                            +   "<span>"
-                                            +      "<div class='address-check'>"
-                                            +       "<!--기본배송지인경우-->"
-                                            +       "<span class='badge badge-pill badge-secondary'>기본배송지</span>"
-                                            +      "</div>"
-                                            +      "<div class='address-name'>"
-                                            +          response[0].recipient
-                                            +      "</div>"
-                                            +      "<div class='address-phone'>"
-                                            +          response[0].phone
-                                            +      "</div>"
-                                            +      "<div class='address-detail'>"
-                                            +          "(" + response[0].zipCode + ")" + response[0].address1 + response[0].address2
-                                            +      "</div></span>"
-                                            + "</label>"
-                                            + "<div class='line2'></div>";
+                                        str +=   "<input type='radio' id='" + response[0].addresNo + "' name='checkedAddress' value='" + response[0].addresNo + "'>"
+                                                +   "<label for='" + response[0].addresNo + "'  class='address-option btn'><span>"
+                                                +      "<div class='address-check'>"
+                                                +       "<!--기본배송지인경우-->"
+                                                +       "<span class='badge badge-pill badge-secondary'>기본배송지</span>"
+                                                +      "</div>"
+                                                +      "<div class='address-name'>"
+                                                +          response[0].recipient
+                                                +      "</div>"
+                                                +      "<div class='address-phone'>"
+                                                +          response[0].phone
+                                                +      "</div>"
+                                                +      "<div class='address-detail'>"
+                                                +          "(" + response[0].zipCode + ")" + response[0].address1 + response[0].address2
+                                                +      "</div></span>"
+                                                + "</label>"
+                                                + "<div class='line2'></div>";
 
                                         for(let i=1; i<response.length; i++){
-                                            str += "<br><br>"
-                                                +  "<label class='address-option btn btn-outline-secondary'>"
-                                                    +   "<input type='radio' name='heckedAddress' value='" + response[i].addresNo + "'>"
-                                                    +   "<span>"
+                                            str +=   "<input type='radio' id='" + response[i].addresNo + "' name='checkedAddress' value='" + response[i].addresNo + "'>"
+                                                    +   "<label for='" + response[i].addresNo + "'  class='address-option btn'><span>"
                                                     +      "<div class='address-check'>"
                                                     +       "<!--기본배송지인경우-->"
                                                     +       "<span class='badge badge-pill badge-secondary'>기본배송지</span>"
@@ -632,6 +631,12 @@
                                 }
                             })
                         })
+
+                        $("#addressList input").change(function(){
+                            $(this).next().attr("checked", true);
+                        })
+                        
+                    
                     })
                 </script>
 	
@@ -681,7 +686,7 @@
                                     <br><br>
                                     <div align="center">
                                         <button type="button" class="btn btn-outline-secondary class" data-dismiss="modal">취소</button>
-                                        <button type="button" class="btn btn-secondary" disabled>확인</button>
+                                        <button type="button" class="btn btn-secondary" onclick="addAddress();">확인</button>
                                     </div>
                                                 
                                 </div>
@@ -695,6 +700,7 @@
                         const $checkInputName = $("#check-input-name");
                         const $phone = $("#phone");
                         const $checkInputPhone = $("#check-input-phone");
+                        const $address = $("#address");
 
                         // 이름 유효성 체크
                         $userName.focusout(function(){
@@ -715,7 +721,43 @@
                             }
                         })
 
+                        
+
                     })
+
+                    function addAddress(){
+                        if($("#userName").val() == "" || $("#phone").val() == "" || $("#address").val() == ""){
+                            alert("배송지를 제대로 입력하십시오.")
+                        } else{
+                            $.ajax({
+                                url:"<%= contextPath %>/insertAddress.us",
+                             data:{
+                                 userNo: <%= loginUser.getUserNo() %>,
+                                 recipientName: $("#userName").val(),
+                                 recipientPhone: $("phone").val(),
+                                 zipCode: $("zipCode").val(),
+                                 address: $("#address").val(),
+                                 detailAddress: $("#detailAddress").val(),
+                                 defaultAD: $("#defaultAD").is("checked")
+                             },
+                             type:"post",
+                             success:function(result){
+                                 if(result > 0){
+                                     $('#address-add').modal('hide')
+                                     //selectUserAcc();
+
+                                 } else{
+                                     alert("계좌정보 변경에 실패했습니다.");
+                                 }
+                                 
+                             },
+                             error:function(){
+                                 console.log("계좌정보 변경용 ajax 통신 실패");
+                             }
+                            })
+                    
+                        }
+                    }
                 </script>
 
 
