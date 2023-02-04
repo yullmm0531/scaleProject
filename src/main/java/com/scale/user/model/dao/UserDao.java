@@ -254,15 +254,15 @@ public class UserDao {
 	
 
 
-	public User selectUserByNickname(Connection conn, String nickname) {
+	public User selectUserByUserNo(Connection conn, int userNo) {
 		User user = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("selectUserByNickname");
+		String sql = prop.getProperty("selectUserByUserNo");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, nickname);
+			pstmt.setInt(1, userNo);
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
