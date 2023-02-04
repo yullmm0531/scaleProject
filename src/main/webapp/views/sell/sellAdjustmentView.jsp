@@ -132,8 +132,8 @@
         .address-name{
             font-weight: bold;
         }
-        .address{padding: 10px;}
-        .address:hover{background-color: rgba(247, 246, 246, 0.479);}
+        .address{padding: 10px; height: 430px;}
+        .address label:hover{background-color: rgba(247, 246, 246, 0.479);}
         #add-address-form{
             margin: auto;
 		    padding: 10px;
@@ -543,9 +543,9 @@
                             
                             <!-- Modal body -->
                             <div class="modal-body">
-                                <div id="addresses" style="overflow: auto;">
+                                <div id="addresses">
                                     
-                                    <div class="address">
+                                    <div class="address" style="overflow: auto;">
                                         
                                         
                                     </div>
@@ -572,7 +572,7 @@
                                     console.log(response);
                                     var str = "";
                                     if(response.length != 0){
-                                        str +=   "<input type='radio' id='" + response[0].addresNo + "' name='checkedAddress' value='" + response[0].addresNo + "'>"
+                                        str +=   "<div><input type='radio' id='" + response[0].addresNo + "' name='checkedAddress' value='" + response[0].addresNo + "'>"
                                                 +   "<label for='" + response[0].addresNo + "'  class='address-option btn'><span>"
                                                 +      "<div class='address-check'>"
                                                 +       "<!--기본배송지인경우-->"
@@ -587,11 +587,11 @@
                                                 +      "<div class='address-detail'>"
                                                 +          "<span class='address-zipCode'>(" + response[0].zipCode + ")</span><span class='address-address'>" + response[0].address1 + " " + response[0].address2 + "</span>"
                                                 +      "</div></span>"
-                                                + "</label>"
+                                                + "</label></div>"
                                                 + "<div class='line2'></div>";
 
                                         for(let i=1; i<response.length; i++){
-                                            str +=   "<input type='radio' id='" + response[i].addresNo + "' name='checkedAddress' value='" + response[i].addresNo + "'>"
+                                            str +=   "<div><input type='radio' id='" + response[i].addresNo + "' name='checkedAddress' value='" + response[i].addresNo + "'>"
                                                     +   "<label for='" + response[i].addresNo + "'  class='address-option btn'><span>"
                                                     +      "<div class='address-check'>"     
                                                     +      "</div>"
@@ -604,7 +604,7 @@
                                                     +      "<div class='address-detail'>"
                                                     +          "<span class='address-zipCode'>(" + response[i].zipCode + ")</span><span class='address-address'>" + response[i].address1 + " " + response[i].address2 + "</span>"
                                                     +      "</div></span>"
-                                                    + "</label>"
+                                                    + "</label></div>"
                                                     + "<div class='line2'></div>";
                                         }
                                         $(".address").html(str);

@@ -101,8 +101,8 @@
     .address-name{
         font-weight: bold;
     }
-    .address{padding: 10px;}
-    .address:hover{background-color: rgba(247, 246, 246, 0.479);}
+    .address{padding: 10px; height: 430px;}
+    .address label:hover{background-color: rgba(247, 246, 246, 0.479);}
     #add-address-form{
         margin: auto;
         padding: 10px;
@@ -172,6 +172,7 @@
         text-align: left !important; 
         border: none;
     }
+    
 
 </style>
 </head>
@@ -285,9 +286,9 @@
                             
                             <!-- Modal body -->
                             <div class="modal-body">
-                                <div id="addresses" style="overflow: auto;">
+                                <div id="addresses">
                                     
-                                    <div class="address">
+                                    <div class="address" style="overflow: auto;">
                                         
                                         
                                     </div>
@@ -742,7 +743,7 @@
                 <input type="hidden" id="paymentMethod" name="paymentMethod" value="">
                 <div align="center">
                     <button type="button" class="btn btn-outline-secondary" onclick="history.back();">취소</button>
-                    <input id="requestPay" type="button" class="btn btn-outline-warning" value="다음단계">
+                    <input id="requestPay" type="button" class="btn btn-outline-warning" value="다음단계" disabled>
                 </div>
                 <br><br>
             </div>
@@ -770,9 +771,9 @@
                 
                 checkboxes.click(function(){
                     if($("#term1").is(":checked") && $("#term2").is(":checked") && $("#term3").is(":checked")){
-                        $('input[type="submit"]').prop('disabled', false);
+                        $('#requestPay').prop('disabled', false);
                     } else{
-                        $('input[type="submit"]').prop('disabled', true);
+                        $('#requestPay').prop('disabled', true);
                     }
                 })
                 
