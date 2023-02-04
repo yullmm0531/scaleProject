@@ -44,19 +44,17 @@
     .pd-info{width: 400px;}
     .pd-info>div{float: left; width: 70px; margin-right: 5px;}
     .pd-info img{width: 70px; height: 70px; box-sizing: border-box;}
-    .pd-info>div>div{width: 70px; font-size: 12px;text-overflow:ellipsis; 
+    .pd-info>div>div{
+        width: 70px; 
+        font-size: 12px;
+        text-overflow:ellipsis; 
     	overflow:hidden;
-    	white-space:nowrap;}
+    	white-space:nowrap;
+    }
 
     .like-td{font-size: 15px;}
     .like{padding:0px !important;}
-
-    /* .text, .tag{
-    	text-overflow:ellipsis; 
-    	overflow:hidden;
-    	width:400px;
-    	white-space:nowrap;
-    } */
+    
     .text, .tag{
         width: 400px;
     }
@@ -153,16 +151,18 @@
                 </tr>
                 <tr>
                     <td colspan="3" class='pd-info'>
-                        <% for(int p=0; p< plist.size(); p++) { %>
-	                        <% if(list.get(i).getStyleNo() == plist.get(p).getStyleNo()) { %>
-	                        <div onclick="goPdDetail(this);">
-                                <input type='hidden' value='<%= plist.get(p).getProductCode() %>'>
-	                            <img src='<%= contextPath %>/<%= plist.get(p).getProductImgM() %>'>
-	                            <div><%= plist.get(p).getBrandName() %></div>
-	                            <div><%= plist.get(p).getProductNameKo() %></div>
-	                            <div><%= plist.get(p).getProductNameEng() %></div>
-	                        </div>
-	                        <% } %>
+                        <% if(plist != null) { %>
+                            <% for(int p=0; p< plist.size(); p++) { %>
+                                <% if(list.get(i).getStyleNo() == plist.get(p).getStyleNo()) { %>
+                                <div onclick="goPdDetail(this);">
+                                    <input type='hidden' value='<%= plist.get(p).getProductCode() %>'>
+                                    <img src='<%= contextPath %>/<%= plist.get(p).getProductImgM() %>'>
+                                    <div><%= plist.get(p).getBrandName() %></div>
+                                    <div><%= plist.get(p).getProductNameKo() %></div>
+                                    <div><%= plist.get(p).getProductNameEng() %></div>
+                                </div>
+                                <% } %>
+                            <% } %>
                         <% } %>
                     </td>
                 </tr>
@@ -366,6 +366,7 @@
                                 + "</tr>"
                                 + "<tr>"
                                     + "<td colspan='3' class='pd-info'>";
+                    if(plist != null) {
                         for(let p=0; p<plist.length; p++){
                             if(list[i].styleNo == plist[p].styleNo) {
                                 value += "<div onclick='goPdDetail(this);'>"
@@ -377,6 +378,7 @@
                                         + "</div>";
                             }
                         }
+                    }
                             value += "</td>"
                                 + "</tr>"
                                 + "<tr>"

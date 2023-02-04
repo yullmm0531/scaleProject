@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class StyleListManageViewController
+ * Servlet implementation class ReportListViewController
  */
-@WebServlet("/stylelist.ad")
-public class StyleListManageViewController extends HttpServlet {
+@WebServlet("/stylereport.ad")
+public class ReportManageViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public StyleListManageViewController() {
+    public ReportManageViewController() {
         super();
         // TODO Auto-generated constructor stub
     }
