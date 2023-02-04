@@ -214,18 +214,6 @@
             border: none;
             background-color: whitesmoke;
         }
-        .address-option input[type="radio"] {
-            display: none;
-        }
-     
-        .address-option input[type="radio"] + span {
-            background-color: whitesmoke;
-            text-align: left;
-            cursor: pointer;
-        }
-        .address-option input[type="radio"]:checked + span {
-            background-color: rgb(81, 81, 81);
-        }
         .address-option{
             width: 90%;
             text-align: left !important; 
@@ -566,7 +554,6 @@
                                     
                                 </div>
                                 <div align="center">
-                                    <button type="button" class="btn btn-outline-secondary class" data-dismiss="modal">취소</button>
                                     <button type="button" class="btn btn-secondary" id="change-address-button" onclick="changeAddress();">확인</button>
                                 </div>
                             </div>
@@ -598,7 +585,7 @@
                                                 +          response[0].phone
                                                 +      "</div>"
                                                 +      "<div class='address-detail'>"
-                                                +          "(" + response[0].zipCode + ")" + response[0].address1 + " " + response[0].address2
+                                                +          "<span class='address-zipCode'>(" + response[0].zipCode + ")</span><span class='address-address'>" + response[0].address1 + " " + response[0].address2 + "</span>"
                                                 +      "</div></span>"
                                                 + "</label>"
                                                 + "<div class='line2'></div>";
@@ -615,7 +602,7 @@
                                                     +          response[i].phone
                                                     +      "</div>"
                                                     +      "<div class='address-detail'>"
-                                                    +          "(" + response[i].zipCode + ")" + response[i].address1 + " " + response[i].address2
+                                                    +          "<span class='address-zipCode'>(" + response[i].zipCode + ")</span><span class='address-address'>" + response[i].address1 + " " + response[i].address2 + "</span>"
                                                     +      "</div></span>"
                                                     + "</label>"
                                                     + "<div class='line2'></div>";
@@ -634,11 +621,21 @@
                     })
 
                     function changeAddress(){
-                        
-                        if ($("input[type=radio][name=checkedAddress]:checked").val()) {
-                            console.log($("input[type=radio][name=checkedAddress]:checked").val());
-
-
+                        const $checkedAddress = $("input[type=radio][name=checkedAddress]:checked")
+                        const $checkedName = $("input[type=radio][name=checkedAddress]:checked + label .address-name")
+                        const $checkedPhone = $("input[type=radio][name=checkedAddress]:checked + label .address-phone")
+                        const $checkedZipCode = $("input[type=radio][name=checkedAddress]:checked + label .address-zipCode")
+                        const $checkedDetailAddress = $("input[type=radio][name=checkedAddress]:checked + label .address-address")
+                        if ($checkedAddress.val()) {
+                            // 모달 닫기
+                            $('#address-list').modal('hide')
+                            
+                            // 주문서에 배송지 정보 담기
+                            $("#recipient").val($checkedName.text());
+                            $("#reciPhone").val($checkedPhone.text());
+                            $("#shippingZipCode").val($checkedZipCode.text());
+                            $("#shippingAddress").val($checkedDetailAddress.text());
+                            
                         }
                         else {
                             alert("배송지를 선택해주세요.");
@@ -692,7 +689,6 @@
                                     </div>
                                     <br><br>
                                     <div align="center">
-                                        <button type="button" class="btn btn-outline-secondary class" data-dismiss="modal">취소</button>
                                         <button type="button" class="btn btn-secondary" onclick="addAddress();">확인</button>
                                     </div>
                                                 
@@ -797,30 +793,30 @@
 
                 <script>
                     function addHypen(obj) {
-                   var number = obj.value.replace(/[^0-9]/g, "");
-                   var phone = "";
-                
-                   if(number.length < 4) {
-                       return number;
-                   } else if(number.length < 7) {
-                       phone += number.substr(0, 3);
-                       phone += "-";
-                       phone += number.substr(3);
-                   } else if(number.length < 11) {
-                       phone += number.substr(0, 3);
-                       phone += "-";
-                       phone += number.substr(3, 3);
-                       phone += "-";
-                       phone += number.substr(6);
-                   } else {
-                       phone += number.substr(0, 3);
-                       phone += "-";
-                       phone += number.substr(3, 4);
-                       phone += "-";
-                       phone += number.substr(7);
-                   }
-                   obj.value = phone;
-                }
+                        var number = obj.value.replace(/[^0-9]/g, "");
+                        var phone = "";
+                        
+                        if(number.length < 4) {
+                            return number;
+                        } else if(number.length < 7) {
+                            phone += number.substr(0, 3);
+                            phone += "-";
+                            phone += number.substr(3);
+                        } else if(number.length < 11) {
+                            phone += number.substr(0, 3);
+                            phone += "-";
+                            phone += number.substr(3, 3);
+                            phone += "-";
+                            phone += number.substr(6);
+                        } else {
+                            phone += number.substr(0, 3);
+                            phone += "-";
+                            phone += number.substr(3, 4);
+                            phone += "-";
+                            phone += number.substr(7);
+                        }
+                        obj.value = phone;
+                    }
                 </script>
 
                 <!-- 주소 api -->
@@ -1023,7 +1019,7 @@
                 </div>
                 <br><br>
                 <div align="center">
-                    <button type="button" class="btn btn-outline-secondary">취소</button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="history.back();">취소</button>
                     <button id="submit" type="submit" class="btn btn-outline-success" disabled>다음단계</button>
                 </div>
                 <br><br>

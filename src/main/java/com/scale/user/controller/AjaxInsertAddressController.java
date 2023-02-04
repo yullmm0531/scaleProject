@@ -39,7 +39,6 @@ public class AjaxInsertAddressController extends HttpServlet {
 		String address = request.getParameter("address");
 		String detailAddress = request.getParameter("detailAddress");
 		String defaultAd = request.getParameter("defaultAD");
-		System.out.println(defaultAd);
 		Address ad = new Address(zipCode, address, detailAddress, recipientName, recipientPhone, defaultAd, userNo);
 		
 		int result = new UserService().insertAddress(ad);
