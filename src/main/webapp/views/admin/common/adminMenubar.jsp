@@ -62,7 +62,12 @@
 					<li><a href="">브랜드 관리</a></li>
 				</ul>
 			</li>
-			<li><a href="">결제 관리</a></li>
+			<li><a href="">결제 관리</a>
+				<ul>
+					<li><a href="">거래 리스트</a></li>
+					<li><a href="">검수내역</a></li>
+				</ul>
+			</li>
 			<li><a href="">회원 관리</a>
 				<ul>
 					<li><a href="">HTML</a></li>
