@@ -125,7 +125,7 @@
 	
 
 
-	<entry key="selectUserByNickname">
+	<entry key="selectUserByUserNo">
 		SELECT
 			   USER_NO
 			 , USER_ID
@@ -134,9 +134,9 @@
 			 , PROFILE_IMG
 		  FROM TB_USER
 		 WHERE STATUS = 'Y'
-		   AND USER_NICKNAME = ?
+		   AND USER_NO = ?
 	</entry>
-	
+
 	
 	<entry key="selectDefaultAddress">
 		SELECT
