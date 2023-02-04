@@ -27,6 +27,9 @@
         text-align:center;
         font-size:14px;
     }
+    .list-row:hover{
+        cursor:pointer;
+    }
     .paging-area button{
         border:0.5px solid lightgray;
         margin:3px;
@@ -82,7 +85,7 @@
                         <% }else { %>
                             <!-- 게시글 있을 경우-->
                             <% for(Notice n : list) { %>
-                                <tr>
+                                <tr class="list-row">
                                     <td><%= n.getNoticeNo() %></td>
                                     <td><%= n.getNoticeTitle() %></td>
                                     <td><%= n.getCount() %></td>
@@ -126,6 +129,11 @@
                     $("#search-btn").click();
                 }
             })
+        })
+
+        $(".table tr:not(:first)").on("click", function(){
+            let noticeNo = $(this).children(":first").text();
+            location.href = "<%=contextPath%>/detailNotice.ad?noticeNo=" + noticeNo;
         })
     </script>
 </body>

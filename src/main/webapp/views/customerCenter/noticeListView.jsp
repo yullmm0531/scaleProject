@@ -152,7 +152,7 @@
             })
         })
 
-        $(".table tr").on("click", function(){
+        $(".table tr:not(:first)").on("click", function(){
             let noticeNo = $(this).children(":first").text();
             location.href = "<%=contextPath%>/detail.no?noticeNo=" + noticeNo;
         })

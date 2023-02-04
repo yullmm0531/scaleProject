@@ -1,6 +1,9 @@
 package com.scale.customerCenter.model.service;
 
-import static com.scale.common.JDBCTemplate.*;
+import static com.scale.common.JDBCTemplate.close;
+import static com.scale.common.JDBCTemplate.commit;
+import static com.scale.common.JDBCTemplate.getConnection;
+import static com.scale.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -240,6 +243,77 @@ public class CustomerCenterService {
 	// ---------------------어드민----------------------------------
 	
 	// 공지사항
+	public int selectAdminNoticeCount() {
+		Connection conn = getConnection();
+		int listCount = new CustomerCenterDao().selectAdminNoticeCount(conn);
+		close(conn);
+		return listCount;
+	}
+	
+	public ArrayList<Notice> selectAdminNoticeList(PageInfo pi){
+		Connection conn = getConnection();
+		ArrayList<Notice> list = new CustomerCenterDao().selectAdminNoticeList(conn, pi);
+		close(conn);
+		return list;
+	}
+	
+	/**
+	 * 공지사항 검색결과 개수 조회
+	 * @param option
+	 * @param keyword
+	 * @return 공지사항 검색 개수
+	 */
+	public int searchAdminNoticeCount(String option, String keyword) {
+		Connection conn = getConnection();
+		int listCount = 0;
+		switch(option) {
+			case "all": listCount = new CustomerCenterDao().searchAdminNoticeAllCount(conn, keyword); break;
+			case "title": listCount = new CustomerCenterDao().searchAdminNoticeTitleCount(conn, keyword); break;
+			case "content": listCount = new CustomerCenterDao().searchAdminNoticeContentCount(conn, keyword); break;
+		}
+		close(conn);
+		return listCount;
+	}
+	
+	/**
+	 * 조건별 공지사항 검색결과 리스트 조회
+	 * @param pi
+	 * @param option
+	 * @param keyword
+	 * @return 공지사항 검색결과 리스트
+	 */
+	public ArrayList<Notice> searchAdminNoticeList(PageInfo pi, String option, String keyword) {
+		Connection conn = getConnection();
+		ArrayList<Notice> list = new ArrayList<>();
+		switch(option) {
+			case "all": list = new CustomerCenterDao().searchAdminNoticeListAll(conn, pi, keyword); break;
+			case "title": list = new CustomerCenterDao().searchAdminNoticeListTitle(conn, pi, keyword); break;
+			case "content": list = new CustomerCenterDao().searchAdminNoticeListContent(conn, pi, keyword); break;
+		}
+		close(conn);
+		return list;
+	}
+	
+	/**
+	 * 공지사항 상세 조회
+	 * @param noticeNo
+	 * @return Notice n
+	 */
+	public Notice selectAdminNoticeDetail(int noticeNo) {
+		Connection conn = getConnection();
+		Notice n = new CustomerCenterDao().selectAdminNoticeDetail(conn, noticeNo);
+		close(conn);
+		return n;
+	}
+	
+	/**
+	 * 공지사항 등록
+	 * @param title
+	 * @param content
+	 * @param display
+	 * @param noticeWriter
+	 * @return int 성공개수
+	 */
 	public int insertNotice(String title, String content, String display, String noticeWriter) {
 		Connection conn = getConnection();
 		int result = new CustomerCenterDao().insertNotice(conn, title, content, display, noticeWriter);
@@ -252,4 +326,31 @@ public class CustomerCenterService {
 		close(conn);
 		return result;
 	}
+	
+	public int updateNotice(Notice n) {
+		Connection conn = getConnection();
+		int result = new CustomerCenterDao().updateNotice(conn, n);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+	
+	public int deleteNotice(int noticeNo) {
+		Connection conn = getConnection();
+		int result = new CustomerCenterDao().deleteNotice(conn, noticeNo);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+	
 }

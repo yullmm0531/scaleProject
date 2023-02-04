@@ -19,10 +19,7 @@
 		                     , NOTICE_TITLE
 		                     , TO_CHAR(CREATE_DATE, 'YYYY.MM.DD') "CREATE_DATE"
 		                     , COUNT
-		                     , DISPLAY_STATUS
-		                     , USER_NAME "NOTICE_WRITER"
 		                  FROM TB_NOTICE
-		                  JOIN TB_USER ON (USER_NO = NOTICE_WRITER)
 		                 WHERE DISPLAY_STATUS = 'Y'
 		                   AND DELETE_STATUS = 'N'
 		                 ORDER
@@ -75,7 +72,8 @@
 		                  JOIN TB_USER ON (USER_NO = NOTICE_WRITER)
 		                 WHERE DISPLAY_STATUS = 'Y'
 		                   AND DELETE_STATUS = 'N'
-                           AND NOTICE_TITLE LIKE '%' || ? || '%' OR NOTICE_CONTENT LIKE '%' || ? || '%'
+                           AND NOTICE_TITLE LIKE '%' || ? || '%'
+                            OR NOTICE_CONTENT LIKE '%' || ? || '%'
 		                 ORDER
 		                    BY NOTICE_NO DESC
 		                ) N
@@ -305,6 +303,145 @@
 	<!-- 어드민 -->
 	
 	<!-- 공지사항 -->
+	<entry key="selectAdminNoticeCount">
+		SELECT
+			   COUNT(*) "COUNT"
+	      FROM TB_NOTICE
+	     WHERE DELETE_STATUS = 'N'
+	</entry>
+	
+	<entry key="selectAdminNoticeList">
+		SELECT * 
+  		  FROM (
+		        SELECT ROWNUM RNUM, N.*
+		          FROM (
+		                SELECT
+		                       NOTICE_NO
+		                     , NOTICE_TITLE
+		                     , TO_CHAR(CREATE_DATE, 'YYYY.MM.DD') "CREATE_DATE"
+		                     , COUNT
+		                     , DISPLAY_STATUS
+		                     , USER_NAME "NOTICE_WRITER"
+		                  FROM TB_NOTICE
+		                  JOIN TB_USER ON (USER_NO = NOTICE_WRITER)
+		                 WHERE DELETE_STATUS = 'N'
+		                 ORDER
+		                    BY NOTICE_NO DESC
+		                ) N
+       			)
+ 		  WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="searchAdminNoticeAllCount">
+		SELECT
+			   COUNT(*) "COUNT"
+	      FROM TB_NOTICE
+	     WHERE DELETE_STATUS = 'N'
+	       AND (NOTICE_TITLE LIKE '%' || ? || '%') OR (NOTICE_CONTENT LIKE '%' || ? || '%')
+	</entry>
+	
+	<entry key="searchAdminNoticeTitleCount">
+		SELECT
+			   COUNT(*) "COUNT"
+	      FROM TB_NOTICE
+	     WHERE DELETE_STATUS = 'N'
+	       AND NOTICE_TITLE LIKE '%' || ? || '%'
+	</entry>
+
+	
+	<entry key="searchAdminNoticeContentCount">
+		SELECT
+			   COUNT(*) "COUNT"
+	      FROM TB_NOTICE
+	     WHERE DELETE_STATUS = 'N'
+	       AND NOTICE_CONTENT LIKE '%' || ? || '%'
+	</entry>
+	
+	<entry key="searchAdminNoticeListAll">
+		SELECT * 
+  		  FROM (
+		        SELECT ROWNUM RNUM, N.*
+		          FROM (
+		                SELECT
+		                       NOTICE_NO
+		                     , NOTICE_TITLE
+		                     , TO_CHAR(CREATE_DATE, 'YYYY.MM.DD') "CREATE_DATE"
+		                     , COUNT
+		                     , DISPLAY_STATUS
+		                     , USER_NAME "NOTICE_WRITER"
+		                  FROM TB_NOTICE
+		                  JOIN TB_USER ON (USER_NO = NOTICE_WRITER)
+		                 WHERE DELETE_STATUS = 'N'
+                           AND NOTICE_TITLE LIKE '%' || ? || '%'
+                            OR NOTICE_CONTENT LIKE '%' || ? || '%'
+		                 ORDER
+		                    BY NOTICE_NO DESC
+		                ) N
+       			)
+ 		  WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="searchAdminNoticeListTitle">
+		SELECT * 
+  		  FROM (
+		        SELECT ROWNUM RNUM, N.*
+		          FROM (
+		                SELECT
+		                       NOTICE_NO
+		                     , NOTICE_TITLE
+		                     , TO_CHAR(CREATE_DATE, 'YYYY.MM.DD') "CREATE_DATE"
+		                     , COUNT
+		                     , DISPLAY_STATUS
+		                     , USER_NAME "NOTICE_WRITER"
+		                  FROM TB_NOTICE
+		                  JOIN TB_USER ON (USER_NO = NOTICE_WRITER)
+		                 WHERE DELETE_STATUS = 'N'
+                           AND NOTICE_TITLE LIKE '%' || ? || '%'
+		                 ORDER
+		                    BY NOTICE_NO DESC
+		                ) N
+       			)
+ 		  WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="searchAdminNoticeListContent">
+		SELECT * 
+  		  FROM (
+		        SELECT ROWNUM RNUM, N.*
+		          FROM (
+		                SELECT
+		                       NOTICE_NO
+		                     , NOTICE_TITLE
+		                     , TO_CHAR(CREATE_DATE, 'YYYY.MM.DD') "CREATE_DATE"
+		                     , COUNT
+		                     , DISPLAY_STATUS
+		                     , USER_NAME "NOTICE_WRITER"
+		                  FROM TB_NOTICE
+		                  JOIN TB_USER ON (USER_NO = NOTICE_WRITER)
+		                 WHERE DELETE_STATUS = 'N'
+                           AND NOTICE_CONTENT LIKE '%' || ? || '%'
+		                 ORDER
+		                    BY NOTICE_NO DESC
+		                ) N
+       			)
+ 		  WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="selectAdminNoticeDetail">
+		SELECT 
+			   NOTICE_NO
+			 , NOTICE_TITLE
+			 , NOTICE_CONTENT
+			 , TO_CHAR(CREATE_DATE, 'YYYY.MM.DD') "CREATE_DATE"
+			 , TO_CHAR(MODIFY_DATE, 'YYYY.MM.DD') "MODIFY_DATE"
+			 , DISPLAY_STATUS
+			 , USER_NAME "NOTICE_WRITER"
+		  FROM TB_NOTICE
+		  JOIN TB_USER ON (USER_NO = NOTICE_WRITER)
+		 WHERE DELETE_STATUS = 'N'
+		   AND NOTICE_NO = ?
+	</entry>
+	
 	<entry key="insertNotice">
 		INSERT
 		  INTO TB_NOTICE
@@ -323,6 +460,20 @@
 		  	 , ?
 		  	 , ?
 		  	 )
-		
+	</entry>
+	
+	<entry key="updateNotice">
+		UPDATE TB_NOTICE
+		   SET NOTICE_TITLE = ?
+		     , NOTICE_CONTENT = ?
+		     , MODIFY_DATE = SYSDATE
+		     , DISPLAY_STATUS = ?
+		 WHERE NOTICE_NO = ?
+	</entry>
+	
+	<entry key="deleteNotice">
+		UPDATE TB_NOTICE
+		   SET DELETE_STATUS = 'Y'
+		 WHERE NOTICE_NO = ?
 	</entry>
 </properties>
