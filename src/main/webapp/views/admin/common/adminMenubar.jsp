@@ -73,8 +73,8 @@
 			</li>
 			<li><a href="">스타일 관리</a>
 				<ul>
-					<li><a href="<%= contextPath %>/stylelist.ad">피드관리</a></li>
-					<li><a href="<%= contextPath %>/stylereport.ad">신고관리</a></li>
+					<li><a href="<%= contextPath %>/stylelist.ad?cpage=1">피드관리</a></li>
+					<li><a href="<%= contextPath %>/stylereport.ad?cpage=1">신고관리</a></li>
 				</ul>
 			</li>
 			<li><a href="">고객센터 관리</a>
@@ -96,7 +96,7 @@
 				</ul>
 			</li>
 		</ul>
-		
+		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 	</div>
 </div>
 </body>
