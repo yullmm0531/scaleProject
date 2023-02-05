@@ -9,12 +9,12 @@ public class Faq {
 	private String modifyDate;
 	private String status;
 	private String category;
-	private int faqWriter;
+	private String faqWriter;
 	
 	public Faq() {}
 
 	public Faq(int faqNo, String faqQuestion, String faqAnswer, String createDate, String modifyDate, String status,
-			String category, int faqWriter) {
+			String category, String faqWriter) {
 		super();
 		this.faqNo = faqNo;
 		this.faqQuestion = faqQuestion;
@@ -32,6 +32,38 @@ public class Faq {
 		this.faqQuestion = faqQuestion;
 		this.faqAnswer = faqAnswer;
 		this.category = category;
+	}
+	
+	public Faq(int faqNo, String faqQuestion, String faqAnswer, String createDate, String modifyDate, String category,
+			String faqWriter) {
+		super();
+		this.faqNo = faqNo;
+		this.faqQuestion = faqQuestion;
+		this.faqAnswer = faqAnswer;
+		this.createDate = createDate;
+		this.modifyDate = modifyDate;
+		this.category = category;
+		this.faqWriter = faqWriter;
+	}
+	
+
+	public Faq(int faqNo, String faqQuestion, String faqAnswer, String category, String faqWriter) {
+		super();
+		this.faqNo = faqNo;
+		this.faqQuestion = faqQuestion;
+		this.faqAnswer = faqAnswer;
+		this.category = category;
+		this.faqWriter = faqWriter;
+	}
+	
+	
+
+	public Faq(String faqQuestion, String faqAnswer, String category, String faqWriter) {
+		super();
+		this.faqQuestion = faqQuestion;
+		this.faqAnswer = faqAnswer;
+		this.category = category;
+		this.faqWriter = faqWriter;
 	}
 
 	public int getFaqNo() {
@@ -90,11 +122,11 @@ public class Faq {
 		this.category = category;
 	}
 
-	public int getFaqWriter() {
+	public String getFaqWriter() {
 		return faqWriter;
 	}
 
-	public void setFaqWriter(int faqWriter) {
+	public void setFaqWriter(String faqWriter) {
 		this.faqWriter = faqWriter;
 	}
 

@@ -9,11 +9,13 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.scale.product.model.dao.ProductDao;
 import com.scale.product.model.vo.Product;
 import com.scale.style.model.dao.StyleDao;
 import com.scale.style.model.vo.Hashtag;
 import com.scale.style.model.vo.Style;
 import com.scale.style.model.vo.StyleImg;
+import com.scale.style.model.vo.StyleReport;
 
 public class StyleService {
 	
@@ -117,9 +119,9 @@ public class StyleService {
 		return result1 * result2 * result3 * result4;
 	}
 	
-	public ArrayList<Style> selectStyleByID(int currentPage, int boardLimit, String id){
+	public ArrayList<Style> selectStyleByUserNo(int currentPage, int boardLimit, int userNo){
 		Connection conn = getConnection();
-		ArrayList<Style> list = new StyleDao().selectStyleByID(conn, currentPage, boardLimit,id);
+		ArrayList<Style> list = new StyleDao().selectStyleByUserNo(conn, currentPage, boardLimit, userNo);
 		close(conn);
 		return list;
 	}
@@ -171,13 +173,13 @@ public class StyleService {
 		return plist;
 	}
 
-	public HashMap<String, Object> selectDetail(int cpage, String view, int boardLimit, String tag, String id, int userNo){
+	public HashMap<String, Object> selectDetail(int cpage, String view, int boardLimit, String tag, String uNum, int userNo){
 		Connection conn = getConnection();
 		
 		ArrayList<Style> list = new ArrayList<Style>();
 		switch(view) {
 		case "trending": list = new StyleDao().selectTrendingDetailList(conn, cpage, boardLimit);  break;
-		case "profile": list = new StyleDao().selectProfileDetailList(conn, cpage, boardLimit, id); break;
+		case "profile": list = new StyleDao().selectProfileDetailList(conn, cpage, boardLimit, uNum); break;
 		case "newest": list = new StyleDao().selectNewestDetailList(conn, cpage, boardLimit); break;
 		case "tagsearch": list = new StyleDao().selectTagSearchDetailList(conn, cpage, boardLimit, tag); break;
 		}
@@ -201,6 +203,8 @@ public class StyleService {
 			checkLike[i] = new StyleDao().checkLike(conn, userNo, styleNo);
 		}
 		
+		close(conn);
+		
 		HashMap<String, Object> map = new HashMap();
 		map.put("list", list);
 		map.put("ilist", ilist);
@@ -210,13 +214,13 @@ public class StyleService {
 		return map;
 	}
 	
-	public HashMap<String, Object> selectAddDetail(int cpage, String view, int boardLimit, String tag, String userID, int userNo) {
+	public HashMap<String, Object> selectAddDetail(int cpage, String view, int boardLimit, String tag, int no, int userNo) {
 		Connection conn = getConnection();
 		
 		ArrayList<Style> list = new ArrayList<Style>();
 		switch(view) {
 		case "trending": list = new StyleDao().selectStyleList(conn, cpage, boardLimit);  break;
-		case "profile": list = new StyleDao().selectStyleByID(conn, cpage, boardLimit, userID); break;
+		case "profile": list = new StyleDao().selectStyleByUserNo(conn, cpage, boardLimit, no); break;
 		case "newest": list = new StyleDao().selectNewStyleList(conn, cpage, boardLimit); break;
 		case "tagsearch": list = new StyleDao().selectStyleByHashtag(conn, cpage, boardLimit, tag); break;
 		}
@@ -240,6 +244,8 @@ public class StyleService {
 			checkLike[i] = new StyleDao().checkLike(conn, userNo, styleNo);
 		}
 		
+		close(conn);
+		
 		HashMap<String, Object> map = new HashMap();
 		map.put("list", list);
 		map.put("ilist", ilist);
@@ -247,6 +253,133 @@ public class StyleService {
 		map.put("checkLike", checkLike);
 		
 		return map;
+	}
+	
+	public int insertStyleReport(StyleReport rep) {
+		Connection conn = getConnection();
+		int result = new StyleDao().insertStyleReport(conn, rep);
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+	
+	public HashMap<String, Object> selectStyleDetail(int styleNo){
+		Connection conn = getConnection();
+		Style st = new StyleDao().selectStyle(conn, styleNo);
+		ArrayList<StyleImg> ilist = new StyleDao().selectStyleImgByNo(conn, styleNo);
+		ArrayList<Product> plist = new StyleDao().selectDetailProduct(conn, styleNo);
 		
+		close(conn);
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("st", st);
+		map.put("ilist", ilist);
+		map.put("plist", plist);
+		
+		return map;
+	}
+	
+	public int deleteStyleAdmin(String[] noArr) {
+		Connection conn = getConnection();
+		int result1 = 0;
+		int result2 = 0;
+		for(String no : noArr) {
+			result1 += new StyleDao().deleteStyle(conn, no);
+			if(new StyleDao().deleteStyle(conn, no) != 0) {
+				result2 += new StyleDao().deleteStyleImg(conn, no);
+			}
+		}
+		
+		if(result1 == noArr.length) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result1;
+	}
+	
+	public int adminSearchListCount(String select, String keyword, String date1, String date2) {
+		Connection conn = getConnection();
+		int result;
+		if(select.equals("nickname")) {
+			result = new StyleDao().adminSearchListCountByNickname(conn, keyword, date1, date2);
+		} else {
+			result = new StyleDao().adminSearchListCountByHashtag(conn, keyword, date1, date2);
+		}
+		close(conn);
+		return result;
+	}
+	
+	public ArrayList<Style> adminSearchList(int cpage, int boardLimit, String select, String keyword, String date1, String date2) {	
+		Connection conn = getConnection();
+		ArrayList<Style> list = new ArrayList<>();
+		if(select.equals("nickname")) {
+			list = new StyleDao().adminSearchListByNickname(conn, cpage, boardLimit, keyword, date1, date2);
+		} else {
+			list = new StyleDao().adminSearchListByHashtag(conn, cpage, boardLimit, keyword, date1, date2);
+		}
+		close(conn);
+		return list;
+	}
+	
+	public int deleteImgPd(int styleNo) {
+		Connection conn = getConnection();
+		int result1 = new StyleDao().deleteImg(conn, styleNo);
+		int result2 = new StyleDao().deleteProduct(conn, styleNo);
+		if(result1 > 0 && result2 > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		return result1 * result2;
+	}
+	
+	public int updateStyle(Style st, ArrayList<StyleImg> list, String[] pcodeArr) {
+		Connection conn = getConnection();
+			// 1. TB_STYLE INSERT(필수)
+			int result1 = new StyleDao().updateStyle(conn, st);
+			
+			// 2. TB_STYLE_IMG INSERT(필수)
+			int result2 = new StyleDao().insertStyleImg(conn, list);
+			
+			// 3. TB_STYLE-PD INSERT(선택)
+			int result3 = 1;
+			if(pcodeArr != null) {
+				result3 = new StyleDao().insertStylePd(conn, pcodeArr);
+			}
+			
+			// 4. TB_HASHTAG INSERT(선택) 
+			// 먼저 기존의 해쉬태그 있는지 확인(SELECT) 후 있으면 UPDATE 없으면 INSERT(반복문)
+			int result4 = 1;
+			if(st.getHashtag() != "") {
+				String[] tagArr = st.getHashtag().split(" ");
+				for(int i=0; i<tagArr.length; i++) {
+					Hashtag t = new StyleDao().selectHashtag(conn, tagArr[i]);
+					if(t == null) {
+						// INSERT
+						result4 = new StyleDao().insertHashtag(conn, tagArr[i]);
+					} else {
+						// UPDATE
+						result4 = new StyleDao().updateHashtag(conn, tagArr[i]);
+					}
+				}
+			}
+			
+			if(result1 > 0 && result2 > 0 && result3 > 0 && result4 > 0) {
+				commit(conn);
+			} else {
+				rollback(conn);
+			}
+			
+			close(conn);
+			
+			return result1 * result2 * result3 * result4;
 	}
 }

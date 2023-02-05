@@ -355,7 +355,7 @@
 	
 	<entry key="updateBuyer">
 		INSERT
-		  INTO TB_Buyer
+		  INTO TB_BUYER
 		     (
 		       BIDDING_NO
 		     , BUYER_NO

@@ -180,11 +180,14 @@
                             <ul>
                                 <li><a href="<%=contextPath %>/userBuyList.us">구매내역</a></li>
                                 <li><a href="<%=contextPath %>/userSellList.us?userNo=<%=userNo%>">판매내역</a></li>
+                                 <li><a href="">구매입찰</a></li>
+
+                                <li><a href="<%=contextPath %>/userSellBidding.us?userNo=<%=userNo%>">판매입찰</a></li>
                                 <li><a href="<%=contextPath %>/userLikeList.us">찜목록</a></li>
                             </ul>
                         </li>
                     </div>
-                    <br><br><br><br><br><br><br><br>
+                    <br><br><br><br><br><br><br><br><br><br><br>
                     <div class="sideMenu-div">
                         <li><a href="">내정보</a>
                             <ul>
@@ -234,9 +237,10 @@
         
         
         <% for(Product p : list){ %>
-         <div class="wrap-div" style=" cursor: pointer;" onclick="test1(this);">
-         		
+         <div class="wrap-div" style=" cursor: pointer;" onclick="test1(<%= p.getBiddingNo() %>, <%= p.getUserNo() %>);">
+         
          		<input type="hidden" value="<%= p.getBiddingNo() %>">
+         		<input type="hidden" value="<%= p.getUserNo() %>">
             <div class="sell-product-div1">
                 <div class="img">
                     <img src="<%=p.getProductImgM() %>" alt="사용자이미지" id="sell-img">
@@ -290,9 +294,9 @@
         <script>
     	
     	
-    	function test1(e){
+    	function test1(e1,e2){
     		
-    		location.href = "<%=contextPath%>/UserDetailSellList.us?biddingNo=" + $(e).children("input").val();
+    		location.href = "<%=contextPath%>/UserDetailSellList.us?biddingNo=" + e1 + "&userNo=" + e2;
     	}
     </script>
         

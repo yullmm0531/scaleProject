@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ page import="com.scale.common.model.vo.PageInfo, java.util.ArrayList, com.scale.customerCenter.model.vo.Notice" %>
+<%@ page import="com.scale.common.model.vo.PageInfo, java.util.ArrayList, com.scale.customerCenter.model.vo.Notice" %>
 <%
 	PageInfo pi = (PageInfo)request.getAttribute("pi");
 	ArrayList<Notice> list = (ArrayList<Notice>)request.getAttribute("list");
@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>공지사항 관리</title>
 <style>
     .outer{
         width:1200px;
@@ -26,6 +26,9 @@
     .table{
         text-align:center;
         font-size:14px;
+    }
+    .list-row:hover{
+        cursor:pointer;
     }
     .paging-area button{
         border:0.5px solid lightgray;
@@ -70,6 +73,8 @@
                             <th width="300px">제목</th>
                             <th width="20px">조회수</th>
                             <th width="60px">작성일</th>
+                            <th width="30px">작성자</th>
+                            <th width="20px">공개</th>
                         </tr>
                     </thead>
                         <% if(list.isEmpty()) { %>
@@ -80,11 +85,13 @@
                         <% }else { %>
                             <!-- 게시글 있을 경우-->
                             <% for(Notice n : list) { %>
-                                <tr>
+                                <tr class="list-row">
                                     <td><%= n.getNoticeNo() %></td>
                                     <td><%= n.getNoticeTitle() %></td>
                                     <td><%= n.getCount() %></td>
                                     <td><%= n.getCreateDate() %></td>
+                                    <td><%= n.getNoticeWriter() %></td>
+                                    <td><%= n.getDisplayStatus() %></td>
                                 </tr>
                             <% } %>
                         <% } %>
@@ -122,6 +129,11 @@
                     $("#search-btn").click();
                 }
             })
+        })
+
+        $(".table tr:not(:first)").on("click", function(){
+            let noticeNo = $(this).children(":first").text();
+            location.href = "<%=contextPath%>/detailNotice.ad?noticeNo=" + noticeNo;
         })
     </script>
 </body>

@@ -37,9 +37,9 @@ public class AjaxDetailController extends HttpServlet {
 		int userNo = (User)request.getSession().getAttribute("loginUser") != null ? ((User)request.getSession().getAttribute("loginUser")).getUserNo() : 0;
 		int boardLimit = 12;
 		String tag = request.getParameter("tag") != null ? request.getParameter("tag") : "";
-		String id = request.getParameter("id") != null ? request.getParameter("id") : "";
+		int no = request.getParameter("no") != null ? Integer.parseInt(request.getParameter("no")) : 0;
 		
-		HashMap<String, Object> map = new StyleService().selectAddDetail(view, cpage, userNo, boardLimit, tag, id);
+		HashMap<String, Object> map = new StyleService().selectAddDetail(cpage, view, boardLimit, tag, no, userNo);
 		
 		response.setContentType("application/json; charset=UTF-8");
 		new Gson().toJson(map, response.getWriter());

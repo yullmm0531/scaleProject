@@ -254,15 +254,15 @@ public class UserDao {
 	
 
 
-	public User selectUserByNickname(Connection conn, String nickname) {
+	public User selectUserByUserNo(Connection conn, int userNo) {
 		User user = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("selectUserByNickname");
+		String sql = prop.getProperty("selectUserByUserNo");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, nickname);
+			pstmt.setInt(1, userNo);
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
@@ -495,6 +495,7 @@ public class UserDao {
 				p.setDealDate(rset.getDate("deal_date"));
 				p.setDealStep(rset.getInt("deal_step"));
 				p.setBiddingNo(rset.getInt("bidding_no"));
+				p.setUserNo(rset.getInt("user_no"));
 				list.add(p);
 			}
 		} catch (SQLException e) {
@@ -660,43 +661,7 @@ public class UserDao {
 		return result;
 	}
 	
-	public Address selectBasicAddress(Connection conn, int userNo) {
-		
-		Address ad = null;
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		
-		String sql = prop.getProperty("selectBasicAddress");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, userNo);
-			
-			rset = pstmt.executeQuery();
-			
-			if(rset.next()) {
-				ad = new Address(rset.getInt("address_no")
-								,rset.getString("zipCode")
-								,rset.getString("address1")
-								,rset.getString("address2")
-								,rset.getString("recipient")
-								,rset.getString("phone")								
-								,rset.getInt("userNo")
-								,rset.getString("default_add")
-								
-						);
-						
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			close(rset);
-			close(pstmt);
-		}
-		return ad;
-		
-	}
+	
 	
 	public ArrayList<Product> userSellBidding(Connection conn, int userNo) {
 		ArrayList<Product> list = new ArrayList<>();
@@ -721,7 +686,6 @@ public class UserDao {
 				list.add(p);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			close(rset);
@@ -736,7 +700,7 @@ public class UserDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
-		System.out.println("dao biddingNo : " + biddingNo);
+		
 		
 		String sql = prop.getProperty("userDetailSellBidding");
 		
@@ -771,13 +735,301 @@ public class UserDao {
 						);
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+			
+		}
+		return b;
+	}
+	
+	/**
+	 * @author yurim
+	 * @param conn
+	 * @param userNo
+	 * @return 기본배송지를 추가하기 전에 기존 기본배송지를 일반배송지로 변경 후 결과 반환 (1 : 성공 | 0 : 실패)
+	 */
+	public int changeDefAddress(Connection conn, int userNo) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("changeDefAddress");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	
+	/**
+	 * @author yurim
+	 * @param conn
+	 * @param ad
+	 * @return 기본배송지가 아닌 일반 배송지 추가 후 결과 반환 (1 : 성공 | 0 : 실패)
+	 */
+	public int insertNewAdd(Connection conn, Address ad) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertNewAdd");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, ad.getZipCode());
+			pstmt.setString(2, ad.getAddress1());
+			pstmt.setString(3, ad.getAddress2());
+			pstmt.setString(4, ad.getRecipient());
+			pstmt.setString(5, ad.getPhone());
+			pstmt.setInt(6, ad.getUserNo());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	
+	/**
+	 * @author yurim
+	 * @param conn
+	 * @param ad
+	 * @return 기본배송지 추가하고 결과 반환 (1 : 성공 | 0 : 실패)
+	 */
+	public int insertDefAdd(Connection conn, Address ad) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertDefAdd");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, ad.getZipCode());
+			pstmt.setString(2, ad.getAddress1());
+			pstmt.setString(3, ad.getAddress2());
+			pstmt.setString(4, ad.getRecipient());
+			pstmt.setString(5, ad.getPhone());
+			pstmt.setInt(6, ad.getUserNo());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+/*	
+public ArrayList<Address> selectBasicAddressList(Connection conn, int userNo){
+		
+		ArrayList<Address> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectBasicAddressList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Address ad = new Address();
+						 ad.setZipCode(rset.getString("zipcode"));
+						 ad.setAddresNo(rset.getInt("address_no"));
+						 ad.setAddress1(rset.getString("address1"));
+						 ad.setAddress2(rset.getString("address2"));
+						 ad.setRecipient(rset.getString("recipient"));
+						 ad.setPhone(rset.getString("phone"));
+						 ad.setUserNo(rset.getInt("user_no"));
+						 
+						 list.add(ad);
+										 
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
+	*/
+	public int updateBasicAddress(Connection conn, int addressNo) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("updateBasicAddress");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, addressNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	public Bidding selectDetailSellList(Connection conn, int userNo, int biddingNo) {
+		
+		Bidding b1 = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+						
+		String sql = prop.getProperty("selectDetailSellList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			pstmt.setInt(2, biddingNo);
+						
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				
+				b1 = new Bidding(
+						rset.getString("BIDDING_PRICE")
+						,rset.getDate("BIDDING_DATE")
+						,rset.getInt("INSPECTION_COST")
+						,rset.getInt("COMMISSION")
+						,rset.getString("RECIPIENT_NAME")
+						,rset.getString("RECIPIENT_PHONE")
+						,rset.getString("RECIPIENT_ZIPCODE")
+						,rset.getString("RECIPIENT_ADDRESS")
+						,rset.getString("RECIPIENT_SHIPPING_MSG")
+						,rset.getDate("DEAL_DATE")
+						,rset.getString("BANK_NAME")
+						,rset.getString("BANK_ACCOUNT")
+						,rset.getString("BANK_OWNER_NAME")
+						,rset.getString("ADJUSTMENT_PRICE")
+						);
+												
+			}
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			close(rset);
 			close(pstmt);
-			System.out.println("dao : " + b);
 		}
-		return b;
+		return b1;
+	}
+	
+	public ArrayList<Product> userBuyList(Connection conn, int userNo) {
+		
+		ArrayList<Product> list = new ArrayList<>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("userBuyList");
+		
+		
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Product p = new Product();
+				p.setProductImgM(rset.getString("product_img_m"));
+				p.setProductNameEng(rset.getString("product_name_eng"));
+				p.setBrandName(rset.getString("brand_name"));
+				p.setDealDate(rset.getDate("deal_date"));
+				p.setDealStep(rset.getInt("deal_step"));
+				p.setBiddingNo(rset.getInt("bidding_no"));
+				p.setUserNo(rset.getInt("user_no"));
+				p.setPaymentNo(rset.getString("payment_number"));
+				list.add(p);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+	}
+	
+	
+	
+	public Bidding selectDetailBuyList(Connection conn, String paymentNo, int userNo, int biddingNo) {
+		
+		Bidding b1 = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+						
+		String sql = prop.getProperty("selectDetailBuyList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			pstmt.setString(2, paymentNo);
+			pstmt.setInt(3, biddingNo);
+						
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				
+				b1 = new Bidding(
+						rset.getString("PAYMENT_PRICE")
+						,rset.getDate("DEAL_DATE")
+						,rset.getInt("DELIVERY_FEE")
+						,rset.getString("BIDDING_PRICE")
+						,rset.getString("RECIPIENT_NAME")
+						,rset.getString("RECIPIENT_PHONE")
+						,rset.getString("RECIPIENT_ZIPCODE")
+						,rset.getString("RECIPIENT_ADDRESS")
+						,rset.getString("RECIPIENT_SHIPPING_MSG")
+						
+						,rset.getString(" PAYMENT_METHOD")
+						,rset.getString("PAYMENT_NUMBER")
+						
+						);
+												
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return b1;
 	}
 }

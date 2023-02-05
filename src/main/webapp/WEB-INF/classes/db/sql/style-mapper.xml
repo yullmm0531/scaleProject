@@ -35,10 +35,12 @@
 		                       STYLE_NO
 		                     , PROFILE_IMG
 		                     , COUNT
+		                     , USER_NO
 		                     , USER_NICKNAME
 		                     , USER_ID
 		                     , S.ENROLL_DATE
 		                     , HASHTAG
+		                     , STYLE_CONTENT
 		                  FROM (SELECT
 		                               STYLE_NO
 		                             , COUNT(*) "COUNT"
@@ -48,8 +50,9 @@
 		                         ORDER
 		                            BY COUNT DESC)
 		                  RIGHT JOIN TB_STYLE S USING (STYLE_NO)
-		                  JOIN TB_USER USING (USER_NO)
+		                  JOIN TB_USER U USING (USER_NO)
 		                 WHERE S.STATUS = 'Y'
+		                   AND U.STATUS = 'Y'
 		                ) A
 		        )
 		 WHERE RNUM BETWEEN ? AND ?
@@ -66,10 +69,12 @@
 				       STYLE_NO
 				     , COUNT
 				     , PROFILE_IMG
+				     , USER_NO
 				     , USER_NICKNAME
 				     , USER_ID
 				     , S.ENROLL_DATE
 				     , HASHTAG
+				     , STYLE_CONTENT
 				  FROM (
 				        SELECT
 				               STYLE_NO
@@ -81,9 +86,10 @@
 				            BY COUNT DESC
 				        )
 				  RIGHT JOIN TB_STYLE S USING (STYLE_NO)
-				  JOIN TB_USER USING (USER_NO)
+				  JOIN TB_USER U USING (USER_NO)
 				 WHERE HASHTAG LIKE '%' || ? || '%'
 				   AND S.STATUS = 'Y'
+				   AND U.STATUS = 'Y'
 		                ) A
 		        )
 		 WHERE RNUM BETWEEN ? AND ?
@@ -102,8 +108,10 @@
 				             , COUNT
 				             , USER_NICKNAME
 				             , USER_ID
+				             , USER_NO
 				             , S.ENROLL_DATE
 				             , HASHTAG
+				             , STYLE_CONTENT
 				          FROM (SELECT
 				                       STYLE_NO
 				                     , COUNT(*) "COUNT"
@@ -112,8 +120,9 @@
 				                    BY STYLE_NO
 				                )
 				          RIGHT JOIN TB_STYLE S USING (STYLE_NO)
-				          JOIN TB_USER USING (USER_NO)
+				          JOIN TB_USER U USING (USER_NO)
 				         WHERE S.STATUS = 'Y'
+				           AND U.STATUS = 'Y'
 				         ORDER
 				            BY STYLE_NO DESC
 				                ) A
@@ -128,8 +137,10 @@
 		     , FILE_PATH
 		     , STYLE_NO
 		     , FILE_LEVEL
-		  FROM TB_STYLE_IMG
-		 WHERE STATUS = 'Y'
+		  FROM TB_STYLE_IMG I
+		  JOIN TB_STYLE S USING (STYLE_NO)
+		 WHERE I.STATUS = 'Y'
+		   AND S.STATUS = 'Y'
 		   AND STYLE_NO = ?
 	</entry>
 	
@@ -142,6 +153,7 @@
 				               HASHTAG_NO
 				             , KEYWORD
 				          FROM TB_HASHTAG
+				         WHERE STATUS = 'Y'
 				         ORDER
 				            BY COUNT DESC
 				        ) A
@@ -231,7 +243,7 @@
 		 WHERE KEYWORD = ?
 	</entry>
 	
-	<entry key="selectStyleByID">
+	<entry key="selectStyleByUserNo">
 		SELECT *
 		  FROM (
 		        SELECT
@@ -242,11 +254,12 @@
 				               STYLE_NO
 				             , PROFILE_IMG
 				             , COUNT
+				             , USER_NO
 				             , USER_ID
 				             , USER_NICKNAME
 				             , S.ENROLL_DATE
-				             , INTRODUCE
 				             , HASHTAG
+				             , STYLE_CONTENT
 				          FROM (SELECT
 				                       STYLE_NO
 				                     , COUNT(*) "COUNT"
@@ -255,9 +268,10 @@
 				                    BY STYLE_NO
 				                )
 				          RIGHT JOIN TB_STYLE S USING (STYLE_NO)
-				          JOIN TB_USER USING (USER_NO)
+				          JOIN TB_USER U USING (USER_NO)
 				         WHERE S.STATUS = 'Y'
-                           AND USER_ID = ?
+				           AND U.STATUS = 'Y'
+                           AND USER_NO = ?
 				         ORDER
 				            BY STYLE_NO DESC
 				        ) A
@@ -268,6 +282,7 @@
 	<entry key="checkLike">
 		SELECT COUNT(*) COUNT
 		  FROM TB_STYLE_LIKE
+		  JOIN TB_STYLE USING (STYLE_NO)
 		 WHERE USER_NO = ? AND STYLE_NO = ?
 	</entry>
 	
@@ -300,8 +315,60 @@
 		     , PRODUCT_IMG_M
 		     , BRAND_NAME
 		  FROM TB_STYLE_PD
+		  JOIN TB_STYLE S USING (STYLE_NO)
 		  JOIN TB_PRODUCT USING (PRODUCT_CODE)
 		  JOIN TB_BRAND USING (BRAND_CODE)
+		 WHERE STYLE_NO = ?
+		   AND S.STATUS = 'Y'
+	</entry>
+	
+	<entry key="insertStyleReport">
+		INSERT
+		  INTO TB_STYLE_REP
+		  (
+		    REPORT_NO
+		  , REPORTED_USER_NO
+		  , REPORTING_USER_NO
+		  , REPORT_TITLE
+		  , REPORT_CONTENT
+		  , STYLE_NO
+		  )
+		  VALUES
+		  (
+		    SEQ_RNO.NEXTVAL
+		  , ?
+		  , ?
+		  , ?
+		  , ?
+		  , ?
+		  )
+	</entry>
+	
+	<entry key="selectStyle">
+		SELECT
+		       STYLE_NO
+		     , STYLE_CONTENT
+		     , S.ENROLL_DATE
+		     , HASHTAG
+		     , USER_NICKNAME
+		     , USER_NO
+		  FROM TB_STYLE S
+		  JOIN TB_USER USING (USER_NO)
+		 WHERE STYLE_NO = ?
+		   AND S.STATUS = 'Y'
+	</entry>
+	
+	<entry key="deleteStyle">
+		UPDATE
+		       TB_STYLE
+		   SET STATUS = 'N'
+		 WHERE STYLE_NO = ?
+	</entry>
+	
+	<entry key="deleteStyleImg">
+		UPDATE
+			   TB_STYLE_IMG
+		   SET STATUS = 'N'
 		 WHERE STYLE_NO = ?
 	</entry>
 	
