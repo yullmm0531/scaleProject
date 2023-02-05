@@ -89,6 +89,12 @@
 		width: 260px;
 		height: 260px;
 	}
+
+    .report-td{text-align: right;}
+    .dropdown{
+        background-color: white;
+        border: 0px;
+    }
 </style>
 </head>
 <body>
@@ -97,30 +103,33 @@
 	
     <div class="outer">
 		<div id="profile-box">
-			<table class="profile">
-				<tr class="header">
-					<td>
-						<img src="<%= user.getProfileImg() %>" class="rounded-circle" id="profile-img">
-						<span id="profile-nickname"><%= user.getUserNickName() %></span>
-					</td>
-				</tr>
-				<tr>
-					<td class="id-td">
-						<div id="profile-id"><%= user.getUserId() %></div>
-					</td>
-				</tr>
-				<tr>
-					<% if(user.getIntroduce() != null) { %>
-						<td class="introduce-td">
-							<div id="profile-introduce"><%= user.getIntroduce() %></div>
-						</td>
-					<% } else { %>
-						<td class="introduce-td">
-							<div id="profile-introduce"></div>
-						</td>
-					<% } %>
-				</tr>
-			</table>
+            <table class="profile">
+                <tr class="header">
+                    <td>
+                        <img src="<%= user.getProfileImg() %>" class="rounded-circle" id="profile-img">
+                        <span id="profile-nickname"><%= user.getUserNickName() %></span>
+                    </td>
+                    <td class="edit-td">
+                        <button type="button" class="edit-btn btn-secondary" data-toggle="modal" data-target="#profile-edit">프로필 편집</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="id-td">
+                        <div id="profile-id"><%= user.getUserId() %></div>
+                    </td>
+                </tr>
+                <tr>
+                    <% if(user.getIntroduce() != null) { %>
+                    <td class="introduce-td">
+                        <div id="profile-introduce"><%= user.getIntroduce() %></div>
+                    </td>
+                    <% } else { %>
+                    <td class="introduce-td">
+                        <div id="profile-introduce"></div>
+                    </td>
+                    <% } %>
+                </tr>
+            </table>
 		</div>
 
         <br>
@@ -319,7 +328,7 @@
 							for(let i=0; i<list.length; i++){
 								value = "<table class='set'>"
 											+ "<tr>"
-												+ "<td colspan='2' class='style-img'>"
+												+ "<td colspan='3' class='style-img'>"
 													+ "<div id='demo" + Number(i + (12 * (cpage - 1))) + "' class='carousel' data-interval='false'>"
 														+ "<div class='carousel-inner'>";
 											for(let j=0; j<ilist.length; j++){
@@ -361,15 +370,24 @@
 											value += "<input type='hidden' class='styleNo' value='" + list[i].styleNo + "'>"
 													+ "<span>" + list[i].count + "</span>"
 												+ "</td>"
+                                                + "<td class='report-td'>"
+                                                    + "<div class='dropdown'>"
+                                                        + "<button type='button' data-toggle='dropdown' class='dropdown'>❗</button>"
+                                                        + "<div class='dropdown-menu'>"
+                                                            + "<a class='dropdown-item' onclick='changeStyle(" + list[i].styleNo + ");'>스타일 수정</a>"
+                                                            + "<a class='dropdown-item' onclick='deleteStyle(" + list[i].styleNo + ");'>스타일 삭제</a>"
+                                                        + "</div>"
+                                                    + "</div>"
+                                                + "</td>"
 											+ "</tr>"
 											+ "<tr>"
-												+ "<td colspan='2' class='tag-area'>"
+												+ "<td colspan='3' class='tag-area'>"
 													+ "<div class='text'>";
 										if(list[i].hashtag != null){
 											let tagArr = list[i].hashtag.split(" ");
 											for(let t=0; t<tagArr.length; t++){
 												const enco= encodeURIComponent(tagArr[t]);
-												value += "<a href='<%= contextPath %>/search.st?keyword=" + enco + "'>" + tagArr[t] + "</a>";
+												value += "<a class='mytag' href='<%= contextPath %>/search.st?keyword=" + enco + "'>" + tagArr[t] + "</a>";
 											}
 										}
 										value += "</div>"
@@ -426,6 +444,17 @@
 				let userNo = <%= user.getUserNo() %>;
 				location.href = "<%= contextPath %>/detail.st?no=" + no + "&view=profile&userNo=" + userNo + "&cpage=" + cpage;
 			}
+
+            function deleteStyle(no){
+                let result = confirm("정말 삭제하시겠습니까?");
+                if(result){
+                    location.href='<%= contextPath %>/delete.st?no=' + no;
+                }
+            }
+
+            function changeStyle(styleNo){	
+                location.href = "<%= contextPath %>/changeView.st?styleNo=" + styleNo;
+            }
         </script>
 
     </div>

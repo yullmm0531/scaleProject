@@ -638,18 +638,18 @@ public class StyleDao {
 		return list;
 	}
 	
-	public ArrayList<Style> selectProfileDetailList(Connection conn, int cpage, int boardLimit, String id) {
+	public ArrayList<Style> selectProfileDetailList(Connection conn, int cpage, int boardLimit, String uNum) {
 		ArrayList<Style> list = new ArrayList<Style>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("selectStyleByID");
+		String sql = prop.getProperty("selectStyleByUserNo");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			int startRow = 1;
 			int endRow = ((cpage - 1) * boardLimit + 1) + boardLimit - 1;
 			
-			pstmt.setString(1, id);
+			pstmt.setString(1, uNum);
 			pstmt.setInt(2, startRow);
 			pstmt.setInt(3, endRow);
 			
@@ -803,4 +803,191 @@ public class StyleDao {
 		return result;
 	}
 	
+	public int adminSearchListCountByNickname(Connection conn, String keyword, String date1, String date2) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("adminSearchListCountByNickname");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, keyword);
+			pstmt.setString(2, date1);
+			pstmt.setString(3, date2);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public int adminSearchListCountByHashtag(Connection conn, String keyword, String date1, String date2) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("adminSearchListCountByHashtag");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, keyword);
+			pstmt.setString(2, date1);
+			pstmt.setString(3, date2);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public ArrayList<Style> adminSearchListByNickname(Connection conn, int cpage, int boardLimit, String keyword, String date1, String date2) {
+		ArrayList<Style> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("adminSearchListByNickname");
+		
+		try {
+			int startRow = (cpage - 1) * boardLimit + 1;
+			int endRow = startRow + boardLimit - 1;
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, keyword);
+			pstmt.setString(2, date1);
+			pstmt.setString(3, date2);
+			pstmt.setInt(4, startRow);
+			pstmt.setInt(5, endRow);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Style st = new Style();
+				st.setStyleNo(rset.getInt("style_no"));
+				st.setProfileImg(rset.getString("profile_img"));
+				st.setStyleWriter(rset.getString("user_nickname"));
+				st.setUserNo(rset.getInt("user_no"));
+				st.setHashtag(rset.getString("hashtag"));
+				st.setEnrollDate(rset.getDate("enroll_date"));
+				st.setContent(rset.getString("style_content"));
+				
+				list.add(st);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+	
+	public ArrayList<Style> adminSearchListByHashtag(Connection conn, int cpage, int boardLimit, String keyword, String date1, String date2) {
+		ArrayList<Style> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("adminSearchListByHashtag");
+		
+		try {
+			int startRow = (cpage - 1) * boardLimit + 1;
+			int endRow = startRow + boardLimit - 1;
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, keyword);
+			pstmt.setString(2, date1);
+			pstmt.setString(3, date2);
+			pstmt.setInt(4, startRow);
+			pstmt.setInt(5, endRow);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Style st = new Style();
+				st.setStyleNo(rset.getInt("style_no"));
+				st.setProfileImg(rset.getString("profile_img"));
+				st.setStyleWriter(rset.getString("user_nickname"));
+				st.setUserNo(rset.getInt("user_no"));
+				st.setHashtag(rset.getString("hashtag"));
+				st.setEnrollDate(rset.getDate("enroll_date"));
+				st.setContent(rset.getString("style_content"));
+				
+				list.add(st);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+	
+	public int deleteImg(Connection conn, int styleNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteImg");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, styleNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public int deleteProduct(Connection conn, int styleNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteProduct");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, styleNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public int updateStyle(Connection conn, Style st) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateStyle");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, st.getContent());
+			pstmt.setString(2, st.getHashtag());
+			pstmt.setInt(3, st.getStyleNo());
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 }

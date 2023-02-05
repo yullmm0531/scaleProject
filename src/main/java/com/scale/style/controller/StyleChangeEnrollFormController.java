@@ -1,6 +1,7 @@
 package com.scale.style.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -9,20 +10,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.scale.product.model.service.ProductService;
+import com.scale.product.model.vo.Product;
 import com.scale.style.model.service.StyleService;
-import com.scale.user.model.vo.User;
 
 /**
- * Servlet implementation class StyleDetailViewController
+ * Servlet implementation class StyleChangeEnrollFormController
  */
-@WebServlet("/detail.st")
-public class StyleDetailViewController extends HttpServlet {
+@WebServlet("/changeView.st")
+public class StyleChangeEnrollFormController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public StyleDetailViewController() {
+    public StyleChangeEnrollFormController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,25 +33,15 @@ public class StyleDetailViewController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int cpage = Integer.parseInt(request.getParameter("cpage"));
-		String no = request.getParameter("no");
-		String view = request.getParameter("view");
-		int boardLimit = 12;
-		String tag = request.getParameter("tag") != null ? request.getParameter("tag") : "";
-		String uNum = request.getParameter("userNo") != null ? request.getParameter("userNo") : "";
-		User loginUser = (User)request.getSession().getAttribute("loginUser");
-		int userNo = loginUser != null ? loginUser.getUserNo() : 0;
+		int styleNo = Integer.parseInt(request.getParameter("styleNo"));
+		ArrayList<Product> listAll = new ProductService().selectProductList();
+		HashMap<String, Object> map = new StyleService().selectStyleDetail(styleNo);
 		
-		HashMap<String, Object> map = new StyleService().selectDetail(cpage, view, boardLimit, tag, uNum, userNo);
-		
-		request.setAttribute("list", map.get("list"));
+		request.setAttribute("listAll", listAll);
+		request.setAttribute("st", map.get("st"));
 		request.setAttribute("ilist", map.get("ilist"));
 		request.setAttribute("plist", map.get("plist"));
-		request.setAttribute("checkLike", map.get("checkLike"));
-		request.setAttribute("cpage", cpage);
-		request.setAttribute("no", no);
-		request.setAttribute("view", view);
-		request.getRequestDispatcher("views/style/styleDetailView.jsp").forward(request, response);
+		request.getRequestDispatcher("views/style/styleChangeForm.jsp").forward(request, response);
 	}
 
 	/**

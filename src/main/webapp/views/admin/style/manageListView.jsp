@@ -5,6 +5,10 @@
 	ArrayList<Style> list = (ArrayList<Style>)request.getAttribute("list");
 	ArrayList<StyleImg> ilist = (ArrayList<StyleImg>)request.getAttribute("ilist");
     PageInfo pi = (PageInfo)request.getAttribute("pi");
+    String select = (String)request.getAttribute("select");
+    String keyword = (String)request.getAttribute("keyword");
+    String date1 = (String)request.getAttribute("date1");
+    String date2 = (String)request.getAttribute("date2");
 %>
 <!DOCTYPE html>
 <html>
@@ -113,20 +117,23 @@
             </div>
         </div>
 
-        <div>
-            <select id="standard">
-                <option value="bannerName" selected>닉네임</option>
-                <option value="category">해쉬태그</option>
-            </select>
-            <input type="search" id="search" required>
-            <button id="search-btn">검색</button>
-            <br><br>
+        <form action="<%= contextPath %>/searchStyle.ad" method="get">
+            <input type="hidden" name="cpage" value="<%= pi.getCurrentPage() %>">
             <div>
-                <div id="period">기간 설정</div>
-                <input type="date" id="date1"> - <input type="date" id="date2">
+                <div>
+                    <div id="period">기간 설정</div>
+                    <input type="date" name="date1" id="date1"> - <input type="date" name="date2" id="date2">
+                </div>
+                <br>
+                <select name="select" id="standard">
+                    <option value="nickname">닉네임</option>
+                    <option value="hashtag">해쉬태그</option>
+                </select>
+                <input type="search" name="keyword" id="search" required>
+                <button id="search-btn" onclick="click(this);">검색</button>
             </div>
-        </div>
-
+        </form>
+        
         <form action="<%= contextPath %>/deleteStyle.ad" method="post">
             <input type="hidden" name="cpage" value="<%= pi.getCurrentPage() %>">
             <div align="right">
@@ -202,26 +209,47 @@
 
         <br>
 
-        
-            <ul class="pagination">
-                <% if(pi.getCurrentPage() != 1) { %>
-                <li class="page-item">
-                    <a class="page-link" href="<%= contextPath %>/stylelist.ad?cpage=<%= pi.getCurrentPage()-1 %>">&lt;</a>
-                </li>
-                <% } %>
-                
-                <% for(int p=pi.getStartPage(); p<=pi.getEndPage(); p++) { %>
+            <% if(select != null) { %>
+                <ul class="pagination">
+                    <% if(pi.getCurrentPage() != 1) { %>
                     <li class="page-item">
-                        <a class="page-link" href="<%= contextPath %>/stylelist.ad?cpage=<%= p %>"><%= p %></a>
+                        <a class="page-link" href="<%= contextPath %>/searchStyle.ad?cpage=<%= pi.getCurrentPage()-1 %>&keyword=<%= keyword %>&select=<%= select %>&date1=<%= date1 %>&date2=<%= date2 %>">&lt;</a>
                     </li>
-                <% } %>
-                
-                <% if(pi.getCurrentPage() != pi.getMaxPage() && pi.getMaxPage() != 0) { %>
+                    <% } %>
+                    
+                    <% for(int p=pi.getStartPage(); p<=pi.getEndPage(); p++) { %>
+                        <li class="page-item">
+                            <a class="page-link" href="<%= contextPath %>/searchStyle.ad?cpage=<%= p %>&keyword=<%= keyword %>&select=<%= select %>&date1=<%= date1 %>&date2=<%= date2 %>"><%= p %></a>
+                        </li>
+                    <% } %>
+                    
+                    <% if(pi.getCurrentPage() != pi.getMaxPage() && pi.getMaxPage() != 0) { %>
+                        <li class="page-item">
+                            <a class="page-link" href="<%= contextPath %>/searchStyle.ad?cpage=<%= pi.getCurrentPage()+1 %>&keyword=<%= keyword %>&select=<%= select %>&date1=<%= date1 %>&date2=<%= date2 %>">&gt;</a>
+                        </li>
+                    <% } %>
+                </ul>
+            <% } else { %>
+                <ul class="pagination">
+                    <% if(pi.getCurrentPage() != 1) { %>
                     <li class="page-item">
-                        <a class="page-link" href="<%= contextPath %>/stylelist.ad?cpage=<%= pi.getCurrentPage()+1 %>">&gt;</a>
+                        <a class="page-link" href="<%= contextPath %>/stylelist.ad?cpage=<%= pi.getCurrentPage()-1 %>">&lt;</a>
                     </li>
-                <% } %>
-            </ul>
+                    <% } %>
+                    
+                    <% for(int p=pi.getStartPage(); p<=pi.getEndPage(); p++) { %>
+                        <li class="page-item">
+                            <a class="page-link" href="<%= contextPath %>/stylelist.ad?cpage=<%= p %>"><%= p %></a>
+                        </li>
+                    <% } %>
+                    
+                    <% if(pi.getCurrentPage() != pi.getMaxPage() && pi.getMaxPage() != 0) { %>
+                        <li class="page-item">
+                            <a class="page-link" href="<%= contextPath %>/stylelist.ad?cpage=<%= pi.getCurrentPage()+1 %>">&gt;</a>
+                        </li>
+                    <% } %>
+                </ul>
+            <% } %>
         
         <br><br>
     </div>
@@ -238,7 +266,7 @@
             }
         })
 
-        $("#search-btn").click(function(){
+       function click(e){
             if($("#search").val() == ""){
                 alert("검색어를 입력해주세요.");
             } else {
@@ -248,9 +276,8 @@
                 } else {
                     keyword = $("#search").val();
                 }
-                location.href = "<%= contextPath %>/searchStyle.ad?keyword=" + keyword;
             }
-        })
+       }
     </script>
 
 </body>

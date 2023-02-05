@@ -173,13 +173,13 @@ public class StyleService {
 		return plist;
 	}
 
-	public HashMap<String, Object> selectDetail(int cpage, String view, int boardLimit, String tag, String id, int userNo){
+	public HashMap<String, Object> selectDetail(int cpage, String view, int boardLimit, String tag, String uNum, int userNo){
 		Connection conn = getConnection();
 		
 		ArrayList<Style> list = new ArrayList<Style>();
 		switch(view) {
 		case "trending": list = new StyleDao().selectTrendingDetailList(conn, cpage, boardLimit);  break;
-		case "profile": list = new StyleDao().selectProfileDetailList(conn, cpage, boardLimit, id); break;
+		case "profile": list = new StyleDao().selectProfileDetailList(conn, cpage, boardLimit, uNum); break;
 		case "newest": list = new StyleDao().selectNewestDetailList(conn, cpage, boardLimit); break;
 		case "tagsearch": list = new StyleDao().selectTagSearchDetailList(conn, cpage, boardLimit, tag); break;
 		}
@@ -283,7 +283,7 @@ public class StyleService {
 		return map;
 	}
 	
-	public int deleteStyle(String[] noArr) {
+	public int deleteStyleAdmin(String[] noArr) {
 		Connection conn = getConnection();
 		int result1 = 0;
 		int result2 = 0;
@@ -302,5 +302,84 @@ public class StyleService {
 		
 		close(conn);
 		return result1;
+	}
+	
+	public int adminSearchListCount(String select, String keyword, String date1, String date2) {
+		Connection conn = getConnection();
+		int result;
+		if(select.equals("nickname")) {
+			result = new StyleDao().adminSearchListCountByNickname(conn, keyword, date1, date2);
+		} else {
+			result = new StyleDao().adminSearchListCountByHashtag(conn, keyword, date1, date2);
+		}
+		close(conn);
+		return result;
+	}
+	
+	public ArrayList<Style> adminSearchList(int cpage, int boardLimit, String select, String keyword, String date1, String date2) {	
+		Connection conn = getConnection();
+		ArrayList<Style> list = new ArrayList<>();
+		if(select.equals("nickname")) {
+			list = new StyleDao().adminSearchListByNickname(conn, cpage, boardLimit, keyword, date1, date2);
+		} else {
+			list = new StyleDao().adminSearchListByHashtag(conn, cpage, boardLimit, keyword, date1, date2);
+		}
+		close(conn);
+		return list;
+	}
+	
+	public int deleteImgPd(int styleNo) {
+		Connection conn = getConnection();
+		int result1 = new StyleDao().deleteImg(conn, styleNo);
+		int result2 = new StyleDao().deleteProduct(conn, styleNo);
+		if(result1 > 0 && result2 > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		return result1 * result2;
+	}
+	
+	public int updateStyle(Style st, ArrayList<StyleImg> list, String[] pcodeArr) {
+		Connection conn = getConnection();
+			// 1. TB_STYLE INSERT(필수)
+			int result1 = new StyleDao().updateStyle(conn, st);
+			
+			// 2. TB_STYLE_IMG INSERT(필수)
+			int result2 = new StyleDao().insertStyleImg(conn, list);
+			
+			// 3. TB_STYLE-PD INSERT(선택)
+			int result3 = 1;
+			if(pcodeArr != null) {
+				result3 = new StyleDao().insertStylePd(conn, pcodeArr);
+			}
+			
+			// 4. TB_HASHTAG INSERT(선택) 
+			// 먼저 기존의 해쉬태그 있는지 확인(SELECT) 후 있으면 UPDATE 없으면 INSERT(반복문)
+			int result4 = 1;
+			if(st.getHashtag() != "") {
+				String[] tagArr = st.getHashtag().split(" ");
+				for(int i=0; i<tagArr.length; i++) {
+					Hashtag t = new StyleDao().selectHashtag(conn, tagArr[i]);
+					if(t == null) {
+						// INSERT
+						result4 = new StyleDao().insertHashtag(conn, tagArr[i]);
+					} else {
+						// UPDATE
+						result4 = new StyleDao().updateHashtag(conn, tagArr[i]);
+					}
+				}
+			}
+			
+			if(result1 > 0 && result2 > 0 && result3 > 0 && result4 > 0) {
+				commit(conn);
+			} else {
+				rollback(conn);
+			}
+			
+			close(conn);
+			
+			return result1 * result2 * result3 * result4;
 	}
 }

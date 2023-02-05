@@ -37,7 +37,13 @@ public class StyleProfileViewController extends HttpServlet {
 		int userNo = Integer.parseInt(request.getParameter("userNo"));
 		User user = new UserService().selectUserByUserNo(userNo);
 		request.setAttribute("user", user);
-		request.getRequestDispatcher("views/style/styleProfileView.jsp").forward(request, response);
+		
+		User loginUser = (User)request.getSession().getAttribute("loginUser");
+		if(loginUser != null && loginUser.getUserNo() == userNo) {
+			request.getRequestDispatcher("views/style/styleMyProfile.jsp").forward(request, response);
+		} else {
+			request.getRequestDispatcher("views/style/styleProfileView.jsp").forward(request, response);
+		}
 		
 	}
 

@@ -1,7 +1,9 @@
 package com.scale.admin.style.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -45,7 +47,6 @@ public class StyleManageViewController extends HttpServlet {
 		}
 		
 		PageInfo pi = new PageInfo(listCount, cpage, pageLimit, boardLimit, maxPage, startPage, endPage);
-		
 		ArrayList<Style> list = new StyleService().selectNewStyleList(cpage, boardLimit);
 		ArrayList<StyleImg> ilist = new ArrayList<>();
 		for(Style st : list) {
