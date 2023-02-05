@@ -370,4 +370,63 @@
 		   		 
 
 	</entry>
+	
+	<entry key="changeDefAddress">
+		UPDATE TB_ADDRESS
+		   SET DEFAULT_ADD = 'N'
+		 WHERE USER_NO = ?
+	</entry>
+	
+	<entry key="insertNewAdd">
+		INSERT
+		  INTO TB_ADDRESS
+		  (
+		  	ADDRESS_NO
+		  , ZIPCODE
+		  , ADDRESS1
+		  , ADDRESS2
+		  , RECIPIENT
+		  , PHONE
+		  , DEFAULT_ADD
+		  , USER_NO
+		  )
+		  VALUES
+		  (
+		  	SEQ_ANO.NEXTVAL
+		  , ?
+		  , ?
+		  , ?
+		  , ?
+		  , ?
+		  , 'N'
+		  , ?
+		  )
+	</entry>
+	
+	<entry key="insertDefAdd">
+		INSERT
+		  INTO TB_ADDRESS
+		  (
+		  	ADDRESS_NO
+		  , ZIPCODE
+		  , ADDRESS1
+		  , ADDRESS2
+		  , RECIPIENT
+		  , PHONE
+		  , DEFAULT_ADD
+		  , USER_NO
+		  )
+		  VALUES
+		  (
+		  	SEQ_ANO.NEXTVAL
+		  , ?
+		  , ?
+		  , ?
+		  , ?
+		  , ?
+		  , 'Y'
+		  , ?
+		  )
+	</entry>
+	
 </properties>

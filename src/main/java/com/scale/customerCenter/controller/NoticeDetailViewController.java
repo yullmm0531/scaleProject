@@ -1,4 +1,4 @@
-package com.scale.admin.customerCenter.controller;
+package com.scale.customerCenter.controller;
 
 import java.io.IOException;
 

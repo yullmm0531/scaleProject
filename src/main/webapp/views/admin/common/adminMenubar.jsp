@@ -62,7 +62,12 @@
 					<li><a href="">브랜드 관리</a></li>
 				</ul>
 			</li>
-			<li><a href="">결제 관리</a></li>
+			<li><a href="">결제 관리</a>
+				<ul>
+					<li><a href="<%= contextPath %>/biddingList.ad?cpage=1">거래 리스트</a></li>
+					<li><a href="">검수내역</a></li>
+				</ul>
+			</li>
 			<li><a href="">회원 관리</a>
 				<ul>
 					<li><a href="">HTML</a></li>
@@ -73,15 +78,15 @@
 			</li>
 			<li><a href="">스타일 관리</a>
 				<ul>
-					<li><a href="<%= contextPath %>/stylelist.ad">피드관리</a></li>
-					<li><a href="<%= contextPath %>/stylereport.ad">신고관리</a></li>
+					<li><a href="<%= contextPath %>/stylelist.ad?cpage=1">피드관리</a></li>
+					<li><a href="<%= contextPath %>/stylereport.ad?cpage=1">신고관리</a></li>
 				</ul>
 			</li>
 			<li><a href="">고객센터 관리</a>
 				<ul>
 					<li><a href="<%=contextPath%>/noticeList.ad?cpage=1">공지사항 관리</a></li>
-					<li><a href="">자주묻는질문 관리</a></li>
-					<li><a href="">1:1문의 관리</a></li>
+					<li><a href="<%=contextPath%>/faqList.ad?cpage=1">자주묻는질문 관리</a></li>
+					<li><a href="<%=contextPath%>/inquireList.ad?cpage=1">1:1문의 관리</a></li>
 				</ul>
 			</li>
 			<li><a href="">배너 관리</a>
@@ -96,7 +101,7 @@
 				</ul>
 			</li>
 		</ul>
-		
+		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 	</div>
 </div>
 </body>

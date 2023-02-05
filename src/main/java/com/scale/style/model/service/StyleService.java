@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.scale.product.model.dao.ProductDao;
 import com.scale.product.model.vo.Product;
 import com.scale.style.model.dao.StyleDao;
 import com.scale.style.model.vo.Hashtag;
@@ -202,6 +203,8 @@ public class StyleService {
 			checkLike[i] = new StyleDao().checkLike(conn, userNo, styleNo);
 		}
 		
+		close(conn);
+		
 		HashMap<String, Object> map = new HashMap();
 		map.put("list", list);
 		map.put("ilist", ilist);
@@ -241,6 +244,8 @@ public class StyleService {
 			checkLike[i] = new StyleDao().checkLike(conn, userNo, styleNo);
 		}
 		
+		close(conn);
+		
 		HashMap<String, Object> map = new HashMap();
 		map.put("list", list);
 		map.put("ilist", ilist);
@@ -260,5 +265,21 @@ public class StyleService {
 		}
 		close(conn);
 		return result;
+	}
+	
+	public HashMap<String, Object> selectStyleDetail(int styleNo){
+		Connection conn = getConnection();
+		Style st = new StyleDao().selectStyle(conn, styleNo);
+		ArrayList<StyleImg> ilist = new StyleDao().selectStyleImgByNo(conn, styleNo);
+		ArrayList<Product> plist = new StyleDao().selectDetailProduct(conn, styleNo);
+		
+		close(conn);
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("st", st);
+		map.put("ilist", ilist);
+		map.put("plist", plist);
+		
+		return map;
 	}
 }

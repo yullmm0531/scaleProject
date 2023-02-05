@@ -50,8 +50,9 @@
 		                         ORDER
 		                            BY COUNT DESC)
 		                  RIGHT JOIN TB_STYLE S USING (STYLE_NO)
-		                  JOIN TB_USER USING (USER_NO)
+		                  JOIN TB_USER U USING (USER_NO)
 		                 WHERE S.STATUS = 'Y'
+		                   AND U.STATUS = 'Y'
 		                ) A
 		        )
 		 WHERE RNUM BETWEEN ? AND ?
@@ -85,9 +86,10 @@
 				            BY COUNT DESC
 				        )
 				  RIGHT JOIN TB_STYLE S USING (STYLE_NO)
-				  JOIN TB_USER USING (USER_NO)
+				  JOIN TB_USER U USING (USER_NO)
 				 WHERE HASHTAG LIKE '%' || ? || '%'
 				   AND S.STATUS = 'Y'
+				   AND U.STATUS = 'Y'
 		                ) A
 		        )
 		 WHERE RNUM BETWEEN ? AND ?
@@ -118,8 +120,9 @@
 				                    BY STYLE_NO
 				                )
 				          RIGHT JOIN TB_STYLE S USING (STYLE_NO)
-				          JOIN TB_USER USING (USER_NO)
+				          JOIN TB_USER U USING (USER_NO)
 				         WHERE S.STATUS = 'Y'
+				           AND U.STATUS = 'Y'
 				         ORDER
 				            BY STYLE_NO DESC
 				                ) A
@@ -262,8 +265,9 @@
 				                    BY STYLE_NO
 				                )
 				          RIGHT JOIN TB_STYLE S USING (STYLE_NO)
-				          JOIN TB_USER USING (USER_NO)
+				          JOIN TB_USER U USING (USER_NO)
 				         WHERE S.STATUS = 'Y'
+				           AND U.STATUS = 'Y'
                            AND USER_NO = ?
 				         ORDER
 				            BY STYLE_NO DESC
@@ -332,5 +336,19 @@
 		  , ?
 		  , ?
 		  )
+	</entry>
+	
+	<entry key="selectStyle">
+		SELECT
+		       STYLE_NO
+		     , STYLE_CONTENT
+		     , S.ENROLL_DATE
+		     , HASHTAG
+		     , USER_NICKNAME
+		     , USER_NO
+		  FROM TB_STYLE S
+		  JOIN TB_USER USING (USER_NO)
+		 WHERE STYLE_NO = ?
+		   AND S.STATUS = 'Y'
 	</entry>
 </properties>

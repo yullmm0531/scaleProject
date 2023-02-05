@@ -721,7 +721,6 @@ public class UserDao {
 				list.add(p);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			close(rset);
@@ -771,7 +770,6 @@ public class UserDao {
 						);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			close(rset);
@@ -780,4 +778,103 @@ public class UserDao {
 		}
 		return b;
 	}
+	
+	/**
+	 * @author yurim
+	 * @param conn
+	 * @param userNo
+	 * @return 기본배송지를 추가하기 전에 기존 기본배송지를 일반배송지로 변경 후 결과 반환 (1 : 성공 | 0 : 실패)
+	 */
+	public int changeDefAddress(Connection conn, int userNo) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("changeDefAddress");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	
+	/**
+	 * @author yurim
+	 * @param conn
+	 * @param ad
+	 * @return 기본배송지가 아닌 일반 배송지 추가 후 결과 반환 (1 : 성공 | 0 : 실패)
+	 */
+	public int insertNewAdd(Connection conn, Address ad) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertNewAdd");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, ad.getZipCode());
+			pstmt.setString(2, ad.getAddress1());
+			pstmt.setString(3, ad.getAddress2());
+			pstmt.setString(4, ad.getRecipient());
+			pstmt.setString(5, ad.getPhone());
+			pstmt.setInt(6, ad.getUserNo());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
+	
+	/**
+	 * @author yurim
+	 * @param conn
+	 * @param ad
+	 * @return 기본배송지 추가하고 결과 반환 (1 : 성공 | 0 : 실패)
+	 */
+	public int insertDefAdd(Connection conn, Address ad) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertDefAdd");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, ad.getZipCode());
+			pstmt.setString(2, ad.getAddress1());
+			pstmt.setString(3, ad.getAddress2());
+			pstmt.setString(4, ad.getRecipient());
+			pstmt.setString(5, ad.getPhone());
+			pstmt.setInt(6, ad.getUserNo());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+	
 }

@@ -96,7 +96,7 @@
     }
     #search-input:focus {outline: none;}
     #pd-box{
-        overflow: auto; 
+        overflow: auto;
         width: 480px;
         height: 400px;
     }

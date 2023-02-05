@@ -304,4 +304,27 @@ public Product userDetailImg(int biddingNo) {
 		
 		return b;
 	}
+	
+	
+	public int insertAddress(Address ad) {
+		
+		Connection conn = getConnection();
+		int result = 0;
+		if(ad.getDefaultAdd().equals("Y")) {
+			int result1 = new UserDao().changeDefAddress(conn, ad.getUserNo());
+			int result2 = new UserDao().insertDefAdd(conn, ad);
+			result = result1 * result2;
+		} else {
+			result = new UserDao().insertNewAdd(conn, ad);
+		}
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+	}
 }

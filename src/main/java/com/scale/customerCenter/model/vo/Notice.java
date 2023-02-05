@@ -1,5 +1,9 @@
 package com.scale.customerCenter.model.vo;
 
+/**
+ * @author xxthe
+ *
+ */
 public class Notice {
 	private int noticeNo;
 	private String noticeTitle;
@@ -27,6 +31,14 @@ public class Notice {
 		this.noticeWriter = noticeWriter;
 	}
 
+	public Notice(int noticeNo, String noticeTitle, String createDate, int count) {
+		super();
+		this.noticeNo = noticeNo;
+		this.noticeTitle = noticeTitle;
+		this.createDate = createDate;
+		this.count = count;
+	}
+
 	public Notice(int noticeNo, String noticeTitle, String createDate, int count, String displayStatus, String noticeWriter) {
 		super();
 		this.noticeNo = noticeNo;
@@ -44,6 +56,29 @@ public class Notice {
 		this.noticeContent = noticeContent;
 		this.createDate = createDate;
 		this.count = count;
+	}
+	
+
+	public Notice(int noticeNo, String noticeTitle, String noticeContent, String createDate, String modifyDate,
+			String displayStatus, String noticeWriter) {
+		super();
+		this.noticeNo = noticeNo;
+		this.noticeTitle = noticeTitle;
+		this.noticeContent = noticeContent;
+		this.createDate = createDate;
+		this.modifyDate = modifyDate;
+		this.displayStatus = displayStatus;
+		this.noticeWriter = noticeWriter;
+	}
+	
+	
+
+	public Notice(int noticeNo, String noticeTitle, String noticeContent, String displayStatus) {
+		super();
+		this.noticeNo = noticeNo;
+		this.noticeTitle = noticeTitle;
+		this.noticeContent = noticeContent;
+		this.displayStatus = displayStatus;
 	}
 
 	public int getNoticeNo() {

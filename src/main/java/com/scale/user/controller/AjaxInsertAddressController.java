@@ -1,16 +1,21 @@
 package com.scale.user.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+import com.scale.user.model.service.UserService;
+import com.scale.user.model.vo.Address;
+
 /**
  * Servlet implementation class AjaxInsertAddressController
  */
-@WebServlet("/InsertAddress.us")
+@WebServlet("/insertAddress.us")
 public class AjaxInsertAddressController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -26,8 +31,22 @@ public class AjaxInsertAddressController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		int userNo = Integer.parseInt(request.getParameter("userNo"));
+		String recipientName = request.getParameter("recipientName");
+		String recipientPhone = request.getParameter("recipientPhone");
+		String zipCode = request.getParameter("zipCode");
+		String address = request.getParameter("address");
+		String detailAddress = request.getParameter("detailAddress");
+		String defaultAd = request.getParameter("defaultAD");
+		Address ad = new Address(zipCode, address, detailAddress, recipientName, recipientPhone, defaultAd, userNo);
+		
+		int result = new UserService().insertAddress(ad);
+		
+	
+		response.setContentType("application/json; charset=UTF-8");
+		new Gson().toJson(result, response.getWriter());
+		
 	}
 
 	/**
