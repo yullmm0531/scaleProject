@@ -260,7 +260,7 @@
                                     <p class="nickName"><%=nickName %></p>
                                     <p class="email"><%=email %></p>
                                     <a href="" class="btn btn outlinegrey small" type="button" id="toProfile">프로필 편집</a>
-                                    <a href="<%= contextPath %>/profileView.st?cpage=1&nickname=<%= loginUser.getUserNickName() %>" class="btn btn btn_my_style outlinegrey small" type="button" id="toMyStyle">내 스타일</a>
+                                    <a href="<%= contextPath %>/profileView.st?cpage=1&userNo=<%= loginUser.getUserNo() %>" class="btn btn btn_my_style outlinegrey small" type="button" id="toMyStyle">내 스타일</a>
                                 </div>
                             </div>
                         </div>
