@@ -736,7 +736,7 @@ public class UserDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
-		System.out.println("dao biddingNo : " + biddingNo);
+		
 		
 		String sql = prop.getProperty("userDetailSellBidding");
 		
@@ -776,7 +776,7 @@ public class UserDao {
 		}finally {
 			close(rset);
 			close(pstmt);
-			System.out.println("dao : " + b);
+			
 		}
 		return b;
 	}

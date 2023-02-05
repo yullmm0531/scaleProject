@@ -37,7 +37,7 @@ public class UserDetailSellListController extends HttpServlet {
 		
 		Product p = new UserService().userDetailImg(biddingNo);
 		
-		System.out.println(p);
+		
 		
 		HttpSession session = request.getSession();
 		

@@ -167,11 +167,14 @@
                             <ul>
                                 <li><a href="<%=contextPath %>/userBuyList.us">구매내역</a></li>
                                 <li><a href="<%=contextPath %>/userSellList.us?userNo=<%=userNo%>">판매내역</a></li>
+                                 <li><a href="">구매입찰</a></li>
+
+                                <li><a href="<%=contextPath %>/userSellBidding.us?userNo=<%=userNo%>">판매입찰</a></li>
                                 <li><a href="<%=contextPath %>/userLikeList.us">찜목록</a></li>
                             </ul>
                         </li>
                     </div>
-                    <br><br><br><br><br><br><br><br>
+                    <br><br><br><br><br><br><br><br><br><br><br>
                     <div class="sideMenu-div">
                         <li><a href="">내정보</a>
                             <ul>
@@ -270,12 +273,12 @@
 		                </div>
 		
 		                <div id="payment-fee-div">
-		                    <div id="payment-fee-tag"><span>거래일시</span></div>
+		                    <div id="payment-fee-tag"><span>입찰일</span></div>
 		                    <div id="payment-fee"><span>날짜</span></div>
 		                </div>
 		
 		                <div id="payment-fee-div">
-		                    <div id="payment-fee-tag"><span>정산일</span></div>
+		                    <div id="payment-fee-tag"><span>체결일</span></div>
 		                    <div id="payment-fee"><span>날짜</span></div>
 		                </div>
 		                <div class="underline"></div>

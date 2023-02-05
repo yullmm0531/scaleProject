@@ -214,7 +214,7 @@
 												
 												      <!-- Modal Header -->
 												      <div class="modal-header">
-												        <h4 class="modal-title">배송지 추가<%= ad.getUserNo() %></h4>
+												        <h4 class="modal-title">배송지 추가</h4>
 												        <button type="button" class="close" data-dismiss="modal">&times;</button>
 												      </div>
 												
