@@ -303,20 +303,7 @@
 		  )
 	</entry>
 	
-	<entry key="selectBasicAddress">
-		SELECT 
-			ADDRESS_NO
-		  , ZIPCODE
-		  , ADDRESS1
-		  , ADDRESS2
-		  , RECIPIENT
-		  , PHONE
-		  , USER_NO
-		  , DEFAULT_ADD
-		  FROM TB_ADDRESS
-		 WHERE USER_NO = ?
-		   
-	</entry>
+	
 	
 	<entry key="userSellBidding">
 		SELECT
@@ -427,6 +414,31 @@
 		  , 'Y'
 		  , ?
 		  )
+	</entry>
+	
+	<entry key="selectBasicAddressList">
+		SELECT 
+			
+		   ADDRESS_NO
+		  , ZIPCODE
+		  , ADDRESS1
+		  , ADDRESS2
+		  , RECIPIENT
+		  , PHONE
+		  , USER_NO
+		  
+		  
+		  FROM TB_ADDRESS
+		 WHERE USER_NO = ?
+		   
+	</entry>
+	
+	<entry key="updateBasicAddress">
+		UPDATE 
+			   TB_ADDRESS
+		   SET DEFAULT_ADD = 'Y'
+		       
+		 WHERE ADDRESS_NO = ?
 	</entry>
 	
 </properties>
