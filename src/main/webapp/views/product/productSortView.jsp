@@ -130,7 +130,7 @@
 
         <div id="pcontent">
             <div id="pcontent-1">
-                 <span><h3>필터</h3></span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  
+                 <span><h3>필터</h3></span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  <span id="eraser"><u>모두지우기</u></span>
                  <div class="category-box">
                     <li class="cate" style="cursor:pointer">
                         카테고리
@@ -185,8 +185,8 @@
                     </span>
                     <div class="sortbar" align="right"> 
                         <select name="sortlist" id="sort">
-                            <option value="popular">인기순</option>
-                            <option value="newest" onclick="location.href='<%= contextPath %>/psort.pd?view=sort'">최신순</option>
+                            <option value="popular" onclick="location.href='<%= contextPath %>/productList.pd?view=list'">인기순</option>
+                            <option value="newest" >최신순</option>
                             
                         </select>
                     </div>
@@ -196,25 +196,26 @@
                    
                 </div>
                 
-                 <button id="top" class="btn btn-primary">^</button>
+                <script>
+                
+					$(function(){
+						$(".cell").click(function(){
+							location.href = "<%=contextPath%>/detail.pd?co=" + $(this).children('input').val();
+						})
+					})
+				
+				</script>
                 
                 
             </div>
         </div>
 
-        <div id="pfooter"> </div>
+        <div id="pfooter">
+           
+        </div>
 
     </div>
     
-    <script>
-                
-		$(function(){
-			$(".cell").click(function(){
-			location.href = "<%=contextPath%>/detail.pd?co=" + $(this).children('input').val();
-			})
-		})
-				
-	</script>
     <!-- 필터바 -->
     <script>
         $(".cate").click(function(){
@@ -263,13 +264,12 @@
                 $("#ckb3").attr("checked", "checked");
             });
         });
-        
-        $("#top").click(function(){
-            window.scrollTo({ top: 0 });
-        })
-        
     </script>
 
+    <!-- 필터 모두 해제 -->
+    <script>
+    	
+    </script>
     
     <!-- 무한스크롤 -->
     <script>

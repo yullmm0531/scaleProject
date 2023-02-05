@@ -29,6 +29,14 @@ public class ProductService {
 		return list;
 	}
 	
+	
+	public ArrayList<Product> selectProductSort(int currentPage, int boardLimit){
+		Connection conn = getConnection();
+		ArrayList<Product> list = new ProductDao().selectProductListPage(conn,currentPage, boardLimit);
+		close(conn);
+		return list;
+	}
+	
 	public ArrayList<Brand> selectBrandList(){
 		Connection conn = getConnection();
 		ArrayList<Brand> blist = new ProductDao().selectBrandList(conn);
