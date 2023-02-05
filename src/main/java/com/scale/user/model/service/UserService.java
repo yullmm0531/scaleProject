@@ -347,10 +347,10 @@ public Product userDetailImg(int biddingNo) {
 		return result;
 	}
 	
-	public Bidding selectDetailSellList(int userNo) {
+	public Bidding selectDetailSellList(int userNo, int biddingNo) {
 		
 		Connection conn = getConnection();
-		Bidding b1 = new UserDao().selectDetailSellList(conn, userNo);
+		Bidding b1 = new UserDao().selectDetailSellList(conn, userNo, biddingNo);
 		
 		close(conn);
 		
@@ -365,10 +365,12 @@ public Product userDetailImg(int biddingNo) {
 		return list;
 	}
 	
-	public Bidding selectDetailBuyList(int userNo) {
+	
+	
+	public Bidding selectDetailBuyList(String paymentNo,int userNo,int biddingNo) {
 		
 		Connection conn = getConnection();
-		Bidding b1 = new UserDao().selectDetailBuyList(conn, userNo);
+		Bidding b1 = new UserDao().selectDetailBuyList(conn, paymentNo, userNo, biddingNo);
 		
 		close(conn);
 		

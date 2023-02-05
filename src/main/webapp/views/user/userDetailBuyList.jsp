@@ -3,7 +3,7 @@
     
     <%
 	Product p1 = (Product)request.getAttribute("userDetailImg");
-    Bidding b1 = (Bidding)request.getAttribute("userDetailSellList");
+    Bidding b1 = (Bidding)request.getAttribute("userDetailBuyList");
 	%>
 <!DOCTYPE html>
 <html>
@@ -220,8 +220,8 @@
 		        <div class="title-div">
 		            <h5>종료된 거래</h5>
 		            <div class="underline"></div>
-		            <span>주문번호</span>
-		            <span>주문번호넘버</span>
+		            <span>결제번호</span>
+		            <span><%=b1.getPaymentNo() %></span>
 		            <div class="underline"></div>
 		        </div>
 		        
@@ -249,7 +249,7 @@
 		            </div>
 		                <div id="payment-fee-div">
 		                    <div id="payment-fee-tag"><span>총 결제금액</span></div>
-		                    <div id="payment-fee"><span><%=b1.getAdjustmentPrice() %></span></div>
+		                    <div id="payment-fee"><span><%=b1.getPaymentPrice() %></span></div>
 		                </div>
 		
 		                <div id="payment-fee-div">
@@ -261,14 +261,14 @@
 		
 		                <div id="payment-fee-div">
 		                    <div id="payment-fee-tag"><span>배송비</span></div>
-		                    <div id="payment-fee"><span><%=b1.getCommission() %></span></div>
+		                    <div id="payment-fee"><span><%=b1.getDeliveryFee() %></span></div>
 		                </div>
 		
 		                
 		
 		                <div id="payment-fee-div">
 		                    <div id="payment-fee-tag"><span>거래일시</span></div>
-		                    <div id="payment-fee"><span><%=b1.getBiddingDate() %></span></div>
+		                    <div id="payment-fee"><span><%=b1.getDealDate() %></span></div>
 		                </div>
 		
 		                
@@ -326,7 +326,7 @@
 		            
 		                <div id="shipping-request-div">
 		                    <div id="shipping-request-tag"><span>결제정보</span></div>
-		                    <div id="shipping-request"><span><%=b1.getRecipientShippingMsg() %></span></div>
+		                    <div id="shipping-request"><span><%=b1.getPaymentMethod() %></span></div>
 		                </div>
 		                
 		                

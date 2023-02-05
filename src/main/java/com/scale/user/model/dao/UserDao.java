@@ -902,7 +902,7 @@ public ArrayList<Address> selectBasicAddressList(Connection conn, int userNo){
 		return result;
 	}
 	
-	public Bidding selectDetailSellList(Connection conn, int userNo) {
+	public Bidding selectDetailSellList(Connection conn, int userNo, int biddingNo) {
 		
 		Bidding b1 = null;
 		PreparedStatement pstmt = null;
@@ -913,6 +913,7 @@ public ArrayList<Address> selectBasicAddressList(Connection conn, int userNo){
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, userNo);
+			pstmt.setInt(2, biddingNo);
 						
 			rset = pstmt.executeQuery();
 			
@@ -972,6 +973,7 @@ public ArrayList<Address> selectBasicAddressList(Connection conn, int userNo){
 				p.setDealStep(rset.getInt("deal_step"));
 				p.setBiddingNo(rset.getInt("bidding_no"));
 				p.setUserNo(rset.getInt("user_no"));
+				p.setPaymentNo(rset.getString("payment_number"));
 				list.add(p);
 			}
 		} catch (SQLException e) {
@@ -984,7 +986,9 @@ public ArrayList<Address> selectBasicAddressList(Connection conn, int userNo){
 		return list;
 	}
 	
-	public Bidding selectDetailBuyList(Connection conn, int userNo) {
+	
+	
+	public Bidding selectDetailBuyList(Connection conn, String paymentNo, int userNo, int biddingNo) {
 		
 		Bidding b1 = null;
 		PreparedStatement pstmt = null;
@@ -995,26 +999,27 @@ public ArrayList<Address> selectBasicAddressList(Connection conn, int userNo){
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, userNo);
+			pstmt.setString(2, paymentNo);
+			pstmt.setInt(3, biddingNo);
 						
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
 				
 				b1 = new Bidding(
-						rset.getString("BIDDING_PRICE")
-						,rset.getDate("BIDDING_DATE")
-						,rset.getInt("INSPECTION_COST")
-						,rset.getInt("COMMISSION")
+						rset.getString("PAYMENT_PRICE")
+						,rset.getDate("DEAL_DATE")
+						,rset.getInt("DELIVERY_FEE")
+						,rset.getString("BIDDING_PRICE")
 						,rset.getString("RECIPIENT_NAME")
 						,rset.getString("RECIPIENT_PHONE")
 						,rset.getString("RECIPIENT_ZIPCODE")
 						,rset.getString("RECIPIENT_ADDRESS")
 						,rset.getString("RECIPIENT_SHIPPING_MSG")
-						,rset.getDate("DEAL_DATE")
-						,rset.getString("BANK_NAME")
-						,rset.getString("BANK_ACCOUNT")
-						,rset.getString("BANK_OWNER_NAME")
-						,rset.getString("ADJUSTMENT_PRICE")
+						
+						,rset.getString(" PAYMENT_METHOD")
+						,rset.getString("PAYMENT_NUMBER")
+						
 						);
 												
 			}
