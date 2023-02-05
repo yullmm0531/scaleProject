@@ -458,9 +458,23 @@ public class CustomerCenterService {
 	}
 	
 	public int updateAnswer(Inquire iq) {
-		Connection conn = getConnection();;
+		Connection conn = getConnection();
 		int result = new CustomerCenterDao().updateAnswer(conn, iq);
 		close(conn);
 		return result;
+	}
+	
+	public int selectAdminInquireCountCategory(String category) {
+		Connection conn = getConnection();
+		int result = new CustomerCenterDao().selectAdminInquireCountCategory(conn, category);
+		close(conn);
+		return result;
+	}
+	
+	public ArrayList<Inquire> selectAdminInquireListCategory(String category, PageInfo pi){
+		Connection conn = getConnection();
+		ArrayList<Inquire> list = new CustomerCenterDao().selectAdminInquireListCategory(conn, category, pi);
+		close(conn);
+		return list;
 	}
 }

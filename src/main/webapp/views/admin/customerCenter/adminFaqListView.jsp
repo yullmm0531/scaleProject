@@ -101,15 +101,15 @@
                 <br>
             </div>
             <div class="list-area">
-                <form class="input-group mb-3" style="width:400px" action="<%=contextPath%>/searchFaq.ad" method="get">
+                <!-- <form class="input-group mb-3" style="width:400px" action="<%=contextPath%>/searchFaq.ad" method="get">
                     <input type="text" class="form-control" placeholder="검색어를 입력하세요." id="search-input" name="keyword">
                     <div class="input-group-append">
                         <button class="btn" type="submit" id="search-btn">검색</button>
                     </div>
                     <input type="hidden" name="cpage" value="1">
                 </form>
-                <br>
-
+                <br> -->
+            
                 <div class="category">
                     <button class="c-btn active" value="all" onclick="categoryFilter(this);">전체</button>
                     <button class="c-btn" value="policy" onclick="categoryFilter(this);">이용정책</button>

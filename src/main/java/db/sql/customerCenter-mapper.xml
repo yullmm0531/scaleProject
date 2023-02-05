@@ -637,4 +637,39 @@
 		     , ANSWER_USER = ?
 		 WHERE INQUIRE_NO = ?
 	</entry>
+	
+	<entry key="selectAdminInquireCountCategory">
+		SELECT
+			   COUNT(*) "COUNT"
+	      FROM TB_INQUIRE
+	     WHERE INQUIRE_STATUS = 'Y'
+	       AND CATEGORY = ?
+	</entry>
+	
+	<entry key="selectAdminInquireListCategory">
+		SELECT * 
+  		  FROM (
+		        SELECT ROWNUM RNUM, I.*
+		          FROM (
+		                SELECT
+		                       INQUIRE_NO
+		                     , INQUIRE_TITLE
+                             , TO_CHAR(INQUIRE_DATE, 'YYYY.MM.DD') "INQUIRE_DATE"
+                             , TO_CHAR(ANSWER_MODIFY_DATE, 'YYYY.MM.DD') "ANSWER_MODIFY_DATE"
+                             , ANSWER_STATUS
+                             , (SELECT USER_ID 
+                                 FROM TB_USER
+                                WHERE USER_NO = INQUIRE_USER) "INQUIRE_USER"
+                             , USER_NAME "ANSWER_USER"
+                             , CATEGORY
+		                  FROM TB_INQUIRE T
+		                  LEFT JOIN TB_USER ON (ANSWER_USER = USER_NO)
+		                 WHERE INQUIRE_STATUS = 'Y'
+		                   AND CATEGORY = ?
+		                 ORDER
+		                    BY INQUIRE_NO DESC
+		                ) I
+       			)
+ 		  WHERE RNUM BETWEEN ? AND ?
+	</entry>
 </properties>

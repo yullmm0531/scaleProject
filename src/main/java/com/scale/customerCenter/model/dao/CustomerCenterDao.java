@@ -1409,4 +1409,67 @@ public class CustomerCenterDao {
 		
 		return result;
 	}
+	
+	public int selectAdminInquireCountCategory(Connection conn, String category) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectAdminInquireCountCategory");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, category);
+			
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public ArrayList<Inquire> selectAdminInquireListCategory(Connection conn, String category, PageInfo pi){
+		ArrayList<Inquire> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectAdminInquireListCategory");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			
+			pstmt.setString(1, category);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new Inquire(rset.getInt("INQUIRE_NO"),
+									rset.getString("INQUIRE_TITLE"),
+									rset.getString("INQUIRE_DATE"),
+									rset.getString("ANSWER_MODIFY_DATE"),
+									rset.getString("ANSWER_STATUS"),
+									rset.getString("INQUIRE_USER"),
+									rset.getString("ANSWER_USER"),
+									rset.getString("CATEGORY")
+						));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
 }

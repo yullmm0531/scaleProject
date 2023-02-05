@@ -54,30 +54,14 @@
                 <h2><b>1:1문의 관리</b></h2>
                 <br>
             </div>
-            <div class="search-area">
-                <form class="input-group mb-3" style="width:400px" action="<%=contextPath%>/searchFaq.ad" method="get">
-                    <select name="option" id="search-option">
-                        <option value="all">제목+내용</option>
-                        <option value="title">제목</option>
-                        <option value="content">내용</option>
-                    </select>
-                    <input type="text" class="form-control" placeholder="검색어를 입력하세요." id="search-input" name="keyword">
-                    <div class="input-group-append">
-                        <button class="btn" type="submit" id="search-btn">검색</button>
-                    </div>
-                    <input type="hidden" name="cpage" value="1">
-                </form>
-                <br>
-            </div>
-            <hr>
             <div align="left">
-                <input type="radio" name="category" id="" checked>전체
-                <input type="radio" name="category" id="">구매
-                <input type="radio" name="category" id="">판매
-                <input type="radio" name="category" id="">결제
-                <input type="radio" name="category" id="">배송
-                <input type="radio" name="category" id="">상품
-                <input type="radio" name="category" id="">사이트이용
+                <input type="radio" name="category" value="all" checked>전체
+                <input type="radio" name="category" value="buy">구매
+                <input type="radio" name="category" value="sell">판매
+                <input type="radio" name="category" value="payment">결제
+                <input type="radio" name="category" value="shipping">배송
+                <input type="radio" name="category" value="product">상품
+                <input type="radio" name="category" value="site">사이트이용
             </div>
             <br>
             <table class="table table-hover">
@@ -158,18 +142,99 @@
     </div>
 
     <script>
+        let category = "";
+        let cpage = 0;
+
         $(function(){
-            
             $(".paging-area>button").each(function(){
                 if($(this).text() == "<%=pi.getCurrentPage()%>"){
                     $(this).addClass("page-active");
                 }
             })
 
+            $("input[name=category]:first").on("change", function(){
+                location.href = "<%=contextPath%>/inquireList.ad?cpage=1";
+            })
+
+            $("input[name=category]:not(:first-child)").on("change", function(){
+                category = $(this).val();
+                cpage = 1;
+                $("tbody").empty();
+                $(".paging-area").empty();
+                $.ajax({
+                    url:"<%=contextPath%>/inquireFilter.ad",
+                    data:{"category":category, "cpage":cpage},
+                    success:function(map){
+                        let list = map.list;
+                        let pi = map.pi;
+                        let value = "";
+                        let paging = "";
+
+                        if(list.length == 0){
+						    value = "<tr><td colspan='5' align='center'>등록된 문의가 없습니다.</td></tr>";
+					    }else{
+                            for(let i=0; i<list.length; i++){{
+                            switch(list[i].category){
+                                case "buy": list[i].category = "구매"; break;
+                                case "sell": list[i].category = "판매"; break;
+                                case "payment": list[i].category = "결제"; break;
+                                case "shipping": list[i].category = "배송"; break;
+                                case "product": list[i].category = "상품"; break;
+                                case "site": list[i].category = "사이트이용"; break;
+                            }
+
+                            value += "<tr class='my-inquire'>";
+                            value += "<td>" + list[i].inquireNo + "</td>";
+                            value += "<td>" + list[i].category + "</td>";
+                            value += "<td class='inquire-title'>";
+                            value += "<div><p>" + list[i].inquireTitle + "</p></div></td>";
+                            value += "<td>" + list[i].inquireDate + "</td>";
+                            value += "<td>" + list[i].inquireUser + "</td>";
+                            value += "<td>" + list[i].answerStatus + "</td>";
+                            
+                            if(list[i].answerStatus == 'N'){
+                                value += "<td>-</td>";
+                                value += "<td>-</td>";
+                            }else{
+                                value += "<td>" + list[i].answerUser + "</td>"
+                                value += "<td>" + list[i].answerModifyDate + "</td>";
+                            }
+                            value += "</tr>"
+                        }}
+                            if(pi.currentPage != 1){
+                                --cpage;
+                                paging += "<button onclick=''>&lt;</button>";
+                            }
+                            for(let i=pi.startPage; i<=pi.endPage; i++){
+                                ++cpage;
+                                paging += "<button onclick=''>"+[i]+"</button>";
+                            }
+
+                            if(pi.currentPage != pi.maxPage && pi.maxPage != 0){
+                                ++cpage;
+                                paging += "<button onclick=''>&gt;</button>";
+                            }
+                        }
+                       
+                        $("tbody").append(value);
+                        $(".paging-area").append(paging);
+
+                        $(".table tr:not(:first)").on("click", function(){
+                            let inquireNo = $(this).children(":first").text();
+                            location.href = "<%=contextPath%>/detailInquire.ad?inquireNo=" + inquireNo;
+                        })
+                    }, error:function(){
+                        console.log("필터링 통신 실패");
+                    }
+                })
+            });
+
             $(".table tr:not(:first)").on("click", function(){
-            let inquireNo = $(this).children(":first").text();
-            location.href = "<%=contextPath%>/detailInquire.ad?inquireNo=" + inquireNo;
-        })
+                let inquireNo = $(this).children(":first").text();
+                location.href = "<%=contextPath%>/detailInquire.ad?inquireNo=" + inquireNo;
+            })
+
+            
         })
     </script>
 </body>
