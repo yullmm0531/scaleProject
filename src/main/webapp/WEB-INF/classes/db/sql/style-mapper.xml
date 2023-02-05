@@ -137,8 +137,10 @@
 		     , FILE_PATH
 		     , STYLE_NO
 		     , FILE_LEVEL
-		  FROM TB_STYLE_IMG
-		 WHERE STATUS = 'Y'
+		  FROM TB_STYLE_IMG I
+		  JOIN TB_STYLE S USING (STYLE_NO)
+		 WHERE I.STATUS = 'Y'
+		   AND S.STATUS = 'Y'
 		   AND STYLE_NO = ?
 	</entry>
 	
@@ -151,6 +153,7 @@
 				               HASHTAG_NO
 				             , KEYWORD
 				          FROM TB_HASHTAG
+				         WHERE STATUS = 'Y'
 				         ORDER
 				            BY COUNT DESC
 				        ) A
@@ -279,6 +282,7 @@
 	<entry key="checkLike">
 		SELECT COUNT(*) COUNT
 		  FROM TB_STYLE_LIKE
+		  JOIN TB_STYLE USING (STYLE_NO)
 		 WHERE USER_NO = ? AND STYLE_NO = ?
 	</entry>
 	
@@ -311,9 +315,11 @@
 		     , PRODUCT_IMG_M
 		     , BRAND_NAME
 		  FROM TB_STYLE_PD
+		  JOIN TB_STYLE S USING (STYLE_NO)
 		  JOIN TB_PRODUCT USING (PRODUCT_CODE)
 		  JOIN TB_BRAND USING (BRAND_CODE)
 		 WHERE STYLE_NO = ?
+		   AND S.STATUS = 'Y'
 	</entry>
 	
 	<entry key="insertStyleReport">
@@ -351,4 +357,19 @@
 		 WHERE STYLE_NO = ?
 		   AND S.STATUS = 'Y'
 	</entry>
+	
+	<entry key="deleteStyle">
+		UPDATE
+		       TB_STYLE
+		   SET STATUS = 'N'
+		 WHERE STYLE_NO = ?
+	</entry>
+	
+	<entry key="deleteStyleImg">
+		UPDATE
+			   TB_STYLE_IMG
+		   SET STATUS = 'N'
+		 WHERE STYLE_NO = ?
+	</entry>
+	
 </properties>

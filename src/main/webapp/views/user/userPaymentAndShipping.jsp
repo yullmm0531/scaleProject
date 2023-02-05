@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.scale.user.model.vo.Address"%>
+    pageEncoding="UTF-8" import="java.util.ArrayList, com.scale.user.model.vo.Address"%>
     
     <%
-	Address ad = (Address)request.getAttribute("ad");
+	ArrayList<Address> list = (ArrayList<Address>)request.getAttribute("list");
 	
 	%>
 <!DOCTYPE html>
@@ -322,12 +322,46 @@
 				                    
 				                    
 				                    
-				                    <div id="shipping-address-box">
-				                        <input type="radio" name="basicAddress" value="주소를 담은 변수" id="address-radio">
-				                        <label for="">주소를 담은 변수?</label>
-				                        
+		<% for(Address ad : list){ %>  
+         <div class="wrap-div" style=" cursor: pointer;" onclick="test2(<%= ad.getAddressNo()%>,<%= ad.getUserNo()%> );">
+         		
+         		<input type="hidden" id="addressNo" value="<%= ad.getAddressNo()%>">
+         		<input type="hidden" id="userNo" value="<%= ad.getUserNo()%>">
+            <div class="sell-product-div1">
+                <div class="img">
+                    <img src="<%=ad.getAddress1() %>" alt="사용자이미지" id="sell-img">
+                </div>
+            </div>
+            <div class="sell-product-div2">
+                <div class="brand-name"><%=ad.getAddress2() %></div>
+                <br><br>
+                <div class="product-ex"><%=ad.getZipCode() %></div>
+            </div>
+            <div class="sell-product-div2">
+                <div class="brand-name"><%=ad.getRecipient() %></div>
+                <br><br>
+                <div class="product-ex"><%=ad.getPhone() %></div>
+            </div>
+            
+            
+           
+            	
+            
+            
+            
+        </div>
+        <% } %>
+        
+        <script>
+    	
+    	
+    	function test1(e1,e2){
+    		
+    		location.href = "<%=contextPath%>/updateBasicAddress.us?AddressNo=" + $(e).children('#addressNo').val()"&" + userNo=$(e).children('#userNo').val();
+    	}
+    </script>
 				                    
-				                    </div>
+				                    
 				                    <div id="edit-address-div">
 				                        <a href="" class="btn btn outlinegrey small" type="button" id="edit-address">수정</a>
 				                    </div>

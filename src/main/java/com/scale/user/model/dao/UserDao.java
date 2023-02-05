@@ -495,6 +495,7 @@ public class UserDao {
 				p.setDealDate(rset.getDate("deal_date"));
 				p.setDealStep(rset.getInt("deal_step"));
 				p.setBiddingNo(rset.getInt("bidding_no"));
+				p.setUserNo(rset.getInt("user_no"));
 				list.add(p);
 			}
 		} catch (SQLException e) {
@@ -660,43 +661,7 @@ public class UserDao {
 		return result;
 	}
 	
-	public Address selectBasicAddress(Connection conn, int userNo) {
-		
-		Address ad = null;
-		PreparedStatement pstmt = null;
-		ResultSet rset = null;
-		
-		String sql = prop.getProperty("selectBasicAddress");
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, userNo);
-			
-			rset = pstmt.executeQuery();
-			
-			if(rset.next()) {
-				ad = new Address(rset.getInt("address_no")
-								,rset.getString("zipCode")
-								,rset.getString("address1")
-								,rset.getString("address2")
-								,rset.getString("recipient")
-								,rset.getString("phone")								
-								,rset.getInt("userNo")
-								,rset.getString("default_add")
-								
-						);
-						
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			close(rset);
-			close(pstmt);
-		}
-		return ad;
-		
-	}
+	
 	
 	public ArrayList<Product> userSellBidding(Connection conn, int userNo) {
 		ArrayList<Product> list = new ArrayList<>();
@@ -876,5 +841,195 @@ public class UserDao {
 		return result;
 		
 	}
+/*	
+public ArrayList<Address> selectBasicAddressList(Connection conn, int userNo){
+		
+		ArrayList<Address> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectBasicAddressList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Address ad = new Address();
+						 ad.setZipCode(rset.getString("zipcode"));
+						 ad.setAddresNo(rset.getInt("address_no"));
+						 ad.setAddress1(rset.getString("address1"));
+						 ad.setAddress2(rset.getString("address2"));
+						 ad.setRecipient(rset.getString("recipient"));
+						 ad.setPhone(rset.getString("phone"));
+						 ad.setUserNo(rset.getInt("user_no"));
+						 
+						 list.add(ad);
+										 
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+		
+	}
+	*/
+	public int updateBasicAddress(Connection conn, int addressNo) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("updateBasicAddress");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, addressNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
 	
+	public Bidding selectDetailSellList(Connection conn, int userNo, int biddingNo) {
+		
+		Bidding b1 = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+						
+		String sql = prop.getProperty("selectDetailSellList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			pstmt.setInt(2, biddingNo);
+						
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				
+				b1 = new Bidding(
+						rset.getString("BIDDING_PRICE")
+						,rset.getDate("BIDDING_DATE")
+						,rset.getInt("INSPECTION_COST")
+						,rset.getInt("COMMISSION")
+						,rset.getString("RECIPIENT_NAME")
+						,rset.getString("RECIPIENT_PHONE")
+						,rset.getString("RECIPIENT_ZIPCODE")
+						,rset.getString("RECIPIENT_ADDRESS")
+						,rset.getString("RECIPIENT_SHIPPING_MSG")
+						,rset.getDate("DEAL_DATE")
+						,rset.getString("BANK_NAME")
+						,rset.getString("BANK_ACCOUNT")
+						,rset.getString("BANK_OWNER_NAME")
+						,rset.getString("ADJUSTMENT_PRICE")
+						);
+												
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return b1;
+	}
+	
+	public ArrayList<Product> userBuyList(Connection conn, int userNo) {
+		
+		ArrayList<Product> list = new ArrayList<>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("userBuyList");
+		
+		
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Product p = new Product();
+				p.setProductImgM(rset.getString("product_img_m"));
+				p.setProductNameEng(rset.getString("product_name_eng"));
+				p.setBrandName(rset.getString("brand_name"));
+				p.setDealDate(rset.getDate("deal_date"));
+				p.setDealStep(rset.getInt("deal_step"));
+				p.setBiddingNo(rset.getInt("bidding_no"));
+				p.setUserNo(rset.getInt("user_no"));
+				p.setPaymentNo(rset.getString("payment_number"));
+				list.add(p);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+	}
+	
+	
+	
+	public Bidding selectDetailBuyList(Connection conn, String paymentNo, int userNo, int biddingNo) {
+		
+		Bidding b1 = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+						
+		String sql = prop.getProperty("selectDetailBuyList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			pstmt.setString(2, paymentNo);
+			pstmt.setInt(3, biddingNo);
+						
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				
+				b1 = new Bidding(
+						rset.getString("PAYMENT_PRICE")
+						,rset.getDate("DEAL_DATE")
+						,rset.getInt("DELIVERY_FEE")
+						,rset.getString("BIDDING_PRICE")
+						,rset.getString("RECIPIENT_NAME")
+						,rset.getString("RECIPIENT_PHONE")
+						,rset.getString("RECIPIENT_ZIPCODE")
+						,rset.getString("RECIPIENT_ADDRESS")
+						,rset.getString("RECIPIENT_SHIPPING_MSG")
+						
+						,rset.getString(" PAYMENT_METHOD")
+						,rset.getString("PAYMENT_NUMBER")
+						
+						);
+												
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return b1;
+	}
 }

@@ -50,6 +50,44 @@ public class Inquire {
 		this.answerStatus = answerStatus;
 		this.category = category;
 	}
+	
+	public Inquire(int inquireNo, String inquireTitle, String inquireDate, String answerModifyDate,
+			String answerStatus, String inquireUser, String answerUser, String category) {
+		super();
+		this.inquireNo = inquireNo;
+		this.inquireTitle = inquireTitle;
+		this.inquireDate = inquireDate;
+		this.answerModifyDate = answerModifyDate;
+		this.answerStatus = answerStatus;
+		this.inquireUser = inquireUser;
+		this.answerUser = answerUser;
+		this.category = category;
+	}
+
+	public Inquire(int inquireNo, String inquireTitle, String inquireContent, String inquireDate, String inquireImg,
+			String answerContent, String answerDate, String answerModifyDate, String answerStatus, String inquireUser,
+			String answerUser, String category) {
+		super();
+		this.inquireNo = inquireNo;
+		this.inquireTitle = inquireTitle;
+		this.inquireContent = inquireContent;
+		this.inquireDate = inquireDate;
+		this.inquireImg = inquireImg;
+		this.answerContent = answerContent;
+		this.answerDate = answerDate;
+		this.answerModifyDate = answerModifyDate;
+		this.answerStatus = answerStatus;
+		this.inquireUser = inquireUser;
+		this.answerUser = answerUser;
+		this.category = category;
+	}
+
+	public Inquire(int inquireNo, String answerContent, String answerUser) {
+		super();
+		this.inquireNo = inquireNo;
+		this.answerContent = answerContent;
+		this.answerUser = answerUser;
+	}
 
 	public int getInquireNo() {
 		return inquireNo;

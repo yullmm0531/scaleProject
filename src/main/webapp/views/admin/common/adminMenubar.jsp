@@ -95,7 +95,7 @@
 			</li>
 			<li><a href="">정책 관리</a>
 				<ul>
-					<li><a href="">검수정책</a></li>
+					<li><a href="<%=contextPath%>/inspection.ad">검수정책</a></li>
 					<li><a href="">이용약관</a></li>
 					<li><a href="">개인정보처리방침</a></li>
 				</ul>

@@ -1,29 +1,23 @@
-package com.scale.user.controller;
+package com.scale.admin.user.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.scale.product.model.vo.Product;
-import com.scale.user.model.service.UserService;
-import com.scale.user.model.vo.Address;
-
 /**
- * Servlet implementation class PaymentAndShippingOnlyView
+ * Servlet implementation class AllUserListController
  */
-@WebServlet("/paymentAndShippingOnlyView.us")
-public class PaymentAndShippingOnlyView extends HttpServlet {
+@WebServlet("/allUserList.ad")
+public class AllUserListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PaymentAndShippingOnlyView() {
+    public AllUserListController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,15 +27,7 @@ public class PaymentAndShippingOnlyView extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		int userNo = Integer.parseInt(request.getParameter("userNo"));
 		
-		
-		
-		//ArrayList<Address> list = new UserService().selectBasicAddressList(userNo);
-		
-		
-		//request.setAttribute("list", list);
-		request.getRequestDispatcher("views/user/userPaymentAndShipping.jsp").forward(request, response);
 	}
 
 	/**

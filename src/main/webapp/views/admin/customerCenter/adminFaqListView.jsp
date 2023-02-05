@@ -4,40 +4,20 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>자주묻는질문</title>
+<title>자주묻는질문 관리</title>
 <style>
     .outer{
         width:1200px;
         margin:auto;
-        margin-top:50px;
     }
-    .submenu-area, .outer-2{float:left;}
-    .submenu-area{width:20%; padding-left:60px;}
-    .submenu-area ul{
-        list-style:none;
-        padding-left:0px;
-    }
-    .submenu-area li{
-        line-height:40px;
-    }
-    .submenu-area a{
-        color:black;
-    }
-    .depth1>a{
-        font-size:25px;
-        text-decoration:none;
-    }
-    
-    .outer-2{width:80%;}
+    .outer-2{float:left; width:80%;}
     .title{
-        text-align:center;
-        margin-bottom:30px;
+        margin:70px 0px;
     }
     .mb-3 button{
         background:black;
         color:white;
     }
-
     .category{width:100%; height:50px;}
    
     .c-btn{
@@ -64,7 +44,7 @@
         font-size:14px;
         text-align:left;
     }
-    #accordion span{
+    #accordion span:first-child{
         margin-right:50px;
         font-weight:600;
     }
@@ -74,7 +54,6 @@
         display:inline-block;
         width:100%;
     }
-    
     .card{
         background:white !important;
         border:none !important;
@@ -84,84 +63,161 @@
         border-bottom:0.5px solid lightgray !important;
         height:60px;
         line-height:40px;
+        position:relative;
     }
     .card-body{
         background:rgb(247, 247, 247) !important;
     }
+
+    .edit-btn, .delete-btn, .writer{
+        position:absolute;
+        width:60px;
+        height:33px;
+        font-size:13px !important;
+    }
+    .edit-btn{
+        right:70px;
+    }
+    .delete-btn{
+        right:0px;
+    }
+    .writer{
+        width:200px;
+        right:60px;
+        font-size:12px !important;
+    }
+
     #search-more-btn{
         display:none;
     }
 </style>
 </head>
 <body>
-
-	<%@ include file="../common/menubar.jsp" %>
-	<div class="outer" align="center">
-        <div class="submenu-area" align="left">
-            <ul>
-                <li class="depth1"><a><b>고객센터</b></a></li><br>
-                <li class="depth2"><a href="<%=contextPath%>/list.no?cpage=1">공지사항</a></li>
-                <li class="depth2"><a href="<%=contextPath%>/listForm.faq" style="background:black; color:white;"><b>자주묻는질문</b></a></li>
-                <li class="depth2"><a href="<%=contextPath%>/list.inq?cpage=1">1:1 문의</a></li>
-                <li class="depth2"><a href="<%=contextPath%>/inspection.po">검수정책</a></li>
-            </ul>
-        </div>
+    <%@ include file="../common/adminMenubar.jsp"%>
+    <div class="outer" align="center">
         <div class="outer-2">
             <div class="title">
-                <h2><b>자주묻는질문</b></h2>
+                <h2><b>자주묻는질문 관리</b></h2>
                 <br>
             </div>
-            <div class="input-group mb-3" style="width:400px">
-                <input type="text" class="form-control" placeholder="검색어를 입력하세요." id="search-input" name="keyword">
-                <div class="input-group-append">
-                    <button class="btn" type="button" id="search-btn">검색</button>
-                </div>
-            </div>
-            <br><br>
-            <div class="category">
+            <div class="list-area">
+                <!-- <form class="input-group mb-3" style="width:400px" action="<%=contextPath%>/searchFaq.ad" method="get">
+                    <input type="text" class="form-control" placeholder="검색어를 입력하세요." id="search-input" name="keyword">
+                    <div class="input-group-append">
+                        <button class="btn" type="submit" id="search-btn">검색</button>
+                    </div>
+                    <input type="hidden" name="cpage" value="1">
+                </form>
+                <br> -->
+            
+                <div class="category">
                     <button class="c-btn active" value="all" onclick="categoryFilter(this);">전체</button>
                     <button class="c-btn" value="policy" onclick="categoryFilter(this);">이용정책</button>
                     <button class="c-btn" value="common" onclick="categoryFilter(this);">공통</button>
                     <button class="c-btn" value="buy" onclick="categoryFilter(this);">구매</button>
                     <button class="c-btn" value="sell" onclick="categoryFilter(this);">판매</button>
+                </div>
+                <br><br>
+
+                <div align="right">
+                    <a class="btn btn-dark" data-toggle="modal" data-target="#edit-modal">+ 추가</a>
+                    <hr>
+                </div>
+
+                <!-- The Modal -->
+                <div class="modal" id="edit-modal" align="left">
+                    <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                        <h4 class="modal-title">자주묻는질문 등록</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                
+                        <!-- Modal body -->
+                        <form action="insertFaq.ad" method="post">
+                            <div class="modal-body">
+                                * 카테고리 :
+                                <select name="category" id="">
+                                    <option value="none">선택하세요</option>
+                                    <option value="policy">이용정책</option>
+                                    <option value="common">공통</option>
+                                    <option value="buy">구매</option>
+                                    <option value="sell">판매</option>
+                                </select>
+                                <br><br><br>
+                                * 질문 : <br>
+                                <input type="text" style="width:750px" name="question" required><br><br>
+                                * 답변 : <br>
+                                <textarea name="answer" cols="100" rows="10" style="resize:none" required></textarea>
+                            </div>
+                    
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" onclick='return validate();'>등록</button>
+                            </div>
+                        </form>
+                
+                    </div>
+                    </div>
+                </div>
+
+                <!-- 리스트 -->
+                <div id="accordion">
+                
+                </div>
+                <br><br><br>
+                <!-- 페이징 -->
+                <div class="btn-area">
+                    <button class="btn btn-outline-dark" id="more-btn">더보기</button>
+                    <button class="btn btn-outline-dark" id="search-more-btn">더보기</button>
+                </div>
+                <br><br>
+            
             </div>
-            <br><br>
-            <!-- 아코디언 -->
-            <div id="accordion">
-            </div>
-            <br><br><br>
-            <!-- 버튼 -->
-            <div class="btn-area">
-                <button class="btn btn-outline-dark" id="more-btn">더보기</button>
-                <button class="btn btn-outline-dark" id="search-more-btn">더보기</button>
-            </div>
-            <br><br>
-        </div>
         </div>
     </div>
 
-   </div>
     <script>
         let cpage = 0;
         let category = "";
         let keyword = "";
-        
+
         $(function(){
-            $("#accordion").empty();
-            categoryFilter($(".category>button").eq(0));
-
-            $(".c-btn").click(function(){
-                $(this).addClass("active");
-                $(this).siblings().removeClass("active");
-            })
-
             $("#search-input").on("keypress", function(e){
                 if(e.keyCode == 13){
                     $("#search-btn").click();
                 }
             })
 
+            $(".c-btn").click(function(){
+                $(this).addClass("active");
+                $(this).siblings().removeClass("active");
+            })
+
+            // 진입 시 전체 로드
+            $("#accordion").empty();
+            categoryFilter($(".category>button").eq(0));
+
+            // 셀렉트 옵션 선택
         })
+
+        // 삭제
+        function deleteFaq(e){
+            let faqNo = $(e).attr("id");
+            if(confirm("삭제하시겠습니까?")){
+                location.href = "<%=contextPath%>/deleteFaq.ad?faqNo=" + faqNo;
+            }
+        }
+
+        // 등록 유효성검사
+        function validate(){
+            if($("select[name=category]").val() == "none"){
+                alert("카테고리를 선택해주세요.");
+                return false;
+            }
+        }
 
         function categoryFilter(e){
             $("#accordion").empty();
@@ -169,7 +225,7 @@
             category = $(e).val();
 
             $.ajax({
-                url:"<%=contextPath%>/list.faq",
+                url:"<%=contextPath%>/faqFilter.ad",
                 type:"post",
                 data:{"cpage":cpage, "category":category},
                 success:function(map){
@@ -199,11 +255,34 @@
                             value += "<div class='card'>";
                             value += "<div class='card-header'>";
                             value += "<a class='card-link' data-toggle='collapse' href='#collapse" + [i] + "'>";
-                            value += "<span>[" + list[i].category + "]</span>" + list[i].faqQuestion + "</a></div>";
+                            value += "<span>[" + list[i].category + "]</span>" + list[i].faqQuestion + "</a>";
+                            value += "<span class='writer'>작성자 : " + list[i].faqWriter + "</span>";
+                            value += "<button type='button' class='btn btn-outline-primary edit-btn' data-toggle='modal' data-target='#edit-modal" + [i] + "'>수정</button>";
+                            value += "<button class='btn btn-outline-danger delete-btn' id='"+ list[i].faqNo +"' onclick='deleteFaq(this);'>삭제</button></div>";
                             value += "<div id='collapse" + [i] +"' class='collapse' data-parent='#accordion'>";
                             value += "<div class='card-body'>";
                             value += list[i].faqAnswer;
                             value += "</div></div></div>";
+                            
+                            // 수정 모달
+                            // 모달 헤더
+                            value += "<div class='modal' id='edit-modal" + [i] + "'>";
+                            value += "<div class='modal-dialog modal-lg'><div class='modal-content'>";
+                            value += "<div class='modal-header'><h4 class='modal-titl'>자주묻는질문 수정</h4><button type='button' class='close' data-dismiss='modal'>&times;</button></div>";
+
+                            // 모달 바디
+                            value += "<form action='updateFaq.ad' method='post'><div class='modal-body'>";
+                            value += "* 카테고리 : <select name='category' id=''>";
+                            value += "<option value='policy'>이용정책</option>";
+                            value += "<option value='common'>공통</option>";
+                            value += "<option value='buy'>구매</option>";
+                            value += "<option value='sell'>판매</option>";
+                            value += "</select><br><br><br>* 질문 : <br><input type='text' style='width:750px' name='question' value='" + list[i].faqQuestion + "' required><br><br>"        
+                            value += "* 답변 : <br><textarea name='answer' cols='115' rows='10' style='resize:none' required>" + list[i].faqAnswer  + "</textarea></div>";
+                            value += "<input type='hidden' name='faqNo' value='" + list[i].faqNo + "'>";
+                                
+                            // 모달 푸터
+                            value += "<div class='modal-footer'><button type='submit' class='btn btn-primary'>수정</button></div></form></div></div></div>";
                         }}
                         $("#accordion").append(value);
                         cpage++;
@@ -216,7 +295,7 @@
 
         $("#more-btn").click(function(){
            $.ajax({
-                url:"<%=contextPath%>/list.faq",
+                url:"<%=contextPath%>/faqFilter.ad",
                 type:"post",
                 data:{"cpage":cpage, "category":category},
                 success:function(map){
@@ -237,18 +316,41 @@
                             case "buy": list[j].category = "구매"; break;
                             case "sell": list[j].category = "판매"; break;
                         }
+
                         value += "<div class='card'>";
                         value += "<div class='card-header'>";
-                        value += "<a class='card-link' data-toggle='collapse' href='#collapse" + (j+(10*(cpage-1))) + "'>";
-                        value += "<span>[" + list[j].category + "]</span>" + list[j].faqQuestion + "</a></div>";
-                        value += "<div id='collapse" + (j+(10*(cpage-1))) +"' class='collapse' data-parent='#accordion'>";
+                        value += "<a class='card-link' data-toggle='collapse' href='#collapse" + (j+(20*(cpage-1))) + "'>";
+                        value += "<span>[" + list[j].category + "]</span>" + list[j].faqQuestion + "</a>";
+                        value += "<span class='writer'>작성자 : " + list[j].faqWriter + "</span>";
+                        value += "<button type='button' class='btn btn-outline-primary edit-btn' data-toggle='modal' data-target='#edit-modal" + (j+(10*(cpage-1))) +"'>수정</button>";
+                        value += "<button class='btn btn-outline-danger delete-btn' onclick='deleteFaq();'>삭제</button></div>";
+                        value += "<div id='collapse" + (j+(20*(cpage-1))) +"' class='collapse' data-parent='#accordion'>";
                         value += "<div class='card-body'>";
                         value += list[j].faqAnswer;
                         value += "</div></div></div>";
+
+                        // 수정 모달
+                        // 모달 헤더
+                        value += "<div class='modal' id='edit-modal" + (j+(10*(cpage-1))) +"'>";
+                        value += "<div class='modal-dialog modal-lg'><div class='modal-content'>";
+                        value += "<div class='modal-header'><h4 class='modal-titl'>자주묻는질문 수정</h4><button type='button' class='close' data-dismiss='modal'>&times;</button></div>";
+
+                        // 모달 바디
+                        value += "<form action='updateFaq.ad' method='post'><div class='modal-body'>";
+                        value += "* 카테고리 : <select name='category' id=''>";
+                        value += "<option value='policy'>이용정책</option>";
+                        value += "<option value='common'>공통</option>";
+                        value += "<option value='buy'>구매</option>";
+                        value += "<option value='sell'>판매</option>";
+                        value += "</select><br><br><br>* 질문 : <br><input type='text' style='width:750px' name='question' value='" + list[j].faqQuestion + "' required><br><br>"        
+                        value += "* 답변 : <br><textarea name='answer' cols='115' rows='10' style='resize:none' required>" + list[j].faqAnswer  + "</textarea></div>";
+                        value += "<input type='hidden' name='faqNo' value='" + list[j].faqNo + "'>";
+                            
+                        // 모달 푸터
+                        value += "<div class='modal-footer'><button type='submit' class='btn btn-primary'>수정</button></div></form></div></div></div>";
                     }}
                     $("#accordion").append(value);
                     cpage++;
-                    
                 }, error:function(){
                     console.log("faq 리스트 가져오기 통신 실패");
                 }
@@ -264,7 +366,7 @@
             cpage = 1;
 
             $.ajax({
-                url:"<%=contextPath%>/search.faq",
+                url:"<%=contextPath%>/searchFaq.ad",
                 type:"get",
                 data:{"cpage":cpage, "keyword":keyword},
                 success:function(map){
@@ -293,7 +395,8 @@
                             value += "<div class='card'>";
                             value += "<div class='card-header'>";
                             value += "<a class='card-link' data-toggle='collapse' href='#collapse" + [i] + "'>";
-                            value += "<span>[" + searchList[i].category + "]</span>" + searchList[i].faqQuestion + "</a></div>";
+                            value += "<span>[" + searchList[i].category + "]</span>" + searchList[i].faqQuestion + "</a>"
+                            value += "<span class='writer'>작성자 : " + searchList[i].faqWriter + "</span></div>";
                             value += "<div id='collapse" + [i] +"' class='collapse' data-parent='#accordion'>";
                             value += "<div class='card-body'>";
                             value += searchList[i].faqAnswer;
@@ -312,7 +415,7 @@
         $("#search-more-btn").click(function(){
             
             $.ajax({
-                url:"<%=contextPath%>/search.faq",
+                url:"<%=contextPath%>/searchFaq.ad",
                 type:"get",
                 data:{"cpage":cpage, "keyword":keyword},
                 success:function(map){
@@ -358,7 +461,9 @@
             })
         })
     
-    </script>
+       
 
+        
+    </script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="com.scale.policy.model.vo.Policy"%>
+<% Policy p = (Policy)request.getAttribute("p"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -78,9 +79,11 @@
         <div class="outer-2">
             <div class="title">
                 <h2><b>검수정책</b></h2>
-                <br>
             </div>
             <br><br>
+            <div align="left">
+            	<%= p.getPolicyContent() %>
+            </div>
         </div>
     </div>
 </body>

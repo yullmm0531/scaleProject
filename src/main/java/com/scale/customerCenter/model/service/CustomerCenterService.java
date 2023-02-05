@@ -353,4 +353,128 @@ public class CustomerCenterService {
 		return result;
 	}
 	
+	// faq
+	
+	public ArrayList<Faq> selectAdminFaqListAll(PageInfo pi){
+		Connection conn = getConnection();
+		ArrayList<Faq> list = new CustomerCenterDao().selectAdminFaqListAll(conn, pi);
+		close(conn);
+		return list;
+	}
+	
+	public int insertFaq(Faq f) {
+		Connection conn = getConnection();
+		int result = new CustomerCenterDao().insertFaq(conn, f);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+	
+	/**
+	 * 카테고리별 faq 개수 조회
+	 * @param category
+	 * @return 카테고리별 faq 개수
+	 */
+	public int selectAdminFaqListCount(String category) {
+		Connection conn = getConnection();
+		int listCount = new CustomerCenterDao().selectAdminFaqListCount(conn, category);
+		close(conn);
+		return listCount;
+	}
+	
+	
+	/**
+	 * faq 카테고리별 리스트 조회
+	 * @param category
+	 * @param pi
+	 * @return faq 카테고리별 리스트
+	 */
+	public ArrayList<Faq> selectAdminFaqList(String category, PageInfo pi){
+		Connection conn = getConnection();
+		ArrayList<Faq> list = new CustomerCenterDao().selectAdminFaqList(conn, category, pi);
+		close(conn);
+		return list;
+	}
+	
+	/**
+	 * faq 검색결과 개수 조회
+	 * @param keyword
+	 * @return faq 검색결과 개수
+	 */
+	public int selectAdminFaqSearchCount(String keyword) {
+		Connection conn = getConnection();
+		int searchCount = new CustomerCenterDao().selectAdminFaqSearchCount(conn, keyword);
+		close(conn);
+		return searchCount;
+	}
+	
+	public ArrayList<Faq> selectAdminFaqSearchList(String keyword, PageInfo pi){
+		Connection conn = getConnection();
+		ArrayList<Faq> searchList = new CustomerCenterDao().selectAdminFaqSearchList(conn, keyword, pi);
+		close(conn);
+		return searchList;
+	}
+	
+	public int updateFaq(Faq f) {
+		Connection conn = getConnection();
+		int result = new CustomerCenterDao().updateFaq(conn, f);
+		close(conn);
+		return result;
+	}
+	
+	public int deleteFaq(int faqNo) {
+		Connection conn = getConnection();
+		int result = new CustomerCenterDao().deleteFaq(conn, faqNo);
+		close(conn);
+		return result;
+	}
+	
+	// ------------- 1:1문의 --------------------------
+	
+	public int selectAdminInquireCount() {
+		Connection conn = getConnection();
+		int listCount = new CustomerCenterDao().selectAdminInquireCount(conn);
+		close(conn);
+		return listCount;
+	}
+	
+	public ArrayList<Inquire> selectAdminInquireList(PageInfo pi){
+		Connection conn = getConnection();
+		ArrayList<Inquire> list = new  CustomerCenterDao().selectAdminInquireList(conn, pi);
+		close(conn);
+		return list;
+	}
+	
+	public Inquire selectAdminInquireDetail(int inquireNo) {
+		Connection conn = getConnection();
+		Inquire iq = new CustomerCenterDao().selectAdminInquireDetail(conn, inquireNo);
+		close(conn);
+		return iq;
+	}
+	
+	public int updateAnswer(Inquire iq) {
+		Connection conn = getConnection();
+		int result = new CustomerCenterDao().updateAnswer(conn, iq);
+		close(conn);
+		return result;
+	}
+	
+	public int selectAdminInquireCountCategory(String category) {
+		Connection conn = getConnection();
+		int result = new CustomerCenterDao().selectAdminInquireCountCategory(conn, category);
+		close(conn);
+		return result;
+	}
+	
+	public ArrayList<Inquire> selectAdminInquireListCategory(String category, PageInfo pi){
+		Connection conn = getConnection();
+		ArrayList<Inquire> list = new CustomerCenterDao().selectAdminInquireListCategory(conn, category, pi);
+		close(conn);
+		return list;
+	}
 }

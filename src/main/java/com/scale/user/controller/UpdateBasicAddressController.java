@@ -1,4 +1,4 @@
-package com.scale.customerCenter.controller;
+package com.scale.user.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,17 +7,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.scale.user.model.service.UserService;
+
 /**
- * Servlet implementation class InspectionPolicyController
+ * Servlet implementation class UpdateBasicAddressController
  */
-@WebServlet("/inspection.po")
-public class InspectionPolicyController extends HttpServlet {
+@WebServlet("/updateBasicAddress.us")
+public class UpdateBasicAddressController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InspectionPolicyController() {
+    public UpdateBasicAddressController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -26,7 +28,11 @@ public class InspectionPolicyController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("views/customerCenter/inspectionPolicy.jsp").forward(request, response);
+		
+		int addressNo = Integer.parseInt(request.getParameter("AddressNo"));
+		int userNoNo = Integer.parseInt(request.getParameter("userNo"));
+		
+		int result = new UserService().updateBasicAddress(addressNo);
 	}
 
 	/**

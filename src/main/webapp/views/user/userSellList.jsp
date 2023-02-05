@@ -237,9 +237,10 @@
         
         
         <% for(Product p : list){ %>
-         <div class="wrap-div" style=" cursor: pointer;" onclick="test1(this);">
-         		
+         <div class="wrap-div" style=" cursor: pointer;" onclick="test1(<%= p.getBiddingNo() %>, <%= p.getUserNo() %>);">
+         
          		<input type="hidden" value="<%= p.getBiddingNo() %>">
+         		<input type="hidden" value="<%= p.getUserNo() %>">
             <div class="sell-product-div1">
                 <div class="img">
                     <img src="<%=p.getProductImgM() %>" alt="사용자이미지" id="sell-img">
@@ -293,9 +294,9 @@
         <script>
     	
     	
-    	function test1(e){
+    	function test1(e1,e2){
     		
-    		location.href = "<%=contextPath%>/UserDetailSellList.us?biddingNo=" + $(e).children("input").val();
+    		location.href = "<%=contextPath%>/UserDetailSellList.us?biddingNo=" + e1 + "&userNo=" + e2;
     	}
     </script>
         

@@ -216,6 +216,7 @@
 		    ,DEAL_DATE
 		    ,DEAL_STEP
 		    ,BIDDING_NO
+		    ,USER_NO
 		FROM
 			TB_PRODUCT
 		JOIN TB_BRAND USING(BRAND_CODE)
@@ -248,7 +249,7 @@
 			TB_PRODUCT
 		JOIN TB_BRAND USING(BRAND_CODE)
 		JOIN TB_BIDDING USING(PRODUCT_CODE)
-			WHERE BIDDING_NO = ?
+			WHERE USER_NO = ?
 			  	AND BIDDING_TYPE = 2
 			    AND DEAL_CHECK != 'N'
 	</entry>
@@ -303,20 +304,7 @@
 		  )
 	</entry>
 	
-	<entry key="selectBasicAddress">
-		SELECT 
-			ADDRESS_NO
-		  , ZIPCODE
-		  , ADDRESS1
-		  , ADDRESS2
-		  , RECIPIENT
-		  , PHONE
-		  , USER_NO
-		  , DEFAULT_ADD
-		  FROM TB_ADDRESS
-		 WHERE USER_NO = ?
-		   
-	</entry>
+	
 	
 	<entry key="userSellBidding">
 		SELECT
@@ -427,6 +415,112 @@
 		  , 'Y'
 		  , ?
 		  )
+	</entry>
+	
+	<entry key="selectBasicAddressList">
+		SELECT 
+			
+		   ADDRESS_NO
+		  , ZIPCODE
+		  , ADDRESS1
+		  , ADDRESS2
+		  , RECIPIENT
+		  , PHONE
+		  , USER_NO
+		  
+		  
+		  FROM TB_ADDRESS
+		 WHERE USER_NO = ?
+		   
+	</entry>
+	
+	<entry key="updateBasicAddress">
+		UPDATE 
+			   TB_ADDRESS
+		   SET DEFAULT_ADD = 'Y'
+		       
+		 WHERE ADDRESS_NO = ?
+	</entry>
+	
+	<entry key="selectDetailSellList">
+		SELECT 
+			
+		   BIDDING_PRICE
+		  , BIDDING_DATE
+		  , INSPECTION_COST
+		  , COMMISSION
+		  , RECIPIENT_NAME
+		  , RECIPIENT_PHONE
+		  , RECIPIENT_ZIPCODE
+		  , RECIPIENT_ADDRESS
+		  , RECIPIENT_SHIPPING_MSG
+		  , DEAL_DATE
+		  , BANK_NAME
+		  , BANK_ACCOUNT
+		  , BANK_OWNER_NAME
+		  , ADJUSTMENT_PRICE
+		  
+		  		  
+		  FROM TB_BIDDING B
+		  	JOIN TB_SELLER ON(USER_NO = SELLER_NO)
+		 WHERE USER_NO = ?
+		 		AND B.BIDDING_NO = ?
+			  	AND BIDDING_TYPE = 2
+			    AND DEAL_CHECK != 'N'
+		 	   
+		   
+	</entry>
+	
+	<entry key="userBuyList">
+		SELECT
+		    PRODUCT_IMG_M
+		    ,PRODUCT_NAME_ENG
+		    ,BRAND_NAME
+		    ,DEAL_DATE
+		    ,DEAL_STEP
+		    ,B.BIDDING_NO
+		    ,USER_NO
+		    ,PAYMENT_NUMBER
+		FROM
+			TB_PRODUCT
+		JOIN TB_BRAND USING(BRAND_CODE)
+		JOIN TB_BIDDING B USING(PRODUCT_CODE)
+		 JOIN TB_BUYER ON(USER_NO = BUYER_NO)
+			WHERE USER_NO = ?
+			  	AND BIDDING_TYPE = 1
+			    AND DEAL_CHECK != 'N'
+		   		 
+
+	</entry>
+	
+	
+	
+	<entry key="selectDetailBuyList">
+		SELECT 
+			
+		   PAYMENT_PRICE
+		  , DEAL_DATE
+		  , DELIVERY_FEE
+		  , BIDDING_PRICE
+		  , RECIPIENT_NAME
+		  , RECIPIENT_PHONE
+		  , RECIPIENT_ZIPCODE
+		  , RECIPIENT_ADDRESS
+		  , RECIPIENT_SHIPPING_MSG
+	
+		  , PAYMENT_METHOD
+		  , PAYMENT_NUMBER
+		  
+		  		  
+		  FROM TB_BIDDING 
+		  	JOIN TB_BUYER ON(USER_NO = BUYER_NO)
+		 WHERE USER_NO = ?
+		 		AND PAYMENT_NUMBER = ?
+		 		AND BIDDING_NO = ?
+			  	AND BIDDING_TYPE = 1
+			    AND DEAL_CHECK != 'N'
+		 	   
+		   
 	</entry>
 	
 </properties>

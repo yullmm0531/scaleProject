@@ -11,19 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.scale.common.model.vo.PageInfo;
 import com.scale.customerCenter.model.service.CustomerCenterService;
-import com.scale.customerCenter.model.vo.Notice;
+import com.scale.customerCenter.model.vo.Faq;
 
 /**
- * Servlet implementation class AdminNoticeListController
+ * Servlet implementation class AdminFaqListFormController
  */
-@WebServlet("/noticeList.ad")
-public class AdminNoticeListController extends HttpServlet {
+@WebServlet("/faqList.ad")
+public class AdminFaqListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AdminNoticeListController() {
+    public AdminFaqListController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,10 +33,10 @@ public class AdminNoticeListController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 페이징바
-		int listCount = new CustomerCenterService().selectAdminNoticeCount();
+		int listCount = new CustomerCenterService().selectFaqListCountAll();
 		int currentPage = Integer.parseInt(request.getParameter("cpage"));
 		int pageLimit = 5;
-		int boardLimit = 10;
+		int boardLimit = 20;
 		
 		int maxPage = (int)Math.ceil((double)listCount / boardLimit);
 		int startPage = (currentPage-1) / pageLimit * pageLimit + 1;
@@ -49,11 +49,12 @@ public class AdminNoticeListController extends HttpServlet {
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 		
 		// 페이지 조회
-		ArrayList<Notice> list = new CustomerCenterService().selectAdminNoticeList(pi);
+		ArrayList<Faq> list = new CustomerCenterService().selectAdminFaqListAll(pi);
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
 		
-		request.getRequestDispatcher("views/admin/customerCenter/adminNoticeListView.jsp").forward(request, response);
+		
+		request.getRequestDispatcher("views/admin/customerCenter/adminFaqListView.jsp").forward(request, response);
 	}
 
 	/**

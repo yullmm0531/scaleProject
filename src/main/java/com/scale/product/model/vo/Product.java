@@ -27,6 +27,10 @@ public class Product {
 	private int styleNo;
 	
 	private int count;
+	
+	private int userNo;
+	
+	private String paymentNo;
 
 	public int getStyleNo() {
 		return styleNo;
@@ -98,7 +102,8 @@ public class Product {
 	
 	
 
-	public Product(String productImgM, String productNameEng, String brandName, Date dealDate, int dealStep, int biddingNo) {
+	public Product(String productImgM, String productNameEng, String brandName, Date dealDate, int dealStep, int biddingNo,
+					int userNo, String paymentNo) {
 		super();
 		
 		this.productImgM = productImgM;
@@ -107,6 +112,8 @@ public class Product {
 		this.dealDate = dealDate;
 		this.dealStep = dealStep;
 		this.biddingNo = biddingNo;
+		this.userNo = userNo;
+		this.paymentNo = paymentNo;
 	}
 	
 	
@@ -136,6 +143,22 @@ public class Product {
 	}
 	
 	
+
+	public String getPaymentNo() {
+		return paymentNo;
+	}
+
+	public void setPaymentNo(String paymentNo) {
+		this.paymentNo = paymentNo;
+	}
+
+	public int getUserNo() {
+		return userNo;
+	}
+
+	public void setUserNo(int userNo) {
+		this.userNo = userNo;
+	}
 
 	public Date getBiddingDate() {
 		return biddingDate;

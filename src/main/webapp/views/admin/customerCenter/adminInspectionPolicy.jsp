@@ -4,80 +4,72 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지사항 등록</title>
+<title>검수정책</title>
 <style>
     .outer{
         width:1200px;
         margin:auto;
+        margin-top:50px;
     }
-    .outer-2{float:left; width:80%;}
+    .outer-2{width:80%;}
     .title{
-        margin:70px 0px;
+        text-align:center;
+        margin-bottom:30px;
     }
-    .mb-3 button{
-        background:black;
-        color:white;
+    #notiTitle{
+        font-weight:800;
+        font-size:18px;
     }
-    .table{
+    .inquire-form{
         text-align:center;
         font-size:14px;
     }
-    .rq-mark{color:red; margin-right:7px;}
-    .table input[type=radio]{
-	    margin:0px 10px;
+	.inquire-form textarea{
+	    width:60%
 	}
-    .enroll-form{
-        text-align:center;
-        font-size:14px;
-    }
-	.enroll-form textarea{
-	    width:60%;
+	.inquire-form input[type=text]{
+	    width:60%
 	}
-	.enroll-form input[type=text]{
-	    width:60%;
-        height:40px;
-	}
-	.enroll-form td{
+	.inquire-form td{
 	    text-align:left
+	}
+	.btn{
+	    margin:5px;
 	}
 </style>
 </head>
 <body>
-    <%@ include file="../common/adminMenubar.jsp"%>
-    <div class="outer" align="center">
+	<%@ include file="../common/adminMenubar.jsp" %>
+	
+	<div class="outer" align="center">
         <div class="outer-2">
             <div class="title">
-                <h2><b>공지사항 등록</b></h2>
+                <h2><b>검수정책 관리</b></h2>
                 <br>
             </div>
-            <div class="form-area">
-            <form class="enroll-form" action="enrollNotice.ad" method="post">
+            <br><br>
+        </div>
+        <div class="form-area">
+            <form class="enroll-form" action="inspection.ad" method="post">
                 <table class="table enroll-form">
                     <tr>
-                        <th><span class="rq-mark">*</span>제목</th>
-                        <td><input type="text" name="title" placeholder="공지사항 제목을 입력해주세요."></td>
-                    </tr>
-                    <tr>
-                        <th height="200"><span class="rq-mark">*</span>내용</th>
+                        <th height="200"><span class="rq-mark">*</span>검수 정책 내용</th>
                         <td>
                             <textarea name="noticeDoc" id="summernote"></textarea>
                         </td>
                     </tr>
                     <tr>
-                        <th><span class="rq-mark">*</span>공개여부</th>
+                        <th>최종 수정일</th>
                         <td>
-                            <input type="radio" name="display" value="Y"> 공개
-                            <input type="radio" name="display" value="N" checked> 비공개
+                            <input type="radio" name="display" value="Y"> ㅎㅎ
                         </td>
-                   		
                     </tr>
                 </table>
-                <input type="hidden" name="noticeWriter" value="<%=adminUser.getUserNo()%>">
                 <button type="submit" class="btn btn-dark">등록</button>
             </form>
             <br><br>
         	</div>
-    </div>
+        </div>
     </div>
 
 <!-- include summernote css/js-->

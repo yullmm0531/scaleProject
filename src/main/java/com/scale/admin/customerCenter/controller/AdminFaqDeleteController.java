@@ -1,29 +1,27 @@
-package com.scale.user.controller;
+package com.scale.admin.customerCenter.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import com.scale.product.model.vo.Product;
-import com.scale.user.model.service.UserService;
-import com.scale.user.model.vo.Address;
+import com.scale.customerCenter.model.service.CustomerCenterService;
 
 /**
- * Servlet implementation class PaymentAndShippingOnlyView
+ * Servlet implementation class AdminFaqDeleteController
  */
-@WebServlet("/paymentAndShippingOnlyView.us")
-public class PaymentAndShippingOnlyView extends HttpServlet {
+@WebServlet("/deleteFaq.ad")
+public class AdminFaqDeleteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PaymentAndShippingOnlyView() {
+    public AdminFaqDeleteController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,16 +30,19 @@ public class PaymentAndShippingOnlyView extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int faqNo = Integer.parseInt(request.getParameter("faqNo"));
 		
-		int userNo = Integer.parseInt(request.getParameter("userNo"));
+		int result = new CustomerCenterService().deleteFaq(faqNo);
 		
+		HttpSession session = request.getSession();
+		if(result > 0) {
+			session.setAttribute("alertMsg", "삭제되었습니다.");
+		}else {
+			session.setAttribute("alertMsg", "삭제 실패");
+		}
 		
+		response.sendRedirect(request.getContextPath() + "/faqList.ad?cpage=1");
 		
-		//ArrayList<Address> list = new UserService().selectBasicAddressList(userNo);
-		
-		
-		//request.setAttribute("list", list);
-		request.getRequestDispatcher("views/user/userPaymentAndShipping.jsp").forward(request, response);
 	}
 
 	/**

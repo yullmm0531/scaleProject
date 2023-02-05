@@ -267,7 +267,7 @@ public Product userDetailImg(int biddingNo) {
 		Connection conn = getConnection();
 		int result = new UserDao().updatePaymentAndShipping(conn, ad);
 		
-		Address ba = null;
+		
 		if(result > 0) {
 			commit(conn);
 			
@@ -278,15 +278,7 @@ public Product userDetailImg(int biddingNo) {
 		return result;
 	}
 	
-	public Address selectBasicAddress(int userNo) {
-		
-		Connection conn = getConnection();
-		Address ad = new UserDao().selectBasicAddress(conn, userNo);
-		
-		close(conn);
-		
-		return ad;
-	}
+	
 	
 	public ArrayList<Product> userSellBidding(int userNo) {
 		Connection conn = getConnection();
@@ -326,5 +318,62 @@ public Product userDetailImg(int biddingNo) {
 		close(conn);
 		
 		return result;
+	}
+	/*
+	public ArrayList<Address> selectBasicAddressList(int userNo){
+		
+		Connection conn = getConnection();
+		ArrayList<Address> list = new UserDao().selectBasicAddressList(conn, userNo);
+		
+		close(conn);
+		
+		return list;
+		
+	}
+	*/
+	public int updateBasicAddress(int addressNo) {
+		
+		Connection conn = getConnection();
+		int result = new UserDao().updateBasicAddress(conn, addressNo);
+		
+		
+		if(result > 0) {
+			commit(conn);
+			
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+	
+	public Bidding selectDetailSellList(int userNo, int biddingNo) {
+		
+		Connection conn = getConnection();
+		Bidding b1 = new UserDao().selectDetailSellList(conn, userNo, biddingNo);
+		
+		close(conn);
+		
+		return b1;
+	}
+	
+	public ArrayList<Product> userBuyList(int userNo) {
+		
+		Connection conn = getConnection();
+		ArrayList<Product> list = new UserDao().userBuyList(conn, userNo);
+		close(conn);
+		return list;
+	}
+	
+	
+	
+	public Bidding selectDetailBuyList(String paymentNo,int userNo,int biddingNo) {
+		
+		Connection conn = getConnection();
+		Bidding b1 = new UserDao().selectDetailBuyList(conn, paymentNo, userNo, biddingNo);
+		
+		close(conn);
+		
+		return b1;
 	}
 }
