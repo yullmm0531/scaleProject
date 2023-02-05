@@ -319,7 +319,7 @@ public Product userDetailImg(int biddingNo) {
 		
 		return result;
 	}
-	
+	/*
 	public ArrayList<Address> selectBasicAddressList(int userNo){
 		
 		Connection conn = getConnection();
@@ -330,7 +330,7 @@ public Product userDetailImg(int biddingNo) {
 		return list;
 		
 	}
-	
+	*/
 	public int updateBasicAddress(int addressNo) {
 		
 		Connection conn = getConnection();

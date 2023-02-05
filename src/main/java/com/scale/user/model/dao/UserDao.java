@@ -840,7 +840,7 @@ public class UserDao {
 		return result;
 		
 	}
-	
+/*	
 public ArrayList<Address> selectBasicAddressList(Connection conn, int userNo){
 		
 		ArrayList<Address> list = new ArrayList<>();
@@ -879,7 +879,7 @@ public ArrayList<Address> selectBasicAddressList(Connection conn, int userNo){
 		return list;
 		
 	}
-	
+	*/
 	public int updateBasicAddress(Connection conn, int addressNo) {
 		
 		int result = 0;

@@ -37,10 +37,10 @@ public class PaymentAndShippingOnlyView extends HttpServlet {
 		
 		
 		
-		ArrayList<Address> list = new UserService().selectBasicAddressList(userNo);
+		//ArrayList<Address> list = new UserService().selectBasicAddressList(userNo);
 		
 		
-		request.setAttribute("list", list);
+		//request.setAttribute("list", list);
 		request.getRequestDispatcher("views/user/userPaymentAndShipping.jsp").forward(request, response);
 	}
 
