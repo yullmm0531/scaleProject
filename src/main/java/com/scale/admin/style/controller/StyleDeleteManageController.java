@@ -1,7 +1,6 @@
 package com.scale.admin.style.controller;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,16 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 import com.scale.style.model.service.StyleService;
 
 /**
- * Servlet implementation class ReportDetailController
+ * Servlet implementation class StyleDeleteManageController
  */
-@WebServlet("/detailStyle.ad")
-public class ReportDetailController extends HttpServlet {
+@WebServlet("/deleteStyle.ad")
+public class StyleDeleteManageController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReportDetailController() {
+    public StyleDeleteManageController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,15 +29,17 @@ public class ReportDetailController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int styleNo = Integer.parseInt(request.getParameter("no"));
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
-		HashMap<String, Object> map = new StyleService().selectStyleDetail(styleNo);
+		String[] noArr = request.getParameterValues("styleNo");
+		int result = new StyleService().deleteStyle(noArr);
 		
-		request.setAttribute("st", map.get("st"));
-		request.setAttribute("ilist", map.get("ilist"));
-		request.setAttribute("plist", map.get("p"));
-		request.setAttribute("cpage", cpage);
-		request.getRequestDispatcher("views/admin/style/manageDetailView.jsp").forward(request, response);
+		if(result == noArr.length) {
+			request.getSession().setAttribute("alertMsg", "성공적으로 스타일이 삭제되었습니다.");
+		} else {
+			request.getSession().setAttribute("alertMsg", "스타일 삭제 실패.");
+		}
+		
+		response.sendRedirect(request.getContextPath() + "/stylelist.ad?cpage=" + cpage);
 	}
 
 	/**

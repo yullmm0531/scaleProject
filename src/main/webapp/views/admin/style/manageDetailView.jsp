@@ -2,12 +2,14 @@
     pageEncoding="UTF-8" %>
 <%@ page import="com.scale.style.model.vo.*
 			  , java.util.ArrayList
-			  , com.scale.product.model.vo.Product" 
+			  , com.scale.product.model.vo.Product
+              , java.net.URLEncoder" 
 %>
 <%
 	Style st = (Style)request.getAttribute("st");
     ArrayList<StyleImg> ilist = (ArrayList<StyleImg>)request.getAttribute("ilist");
     ArrayList<Product> plist = (ArrayList<Product>)request.getAttribute("plist");
+    int cpage = (int)request.getAttribute("cpage");
 %>
 <!DOCTYPE html>
 <html>
@@ -57,7 +59,7 @@
     <%@ include file="../common/adminMenubar.jsp" %>
 
     <div class="outer" align="center">
-
+        <br><br>
         <table>
             <tr>
                 <td class="profile-td">
@@ -102,7 +104,6 @@
                         <% for(int p=0; p< plist.size(); p++) { %>
                             <% if(st.getStyleNo() == plist.get(p).getStyleNo()) { %>
                             <div>
-                                <input type='hidden' value='<%= plist.get(p).getProductCode() %>'>
                                 <img src='<%= contextPath %>/<%= plist.get(p).getProductImgM() %>'>
                                 <div><%= plist.get(p).getBrandName() %></div>
                                 <div><%= plist.get(p).getProductNameKo() %></div>
@@ -135,7 +136,7 @@
         <br><br>
 
         <div align="center">
-        	<a href="<%= contextPath %>/deleteStyle.ad?no=<%= st.getStyleNo() %>" class="btn btn-danger">삭제하기</a>
+            <a id="deletebtn" class="btn btn-danger">삭제하기</a>
             <a class="btn btn-secondary" onclick="history.back()">목록가기</a>
         </div>
 
@@ -143,9 +144,15 @@
 
     <script>
         $(function(){
-            if($(this).children().length == 0){
-                $(this).parent().prev().children().children().remove();
+            if($(".pd-info").children().length == 0){
+                $(".pd-tag").remove();
             }
+        })
+
+        $("#deletebtn").click(function(){
+            let styleNo = <%= st.getStyleNo() %>;
+            let cpage = <%= cpage %>;
+            location.href = '<%= contextPath %>/deleteStyle.ad?styleNo=' + styleNo + '&cpage=' + cpage;
         })
     </script>
 </body>

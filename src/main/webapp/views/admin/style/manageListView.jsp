@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.ArrayList, com.scale.style.model.vo.*, com.scale.common.model.vo.PageInfo" %>
+<%@ page import="java.util.ArrayList, com.scale.style.model.vo.*, com.scale.common.model.vo.PageInfo, java.net.URLEncoder" %>
 <%
 	ArrayList<Style> list = (ArrayList<Style>)request.getAttribute("list");
 	ArrayList<StyleImg> ilist = (ArrayList<StyleImg>)request.getAttribute("ilist");
@@ -96,6 +96,10 @@
         background:black;
         color:white;
     }
+    
+    .pagination{
+        justify-content: center;
+    }
 </style>
 </head>
 <body>
@@ -110,20 +114,21 @@
         </div>
 
         <div>
-            <div>
-                <div id="period">기간 설정</div>
-                <input type="date"> - <input type="date">
-            </div>
-            <br>
             <select id="standard">
                 <option value="bannerName" selected>닉네임</option>
                 <option value="category">해쉬태그</option>
             </select>
-            <input type="search" id="search">
+            <input type="search" id="search" required>
             <button id="search-btn">검색</button>
+            <br><br>
+            <div>
+                <div id="period">기간 설정</div>
+                <input type="date" id="date1"> - <input type="date" id="date2">
+            </div>
         </div>
 
         <form action="<%= contextPath %>/deleteStyle.ad" method="post">
+            <input type="hidden" name="cpage" value="<%= pi.getCurrentPage() %>">
             <div align="right">
                 <button type="submit" class="btn btn-outline-danger">삭제</button>
             </div>
@@ -144,11 +149,12 @@
                                             <div class='carousel-item active'>
                                                 <img class='cimg' src='<%= contextPath %>/<%= ilist.get(j).getFilePath() %>/<%= ilist.get(j).getChangeName() %>' onclick='detail(this);'>
                                                 <input type="hidden" value="<%= list.get(i).getStyleNo() %>">
+                                                <input type="hidden" value="<%= pi.getCurrentPage() %>">
                                             </div>
                                         <% } else if(list.get(i).getStyleNo() == ilist.get(j).getStyleNo() && ilist.get(j).getFileLevel() == 2) { %>
                                             <div class='carousel-item'>
                                                 <img class='cimg' src='<%= contextPath %>/<%= ilist.get(j).getFilePath() %>/<%= ilist.get(j).getChangeName() %>' onclick='detail(this);'>
-                                                <input type="hidden" value="<%= list.get(i).getStyleNo() %>">
+                                                <input type="hidden" value="<%= pi.getCurrentPage() %>">
                                             </div>
                                         <% } %>
                                     <% } %>
@@ -196,35 +202,56 @@
 
         <br>
 
-        <ul class="paging-area pagination">
-            <% if(pi.getCurrentPage() != 1) { %>
-            <li class="page-item">
-                <a class="page-link" href="<%= contextPath %>/stylelist.ad?cpage=<%= pi.getCurrentPage()-1 %>">&lt;</a>
-            </li>
-            <% } %>
-            
-            <% for(int p=pi.getStartPage(); p<=pi.getEndPage(); p++) { %>
+        
+            <ul class="pagination">
+                <% if(pi.getCurrentPage() != 1) { %>
                 <li class="page-item">
-                    <a class="page-link" href="<%= contextPath %>/stylelist.ad?cpage=<%= p %>"><%= p %></a>
+                    <a class="page-link" href="<%= contextPath %>/stylelist.ad?cpage=<%= pi.getCurrentPage()-1 %>">&lt;</a>
                 </li>
-            <% } %>
-            
-            <% if(pi.getCurrentPage() != pi.getMaxPage() && pi.getMaxPage() != 0) { %>
-                <li class="page-item">
-                    <a class="page-link" href="<%= contextPath %>/stylelist.ad?cpage=<%= pi.getCurrentPage()+1 %>">&gt;</a>
-                </li>
-            <% } %>
-        </ul>
+                <% } %>
+                
+                <% for(int p=pi.getStartPage(); p<=pi.getEndPage(); p++) { %>
+                    <li class="page-item">
+                        <a class="page-link" href="<%= contextPath %>/stylelist.ad?cpage=<%= p %>"><%= p %></a>
+                    </li>
+                <% } %>
+                
+                <% if(pi.getCurrentPage() != pi.getMaxPage() && pi.getMaxPage() != 0) { %>
+                    <li class="page-item">
+                        <a class="page-link" href="<%= contextPath %>/stylelist.ad?cpage=<%= pi.getCurrentPage()+1 %>">&gt;</a>
+                    </li>
+                <% } %>
+            </ul>
+        
         <br><br>
     </div>
 
     <script>
         function detail(e){
-            location.href = "<%= contextPath %>/detailStyle.ad?no=" + $(e).next().val();
+            location.href = "<%= contextPath %>/detailStyle.ad?no=" + $(e).next().val() + "&cpage=" + $(e).next().next().val();
         }
+
+        $("button[type='submit']").click(function(){
+            if($(".check").is(':checked') == false){
+                alert("삭제할 스타일을 선택해주세요.");
+                $("form").attr("action", "");
+            }
+        })
+
+        $("#search-btn").click(function(){
+            if($("#search").val() == ""){
+                alert("검색어를 입력해주세요.");
+            } else {
+                let keyword;
+                if($("#search").val().charAt(0) == '#'){
+                    keyword = $("#search").val().substring(1);
+                } else {
+                    keyword = $("#search").val();
+                }
+                location.href = "<%= contextPath %>/searchStyle.ad?keyword=" + keyword;
+            }
+        })
     </script>
-
-
 
 </body>
 </html>

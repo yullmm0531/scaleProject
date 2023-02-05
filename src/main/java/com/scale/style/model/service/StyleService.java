@@ -282,4 +282,25 @@ public class StyleService {
 		
 		return map;
 	}
+	
+	public int deleteStyle(String[] noArr) {
+		Connection conn = getConnection();
+		int result1 = 0;
+		int result2 = 0;
+		for(String no : noArr) {
+			result1 += new StyleDao().deleteStyle(conn, no);
+			if(new StyleDao().deleteStyle(conn, no) != 0) {
+				result2 += new StyleDao().deleteStyleImg(conn, no);
+			}
+		}
+		
+		if(result1 == noArr.length) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result1;
+	}
 }
