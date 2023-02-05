@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="java.util.ArrayList, com.scale.product.model.vo.Product"%>
+<%
+	ArrayList<Product> list = (ArrayList<Product>)request.getAttribute("list");
+%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,17 +35,22 @@
         #sellingList-div3{float: left;}
         
         .wrap-div{
-            border:5px solid red;
+            
             width:60%;
             height:250px;
         }
 
         .buy-product-div1, .buy-product-div2, .buy-product-div3, .buy-product-div4{
-            border:5px solid blue;
+            
             height:100%;
             box-sizing:border-box;
             /*display:inline-block;*/
             float:left;
+        }
+        #buy-img{
+        	width:100%;
+        	height:100%;
+        	
         }
         .buy-product-div1{
             width:30%;
@@ -50,23 +60,36 @@
         }
         .buy-product-div3{
             width:25%;
+            text-align: center;
+            padding: 100px 0;
+            
         }
         .buy-product-div4{
             width:20%;
+            text-align: center;
+            padding: 100px 0;
         }
+        
+        
 
         
-        .product-name, .product-ex{
-            border:5px solid yellow;
+        .brand-name, .product-ex{
+            
             width:100%;
             /*height:50%;*/
             box-sizing:border-box;
         }
-        .product-name{
+        .brand-name{
             height:40%;
+            text-align: center;
+            padding: 20px 0;
+            font-weight: 800;
         }
         .product-ex{
             height:60%;
+            text-align: center;
+            margin-top: -30%;
+            font-weight: 500;
         }
         
         
@@ -211,19 +234,42 @@
 			        <br><br>
 			        <div class="title-div"><h4>구매한 상품 목록</h4></div>
 			        
-				        <div class="wrap-div">
-				            <div class="buy-product-div1">
-				                <div class="img">
-				                    <img src="" alt="사용자이미지" id="buy-img">
-				                </div>
-				            </div>
-				            <div class="buy-product-div2">
-				                <div class="product-name"></div>
-				                <div class="product-ex"></div>
-				            </div>
-				            <div class="buy-product-div3"></div>
-				            <div class="buy-product-div4"></div>
-				        </div>
+	  <% for(Product p : list){ %>
+         <div class="wrap-div" style=" cursor: pointer;" onclick="test1(this);">
+         		
+         		<input type="hidden" value="<%= p.getUserNo() %>">
+            <div class="buy-product-div1">
+                <div class="img">
+                    <img src="<%=p.getProductImgM() %>" alt="사용자이미지" id="buy-img">
+                </div>
+            </div>
+            <div class="buy-product-div2">
+                <div class="brand-name"><%=p.getBrandName() %></div>
+                <br><br>
+                <div class="product-ex"><%=p.getProductNameEng() %></div>
+            </div>
+            <div class="buy-product-div3"><%=p.getDealDate() %></div>
+            
+            
+            <div class="buy-product-div4">
+            
+            	
+            <a href="">스타일올리기</a>
+            	
+            
+            </div>
+            
+        </div>
+        <% } %>
+        
+        <script>
+    	
+    	
+    	function test1(e){
+    		
+    		location.href = "<%=contextPath%>/UserDetailBuyList.us?userNo=" + $(e).children("input").val();
+    	}
+    </script>
 			        
 			        
 			    </div>

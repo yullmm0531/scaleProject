@@ -40,7 +40,7 @@ public class Bidding {
 	private String productNameEng;
 	private String productNameKo;
 	private String dealCheck;
-	
+	private Date dealDate;
 	
 	public Bidding() {
 		
@@ -167,8 +167,38 @@ public class Bidding {
 		this.dealCheck = dealCheck;
 	}
 	
+	public Bidding(String biddingPrice, Date biddingDate, int inspectionCost, int commission, String recipientName, String recipientPhone, String recipientZipCode,
+					String recipientAddress,String recipientShippingMsg, Date dealDate, String bankName, String bankAccount, String bankOwnerName, String adjustmentPrice) {
+		super();
+		
+		this.biddingPrice = biddingPrice;
+		this.biddingDate = biddingDate;
+		this.inspectionCost = inspectionCost;
+		this.commission = commission;
+		this.recipientName = recipientName;
+		this.recipientPhone = recipientPhone;
+		this.recipientZipCode = recipientZipCode;
+		this.recipientAddress = recipientAddress;
+		this.recipientShippingMsg = recipientShippingMsg;
+		this.dealDate = dealDate;
+		this.bankName = bankName;
+		this.bankAccount = bankAccount;
+		this.bankOwnerName = bankOwnerName;
+		this.adjustmentPrice = adjustmentPrice;
+	}
 	
 	
+	
+
+	public Date getDealDate() {
+		return dealDate;
+	}
+
+
+	public void setDealDate(Date dealDate) {
+		this.dealDate = dealDate;
+	}
+
 
 	public int getProductSize() {
 		return productSize;

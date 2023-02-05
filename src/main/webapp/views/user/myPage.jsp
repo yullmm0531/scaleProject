@@ -204,7 +204,7 @@
                     <div class="sideMenu-div">
                         <li><a href="">쇼핑정보</a>
                             <ul>
-                                <li><a href="<%=contextPath %>/userBuyList.us">구매내역</a></li>
+                                <li><a href="<%=contextPath %>/userBuyList.us?userNo=<%=userNo%>">구매내역</a></li>
                                 
                                 <li>
                                 	<a href="<%=contextPath %>/userSellList.us?userNo=<%=userNo%>">판매내역</a>

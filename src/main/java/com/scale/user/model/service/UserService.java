@@ -347,5 +347,21 @@ public Product userDetailImg(int biddingNo) {
 		return result;
 	}
 	
-
+	public Bidding selectDetailSellList(int userNo) {
+		
+		Connection conn = getConnection();
+		Bidding b1 = new UserDao().selectDetailSellList(conn, userNo);
+		
+		close(conn);
+		
+		return b1;
+	}
+	
+	public ArrayList<Product> userBuyList(int userNo) {
+		
+		Connection conn = getConnection();
+		ArrayList<Product> list = new UserDao().userBuyList(conn, userNo);
+		close(conn);
+		return list;
+	}
 }

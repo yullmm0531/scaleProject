@@ -495,6 +495,7 @@ public class UserDao {
 				p.setDealDate(rset.getDate("deal_date"));
 				p.setDealStep(rset.getInt("deal_step"));
 				p.setBiddingNo(rset.getInt("bidding_no"));
+				p.setUserNo(rset.getInt("user_no"));
 				list.add(p);
 			}
 		} catch (SQLException e) {
@@ -899,5 +900,87 @@ public ArrayList<Address> selectBasicAddressList(Connection conn, int userNo){
 			close(pstmt);
 		}
 		return result;
+	}
+	
+	public Bidding selectDetailSellList(Connection conn, int userNo) {
+		
+		Bidding b1 = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+						
+		String sql = prop.getProperty("selectDetailSellList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+						
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				
+				b1 = new Bidding(
+						rset.getString("BIDDING_PRICE")
+						,rset.getDate("BIDDING_DATE")
+						,rset.getInt("INSPECTION_COST")
+						,rset.getInt("COMMISSION")
+						,rset.getString("RECIPIENT_NAME")
+						,rset.getString("RECIPIENT_PHONE")
+						,rset.getString("RECIPIENT_ZIPCODE")
+						,rset.getString("RECIPIENT_ADDRESS")
+						,rset.getString("RECIPIENT_SHIPPING_MSG")
+						,rset.getDate("DEAL_DATE")
+						,rset.getString("BANK_NAME")
+						,rset.getString("BANK_ACCOUNT")
+						,rset.getString("BANK_OWNER_NAME")
+						,rset.getString("ADJUSTMENT_PRICE")
+						);
+												
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return b1;
+	}
+	
+	public ArrayList<Product> userBuyList(Connection conn, int userNo) {
+		
+		ArrayList<Product> list = new ArrayList<>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("userBuyList");
+		
+		
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Product p = new Product();
+				p.setProductImgM(rset.getString("product_img_m"));
+				p.setProductNameEng(rset.getString("product_name_eng"));
+				p.setBrandName(rset.getString("brand_name"));
+				p.setDealDate(rset.getDate("deal_date"));
+				p.setDealStep(rset.getInt("deal_step"));
+				p.setBiddingNo(rset.getInt("bidding_no"));
+				p.setUserNo(rset.getInt("user_no"));
+				list.add(p);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
 	}
 }

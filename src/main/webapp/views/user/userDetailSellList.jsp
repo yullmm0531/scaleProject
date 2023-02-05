@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.scale.product.model.vo.Product"%>
+    pageEncoding="UTF-8" import="com.scale.product.model.vo.Product, com.scale.bidding.model.vo.Bidding"%>
     
     <%
-	Product p = (Product)request.getAttribute("userDetailImg");
-	
+	Product p1 = (Product)request.getAttribute("userDetailImg");
+    Bidding b1 = (Bidding)request.getAttribute("userDetailSellList");
 	%>
 <!DOCTYPE html>
 <html>
@@ -231,13 +231,13 @@
          
 		            <div class="sell-product-div1">
 		                <div class="img">
-		                    <img src="<%=p.getProductImgM() %>" alt="사용자이미지" id="sell-img">
+		                    <img src="<%=p1.getProductImgM() %>" alt="사용자이미지" id="sell-img">
 		                </div>
 		            </div>
 		            <div class="sell-product-div2">
-		                <div class="brand-name"><%=p.getBrandName() %></div>
+		                <div class="brand-name"><%=p1.getBrandName() %></div>
 		                <br><br>
-		                <div class="product-ex"><%=p.getProductNameEng() %></div>
+		                <div class="product-ex"><%=p1.getProductNameEng() %></div>
 		            </div>
 		        </div>
 		        <br><br>
@@ -249,37 +249,34 @@
 		            </div>
 		                <div id="payment-fee-div">
 		                    <div id="payment-fee-tag"><span>정산금액</span></div>
-		                    <div id="payment-fee"><span>금액</span></div>
+		                    <div id="payment-fee"><span><%=b1.getAdjustmentPrice() %></span></div>
 		                </div>
 		
 		                <div id="payment-fee-div">
 		                    <div id="payment-fee-tag"><span>판매가</span></div>
-		                    <div id="payment-fee"><span>금액</span></div>
+		                    <div id="payment-fee"><span><%=b1.getBiddingPrice() %></span></div>
 		                </div>
 		
 		                <div id="payment-fee-div">
 		                    <div id="payment-fee-tag"><span>검수비</span></div>
-		                    <div id="payment-fee"><span>금액</span></div>
+		                    <div id="payment-fee"><span><%=b1.getInspectionCost() %></span></div>
 		                </div>
 		
 		                <div id="payment-fee-div">
 		                    <div id="payment-fee-tag"><span>수수료</span></div>
-		                    <div id="payment-fee"><span>금액</span></div>
+		                    <div id="payment-fee"><span><%=b1.getCommission() %></span></div>
 		                </div>
 		
-		                <div id="payment-fee-div">
-		                    <div id="payment-fee-tag"><span>배송비</span></div>
-		                    <div id="payment-fee"><span>금액</span></div>
-		                </div>
+		                
 		
 		                <div id="payment-fee-div">
 		                    <div id="payment-fee-tag"><span>입찰일</span></div>
-		                    <div id="payment-fee"><span>날짜</span></div>
+		                    <div id="payment-fee"><span><%=b1.getBiddingDate() %></span></div>
 		                </div>
 		
 		                <div id="payment-fee-div">
 		                    <div id="payment-fee-tag"><span>체결일</span></div>
-		                    <div id="payment-fee"><span>날짜</span></div>
+		                    <div id="payment-fee"><span><%=b1.getDealDate() %></span></div>
 		                </div>
 		                <div class="underline"></div>
 		        </div>
@@ -293,8 +290,8 @@
 		            </div>
 		            
 		                <div id="selling-account-div">
-		                    <div id="selling-account-tag"><span>XX은행</span></div>
-		                    <div id="selling-account"><span>110-1111-1111111</span></div>
+		                    <div id="selling-account-tag"><span><%=b1.getBankName() %></span></div>
+		                    <div id="selling-account"><span><%=b1.getBankAccount() %></span></div>
 		                </div>
 		                
 		                <br>
@@ -307,18 +304,18 @@
 		            </div>
 		            <div class="underline"></div>
 		                <div id="shipping-address-div">
-		                    <div id="shipping-address-tag"><span>받는사람</span></div>
-		                    <div id="shipping-address"><span>홍XX</span></div>
+		                    <div id="shipping-address-tag"><span>반송받는사람</span></div>
+		                    <div id="shipping-address"><span><%=b1.getRecipientName() %></span></div>
 		                </div>
 		
 		                <div id="shipping-address-div">
 		                    <div id="shipping-address-tag"><span>연락처</span></div>
-		                    <div id="shipping-address"><span>010-1111-2222</span></div>
+		                    <div id="shipping-address"><span><%=b1.getRecipientPhone() %></span></div>
 		                </div>
 		
 		                <div id="shipping-address-div">
 		                    <div id="shipping-address-tag"><span>주소</span></div>
-		                    <div id="shipping-address"><span>서울시 구로구 XXX</span></div>
+		                    <div id="shipping-address"><span><%=b1.getRecipientAddress() %></span></div>
 		                </div>
 		                <div class="underline"></div>
 		        </div>
@@ -333,7 +330,7 @@
 		            
 		                <div id="shipping-request-div">
 		                    <div id="shipping-request-tag"><span>요청사항</span></div>
-		                    <div id="shipping-request"><span></span></div>
+		                    <div id="shipping-request"><span><%=b1.getRecipientShippingMsg() %></span></div>
 		                </div>
 		                
 		                

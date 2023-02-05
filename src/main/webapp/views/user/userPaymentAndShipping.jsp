@@ -323,7 +323,7 @@
 				                    
 				                    
 		<% for(Address ad : list){ %>  
-         <div class="wrap-div" style=" cursor: pointer;" onclick="test2(this);">
+         <div class="wrap-div" style=" cursor: pointer;" onclick="test2(<%= ad.getAddressNo()%>,<%= ad.getUserNo()%> );">
          		
          		<input type="hidden" id="addressNo" value="<%= ad.getAddressNo()%>">
          		<input type="hidden" id="userNo" value="<%= ad.getUserNo()%>">
@@ -355,7 +355,7 @@
         <script>
     	
     	
-    	function test1(e){
+    	function test1(e1,e2){
     		
     		location.href = "<%=contextPath%>/updateBasicAddress.us?AddressNo=" + $(e).children('#addressNo').val()"&" + userNo=$(e).children('#userNo').val();
     	}

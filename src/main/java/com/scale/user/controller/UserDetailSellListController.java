@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.scale.bidding.model.vo.Bidding;
 import com.scale.product.model.vo.Product;
 import com.scale.user.model.service.UserService;
 
@@ -32,11 +33,11 @@ public class UserDetailSellListController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		
-		int biddingNo = Integer.parseInt(request.getParameter("biddingNo"));
+		int userNo = Integer.parseInt(request.getParameter("userNo"));
 		
 		
-		Product p = new UserService().userDetailImg(biddingNo);
-		
+		Product p1 = new UserService().userDetailImg(userNo);
+		Bidding b1 = new UserService().selectDetailSellList(userNo);
 		
 		
 		HttpSession session = request.getSession();
@@ -46,7 +47,9 @@ public class UserDetailSellListController extends HttpServlet {
 			response.sendRedirect(request.getContextPath());
 		}else {
 			
-			request.setAttribute("userDetailImg", p);
+			request.setAttribute("userDetailImg", p1);
+			request.setAttribute("userDetailSellList", b1);
+			
 			request.getRequestDispatcher("views/user/userDetailSellList.jsp").forward(request, response);
 		}
 	}
