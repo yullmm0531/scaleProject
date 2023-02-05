@@ -267,7 +267,7 @@
     	
     	function test1(e){
     		
-    		location.href = "<%=contextPath%>/UserDetailBuyList.us?userNo=" + $(e).children("input").val();
+    		location.href = "<%=contextPath%>/userDetailBuyList.us?userNo=" + $(e).children("input").val();
     	}
     </script>
 			        

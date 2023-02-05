@@ -490,4 +490,32 @@
 
 	</entry>
 	
+	<entry key="selectDetailBuyList">
+		SELECT 
+			
+		   PAYMENT_PRICE
+		  , BIDDING_DATE
+		  , INSPECTION_COST
+		  , COMMISSION
+		  , RECIPIENT_NAME
+		  , RECIPIENT_PHONE
+		  , RECIPIENT_ZIPCODE
+		  , RECIPIENT_ADDRESS
+		  , RECIPIENT_SHIPPING_MSG
+		  , DEAL_DATE
+		  , BANK_NAME
+		  , BANK_ACCOUNT
+		  , BANK_OWNER_NAME
+		  , ADJUSTMENT_PRICE
+		  
+		  		  
+		  FROM TB_BIDDING 
+		  	JOIN TB_SELLER ON(USER_NO = SELLER_NO)
+		 WHERE USER_NO = ?
+			  	AND BIDDING_TYPE = 2
+			    AND DEAL_CHECK != 'N'
+		 	   
+		   
+	</entry>
+	
 </properties>

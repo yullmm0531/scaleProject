@@ -238,7 +238,8 @@
         
         <% for(Product p : list){ %>
          <div class="wrap-div" style=" cursor: pointer;" onclick="test1(this);">
-         		
+         
+         		<input type="hidden" value="<%= p.getBiddingNo() %>">
          		<input type="hidden" value="<%= p.getUserNo() %>">
             <div class="sell-product-div1">
                 <div class="img">
@@ -295,7 +296,7 @@
     	
     	function test1(e){
     		
-    		location.href = "<%=contextPath%>/UserDetailSellList.us?userNo=" + $(e).children("input").val();
+    		location.href = "<%=contextPath%>/UserDetailSellList.us?biddingNo=" + $(e).children().val() + "&userNo=" +  $(e).children().children().val();
     	}
     </script>
         
