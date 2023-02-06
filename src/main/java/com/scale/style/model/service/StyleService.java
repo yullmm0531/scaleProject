@@ -283,6 +283,22 @@ public class StyleService {
 		return map;
 	}
 	
+	public HashMap<String, Object> selectReortDetail(int styleNo){
+		Connection conn = getConnection();
+		Style st = new StyleDao().selectReportStyle(conn, styleNo);
+		ArrayList<StyleImg> ilist = new StyleDao().selectReportStyleImgByNo(conn, styleNo);
+		ArrayList<Product> plist = new StyleDao().selectDetailProduct(conn, styleNo);
+		
+		close(conn);
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("st", st);
+		map.put("ilist", ilist);
+		map.put("plist", plist);
+		
+		return map;
+	}
+	
 	public int deleteStyleAdmin(String[] noArr) {
 		Connection conn = getConnection();
 		int result1 = 0;
@@ -395,5 +411,38 @@ public class StyleService {
 		StyleReport rep = new StyleDao().selectReport(conn, repNo);
 		close(conn);
 		return rep;
+	}
+	
+	public int rejectReport(int repNo) {
+		Connection conn = getConnection();
+		int result = new StyleDao().rejectReport(conn, repNo);
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+	
+	public int processReport(int repNo, int userNo) {
+		Connection conn = getConnection();
+		int result1 = new StyleDao().processReport(conn, repNo);
+		int result2 = 0;
+		int result3 = 1;
+		if(result1 > 0) {
+			result2 = new StyleDao().selectReportCountByNo(conn, userNo);
+			if(result2 >= 3) {
+				result3 = new StyleDao().updateStyleBlockDate(conn, userNo);
+			}
+		}
+		
+		if(result1 > 0 && result2 != 0 && result3 > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		return result1 * result2 * result3;
 	}
 }

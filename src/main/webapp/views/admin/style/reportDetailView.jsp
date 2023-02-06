@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.scale.style.model.vo.*, java.util.ArrayList, com.scale.product.model.vo.Product" %>
+<%
+	Style st = (Style)request.getAttribute("st");
+	ArrayList<StyleImg> ilist = (ArrayList<StyleImg>)request.getAttribute("ilist");
+	ArrayList<Product> plist = (ArrayList<Product>)request.getAttribute("plist");
+    StyleReport rep = (StyleReport)request.getAttribute("rep");
+    int cpage = (int)request.getAttribute("cpage");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,23 +41,35 @@
 
     table{width: 400px; box-sizing: border-box;}
 
-    .profile{width: 40px; height: 70px;}
-    .profile>img{width: 40px; height: 40px;}
+    .profile-td{width: 70px; height: 85px;}
+    .profile-td>img{width: 70px; height: 70px; box-sizing: border-box;}
 
-    .n-d>div{margin-left: 10px;}
-    .nickname{font-size: 20px; font-weight: bold;}
-    .date{font-size: 12px;}
-    .report{text-align: right;}
+    .nickname-td>div{margin-left: 10px;}
+    .nickname{
+        font-size: 20px; 
+        font-weight: bold; 
+        margin-left: 10px;
+        text-decoration: none;
+        color: black;
+    }
+    .date{font-size: 12px; margin-left: 10px;}
 
-    .style-img>img{width: 400px; height: 400px;}
+    .cimg{width: 400px; height: 400px;} 
     
     .pd-tag{font-size: 20px; font-weight: bold;}
-    .pd-img{float: left; width: 70px;}
-    .pd-img>img{width: 60px; height: 60px;}
-    .pd-img>div{width: 100px; font-size: 12px;}
+    .pd-info{width: 400px;}
+    .pd-info>div{float: left; width: 70px; margin-right: 5px;}
+    .pd-info img{width: 70px; height: 70px; box-sizing: border-box;}
+    .pd-info>div>div{
+        width: 70px; 
+        font-size: 12px;
+        text-overflow:ellipsis; 
+    	overflow:hidden;
+    	white-space:nowrap;
+    }
 
-    .like{font-size: 15px;}
-    .like>span{margin-left: 10px;}
+    .text, .tag{width: 400px;}
+    .tag-area{width: 400px;}
 </style>
 </head>
 <body>
@@ -64,8 +84,8 @@
                     <button class="btn btn-secondary" data-toggle="modal" data-target="#myModal">신고게시글 보기</button>
                 </td>
                 <td id="btn2">
-                    <a href="" class="btn btn-info" id="report-btn">신고처리</a>
-                    <a href="" class="btn btn-danger" id="reject-btn">반려</a>
+                    <a class="btn btn-info" id="report-btn">신고처리</a>
+                    <a class="btn btn-danger" id="reject-btn">반려</a>
                 </td>
             </tr>
         </table>
@@ -75,30 +95,41 @@
         <table id="report">
             <tr>
                 <td colspan="7" id="title">
-                    <span>제목 : </span><span>이상한 사진을 올렸어요. 정말 이상한 사람이 많아요. 처리 부탁!!!!</span>
+                    <span>제목 : </span><%= rep.getTitle() %><span></span>
                 </td>
             </tr>
             <tr id="user">
                 <td >
-                    <span>신고자 : </span><span>user1</span>
+                    <span>피신고자 : </span>
+                    <span><%= rep.getReportedId() %></span>
                 </td>
                 <td>|</td>
                 <td>
-                    <span>신고일 : </span><span>2023-01-17</span>
+                    <span>신고일 : </span>
+                    <span><%= rep.getReportedDate() %></span>
                 </td>
                 <td>|</td>
                 <td>
-                    <span>작성자 : </span><span>user01</span>
+                    <span>신고자 : </span>
+                    <span><%= rep.getReportingId() %></span>
                 </td>
                 <td>|</td>
                 <td>
-                    <span>작성일 : </span><span>2023-01-17</span>
+                    <span>처리상태 : </span>
+                    <% switch(rep.getReportCheck()) { 
+                        case "0": rep.setReportCheck("신고접수"); break;
+                        case "1": rep.setReportCheck("처리완료"); break;
+                        case "2": rep.setReportCheck("반려"); break;
+                     } %>
+                    <span>
+                    	<%= rep.getReportCheck() %>
+                    </span>
                 </td>
             </tr>
             <tr>
                 <td colspan="7" id="content">
                     <div>
-                        스타일탭에 이상한 사진을 올렷슴 보자마자 기분이 나빠졌어요 빨리 처리해주세요 게시글 삭제해주시던가...
+                        <%= rep.getContent() %>
                     </div>
                 </td>
             </tr>
@@ -107,7 +138,7 @@
         <br><br>
 
         <div align="center">
-            <a onclick="history.back()" class="btn btn-secondary">목록 보기</a>
+            <a onclick="location.href='<%= contextPath %>/stylereport.ad?cpage=<%= cpage %>';" class="btn btn-secondary">목록 보기</a>
         </div>
 
     </div>
@@ -121,48 +152,73 @@
                 <div class="modal-body" align="center">
                     <table>
                         <tr>
-                            <td class="profile">
-                                <img src="resource/img/city1.jpg" class="rounded-circle">
+                            <td class="profile-td">
+                                <img src="<%= contextPath %>/<%= st.getProfileImg() %>" class="rounded-circle">
                             </td>
-                            <td class="n-d">
-                                <div class="nickname">닉네임</div>
-                                <div class="date">작성일</div>
+                            <td class="nickname-td">
+                                <div class="nickname"><%= st.getStyleWriter() %></div>
+                                <div class="date"><%= st.getEnrollDate() %></div>
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="3" class="style-img">
-                                <img src="resource/img/city1.jpg">
+                            <td colspan="2" class="style-img">
+                                <div id='demo<%= st.getStyleNo() %>' class='carousel' data-interval='false'>
+                                    <div class='carousel-inner'>
+                                    <% for(int j=0; j<ilist.size(); j++) { %>
+                                        <% if(st.getStyleNo() == ilist.get(j).getStyleNo() && ilist.get(j).getFileLevel() == 1) { %>
+                                            <div class='carousel-item active'>
+                                                <img class='cimg' src='<%= contextPath %>/<%= ilist.get(j).getFilePath() %><%= ilist.get(j).getChangeName() %>' onclick='detail(this);'>
+                                            </div>
+                                        <% } else if(st.getStyleNo() == ilist.get(j).getStyleNo() && ilist.get(j).getFileLevel() == 2) { %>
+                                            <div class='carousel-item'>
+                                                <img class='cimg' src='<%= contextPath %>/<%= ilist.get(j).getFilePath() %><%= ilist.get(j).getChangeName() %>' onclick='detail(this);'>
+                                            </div>
+                                        <% } %>
+                                    <% } %>
+                                    </div>
+                                    <a class="carousel-control-prev" href="#demo<%= st.getStyleNo() %>" data-slide="prev">
+                                        <span class="carousel-control-prev-icon"></span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#demo<%= st.getStyleNo() %>" data-slide="next">
+                                        <span class="carousel-control-next-icon"></span>
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="3" class="pd-tag">상품태그</td>
                         </tr>
                         <tr>
-                            <td colspan="3">
-                                <div class="pd-img">
-                                    <img src="resource/img/city1.jpg">
-                                    <div>상품정보</div>
-                                </div>
-                                <div class="pd-img">
-                                    <img src="resource/img/city1.jpg">
-                                    <div>상품정보</div>
-                                </div>
-                                <div class="pd-img">
-                                    <img src="resource/img/city1.jpg">
-                                    <div>상품정보</div>
-                                </div>
-                                <div class="pd-img">
-                                    <img src="resource/img/city1.jpg">
-                                    <div>상품정보</div>
-                                </div>
+                            <td colspan="3" class='pd-info'>
+                                <% if(plist != null) { %>
+                                    <% for(int p=0; p< plist.size(); p++) { %>
+                                        <% if(st.getStyleNo() == plist.get(p).getStyleNo()) { %>
+                                        <div>
+                                            <img src='<%= contextPath %>/<%= plist.get(p).getProductImgM() %>'>
+                                            <div><%= plist.get(p).getBrandName() %></div>
+                                            <div><%= plist.get(p).getProductNameKo() %></div>
+                                            <div><%= plist.get(p).getProductNameEng() %></div>
+                                        </div>
+                                        <% } %>
+                                    <% } %>
+                                <% } %>
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="3" class="like">😊<span>좋아요 100개</span></td>
+                            <td colspan="3">
+                                <div><%= st.getContent() %></div>
+                            </td>
                         </tr>
                         <tr>
-                            <td colspan="3">
-                                <div>올블랙 최고~! #결산템챌린지 #셋업코디</div>
+                            <td colspan='3' class='tag-area'>
+                                <div class='tag'>
+                                    <% if(st.getHashtag() != null){ %>
+                                        <% String[] tagArr = st.getHashtag().split(" "); %>
+                                        <% for(int t=0; t<tagArr.length; t++){ %>
+                                        <span><%= tagArr[t] %></span>
+                                        <% } %>
+                                    <% } %>
+                                </div>
                             </td>
                         </tr>
                     </table>
@@ -176,6 +232,22 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $(function(){
+            if($(".pd-info").children().length == 0){
+                $(".pd-tag").remove();
+            }
+        })
+
+        $("#reject-btn").click(function(){
+            location.href = "<%= contextPath %>/rejectReport.ad?repNo=<%= rep.getReportNo() %>&styleNo=<%= st.getStyleNo() %>&cpage=<%= cpage %>";
+        })
+
+        $("#report-btn").click(function(){ 
+            location.href = "<%= contextPath %>/processreport.ad?repNo=<%= rep.getReportNo() %>&userNo=<%= rep.getReportedUser() %>&styleNo=<%= st.getStyleNo() %>&cpage=<%= cpage %>";
+        })
+    </script>
     
 </body>
 </html>

@@ -1,7 +1,6 @@
 package com.scale.admin.style.controller;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,19 +9,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.scale.style.model.service.StyleService;
-import com.scale.style.model.vo.StyleReport;
 
 /**
- * Servlet implementation class ReportDetailController
+ * Servlet implementation class ReportRejectController
  */
-@WebServlet("/detailreport.ad")
-public class ReportDetailController extends HttpServlet {
+@WebServlet("/rejectReport.ad")
+public class ReportRejectController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReportDetailController() {
+    public ReportRejectController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,21 +32,11 @@ public class ReportDetailController extends HttpServlet {
 		int repNo = Integer.parseInt(request.getParameter("repNo"));
 		int styleNo = Integer.parseInt(request.getParameter("styleNo"));
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
-		HashMap<String, Object> map = new StyleService().selectReortDetail(styleNo);
-		StyleReport rep = new StyleService().selectReport(repNo);
-		
-		request.setAttribute("st", map.get("st"));
-		request.setAttribute("ilist", map.get("ilist"));
-		request.setAttribute("plist", map.get("plist"));
-		request.setAttribute("rep", rep);
-		request.setAttribute("cpage", cpage);
-		if(map.get("st") != null && rep != null) {
-			request.getRequestDispatcher("views/admin/style/reportDetailView.jsp").forward(request, response);
-		} else {
-			request.getSession().setAttribute("alertMsg", "신고 상세조회에 실패했습니다.");
-			response.sendRedirect(request.getContextPath() + "/stylereport.ad?cpage=1");
+		int result = new StyleService().rejectReport(repNo);
+		if(result == 0) {
+			request.getSession().setAttribute("alertMsg", "반려 처리 실패");
 		}
-		
+		response.sendRedirect(request.getContextPath() + "/detailreport.ad?repNo=" + repNo + "&styleNo=" + styleNo + "&cpage=" + cpage);
 	}
 
 	/**

@@ -214,6 +214,37 @@ public class StyleDao {
 		return imgs;
 	}
 	
+	public ArrayList<StyleImg> selectReportStyleImgByNo(Connection conn, int styleNo){
+		ArrayList<StyleImg> imgs = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectReportStyleImgByNo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, styleNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				StyleImg si = new StyleImg();
+				si.setImgNo(rset.getInt("img_no"));
+				si.setChangeName(rset.getString("change_name"));
+				si.setFilePath(rset.getString("file_path"));
+				si.setStyleNo(rset.getInt("style_no"));
+				si.setFileLevel(rset.getInt("file_level"));
+				
+				imgs.add(si);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return imgs;
+	}
+	
 	public ArrayList<Hashtag> selectTagList(Connection conn){
 		ArrayList<Hashtag> tag = new ArrayList<>();
 		PreparedStatement pstmt = null;
@@ -721,8 +752,8 @@ public class StyleDao {
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, rep.getReportedUser());
-			pstmt.setString(2, rep.getReportingUser());
+			pstmt.setInt(1, rep.getReportedUser());
+			pstmt.setInt(2, rep.getReportingUser());
 			pstmt.setString(3, rep.getTitle());
 			pstmt.setString(4, rep.getContent());
 			pstmt.setInt(5, rep.getStyleNo());
@@ -742,6 +773,36 @@ public class StyleDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		String sql = prop.getProperty("selectStyle");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, styleNo);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				st = new Style();
+				st.setStyleNo(rset.getInt("style_no"));
+				st.setContent(rset.getString("style_content"));
+				st.setEnrollDate(rset.getDate("enroll_date"));
+				st.setHashtag(rset.getString("hashtag"));
+				st.setStyleWriter(rset.getString("user_nickname"));
+				st.setUserNo(rset.getInt("user_no"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return st;
+	}
+	
+	public Style selectReportStyle(Connection conn, int styleNo) {
+		Style st = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectReportStyle");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -1079,13 +1140,15 @@ public class StyleDao {
 			
 			while(rset.next()) {
 				list.add(new StyleReport(rset.getInt("report_no"),
-										 rset.getString("reported_user_id"),
-										 rset.getString("reporting_user_id"),
+										 rset.getInt("reported_user"),
+										 rset.getInt("reporting_user"),
 										 rset.getString("report_title"),
 										 rset.getString("report_content"),
 										 rset.getDate("report_date"),
 										 rset.getInt("style_no"),
-										 rset.getString("report_check")
+										 rset.getString("report_check"),
+										 rset.getString("reported_id"),
+										 rset.getString("reporting_id")
 										 ));
 			}
 		} catch (SQLException e) {
@@ -1111,13 +1174,15 @@ public class StyleDao {
 			
 			if(rset.next()) {
 				rep = new StyleReport(rset.getInt("report_no"),
-									  rset.getString("reported_user_id"),
-									  rset.getString("reporting_user_id"),
+									  rset.getInt("reported_user"),
+									  rset.getInt("reporting_user"),
 									  rset.getString("report_title"),
 									  rset.getString("report_content"),
 									  rset.getDate("report_date"),
 									  rset.getInt("style_no"),
-									  rset.getString("report_check")
+									  rset.getString("report_check"),
+									  rset.getString("reported_id"),
+									  rset.getString("reporting_id")
 									  );
 			}
 		} catch (SQLException e) {
@@ -1128,5 +1193,83 @@ public class StyleDao {
 		}
 		
 		return rep;
+	}
+	
+	public int rejectReport(Connection conn, int repNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("rejectReport");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, repNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public int processReport(Connection conn, int repNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("processReport");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, repNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public int selectReportCountByNo(Connection conn, int userNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectReportCountByNo");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public int updateStyleBlockDate(Connection conn, int userNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateStyleBlockDate");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
 	}
 }
