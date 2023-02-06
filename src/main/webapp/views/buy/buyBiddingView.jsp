@@ -100,6 +100,14 @@
 </head>
 <body>
 	<%@ include file="../common/menubar.jsp" %>
+    <script>
+        $(function(){
+            <% if(loginUser != null && loginUser.getShopBlockDate() != null) { %>
+                alert("페널티 누적으로 SHOP 차단되었습니다.");
+                location.href = "<%= contextPath %>";
+            <% } %>
+        })
+    </script>
     <br><br><br>
     <div class="outer">
         <form action="<%= contextPath %>/buyDetail.bi">

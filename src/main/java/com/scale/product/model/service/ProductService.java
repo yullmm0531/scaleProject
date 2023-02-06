@@ -58,13 +58,13 @@ public class ProductService {
 		return result;
 	}
 	
-	public int updateLike(int clickLike, int userNo, String productCode) {
+	public int updateLike(int clickLike, int userNo, String pCode) {
 		Connection conn = getConnection();
 		int result = 0;
 		if(clickLike >0) {
-			result = new ProductDao().deleteLike(conn, userNo, productCode);
+			result = new ProductDao().deleteLike(conn, userNo, pCode);
 		}else {
-			result = new ProductDao().insertLike(conn, userNo, productCode);
+			result = new ProductDao().insertLike(conn, userNo, pCode);
 		}
 		
 		if(result>0) {
@@ -144,7 +144,7 @@ public class ProductService {
 	 * @author yurim
 	 * @param userNo
 	 * @param pCode
-	 * @return user가 해당 상품을 찜했는지 여부를 반환 (1 : 찜O | 2 : 찜X)
+	 * @return user가 해당 상품을 찜했는지 여부를 반환 (1 : 찜O | 0 : 찜X)
 	 */
 	public int selectUserLike(int userNo, String pCode) {
 		

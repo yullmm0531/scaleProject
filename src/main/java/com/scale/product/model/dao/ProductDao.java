@@ -229,7 +229,8 @@ public class ProductDao {
 	
 	
 	
-	public int insertLike(Connection conn, int userNo, String productCode) {
+	public int insertLike(Connection conn, int userNo, String pCode) {
+		
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql = prop.getProperty("insertLike");
@@ -237,27 +238,31 @@ public class ProductDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, userNo);
-			pstmt.setString(2, productCode);
+			pstmt.setString(2, pCode);
 			
 			result = pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
 		}
+		
 		return result;
 	}
 	
 	
-	public int deleteLike(Connection conn, int userNo, String productCode) {
+	public int deleteLike(Connection conn, int userNo, String pCode) {
+		
 		int result = 0;
 		PreparedStatement pstmt = null;
+		
 		String sql = prop.getProperty("deleteLike");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, userNo);
-			pstmt.setString(2, productCode);
+			pstmt.setString(2, pCode);
 			
 			result = pstmt.executeUpdate();
 			
@@ -266,6 +271,7 @@ public class ProductDao {
 		}finally {
 			close(pstmt);
 		}
+		
 		return result;
 		
 	}

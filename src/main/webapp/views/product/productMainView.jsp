@@ -359,7 +359,7 @@
                 	let userNo = <%= loginUser.getUserNo() %>;
     			$.ajax({
     			    url: "plike.pd",
-    			    data: {"userNo":userNo, "productCode":$(this).next().val()}, 
+    			    data: {"userNo":userNo, "pCode":$(this).next().val()}, 
     			    success:function(result){
     			    	if(like == "♡"){
     			    		e.text("♥")

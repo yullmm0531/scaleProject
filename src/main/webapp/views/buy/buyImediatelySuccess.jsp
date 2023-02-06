@@ -49,8 +49,15 @@
 </head>
 <body>
 	<%@ include file="../common/menubar.jsp" %>
-	
-	<br><br><br><br><br><br>
+	<script>
+        $(function(){
+            <% if(loginUser != null && loginUser.getShopBlockDate() != null) { %>
+                alert("페널티 누적으로 SHOP 차단되었습니다.");
+                location.href = "<%= contextPath %>";
+            <% } %>
+        })
+    </script>
+	<br><br><br>
     
     <div class="buy-success" align="center">
         <br><br>
@@ -59,7 +66,7 @@
         <div><img src="<%= contextPath %>/<%= success.getProductImg() %>" alt=""></div>
         <br>
         <a href="" class="btn btn-outline-secondary">내역 상세보기</a>
-        <a href="" class="btn btn-outline-secondary">SHOP 바로가기</a>
+        <a href="<%=contextPath%>/plist.pd" class="btn btn-outline-secondary">SHOP 바로가기</a>
         <br><br><br>
         <div class="order-info">
             <table id="price-detail">
