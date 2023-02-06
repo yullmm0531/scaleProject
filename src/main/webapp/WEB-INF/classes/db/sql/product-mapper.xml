@@ -211,4 +211,122 @@
 		  JOIN TB_BRAND USING (BRAND_CODE)
 		 WHERE PRODUCT_CODE = ?
 	</entry>
+	
+	<entry key ="selectAdProductList">
+		SELECT
+		 	   PRODUCT_CODE
+			 , PRODUCT_NAME_KO
+			 , PRODUCT_NAME_ENG
+			 , MODEL_CODE
+			 , BLIND_CHECK
+			 , ENROLL_DATE
+			 , PRODUCT_CATEGORY
+			 , PRODUCT_SIZE
+			 , BRAND_NAME
+	      FROM TB_PRODUCT 
+	      JOIN TB_BRAND USING (BRAND_CODE)
+	     ORDER
+	        BY ENROLL_DATE DESC
+	</entry>
+	
+	<entry key ="selectAdBrandList">
+		SELECT
+			   BRAND_NAME
+			 , BRAND_CODE
+			 , BRAND_IMG
+		  FROM TB_BRAND
+	
+	</entry>
+	
+	<entry key = "searchProductCount">
+		SELECT
+			   COUNT(*) "COUNT"
+		  FROM TB_PRODUCT
+		 	   
+	</entry>
+	
+	<entry key="selectProductSearchList">
+		SELECT
+			   PRODUCT_CODE
+			 , PRODUCT_NAME_KO
+			 , PRODUCT_NAME_ENG
+			 , MODEL_CODE
+			 , BLIND_CHECK
+			 , ENROLL_DATE
+			 , PRODUCT_CATEGORY
+			 , PRODUCT_SIZE
+			 , BRAND_NAME
+	      FROM TB_PRODUCT 
+	     WHERE PRODUCT_NAME_KO LIKE '%' || ? || '%' 
+		    OR PRODUCT_NAME_ENG LIKE '%' || ? || '%'
+
+	</entry>
+	
+	<entry key = "increaseCount">
+		UPDATE
+			   PRODUCT
+		   SET COUNT = COUNT +1
+		 WHERE PRODUCT_CODE = ?
+	</entry>
+	
+	<entry key="selectProductDetail">
+		SELECT
+		 	   PRODUCT_CODE
+			 , PRODUCT_NAME_KO
+			 , PRODUCT_NAME_ENG
+			 , MODEL_CODE
+			 , PRODUCT_IMG_M
+			 , BLIND_CHECK
+			 , ENROLL_DATE
+			 , PRODUCT_CATEGORY
+			 , PRODUCT_SIZE
+			 , BRAND_NAME
+	      FROM TB_PRODUCT 
+	      JOIN TB_BRAND USING (BRAND_CODE)
+	     WHERE PRODUCT_CODE = ?  
+	</entry>
+	
+	<entry key = "selectAdProductImg">
+		SELECT
+		       FILE_NO
+		     , ORIGIN_NAME
+		     , CHANGE_NAME
+		     , FILE_PATH
+		  FROM TB_PD_IMG
+		 WHERE PRODUCT_CODE = ?		 
+		 ORDER
+            BY FILE_LEVEL ASC
+     </entry>       
+     
+     
+     <entry key = "insertProduct">
+     	INSERT
+     	  INTO PRODUCT
+     	  (
+     	  	PRODUCT_CODE
+     	  	PRODUCT_NAME_KO
+     	  	PRODUCT_NAME_ENG
+     	  	PRODUCT_CATEGORY
+     	  )
+     	  VALUES
+     	  (
+     	  	SEQ_PNO.NEXTVAL
+     	  , ?
+     	  , ?
+     	  , ?
+     	  )
+     </entry>
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
 </properties>

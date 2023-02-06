@@ -15,7 +15,6 @@
         div *{
             box-sizing: border-box;
             margin:auto;
-          
         }
 
 		ul, li {  
@@ -25,7 +24,6 @@
   	 	
         .pwrap{
             width:1200px;
-            
             margin:auto;
         }
         .pwrap>div{width:100%;}
@@ -42,25 +40,34 @@
         #pcontent>div{
             height:100%;
             float:left;
+            display:inline-block;
         }
 
-        #pheader-1{height:20%; line-height:10px;}
+        #pheader-1{height:20%; line-height:9px;}
         #pheader-2{height:60%;}
         #pheader-3{height:20%;}
 
         #pcontent-1{width:20%;}
         #pcontent-2{width:80%;}
         
-
+		
+		div.plist{
+			display:inline-block;
+		}
+		
+		ul.row{
+			margin:0px;
+		}
+		
         .img-box > img {
             width:175px;
             display:block;
             float:left;
-            
         }
 
         .row {
             margin:auto;
+            display:block;
         }
 
         .row::after {
@@ -68,21 +75,22 @@
             display:block;
             clear:both;
         }
+        
         .cell {
             float:left;
             box-sizing:border-box
-            
-            
         }
+        
         .cell {
-            width:20%;
-            padding:0 10px;
+            width:70%;
+            padding:10px;
             margin-top:20px;
             cursor:pointer;
-            font:1px;
-            text-overflow:ellipsis; 
+            font-size:7px;
+          	display:block;
         }
-        .listbox .row {
+        
+        .plist.row {
             margin:0 -10px;
         }
         
@@ -91,11 +99,9 @@
 	    	cursor : pointer;
     	}
     	
-    	.thumbnail-1 {
-    		box-sizing:border-box
-    		
+    	#top{
+    		float:right;
     	}
-    	
         
   </style>
 </head>
@@ -105,7 +111,7 @@
         <div id="pheader">
             <div id="pheader-1">
             	<br>
-                <button type="button" class="btn btn-secondary" id="topBtn">신발</button>
+                <button type="button" class="btn btn-secondary" id="topBtn" >신발</button>
                 <button type="button" class="btn btn-secondary" id="topBtn1">지갑</button>
                 <button type="button" class="btn btn-secondary" id="topBtn2">테크</button>
             </div>
@@ -113,18 +119,16 @@
             	
             	 <% for(Brand b : blist){ %>
          		 <div class="thumbnail-1" style="float:left;">
-         		 
-                        <img src="<%= contextPath %>/<%= b.getBrandImg() %>" width="70" height="77">
+         		 		
+                        <img src="<%= contextPath %>/<%= b.getBrandImg() %>" width="70" height="70">
                         <p align="center" ><%= b.getBrandName() %></p>
-                      
+                      	
                  </div>
-                 &nbsp;&nbsp;&nbsp;&nbsp;
+                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                  <% } %>
                   
             </div>
-            <div id="pheader-3">
-            
-            </div>
+            <div id="pheader-3"></div>
         </div>
       
 
@@ -162,6 +166,7 @@
                             <li><button>295</button><button>300</button></li>
                         </ul>
                     </li>
+                    <!-- 
                     <li class="price" style="cursor:pointer">
                         가격
                         <ul class="sub3" style="display:none">
@@ -172,6 +177,7 @@
                             <li><input type="radio"  class="chk">50만원이상</li>
                         </ul>
                     </li>
+                     -->
                 </div>
             </div>
             <div id="pcontent-2">
@@ -183,10 +189,11 @@
                         <button id="phbtn" style="display:none;" class="shbtn">가격</button>
                         
                     </span>
+                    
                     <div class="sortbar" align="right"> 
                         <select name="sortlist" id="sort">
                             <option value="popular">인기순</option>
-                            <option value="newest" onclick="location.href='<%= contextPath %>/psort.pd?view=sort'">최신순</option>
+                            <option value="newest" onclick="location.href='<%= contextPath %>/psort.pd'">최신순</option>
                             
                         </select>
                     </div>
@@ -196,7 +203,7 @@
                    
                 </div>
                 
-                 <button id="top" class="btn btn-primary">^</button>
+                <button id="top" class="btn btn-primary">TOP ^</button>
                 
                 
             </div>
@@ -206,15 +213,7 @@
 
     </div>
     
-    <script>
-                
-		$(function(){
-			$(".cell").click(function(){
-			location.href = "<%=contextPath%>/detail.pd?co=" + $(this).children('input').val();
-			})
-		})
-				
-	</script>
+  
     <!-- 필터바 -->
     <script>
         $(".cate").click(function(){
@@ -306,8 +305,7 @@
                                 	 + "<div class='brand-name'>" + list[i].brandName + "</div>"
                                 	 +  "<div class='product-name-eng'>" + list[i].productNameEng + "</div>"
                                 	 +  "<div class='product-name-ko'>" + list[i].productNameKo + "</div>"
-                                 	 +  "<div class='product-price'>즉시구매가</div>"
-                                
+                                 	
                                      + "<div class='like'>";
                            if(clickLike[i] == 0){
                                        value += "<a class='heart'>♡</a>"
@@ -358,7 +356,6 @@
     			    	}else{
     			    		e.text("♡")
     			    		e.next().next().text(Number(e.next().next().text()) - 1);
-    			    		
     			    	}
     			    },   
     			    error:function (){  
@@ -374,20 +371,59 @@
     <script>
 		$(function(){
 			
-			$("input:radio[name='chk']").on('click', function(){
-				var kind = $(this).val();
-				
+			$(".btn btn-secondary").on('click', function(){
 				$.ajax({
-					url: "plist.pd",
+					url: "<%= contextPath%>/productList.pd",
 					type:"post",
-					cache:false,
-					data:{
-						id : $(this).val(),
-						"filter" : kind
+					data:{"cpage":cpage, "filter":filter
 					},
-					success : function(data){
-						$('#plist').html(data);
-					},
+					success : function(pl){
+	    				let list = pl.list;
+	    				let filter = pl.filter;
+	    				let value = "";
+	    				
+	    				
+	    				
+	                    for(let i =0; i<list.length; i++){
+	                        value = "<div class='plist'>"
+	                            		+"<ul class ='row'>"
+	                           			 +"<li class='cell'>"
+	                             		 +"<input type='hidden' value='"+ list[i].productCode +"'>"
+	                             		 
+	                             		for(let j=0; j<list.length; j++){{
+	        		    					switch(list[j].filter){
+	        		    					case "Shoes" : list[j].filter = "Shoes" ; break;
+	        		    					case "Wallet" : list[j].filter = "Wallet" ; break;
+	        		    					case "Tech" : list[j].filter = "Tech" ; break;
+	        	    					}
+	        	    				}
+	                               value += "<input type='hidden' value='"+ list[j].productCategory+"'>"
+	                                	 +"<div class='img-box'><img src='<%= contextPath %>/"+ list[i].productImgM +"'></div>"
+	                                   
+	                                	 + "<div class='brand-name'>" + list[i].brandName + "</div>"
+	                                	 +  "<div class='product-name-eng'>" + list[i].productNameEng + "</div>"
+	                                	 +  "<div class='product-name-ko'>" + list[i].productNameKo + "</div>"
+	                                 	
+	                                     + "<div class='like'>";
+	                           if(clickLike[i] == 0){
+	                                       value += "<a class='heart'>♡</a>"
+	                                    	+ "<input type='hidden' class='productCode' value='" + list[i].productCode + "'>"
+	                                			 + "<span>" + list[i].count + "</span>"
+	                                  } else {
+	                                           value += "<a class='heart'>♥</a>"
+	                                        	   value +=  "<input type='hidden' class='productCode' value='" + list[i].productCode + "'>"
+	                                    			 + "<span>" + list[i].count + "</span>"
+	                                  }     
+	                                           
+	                                   + "</div>"
+		                                           
+		                              +"</li>"
+		                           + "</ul>"
+		                       + "</div>";
+	                    	}
+	                        $("#plist").append(value);
+	                       }
+	                    },
 					error : function(data){
 						alert('error');
 					}
@@ -396,6 +432,17 @@
 		})
     
     </script>
+    
+    <script>
+                
+		$(function(){
+			$("#cell").click(function(){
+			location.href = "<%=contextPath%>/detail.pd?co=" + $(this).children('input').val();
+			})
+		})
+		
+	</script>
+
     
 </body>
 </html>

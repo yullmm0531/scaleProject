@@ -5,9 +5,18 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+	<style>
+	    .outer{
+	        width:1200px;
+	        margin:auto;
+	   		}
+        
+    </style>
 </head>
 <body>
 	<%@ include file="../common/adminMenubar.jsp"%>
+	<div class="outer" align="center">
+	
    <h1>상품관리_수정 및 삭제</h1>    
     <p>* 는 필수 입력사항입니다.</p>
 
@@ -70,6 +79,6 @@
     <button type="submit" class="btn btn-primary">수정</button>
     <button type="button" class="btn btn-dark">삭제</button>
 
-</body>
+	</div>
 </body>
 </html>
