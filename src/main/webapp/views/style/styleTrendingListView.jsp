@@ -97,6 +97,15 @@
 
 	<%@ include file="../common/menubar.jsp" %>
 	
+    <script>
+        $(function(){
+            <% if(loginUser != null && loginUser.getStyleBlockDate() != null) { %>
+                alert("스타일 신고 누적으로 STYLE 차단되었습니다.");
+                location.href = "<%= contextPath %>";
+            <% } %>
+        })
+    </script>
+
 	<div class="outer">
         <div id="standard">
             <button type="button" id="trending">인기</button>
