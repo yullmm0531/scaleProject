@@ -33,10 +33,10 @@ public class ProductLikeController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		int userNo = Integer.parseInt(request.getParameter("userNo"));
-		String productCode = request.getParameter("productCode");
+		String pCode = request.getParameter("pCode");
 		
-		int clickLike = new ProductService().clickLike(userNo, productCode);
-		int result = new ProductService().updateLike(clickLike, userNo, productCode);
+		int userLike = new ProductService().selectUserLike(userNo, pCode);
+		int result = new ProductService().updateLike(userLike, userNo, pCode);
 		
 		response.getWriter().print(result);
 		
