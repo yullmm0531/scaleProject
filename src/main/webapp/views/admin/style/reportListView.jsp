@@ -117,6 +117,7 @@
                         <% for(StyleReport rep : list) { %>
                         <tr class="list-row">
                             <td><%= rep.getReportNo() %></td>
+                            <input type="hidden" value="<%= rep.getStyleNo() %>">
                             <td><%= rep.getReportingUser() %></td>
                             <td><%= rep.getTitle() %></td>
                             <td><%= rep.getReportedDate() %></td>
@@ -136,7 +137,7 @@
 
             <script>
                 $(".list-row").on("click", function(){
-                    location.href = "detailreport.ad?no=" + $(this).children().eq(0).text();
+                    location.href = "detailreport.ad?repNo=" + $(this).children().eq(0).text() + "&styleNo=" + $(this).children().eq(1).val();
                 });
 
             </script>

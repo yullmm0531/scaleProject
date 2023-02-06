@@ -50,7 +50,6 @@ public class AdminInquireListController extends HttpServlet {
 			int currentPage = Integer.parseInt(request.getParameter("cpage"));
 			int pageLimit = 5;
 			int boardLimit = 10;
-			
 			int maxPage = (int)Math.ceil((double)listCount / boardLimit);
 			int startPage = (currentPage-1) / pageLimit * pageLimit + 1;
 			int endPage  = startPage + pageLimit - 1;
@@ -62,7 +61,6 @@ public class AdminInquireListController extends HttpServlet {
 			
 			// 페이지 조회
 			ArrayList<Inquire> list = new CustomerCenterService().selectAdminInquireList(pi);
-			
 			request.setAttribute("pi", pi);
 			request.setAttribute("list", list);
 			
