@@ -1,4 +1,4 @@
-package com.scale.customerCenter.controller;
+package com.scale.admin.customerCenter.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,16 +16,16 @@ import com.scale.customerCenter.model.service.CustomerCenterService;
 import com.scale.customerCenter.model.vo.Faq;
 
 /**
- * Servlet implementation class AjaxFaqSearchController
+ * Servlet implementation class AjaxAdminFaqSearchController
  */
-@WebServlet("/search.faq")
-public class AjaxFaqSearchController extends HttpServlet {
+@WebServlet("/searchFaq.ad")
+public class AjaxAdminFaqSearchController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AjaxFaqSearchController() {
+    public AjaxAdminFaqSearchController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -60,8 +60,6 @@ public class AjaxFaqSearchController extends HttpServlet {
 		map.put("searchList", searchList);
 		
 		new Gson().toJson(map, response.getWriter());	
-		
-	
 	}
 
 	/**

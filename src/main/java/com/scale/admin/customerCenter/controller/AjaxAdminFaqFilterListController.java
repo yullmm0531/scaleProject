@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.scale.admin.customerCenter.model.service.AdminCustomerCenterService;
 import com.scale.common.model.vo.PageInfo;
 import com.scale.customerCenter.model.service.CustomerCenterService;
 import com.scale.customerCenter.model.vo.Faq;
@@ -46,7 +47,7 @@ public class AjaxAdminFaqFilterListController extends HttpServlet {
 		}
 
 		// 페이징
-		int boardLimit = 20;
+		int boardLimit = 10;
 		
 		PageInfo pi = new PageInfo();
 		pi.setCurrentPage(currentPage);
@@ -56,9 +57,9 @@ public class AjaxAdminFaqFilterListController extends HttpServlet {
 		// 게시글 조회
 		ArrayList<Faq> list = new ArrayList<>();
 		if(category.equals("all")) {
-			list = new CustomerCenterService().selectAdminFaqListAll(pi);
+			list = new AdminCustomerCenterService().selectAdminFaqListAll(pi);
 		}else {
-			list = new CustomerCenterService().selectAdminFaqList(category, pi);
+			list = new AdminCustomerCenterService().selectAdminFaqList(category, pi);
 		}
 		
 		response.setContentType("application/json; charset=UTF-8");

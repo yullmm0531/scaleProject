@@ -153,6 +153,7 @@
             $(".c-btn").click(function(){
                 $(this).addClass("active");
                 $(this).siblings().removeClass("active");
+                $("#search-input").val("");
             })
 
             $("#search-input").on("keypress", function(e){
@@ -170,7 +171,7 @@
 
             $.ajax({
                 url:"<%=contextPath%>/list.faq",
-                type:"post",
+                type:"get",
                 data:{"cpage":cpage, "category":category},
                 success:function(map){
                     let list = map.list;
@@ -217,7 +218,7 @@
         $("#more-btn").click(function(){
            $.ajax({
                 url:"<%=contextPath%>/list.faq",
-                type:"post",
+                type:"get",
                 data:{"cpage":cpage, "category":category},
                 success:function(map){
                     let list = map.list;

@@ -8,7 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.scale.customerCenter.model.service.CustomerCenterService;
+import com.scale.admin.customerCenter.model.service.AdminCustomerCenterService;
+
 
 /**
  * Servlet implementation class AdminDeleteNotice
@@ -31,7 +32,7 @@ public class AdminDeleteNotice extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
 		
-		int result = new CustomerCenterService().deleteNotice(noticeNo);
+		int result = new AdminCustomerCenterService().deleteNotice(noticeNo);
 		
 		if(result > 0) {
 			request.getSession().setAttribute("alertMsg", "공지사항이 삭제되었습니다.");
