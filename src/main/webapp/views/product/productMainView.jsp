@@ -204,7 +204,7 @@
                     <div class="sortbar" align="right"> 
                         <select name="sortlist" id="sort">
                             <option value="popular">인기순</option>
-                            <option value="newest" onclick="location.href='<%= contextPath %>/psort.pd'">최신순</option>
+                            <option value="newest" class="newest" >최신순</option>
                         </select>
                     </div>
                 </div>
@@ -384,7 +384,13 @@
     	$(document).on("click", ".cell", function(){
     		location.href = "<%= contextPath %>/detail.pd?co=" + $(this).children().eq(0).val();
     	})
-				
+    	
+		
+    	$(document).on("click", ".newest", function(){
+        	location.href = "<%= contextPath %>/psort.pd" 
+        })
+    	
+    	
 	</script>
     
 	<!-- 클릭 -->    
