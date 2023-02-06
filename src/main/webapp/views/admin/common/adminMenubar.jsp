@@ -57,9 +57,9 @@
 			<li>
 				<a href="">상품 관리</a>
 				<ul>
-					<li><a href="">상품 검색/목록</a></li>
+					<li><a href="<%= contextPath %>/adplist.apd">상품 검색/목록</a></li>
 					<li><a href="">상품 등록</a></li>
-					<li><a href="">브랜드 관리</a></li>
+					<li><a href="">상품 수정</a></li>
 				</ul>
 			</li>
 			<li><a href="">결제 관리</a>

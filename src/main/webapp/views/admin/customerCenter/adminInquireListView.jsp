@@ -56,12 +56,12 @@
             </div>
             <div align="left">
                 <input type="radio" name="category" value="all" checked>전체
-                <input type="radio" name="category" value="buy" onclick="filtering(this);">구매
-                <input type="radio" name="category" value="sell" onclick="filtering(this);">판매
-                <input type="radio" name="category" value="payment" onclick="filtering(this);">결제
-                <input type="radio" name="category" value="shipping" onclick="filtering(this);">배송
-                <input type="radio" name="category" value="product" onclick="filtering(this);">상품
-                <input type="radio" name="category" value="site" onclick="filtering(this);">사이트이용
+                <input type="radio" name="category" value="buy" onclick="filtering($(this).val(), 1);">구매
+                <input type="radio" name="category" value="sell" onclick="filtering($(this).val(), 1);">판매
+                <input type="radio" name="category" value="payment" onclick="filtering($(this).val(), 1);">결제
+                <input type="radio" name="category" value="shipping" onclick="filtering($(this).val(), 1);">배송
+                <input type="radio" name="category" value="product" onclick="filtering($(this).val(), 1);">상품
+                <input type="radio" name="category" value="site" onclick="filtering($(this).val(), 1);">사이트이용
             </div>
             <br>
             <table class="table table-hover">
@@ -163,10 +163,9 @@
 
         })
 
-        function filtering(e){
-        //$("input[name=category]:not(:first-child)").on("change", function filtering(){
-            category = $(e).val();
-            cpage = 1;
+        function filtering(e, c){
+            category = e;
+            cpage = c;
             $("tbody").empty();
             $(".paging-area").empty();
             $.ajax({
@@ -177,7 +176,6 @@
                     let pi = map.pi;
                     let value = "";
                     let paging = "";
-                    
                     if(list.length == 0){
                         value = "<tr><td colspan='5' align='center'>등록된 문의가 없습니다.</td></tr>";
                     }else{
@@ -208,19 +206,27 @@
                             value += "<td>" + list[i].answerModifyDate + "</td>";
                         }
                         value += "</tr>"
+
+                        switch(list[i].category){
+                            case "구매": list[i].category = "buy"; break;
+                            case "판매": list[i].category = "sell"; break;
+                            case "결제": list[i].category = "payment"; break;
+                            case "배송": list[i].category = "shipping"; break;
+                            case "상품": list[i].category = "product"; break;
+                            case "사이트이용": list[i].category = "site"; break;
+                        }
+
+                        category = list[i].category;
                     }}
                         if(pi.currentPage != 1){
-                            cpage = cpage-1;
-                            paging += "<button onclick='filtering();'>&lt;</button>";
+                            paging += "<button onclick='filtering(`"+category+"`,"+(cpage-1)+");'>&lt;</button>";
                         }
                         for(let i=pi.startPage; i<=pi.endPage; i++){
-                            cpage = cpage+1;
-                            paging += "<button onclick='filtering(this);'>"+[i]+"</button>";
+                            paging += "<button onclick='filtering(`"+category+"`,"+i+");'>"+i+"</button>";
                         }
 
                         if(pi.currentPage != pi.maxPage && pi.maxPage != 0){
-                            cpage = cpage+1;
-                            paging += "<button onclick='filtering(this);'>&gt;</button>";
+                            paging += "<button onclick='filtering(`"+category+"`,"+(cpage+1)+");'>&gt;</button>";
                         }
                     }
                     
