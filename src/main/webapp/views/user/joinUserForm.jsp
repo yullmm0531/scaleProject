@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="com.scale.policy.model.vo.Policy"%>
+<% 
+	Policy t = (Policy)request.getAttribute("t");
+	Policy p = (Policy)request.getAttribute("p");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -152,7 +156,7 @@
                                 <li style="font-size:15px"><b>전체 동의</b></li>
                                 <li>SCALE 서비스 이용약관 동의 <a type="button" class="btn" data-toggle="modal" data-target="#modal-t">내용보기</a></li>
                                 <li>개인정보 수집 및 이용 동의 <a type="button" class="btn" data-toggle="modal" data-target="#modal-p">내용보기</a></li>
-                                <li>[선택] 광고성 정보 수신동의 <a type="button" class="btn" data-toggle="modal" data-target="#modal-a">내용보기</a></li>
+                                <li>[선택] 광고성 정보 수신동의 </li>
                             </ul>
                         </div>
                         <div class="agree">
@@ -177,9 +181,11 @@
 					      </div>
 					
 					      <!-- Modal body -->
-					      <div class="modal-body">
-					        Modal body..
-					      </div>
+					      <% if(t != null) {%>
+                             <div class="modal-body"><%= t.getPolicyContent() %></div>
+                          <%}else{ %>
+                             <div class="modal-body"><%= t.getPolicyContent() %></div>
+                          <%} %>
 					    </div>
 					  </div>
 					</div>
@@ -196,32 +202,14 @@
 					      </div>
 					
 					      <!-- Modal body -->
-					      <div class="modal-body">
-					        Modal body..
-					      </div>
+					      <% if(p != null) {%>
+                             <div class="modal-body"><%= p.getPolicyContent() %></div>
+                          <%}else{ %>
+                             <div class="modal-body"><%= p.getPolicyContent() %></div>
+                          <%} %>
 					    </div>
 					  </div>
 					</div>
-					
-					<!-- 광고성정보수신 -->
-					<div class="modal" id="modal-a">
-					  <div class="modal-dialog modal-dialog-scrollable">
-					    <div class="modal-content">
-					
-					      <!-- Modal Header -->
-					      <div class="modal-header">
-					        <h4 class="modal-title">광고성 정보 수신 동의</h4>
-					        <button type="button" class="close" data-dismiss="modal">&times;</button>
-					      </div>
-					
-					      <!-- Modal body -->
-					      <div class="modal-body">
-					        Modal body..
-					      </div>
-					    </div>
-					  </div>
-					</div>
-					
 					
             </div>
             <div id="btn-area">

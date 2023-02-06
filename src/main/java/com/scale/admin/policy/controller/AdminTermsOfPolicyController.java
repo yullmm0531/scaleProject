@@ -34,7 +34,7 @@ public class AdminTermsOfPolicyController extends HttpServlet {
 		Policy p = new PolicyService().selectPolicy(policyType);
 		
 		request.setAttribute("p", p);
-		request.getRequestDispatcher("views/admin/policy/adminTermsOfPolicyPolicy.jsp").forward(request, response);
+		request.getRequestDispatcher("views/admin/policy/adminTermsOfPolicy.jsp").forward(request, response);
 	}
 
 	/**
