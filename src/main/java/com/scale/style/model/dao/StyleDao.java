@@ -1097,4 +1097,36 @@ public class StyleDao {
 		
 		return list;
 	}
+	
+	public StyleReport selectReport(Connection conn, int repNo) {
+		StyleReport rep = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectReport");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, repNo);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				rep = new StyleReport(rset.getInt("report_no"),
+									  rset.getString("reported_user_id"),
+									  rset.getString("reporting_user_id"),
+									  rset.getString("report_title"),
+									  rset.getString("report_content"),
+									  rset.getDate("report_date"),
+									  rset.getInt("style_no"),
+									  rset.getString("report_check")
+									  );
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return rep;
+	}
 }

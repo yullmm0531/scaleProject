@@ -389,4 +389,11 @@ public class StyleService {
 		close(conn);
 		return list;
 	}
+	
+	public StyleReport selectReport(int repNo) {
+		Connection conn = getConnection();
+		StyleReport rep = new StyleDao().selectReport(conn, repNo);
+		close(conn);
+		return rep;
+	}
 }
