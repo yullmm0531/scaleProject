@@ -132,8 +132,8 @@
         .address-name{
             font-weight: bold;
         }
-        .address{padding: 10px;}
-        .address:hover{background-color: rgba(247, 246, 246, 0.479);}
+        .address{padding: 10px; height: 430px;}
+        .address label:hover{background-color: rgba(247, 246, 246, 0.479);}
         #add-address-form{
             margin: auto;
 		    padding: 10px;
@@ -214,20 +214,10 @@
             border: none;
             background-color: whitesmoke;
         }
-        .address-option input[type="radio"] {
-            display: none;
-        }
-     
-        .address-option input[type="radio"] + span {
-            background-color: whitesmoke;
-            text-align: left;
-            cursor: pointer;
-        }
-        .address-option input[type="radio"]:checked + span {
-            background-color: rgb(81, 81, 81);
-        }
         .address-option{
-            width: 100%;
+            width: 90%;
+            text-align: left !important; 
+            border: none;
         }
     </style>
 </head>
@@ -555,17 +545,16 @@
                             <div class="modal-body">
                                 <div id="addresses">
                                     
-                                    <div class="address">
-                                        <label class='address-option btn btn-outline-secondary'><input type='radio' name='heckedAddress' value='2'><span><div class='address-check'><!--기본배송지인경우--><span class='badge badge-pill badge-secondary'>기본배송지</span></div><div class='address-name'>신짱구</div><div class='address-phone'>010-1112-3568</div><div class='address-detail'>(13607)경기 성남시 분당구 내정로 54602동 108호</div></span></label><div class='line2'></div>
+                                    <div class="address" style="overflow: auto;">
+                                        
                                         
                                     </div>
                                     <br>
-                                    <div class="line2"></div>
+                                    
                                     
                                 </div>
                                 <div align="center">
-                                    <button type="button" class="btn btn-outline-secondary class" data-dismiss="modal">취소</button>
-                                    <button type="button" class="btn btn-secondary" id="change-account-button" disabled>확인</button>
+                                    <button type="button" class="btn btn-secondary" id="change-address-button" onclick="changeAddress();">확인</button>
                                 </div>
                             </div>
                         </div>
@@ -583,33 +572,28 @@
                                     console.log(response);
                                     var str = "";
                                     if(response.length != 0){
-                                        str += "<label class='address-option btn btn-outline-secondary'>"
-                                            +   "<input type='radio' name='heckedAddress' value='" + response[0].addresNo + "'>"
-                                            +   "<span>"
-                                            +      "<div class='address-check'>"
-                                            +       "<!--기본배송지인경우-->"
-                                            +       "<span class='badge badge-pill badge-secondary'>기본배송지</span>"
-                                            +      "</div>"
-                                            +      "<div class='address-name'>"
-                                            +          response[0].recipient
-                                            +      "</div>"
-                                            +      "<div class='address-phone'>"
-                                            +          response[0].phone
-                                            +      "</div>"
-                                            +      "<div class='address-detail'>"
-                                            +          "(" + response[0].zipCode + ")" + response[0].address1 + response[0].address2
-                                            +      "</div></span>"
-                                            + "</label>"
-                                            + "<div class='line2'></div>";
+                                        str +=   "<div><input type='radio' id='" + response[0].addresNo + "' name='checkedAddress' value='" + response[0].addresNo + "'>"
+                                                +   "<label for='" + response[0].addresNo + "'  class='address-option btn'><span>"
+                                                +      "<div class='address-check'>"
+                                                +       "<!--기본배송지인경우-->"
+                                                +       "<span class='badge badge-pill badge-secondary'>기본배송지</span>"
+                                                +      "</div>"
+                                                +      "<div class='address-name'>"
+                                                +          response[0].recipient
+                                                +      "</div>"
+                                                +      "<div class='address-phone'>"
+                                                +          response[0].phone
+                                                +      "</div>"
+                                                +      "<div class='address-detail'>"
+                                                +          "<span class='address-zipCode'>(" + response[0].zipCode + ")</span><span class='address-address'>" + response[0].address1 + " " + response[0].address2 + "</span>"
+                                                +      "</div></span>"
+                                                + "</label></div>"
+                                                + "<div class='line2'></div>";
 
                                         for(let i=1; i<response.length; i++){
-                                            str += "<br><br>"
-                                                +  "<label class='address-option btn btn-outline-secondary'>"
-                                                    +   "<input type='radio' name='heckedAddress' value='" + response[i].addresNo + "'>"
-                                                    +   "<span>"
-                                                    +      "<div class='address-check'>"
-                                                    +       "<!--기본배송지인경우-->"
-                                                    +       "<span class='badge badge-pill badge-secondary'>기본배송지</span>"
+                                            str +=   "<div><input type='radio' id='" + response[i].addresNo + "' name='checkedAddress' value='" + response[i].addresNo + "'>"
+                                                    +   "<label for='" + response[i].addresNo + "'  class='address-option btn'><span>"
+                                                    +      "<div class='address-check'>"     
                                                     +      "</div>"
                                                     +      "<div class='address-name'>"
                                                     +          response[i].recipient
@@ -618,9 +602,9 @@
                                                     +          response[i].phone
                                                     +      "</div>"
                                                     +      "<div class='address-detail'>"
-                                                    +          "(" + response[i].zipCode + ")" + response[i].address1 + response[i].address2
+                                                    +          "<span class='address-zipCode'>(" + response[i].zipCode + ")</span><span class='address-address'>" + response[i].address1 + " " + response[i].address2 + "</span>"
                                                     +      "</div></span>"
-                                                    + "</label>"
+                                                    + "</label></div>"
                                                     + "<div class='line2'></div>";
                                         }
                                         $(".address").html(str);
@@ -631,8 +615,33 @@
                                     alert("배송지 목록 조회에 실패했습니다.");
                                 }
                             })
+
                         })
+
                     })
+
+                    function changeAddress(){
+                        const $checkedAddress = $("input[type=radio][name=checkedAddress]:checked")
+                        const $checkedName = $("input[type=radio][name=checkedAddress]:checked + label .address-name")
+                        const $checkedPhone = $("input[type=radio][name=checkedAddress]:checked + label .address-phone")
+                        const $checkedZipCode = $("input[type=radio][name=checkedAddress]:checked + label .address-zipCode")
+                        const $checkedDetailAddress = $("input[type=radio][name=checkedAddress]:checked + label .address-address")
+                        if ($checkedAddress.val()) {
+                            // 모달 닫기
+                            $('#address-list').modal('hide')
+                            
+                            // 주문서에 배송지 정보 담기
+                            $("#recipient").val($checkedName.text());
+                            $("#reciPhone").val($checkedPhone.text());
+                            $("#shippingZipCode").val($checkedZipCode.text());
+                            $("#shippingAddress").val($checkedDetailAddress.text());
+                            
+                        }
+                        else {
+                            alert("배송지를 선택해주세요.");
+                        }
+
+                    }
                 </script>
 	
                 <!-- 배송지 추가 모달 -->
@@ -680,8 +689,7 @@
                                     </div>
                                     <br><br>
                                     <div align="center">
-                                        <button type="button" class="btn btn-outline-secondary class" data-dismiss="modal">취소</button>
-                                        <button type="button" class="btn btn-secondary" disabled>확인</button>
+                                        <button type="button" class="btn btn-secondary" onclick="addAddress();">확인</button>
                                     </div>
                                                 
                                 </div>
@@ -695,6 +703,7 @@
                         const $checkInputName = $("#check-input-name");
                         const $phone = $("#phone");
                         const $checkInputPhone = $("#check-input-phone");
+                        const $address = $("#address");
 
                         // 이름 유효성 체크
                         $userName.focusout(function(){
@@ -715,36 +724,99 @@
                             }
                         })
 
+                        
+
                     })
+
+                    function addAddress(){
+                        const $recipient = $("#userName").val();
+                        const $recipientPhone = $("#phone").val();
+                        const $zipCode = $("#zipCode").val()
+                        const $address = $("#address").val() + $("#detailAddress").val();
+
+                        var defaultAddress = "";
+                        if($("#defaultAD").is(":checked")){
+                            defaultAddress = "Y"
+                        } else{
+                            defaultAddress = "N"
+                        }
+
+                        if($("#userName").val() == "" || $("#phone").val() == "" || $("#address").val() == ""){
+                            alert("배송지를 제대로 입력하십시오.")
+                        } else{
+                            $.ajax({
+                                url:"<%= contextPath %>/insertAddress.us",
+                                data:{
+                                    userNo: <%= loginUser.getUserNo() %>,
+                                    recipientName: $recipient,
+                                    recipientPhone: $recipientPhone,
+                                    zipCode: $zipCode,
+                                    address: $("#address").val(),
+                                    detailAddress: $("#detailAddress").val(),
+                                    defaultAD: defaultAddress
+                                },
+                                type:"post",
+                                success:function(result){
+                                    if(result > 0){
+                                        // 모달 닫기
+                                        $('#address-add').modal('hide')
+
+                                        // 주문서에 배송지 정보 입력하기
+                                        $("#recipient").val($recipient);
+                                        $("#reciPhone").val($recipientPhone);
+                                        $("#shippingZipCode").val("(" + $zipCode + ")");
+                                        $("#shippingAddress").val($address);
+                                        
+                                        // 모달에 입력한 값 비워주기
+                                        $("#userName").val("");
+                                        $("#phone").val("");
+                                        $("#zipCode").val("")
+                                        $("#address").val("");
+                                        $("#detailAddress").val("");
+
+                                    } else{
+                                        alert("배송지 변경에 실패했습니다.");
+                                    }
+                                    
+                                },
+                                error:function(){
+                                    console.log("배송지 변경용 ajax 통신 실패");
+                                }
+                            })
+                    
+                        }
+                    }
+
+                   
                 </script>
 
 
                 <script>
                     function addHypen(obj) {
-                   var number = obj.value.replace(/[^0-9]/g, "");
-                   var phone = "";
-                
-                   if(number.length < 4) {
-                       return number;
-                   } else if(number.length < 7) {
-                       phone += number.substr(0, 3);
-                       phone += "-";
-                       phone += number.substr(3);
-                   } else if(number.length < 11) {
-                       phone += number.substr(0, 3);
-                       phone += "-";
-                       phone += number.substr(3, 3);
-                       phone += "-";
-                       phone += number.substr(6);
-                   } else {
-                       phone += number.substr(0, 3);
-                       phone += "-";
-                       phone += number.substr(3, 4);
-                       phone += "-";
-                       phone += number.substr(7);
-                   }
-                   obj.value = phone;
-                }
+                        var number = obj.value.replace(/[^0-9]/g, "");
+                        var phone = "";
+                        
+                        if(number.length < 4) {
+                            return number;
+                        } else if(number.length < 7) {
+                            phone += number.substr(0, 3);
+                            phone += "-";
+                            phone += number.substr(3);
+                        } else if(number.length < 11) {
+                            phone += number.substr(0, 3);
+                            phone += "-";
+                            phone += number.substr(3, 3);
+                            phone += "-";
+                            phone += number.substr(6);
+                        } else {
+                            phone += number.substr(0, 3);
+                            phone += "-";
+                            phone += number.substr(3, 4);
+                            phone += "-";
+                            phone += number.substr(7);
+                        }
+                        obj.value = phone;
+                    }
                 </script>
 
                 <!-- 주소 api -->
@@ -947,7 +1019,7 @@
                 </div>
                 <br><br>
                 <div align="center">
-                    <button type="button" class="btn btn-outline-secondary">취소</button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="history.back();">취소</button>
                     <button id="submit" type="submit" class="btn btn-outline-success" disabled>다음단계</button>
                 </div>
                 <br><br>

@@ -80,14 +80,11 @@ public class StyleInsertController extends HttpServlet {
 			}
 			
 			StyleService sService = new StyleService();
-			
 			int result = sService.insertStyle(s, list, pcode);
 			
 			if(result > 0) {
 				request.getSession().setAttribute("alertMsg", "성공적으로 스타일이 등록되었습니다.");
-				String nickname = ((User)session.getAttribute("loginUser")).getUserNickName();
-				System.out.println(nickname);
-				response.sendRedirect(request.getContextPath() + "/profileView.st?nickname=" + nickname);
+				response.sendRedirect(request.getContextPath() + "/profileView.st?userNo=" + userNo);
 			} else {
 				for(int j=0; j<list.size(); j++) {
 					new File(savePath + list.get(j).getChangeName()).delete();

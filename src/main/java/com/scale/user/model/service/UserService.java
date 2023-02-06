@@ -95,12 +95,12 @@ public class UserService {
 
 	/**
 	 * @writer 먼지링
-	 * @param 유저정보를 찾을 때 사용할 nickname
+	 * @param 유저정보를 찾을 때 사용할 userNo
 	 * @return User정보
 	 */
-	public User selectUserByNickname(String nickname) {
+	public User selectUserByUserNo(int userNo) {
 		Connection conn = getConnection();
-		User user = new UserDao().selectUserByNickname(conn, nickname);
+		User user = new UserDao().selectUserByUserNo(conn, userNo);
 		close(conn);
 		return user;
 	}
@@ -267,7 +267,7 @@ public Product userDetailImg(int biddingNo) {
 		Connection conn = getConnection();
 		int result = new UserDao().updatePaymentAndShipping(conn, ad);
 		
-		Address ba = null;
+		
 		if(result > 0) {
 			commit(conn);
 			
@@ -278,15 +278,7 @@ public Product userDetailImg(int biddingNo) {
 		return result;
 	}
 	
-	public Address selectBasicAddress(int userNo) {
-		
-		Connection conn = getConnection();
-		Address ad = new UserDao().selectBasicAddress(conn, userNo);
-		
-		close(conn);
-		
-		return ad;
-	}
+	
 	
 	public ArrayList<Product> userSellBidding(int userNo) {
 		Connection conn = getConnection();
@@ -303,5 +295,85 @@ public Product userDetailImg(int biddingNo) {
 		close(conn);
 		
 		return b;
+	}
+	
+	
+	public int insertAddress(Address ad) {
+		
+		Connection conn = getConnection();
+		int result = 0;
+		if(ad.getDefaultAdd().equals("Y")) {
+			int result1 = new UserDao().changeDefAddress(conn, ad.getUserNo());
+			int result2 = new UserDao().insertDefAdd(conn, ad);
+			result = result1 * result2;
+		} else {
+			result = new UserDao().insertNewAdd(conn, ad);
+		}
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+	}
+	/*
+	public ArrayList<Address> selectBasicAddressList(int userNo){
+		
+		Connection conn = getConnection();
+		ArrayList<Address> list = new UserDao().selectBasicAddressList(conn, userNo);
+		
+		close(conn);
+		
+		return list;
+		
+	}
+	*/
+	public int updateBasicAddress(int addressNo) {
+		
+		Connection conn = getConnection();
+		int result = new UserDao().updateBasicAddress(conn, addressNo);
+		
+		
+		if(result > 0) {
+			commit(conn);
+			
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+	
+	public Bidding selectDetailSellList(int userNo, int biddingNo) {
+		
+		Connection conn = getConnection();
+		Bidding b1 = new UserDao().selectDetailSellList(conn, userNo, biddingNo);
+		
+		close(conn);
+		
+		return b1;
+	}
+	
+	public ArrayList<Product> userBuyList(int userNo) {
+		
+		Connection conn = getConnection();
+		ArrayList<Product> list = new UserDao().userBuyList(conn, userNo);
+		close(conn);
+		return list;
+	}
+	
+	
+	
+	public Bidding selectDetailBuyList(String paymentNo,int userNo,int biddingNo) {
+		
+		Connection conn = getConnection();
+		Bidding b1 = new UserDao().selectDetailBuyList(conn, paymentNo, userNo, biddingNo);
+		
+		close(conn);
+		
+		return b1;
 	}
 }

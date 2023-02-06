@@ -40,11 +40,11 @@ public class AjaxStyleDetailController extends HttpServlet {
 		String view = request.getParameter("view");
 		int boardLimit = 12;
 		String tag = request.getParameter("tag") != null ? request.getParameter("tag") : "";
-		String userID = request.getParameter("userID") != null ? request.getParameter("userID") : "";
+		int no = request.getParameter("no") != null ? Integer.parseInt(request.getParameter("no")) : 0;
 		User loginUser = (User)request.getSession().getAttribute("loginUser");
 		int userNo = loginUser != null ? loginUser.getUserNo() : 0;
 		
-		HashMap<String, Object> map = new StyleService().selectAddDetail(cpage, view, boardLimit, tag, userID, userNo);
+		HashMap<String, Object> map = new StyleService().selectAddDetail(cpage, view, boardLimit, tag, no, userNo);
 		
 		response.setContentType("application/json; charset=UTF-8");
 		new Gson().toJson(map, response.getWriter());

@@ -35,6 +35,8 @@ public class UserDetailSellBiddingController extends HttpServlet {
 		
 		Bidding b = new UserService().userDetailSellBidding(biddingNo);
 		
+		
+		
 		request.setAttribute("b", b);
 		request.getRequestDispatcher("views/user/userDetailSellBidding.jsp").forward(request, response);
 	}

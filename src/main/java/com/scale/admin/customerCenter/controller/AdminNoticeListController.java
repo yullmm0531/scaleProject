@@ -32,10 +32,8 @@ public class AdminNoticeListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		
 		// 페이징바
-		int listCount = new CustomerCenterService().selectNoticeListCount();
+		int listCount = new CustomerCenterService().selectAdminNoticeCount();
 		int currentPage = Integer.parseInt(request.getParameter("cpage"));
 		int pageLimit = 5;
 		int boardLimit = 10;
@@ -47,24 +45,11 @@ public class AdminNoticeListController extends HttpServlet {
 			endPage = maxPage;
 		}
 		
-		listCount = new CustomerCenterService().selectNoticeListCount();
-		currentPage = Integer.parseInt(request.getParameter("cpage"));
-		pageLimit = 5;
-		boardLimit = 10;
-		
-		maxPage = (int)Math.ceil((double)listCount / boardLimit);
-		startPage = (currentPage-1) / pageLimit * pageLimit + 1;
-		endPage = startPage + pageLimit - 1;
-		if(endPage > maxPage) {
-			endPage = maxPage;
-		}
-		
 		
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 		
 		// 페이지 조회
-		ArrayList<Notice> list = new CustomerCenterService().selectNoticeList(pi);
-		System.out.println(list);
+		ArrayList<Notice> list = new CustomerCenterService().selectAdminNoticeList(pi);
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
 		

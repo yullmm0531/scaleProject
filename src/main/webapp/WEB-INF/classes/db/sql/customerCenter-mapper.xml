@@ -66,10 +66,14 @@
 		                     , NOTICE_TITLE
 		                     , TO_CHAR(CREATE_DATE, 'YYYY.MM.DD') "CREATE_DATE"
 		                     , COUNT
+		                     , DISPLAY_STATUS
+		                     , USER_NAME "NOTICE_WRITER"
 		                  FROM TB_NOTICE
+		                  JOIN TB_USER ON (USER_NO = NOTICE_WRITER)
 		                 WHERE DISPLAY_STATUS = 'Y'
 		                   AND DELETE_STATUS = 'N'
-                           AND NOTICE_TITLE LIKE '%' || ? || '%' OR NOTICE_CONTENT LIKE '%' || ? || '%'
+                           AND NOTICE_TITLE LIKE '%' || ? || '%'
+                            OR NOTICE_CONTENT LIKE '%' || ? || '%'
 		                 ORDER
 		                    BY NOTICE_NO DESC
 		                ) N
@@ -87,7 +91,10 @@
 		                     , NOTICE_TITLE
 		                     , TO_CHAR(CREATE_DATE, 'YYYY.MM.DD') "CREATE_DATE"
 		                     , COUNT
+		                     , DISPLAY_STATUS
+		                     , USER_NAME "NOTICE_WRITER"
 		                  FROM TB_NOTICE
+		                  JOIN TB_USER ON (USER_NO = NOTICE_WRITER)
 		                 WHERE DISPLAY_STATUS = 'Y'
 		                   AND DELETE_STATUS = 'N'
                            AND NOTICE_TITLE LIKE '%' || ? || '%'
@@ -108,7 +115,10 @@
 		                     , NOTICE_TITLE
 		                     , TO_CHAR(CREATE_DATE, 'YYYY.MM.DD') "CREATE_DATE"
 		                     , COUNT
+		                     , DISPLAY_STATUS
+		                     , USER_NAME "NOTICE_WRITER"
 		                  FROM TB_NOTICE
+		                  JOIN TB_USER ON (USER_NO = NOTICE_WRITER)
 		                 WHERE DISPLAY_STATUS = 'Y'
 		                   AND DELETE_STATUS = 'N'
                            AND NOTICE_CONTENT LIKE '%' || ? || '%'
@@ -117,6 +127,27 @@
 		                ) N
        			)
  		  WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="increaseNoticeCount">
+		UPDATE TB_NOTICE
+		   SET COUNT = COUNT+1
+		 WHERE NOTICE_NO = ?
+		   AND DISPLAY_STATUS = 'Y'
+		   AND DELETE_STATUS = 'N'
+	</entry>
+	
+	<entry key="selectNoticeDetail">
+		SELECT 
+			   NOTICE_NO
+			 , NOTICE_TITLE
+			 , NOTICE_CONTENT
+			 , TO_CHAR(CREATE_DATE, 'YYYY.MM.DD') "CREATE_DATE"
+			 , COUNT
+		  FROM TB_NOTICE
+		 WHERE DISPLAY_STATUS = 'Y'
+		   AND DELETE_STATUS = 'N'
+		   AND NOTICE_NO = ?
 	</entry>
 	
 	<!-- faq -->
@@ -244,6 +275,7 @@
 		UPDATE TB_INQUIRE
 		   SET INQUIRE_STATUS = 'N'
 		 WHERE INQUIRE_NO = ?
+		   AND INQUIRE_STATUS = 'Y'
 	</entry>
 	
 	<!-- 1:1 문의 등록 -->
@@ -272,6 +304,145 @@
 	<!-- 어드민 -->
 	
 	<!-- 공지사항 -->
+	<entry key="selectAdminNoticeCount">
+		SELECT
+			   COUNT(*) "COUNT"
+	      FROM TB_NOTICE
+	     WHERE DELETE_STATUS = 'N'
+	</entry>
+	
+	<entry key="selectAdminNoticeList">
+		SELECT * 
+  		  FROM (
+		        SELECT ROWNUM RNUM, N.*
+		          FROM (
+		                SELECT
+		                       NOTICE_NO
+		                     , NOTICE_TITLE
+		                     , TO_CHAR(CREATE_DATE, 'YYYY.MM.DD') "CREATE_DATE"
+		                     , COUNT
+		                     , DISPLAY_STATUS
+		                     , USER_NAME "NOTICE_WRITER"
+		                  FROM TB_NOTICE
+		                  JOIN TB_USER ON (USER_NO = NOTICE_WRITER)
+		                 WHERE DELETE_STATUS = 'N'
+		                 ORDER
+		                    BY NOTICE_NO DESC
+		                ) N
+       			)
+ 		  WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="searchAdminNoticeAllCount">
+		SELECT
+			   COUNT(*) "COUNT"
+	      FROM TB_NOTICE
+	     WHERE DELETE_STATUS = 'N'
+	       AND (NOTICE_TITLE LIKE '%' || ? || '%') OR (NOTICE_CONTENT LIKE '%' || ? || '%')
+	</entry>
+	
+	<entry key="searchAdminNoticeTitleCount">
+		SELECT
+			   COUNT(*) "COUNT"
+	      FROM TB_NOTICE
+	     WHERE DELETE_STATUS = 'N'
+	       AND NOTICE_TITLE LIKE '%' || ? || '%'
+	</entry>
+
+	
+	<entry key="searchAdminNoticeContentCount">
+		SELECT
+			   COUNT(*) "COUNT"
+	      FROM TB_NOTICE
+	     WHERE DELETE_STATUS = 'N'
+	       AND NOTICE_CONTENT LIKE '%' || ? || '%'
+	</entry>
+	
+	<entry key="searchAdminNoticeListAll">
+		SELECT * 
+  		  FROM (
+		        SELECT ROWNUM RNUM, N.*
+		          FROM (
+		                SELECT
+		                       NOTICE_NO
+		                     , NOTICE_TITLE
+		                     , TO_CHAR(CREATE_DATE, 'YYYY.MM.DD') "CREATE_DATE"
+		                     , COUNT
+		                     , DISPLAY_STATUS
+		                     , USER_NAME "NOTICE_WRITER"
+		                  FROM TB_NOTICE
+		                  JOIN TB_USER ON (USER_NO = NOTICE_WRITER)
+		                 WHERE DELETE_STATUS = 'N'
+                           AND NOTICE_TITLE LIKE '%' || ? || '%'
+                            OR NOTICE_CONTENT LIKE '%' || ? || '%'
+		                 ORDER
+		                    BY NOTICE_NO DESC
+		                ) N
+       			)
+ 		  WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="searchAdminNoticeListTitle">
+		SELECT * 
+  		  FROM (
+		        SELECT ROWNUM RNUM, N.*
+		          FROM (
+		                SELECT
+		                       NOTICE_NO
+		                     , NOTICE_TITLE
+		                     , TO_CHAR(CREATE_DATE, 'YYYY.MM.DD') "CREATE_DATE"
+		                     , COUNT
+		                     , DISPLAY_STATUS
+		                     , USER_NAME "NOTICE_WRITER"
+		                  FROM TB_NOTICE
+		                  JOIN TB_USER ON (USER_NO = NOTICE_WRITER)
+		                 WHERE DELETE_STATUS = 'N'
+                           AND NOTICE_TITLE LIKE '%' || ? || '%'
+		                 ORDER
+		                    BY NOTICE_NO DESC
+		                ) N
+       			)
+ 		  WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="searchAdminNoticeListContent">
+		SELECT * 
+  		  FROM (
+		        SELECT ROWNUM RNUM, N.*
+		          FROM (
+		                SELECT
+		                       NOTICE_NO
+		                     , NOTICE_TITLE
+		                     , TO_CHAR(CREATE_DATE, 'YYYY.MM.DD') "CREATE_DATE"
+		                     , COUNT
+		                     , DISPLAY_STATUS
+		                     , USER_NAME "NOTICE_WRITER"
+		                  FROM TB_NOTICE
+		                  JOIN TB_USER ON (USER_NO = NOTICE_WRITER)
+		                 WHERE DELETE_STATUS = 'N'
+                           AND NOTICE_CONTENT LIKE '%' || ? || '%'
+		                 ORDER
+		                    BY NOTICE_NO DESC
+		                ) N
+       			)
+ 		  WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="selectAdminNoticeDetail">
+		SELECT 
+			   NOTICE_NO
+			 , NOTICE_TITLE
+			 , NOTICE_CONTENT
+			 , TO_CHAR(CREATE_DATE, 'YYYY.MM.DD') "CREATE_DATE"
+			 , TO_CHAR(MODIFY_DATE, 'YYYY.MM.DD') "MODIFY_DATE"
+			 , DISPLAY_STATUS
+			 , USER_NAME "NOTICE_WRITER"
+		  FROM TB_NOTICE
+		  JOIN TB_USER ON (USER_NO = NOTICE_WRITER)
+		 WHERE DELETE_STATUS = 'N'
+		   AND NOTICE_NO = ?
+	</entry>
+	
 	<entry key="insertNotice">
 		INSERT
 		  INTO TB_NOTICE
@@ -290,6 +461,215 @@
 		  	 , ?
 		  	 , ?
 		  	 )
-		
+	</entry>
+	
+	<entry key="updateNotice">
+		UPDATE TB_NOTICE
+		   SET NOTICE_TITLE = ?
+		     , NOTICE_CONTENT = ?
+		     , MODIFY_DATE = SYSDATE
+		     , DISPLAY_STATUS = ?
+		 WHERE NOTICE_NO = ?
+	</entry>
+	
+	<entry key="deleteNotice">
+		UPDATE TB_NOTICE
+		   SET DELETE_STATUS = 'Y'
+		 WHERE NOTICE_NO = ?
+		   AND DELETE_STATUS = 'N'
+	</entry>
+	
+	<!-- faq -->
+	<entry key="selectAdminFaqListAll">
+		 SELECT * 
+  		  FROM (
+		        SELECT ROWNUM RNUM, F.*
+		          FROM (
+		                SELECT 
+							   FAQ_NO
+							 , FAQ_QUESTION
+							 , FAQ_ANSWER
+							 , TO_CHAR(CREATE_DATE, 'YYYY.MM.DD') "CREATE_DATE"
+							 , TO_CHAR(MODIFY_DATE, 'YYYY.MM.DD') "MODIFY_DATE"
+							 , CATEGORY
+							 , USER_NAME "FAQ_WRITER"
+						  FROM TB_FAQ T
+						  JOIN TB_USER U ON (T.FAQ_WRITER = U.USER_NO)
+						 WHERE T.STATUS = 'Y'
+		                 ORDER
+		                    BY FAQ_NO DESC
+		                ) F
+       			)
+ 		  WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="insertFaq">
+		INSERT
+		  INTO TB_FAQ
+		  (
+		  	FAQ_NO
+		  , FAQ_QUESTION
+		  , FAQ_ANSWER
+		  , STATUS
+		  , CATEGORY
+		  , FAQ_WRITER
+		  )
+		  VALUES
+		  (
+		  	SEQ_FNO.NEXTVAL
+		  , ?
+		  , ?
+		  , 'Y'
+		  , ?
+		  , ?
+		  )
+	</entry>
+	
+	<entry key="selectAdminFaqListCount">
+		SELECT
+			   COUNT(*) "COUNT"		                      
+          FROM TB_FAQ
+         WHERE STATUS = 'Y'
+           AND CATEGORY = ?
+	</entry>
+	
+	<entry key="selectAdminFaqList">
+		SELECT * 
+  		  FROM (
+		        SELECT ROWNUM RNUM, F.*
+		          FROM (
+		                SELECT
+		                       FAQ_NO
+		                     , FAQ_QUESTION
+                             , FAQ_ANSWER
+                             , CATEGORY
+                             , USER_NAME "FAQ_WRITER"
+		                  FROM TB_FAQ T
+		                  JOIN TB_USER ON(FAQ_WRITER = USER_NO)
+		                 WHERE T.STATUS = 'Y'
+                           AND CATEGORY = ?
+		                 ORDER
+		                    BY FAQ_NO DESC
+		                ) F
+       			)
+ 		  WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="updateFaq">
+		UPDATE TB_FAQ
+		   SET FAQ_QUESTION = ?
+		     , FAQ_ANSWER = ?
+		     , CATEGORY = ?
+		     , FAQ_WRITER = ?
+		     , MODIFY_DATE = SYSDATE
+		 WHERE FAQ_NO = ?
+		   AND STATUS = 'Y'
+	</entry>
+	
+	<entry key="deleteFaq">
+		UPDATE TB_FAQ
+		   SET STATUS = 'N'
+		 WHERE FAQ_NO = ?
+		   AND STATUS = 'Y'
+	</entry>
+	
+	<entry key="selectAdminInquireCount">
+		SELECT
+			   COUNT(*) "COUNT"
+	      FROM TB_INQUIRE
+	     WHERE INQUIRE_STATUS = 'Y'
+	</entry>
+	
+	<entry key="selectAdminInquireList">
+		SELECT * 
+  		  FROM (
+		        SELECT ROWNUM RNUM, I.*
+		          FROM (
+		                SELECT
+		                       INQUIRE_NO
+		                     , INQUIRE_TITLE
+                             , TO_CHAR(INQUIRE_DATE, 'YYYY.MM.DD') "INQUIRE_DATE"
+                             , TO_CHAR(ANSWER_MODIFY_DATE, 'YYYY.MM.DD') "ANSWER_MODIFY_DATE"
+                             , ANSWER_STATUS
+                             , (SELECT USER_ID 
+                                 FROM TB_USER
+                                WHERE USER_NO = INQUIRE_USER) "INQUIRE_USER"
+                             , USER_NAME "ANSWER_USER"
+                             , CATEGORY
+		                  FROM TB_INQUIRE T
+		                  LEFT JOIN TB_USER ON (ANSWER_USER = USER_NO)
+		                 WHERE INQUIRE_STATUS = 'Y'
+		                 ORDER
+		                    BY INQUIRE_NO DESC
+		                ) I
+       			)
+ 		  WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="selectAdminInquireDetail">
+		SELECT
+			   INQUIRE_NO
+			 , INQUIRE_TITLE
+			 , INQUIRE_CONTENT
+			 , TO_CHAR(INQUIRE_DATE, 'YYYY.MM.DD') "INQUIRE_DATE"
+			 , INQUIRE_IMG
+			 , ANSWER_CONTENT
+			 , TO_CHAR(ANSWER_DATE, 'YYYY.MM.DD') "ANSWER_DATE"
+			 , TO_CHAR(ANSWER_MODIFY_DATE, 'YYYY.MM.DD') "ANSWER_MODIFY_DATE"
+			 , ANSWER_STATUS
+			 , (SELECT USER_ID 
+                  FROM TB_USER
+                 WHERE USER_NO = INQUIRE_USER) "INQUIRE_USER"
+             , USER_NAME "ANSWER_USER"
+			 , CATEGORY
+	      FROM TB_INQUIRE
+	      LEFT 
+	      JOIN TB_USER ON (ANSWER_USER = USER_NO)
+	      WHERE INQUIRE_STATUS = 'Y'
+	        AND INQUIRE_NO = ?
+	</entry>
+	
+	<entry key="updateAnswer">
+		UPDATE TB_INQUIRE
+		   SET ANSWER_CONTENT = ?
+		     , ANSWER_MODIFY_DATE = SYSDATE
+		     , ANSWER_STATUS = 'Y'
+		     , ANSWER_USER = ?
+		 WHERE INQUIRE_NO = ?
+	</entry>
+	
+	<entry key="selectAdminInquireCountCategory">
+		SELECT
+			   COUNT(*) "COUNT"
+	      FROM TB_INQUIRE
+	     WHERE INQUIRE_STATUS = 'Y'
+	       AND CATEGORY = ?
+	</entry>
+	
+	<entry key="selectAdminInquireListCategory">
+		SELECT * 
+  		  FROM (
+		        SELECT ROWNUM RNUM, I.*
+		          FROM (
+		                SELECT
+		                       INQUIRE_NO
+		                     , INQUIRE_TITLE
+                             , TO_CHAR(INQUIRE_DATE, 'YYYY.MM.DD') "INQUIRE_DATE"
+                             , TO_CHAR(ANSWER_MODIFY_DATE, 'YYYY.MM.DD') "ANSWER_MODIFY_DATE"
+                             , ANSWER_STATUS
+                             , (SELECT USER_ID 
+                                 FROM TB_USER
+                                WHERE USER_NO = INQUIRE_USER) "INQUIRE_USER"
+                             , USER_NAME "ANSWER_USER"
+                             , CATEGORY
+		                  FROM TB_INQUIRE T
+		                  LEFT JOIN TB_USER ON (ANSWER_USER = USER_NO)
+		                 WHERE INQUIRE_STATUS = 'Y'
+		                   AND CATEGORY = ?
+		                 ORDER
+		                    BY INQUIRE_NO DESC
+		                ) I
+       			)
+ 		  WHERE RNUM BETWEEN ? AND ?
 	</entry>
 </properties>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<!-- 어드민 로그인 -->
+	<entry key="adminLogin">
+		SELECT 
+			   USER_NO
+			 , USER_ID
+			 , USER_PWD
+			 , USER_NAME
+			 , PHONE
+			 , EMAIL
+			 , ENROLL_DATE
+			 , STATUS
+			 , DELETE_DATE
+			 , MANAGER_CHECK
+		  FROM TB_USER
+		 WHERE USER_ID = ?
+		   AND USER_PWD = ?
+		   AND MANAGER_CHECK = 'Y'
+		   AND STATUS = 'Y'
+	</entry>
+</properties>

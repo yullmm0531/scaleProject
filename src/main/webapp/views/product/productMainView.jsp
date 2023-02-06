@@ -130,14 +130,15 @@
 
         <div id="pcontent">
             <div id="pcontent-1">
-                 <span><h3>필터</h3></span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  <span id="eraser"><u>모두지우기</u></span>
+                 <span><h3>필터</h3></span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  
                  <div class="category-box">
                     <li class="cate" style="cursor:pointer">
                         카테고리
                         <ul class="sub" style="display:none">
-                            <li><input type="checkbox" id="ckb" class="chk">신발</li>
-                            <li><input type="checkbox" id="ckb1" class="chk">지갑</li>
-                            <li><input type="checkbox" id="ckb2" class="chk">테크</li>
+                        	<li><input type="radio" id="ckb" class="chk">전체</li>
+                            <li><input type="radio" id="ckb1" class="chk">신발</li>
+                            <li><input type="radio" id="ckb2" class="chk">지갑</li>
+                            <li><input type="radio" id="ckb3" class="chk">테크</li>
                         </ul>
                     </li>
                     <li class="brand" style="cursor:pointer">
@@ -145,7 +146,7 @@
                         <ul class="sub1" style="display:none">
                             <div id="b-box" style="overflow:auto; width:120px; height:100px">
                              <% for(Brand b : blist){ %>
-                            <li><input type="checkbox" class="chk"><%= b.getBrandName() %></li>
+                            <li><input type="radio" class="chk"><%= b.getBrandName() %></li>
                              <% } %>
                             </div>
                         </ul>
@@ -164,10 +165,11 @@
                     <li class="price" style="cursor:pointer">
                         가격
                         <ul class="sub3" style="display:none">
-                            <li><input type="checkbox"  class="chk">10만원이하</li>
-                            <li><input type="checkbox"  class="chk">10만원~30만원이하</li>
-                            <li><input type="checkbox"  class="chk">30만원~50만원이하</li>
-                            <li><input type="checkbox"  class="chk">50만원이상</li>
+                        	<li><input type="radio"  class="chk">전체</li>
+                            <li><input type="radio"  class="chk">10만원이하</li>
+                            <li><input type="radio"  class="chk">10만원~30만원이하</li>
+                            <li><input type="radio"  class="chk">30만원~50만원이하</li>
+                            <li><input type="radio"  class="chk">50만원이상</li>
                         </ul>
                     </li>
                 </div>
@@ -184,7 +186,7 @@
                     <div class="sortbar" align="right"> 
                         <select name="sortlist" id="sort">
                             <option value="popular">인기순</option>
-                            <option value="newest">최신순</option>
+                            <option value="newest" onclick="location.href='<%= contextPath %>/psort.pd?view=sort'">최신순</option>
                             
                         </select>
                     </div>
@@ -194,29 +196,25 @@
                    
                 </div>
                 
-                <script>
-                
-					$(function(){
-						$(".cell").click(function(){
-							location.href = "<%=contextPath%>/detail.pd?co=" + $(this).children('input').val();
-						})
-					})
-					
-					
-					
-				
-				</script>
+                 <button id="top" class="btn btn-primary">^</button>
                 
                 
             </div>
         </div>
 
-        <div id="pfooter">
-           
-        </div>
+        <div id="pfooter"> </div>
 
     </div>
     
+    <script>
+                
+		$(function(){
+			$(".cell").click(function(){
+			location.href = "<%=contextPath%>/detail.pd?co=" + $(this).children('input').val();
+			})
+		})
+				
+	</script>
     <!-- 필터바 -->
     <script>
         $(".cate").click(function(){
@@ -254,23 +252,24 @@
         $(function(){
             $("#topBtn").click(function(){
                 let check = $("ckb").is(":checked");
-                $("#ckb").attr("checked", "checked");
+                $("#ckb1").attr("checked", "checked");
             });
             $("#topBtn1").click(function(){
                 let check = $("ckb1").is(":checked");
-                $("#ckb1").attr("checked", "checked");
+                $("#ckb2").attr("checked", "checked");
             });
             $("#topBtn2").click(function(){
                 let check = $("ckb2").is(":checked");
-                $("#ckb2").attr("checked", "checked");
+                $("#ckb3").attr("checked", "checked");
             });
         });
+        
+        $("#top").click(function(){
+            window.scrollTo({ top: 0 });
+        })
+        
     </script>
 
-    <!-- 필터 모두 해제 -->
-    <script>
-    	
-    </script>
     
     <!-- 무한스크롤 -->
     <script>
@@ -371,9 +370,31 @@
     		
     </script>
     
-    
+	<!-- 클릭 -->    
     <script>
-
+		$(function(){
+			
+			$("input:radio[name='chk']").on('click', function(){
+				var kind = $(this).val();
+				
+				$.ajax({
+					url: "plist.pd",
+					type:"post",
+					cache:false,
+					data:{
+						id : $(this).val(),
+						"filter" : kind
+					},
+					success : function(data){
+						$('#plist').html(data);
+					},
+					error : function(data){
+						alert('error');
+					}
+				})
+			})
+		})
+    
     </script>
     
 </body>

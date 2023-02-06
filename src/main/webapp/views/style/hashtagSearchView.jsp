@@ -180,7 +180,7 @@
 										+ "<tr>"
 											+ "<td class='nickname'>"
 												+ "<img src='<%= contextPath %>/" + list[i].profileImg + "' class='rounded-circle'>"
-												+ "<a href='<%= contextPath %>/profileView.st?nickname=" + list[i].styleWriter + "'>" + list[i].styleWriter + "</a>"
+												+ "<a href='<%= contextPath %>/profileView.st?userNo=" + list[i].userNo + "'>" + list[i].styleWriter + "</a>"
 											+ "</td>"
 											+ "<td class='like'>"
 									if(checkLike[i] == 0){
