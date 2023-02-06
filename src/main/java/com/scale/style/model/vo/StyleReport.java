@@ -5,10 +5,8 @@ import java.sql.Date;
 public class StyleReport {
 	
 	private int reportNo;
-	private int reportedUserNo;
-	private String reportedUserId;
-	private int reportingUserNo;
-	private String reportingUserId;
+	private String reportedUser;
+	private String reportingUser;
 	private String title;
 	private String content;
 	private Date reportedDate;
@@ -17,14 +15,12 @@ public class StyleReport {
 
 	public StyleReport() {}
 
-	public StyleReport(int reportNo, int reportedUserNo, String reportedUserId, int reportingUserNo,
-			String reportingUserId, String title, String content, Date reportedDate, int styleNo, String reportCheck) {
+	public StyleReport(int reportNo, String reportedUser, String reportingUser, String title, String content,
+			Date reportedDate, int styleNo, String reportCheck) {
 		super();
 		this.reportNo = reportNo;
-		this.reportedUserNo = reportedUserNo;
-		this.reportedUserId = reportedUserId;
-		this.reportingUserNo = reportingUserNo;
-		this.reportingUserId = reportingUserId;
+		this.reportedUser = reportedUser;
+		this.reportingUser = reportingUser;
 		this.title = title;
 		this.content = content;
 		this.reportedDate = reportedDate;
@@ -32,10 +28,10 @@ public class StyleReport {
 		this.reportCheck = reportCheck;
 	}
 
-	public StyleReport(int reportedUserNo, int reportingUserNo, String title, String content, int styleNo) {
+	public StyleReport(String reportedUser, String reportingUser, String title, String content, int styleNo) {
 		super();
-		this.reportedUserNo = reportedUserNo;
-		this.reportingUserNo = reportingUserNo;
+		this.reportedUser = reportedUser;
+		this.reportingUser = reportingUser;
 		this.title = title;
 		this.content = content;
 		this.styleNo = styleNo;
@@ -49,36 +45,20 @@ public class StyleReport {
 		this.reportNo = reportNo;
 	}
 
-	public int getReportedUserNo() {
-		return reportedUserNo;
+	public String getReportedUser() {
+		return reportedUser;
 	}
 
-	public void setReportedUserNo(int reportedUserNo) {
-		this.reportedUserNo = reportedUserNo;
+	public void setReportedUser(String reportedUser) {
+		this.reportedUser = reportedUser;
 	}
 
-	public String getReportedUserId() {
-		return reportedUserId;
+	public String getReportingUser() {
+		return reportingUser;
 	}
 
-	public void setReportedUserId(String reportedUserId) {
-		this.reportedUserId = reportedUserId;
-	}
-
-	public int getReportingUserNo() {
-		return reportingUserNo;
-	}
-
-	public void setReportingUserNo(int reportingUserNo) {
-		this.reportingUserNo = reportingUserNo;
-	}
-
-	public String getReportingUserId() {
-		return reportingUserId;
-	}
-
-	public void setReportingUserId(String reportingUserId) {
-		this.reportingUserId = reportingUserId;
+	public void setReportingUser(String reportingUser) {
+		this.reportingUser = reportingUser;
 	}
 
 	public String getTitle() {
@@ -123,10 +103,9 @@ public class StyleReport {
 
 	@Override
 	public String toString() {
-		return "StyleReport [reportNo=" + reportNo + ", reportedUserNo=" + reportedUserNo + ", reportedUserId="
-				+ reportedUserId + ", reportingUserNo=" + reportingUserNo + ", reportingUserId=" + reportingUserId
-				+ ", title=" + title + ", content=" + content + ", reportedDate=" + reportedDate + ", styleNo="
-				+ styleNo + ", reportCheck=" + reportCheck + "]";
+		return "StyleReport [reportNo=" + reportNo + ", reportedUser=" + reportedUser + ", reportingUser="
+				+ reportingUser + ", title=" + title + ", content=" + content + ", reportedDate=" + reportedDate
+				+ ", styleNo=" + styleNo + ", reportCheck=" + reportCheck + "]";
 	}
-	
+
 }

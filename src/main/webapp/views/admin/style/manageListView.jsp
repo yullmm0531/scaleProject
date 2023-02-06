@@ -56,15 +56,17 @@
     .style-img img{width: 260px; height: 260px; box-sizing: border-box;}
 
     .nickname-td{
-        width: 110px;
+        width: 150px;
         height: 40px; 
         text-align: left;
     }
     .nickname-td>img{width: 25px; height: 25px;}
-    .nickname>span{margin-left: 3px;}
-
-    .date-td{width: 150px}
-    .date{text-align: right;}
+    .nickname>span{
+        width: 35px;
+        margin-left: 3px;
+    }
+        
+    .date-td{width: 110px; text-align: right;}
     .date>a{padding: 0;}
 
     .content{
@@ -185,7 +187,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="content-td">
+                            <td colspan="2" class="content-td">
                                 <div class="content"><%= list.get(i).getContent() %></div>
                             </td>
                         </tr>

@@ -9,15 +9,13 @@
     .outer{
         width: 1000px;
         margin: auto;
-        margin-top: 50px;
-        /* border: 1px solid black; */
     }
-
-    #btn-1, #btn-2{width: 50%; float: left;}
-    #btn-2{text-align: right;}
+    #btn{width: 1200px;}
+    #btn1{width: 600px;}
+    #btn2{width: 600px; text-align: right;}
 
     #report{
-        width: 1000px; 
+        width: 1200px; 
         border: 1px solid black;
         text-align: center;
     }
@@ -27,7 +25,7 @@
         
     #content{height: 350px; padding-left: 50px; }
     #content>div{
-        width: 900px;
+        width: 1100px;
         height: 300px;
         background-color: lightgray;
         line-height: 300px;
@@ -55,18 +53,24 @@
 </style>
 </head>
 <body>
-    <div class="outer">
-        <div id="btn">
-            <div id="btn-1">
-                <button align="left" class="btn btn-secondary" data-toggle="modal" data-target="#myModal">신고게시글 보기</button>
-            </div>
-            <div id="btn-2">
-                <a href="" class="btn btn-info">신고처리</a>
-                <a href="" class="btn btn-danger">확인</a>
-            </div>
-        </div>
 
-        <br><br><br>
+    <%@ include file="../common/adminMenubar.jsp"%>
+
+    <div class="outer">
+        <br><br><br><br><br>
+        <table id="btn">
+            <tr>
+                <td id="btn1">
+                    <button class="btn btn-secondary" data-toggle="modal" data-target="#myModal">신고게시글 보기</button>
+                </td>
+                <td id="btn2">
+                    <a href="" class="btn btn-info" id="report-btn">신고처리</a>
+                    <a href="" class="btn btn-danger" id="reject-btn">반려</a>
+                </td>
+            </tr>
+        </table>
+        
+        <br>
 
         <table id="report">
             <tr>
@@ -103,7 +107,7 @@
         <br><br>
 
         <div align="center">
-            <a href="" class="btn btn-secondary">목록 보기</a>
+            <a onclick="history.back()" class="btn btn-secondary">목록 보기</a>
         </div>
 
     </div>

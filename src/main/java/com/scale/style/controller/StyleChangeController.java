@@ -65,16 +65,19 @@ public class StyleChangeController extends HttpServlet {
 			
 			ArrayList<StyleImg> list = new ArrayList<>();
 			
-			StyleImg img = new StyleImg();
 			for(int i=1; i<=10; i++) {
+				StyleImg img = new StyleImg();
 				String key = "file" + i;
+				
 				if(multiRequest.getOriginalFileName(key) == null) { // 첨부 x
-					if(multiRequest.getParameter("thumbnail" + i) != "/scale/resources/images/style/plus.png") { // 기존 o
+					if(multiRequest.getParameter("thumbnail" + i) != "plus.png") { // 기존 o
 						img.setOriginName("아무거나");
 						img.setChangeName(multiRequest.getParameter("cname" + i));
 						img.setFilePath("resources/images/style/style_upfiles/");
 						img.setFileLevel(i == 1 ? 1 : 2);
-						list.add(img);
+						if(multiRequest.getParameter("cname" + i) != null) {
+							list.add(img);
+						}
 					}
 				} else {
 					img.setOriginName(multiRequest.getOriginalFileName(key));
@@ -85,11 +88,9 @@ public class StyleChangeController extends HttpServlet {
 				}
 			}
 			
-			StyleService sService = new StyleService();
-			int result1 = sService.deleteImgPd(styleNo);
-			int result2 = sService.updateStyle(st, list, pcodeArr);
-			if(result1 > 0 && result2 > 0) {
-				request.getSession().setAttribute("alertMsg", "성공적으로 스타일이 등록되었습니다.");
+			int result = new StyleService().updateStyle(st, list, pcodeArr);
+			if(result > 0) {
+				request.getSession().setAttribute("alertMsg", "성공적으로 스타일이 수정되었습니다.");
 			} else {
 				for(int j=0; j<list.size(); j++) {
 					new File(savePath + list.get(j).getChangeName()).delete();
@@ -99,41 +100,6 @@ public class StyleChangeController extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/profileView.st?userNo=" + userNo);
 			
 		}
-		
-		
-		
-//		ArrayList<RecipeOrder> listOrder = new ArrayList<>();
-//		
-//		//int num2 = 1;
-//		for(int lo=2 ; lo<=11 ; lo++) {
-//			String orderExp = multiRequest.getParameter("order" + (lo-1));
-//			int recipeNoO = Integer.parseInt(multiRequest.getParameter("no"));
-//			int orderNo = Integer.parseInt(multiRequest.getParameter("orderNo"));
-//			
-//			String orderImg = multiRequest.getParameter("orderFile" + (lo-1));
-//			String changeOrderImg = "resources/recipe_upfiles/" + multiRequest.getFilesystemName("file" + lo);
-//			
-//		
-//			if(orderExp != null) {
-//				RecipeOrder listO = new RecipeOrder();
-//				listO.setRecipeExplain(orderExp);
-//				listO.setRecipeNo(recipeNoO);
-//				listO.setRecipeOrderNo(orderNo);
-//				listO.setRecipeOrder(lo-1);
-//				
-//				if(multiRequest.getFilesystemName("file" + lo) != null) {
-//					listO.setRecipeImg(changeOrderImg);
-//				}else {
-//					listO.setRecipeImg(orderImg);
-//				}
-//				
-//				
-//				// String orderFile = "resources/recipe_upfiles/" + multiRequest.getFilesystemName("file" + lo);
-//				// listO.setRecipeImg(orderFile);
-//			
-//				listOrder.add(listO);
-//				
-//			}
 		
 	}
 
