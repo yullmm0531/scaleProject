@@ -1,15 +1,18 @@
 package com.scale.product.model.service;
 
-import static com.scale.common.JDBCTemplate.*;
+import static com.scale.common.JDBCTemplate.close;
+import static com.scale.common.JDBCTemplate.commit;
+import static com.scale.common.JDBCTemplate.getConnection;
+import static com.scale.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 
 import com.scale.product.model.dao.ProductDao;
 import com.scale.product.model.vo.Brand;
+import com.scale.product.model.vo.Like;
 import com.scale.product.model.vo.Product;
 import com.scale.product.model.vo.ProductImg;
-import com.scale.style.model.dao.StyleDao;
 
 
 public class ProductService {
@@ -51,11 +54,15 @@ public class ProductService {
 		return list;
 	}
 	
-	public int clickLike(String productCode){
+	public ArrayList<Like> clickLike(){
+		
 		Connection conn = getConnection();
-		int result = new ProductDao().clickLike(conn, productCode);
+		ArrayList<Like> clickLike = new ProductDao().clickLike(conn);
+		
 		close(conn);
-		return result;
+		
+		return clickLike;
+		
 	}
 	
 	public int updateLike(int clickLike, int userNo, String pCode) {
@@ -155,6 +162,17 @@ public class ProductService {
 		
 		return userLike;
 		
+	}
+	
+	
+	public ArrayList<Like> selectUserAllLike(int userNo){
+		
+		Connection conn = getConnection();
+		ArrayList<Like> userLike = new ProductDao().selectUserAllLike(conn, userNo);
+		
+		close(conn);
+		
+		return userLike;
 	}
 	
 }

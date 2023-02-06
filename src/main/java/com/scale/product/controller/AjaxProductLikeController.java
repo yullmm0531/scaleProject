@@ -16,13 +16,13 @@ import com.scale.product.model.vo.Product;
  * Servlet implementation class ProductLikeController
  */
 @WebServlet("/plike.pd")
-public class ProductLikeController extends HttpServlet {
+public class AjaxProductLikeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ProductLikeController() {
+    public AjaxProductLikeController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,8 +37,11 @@ public class ProductLikeController extends HttpServlet {
 		
 		int userLike = new ProductService().selectUserLike(userNo, pCode);
 		int result = new ProductService().updateLike(userLike, userNo, pCode);
+		if(result > 0) {
+			int countLike = new ProductService().selectCountLike(pCode);
+			response.getWriter().print(countLike);
+		}
 		
-		response.getWriter().print(result);
 		
 		
 	}

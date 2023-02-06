@@ -53,7 +53,7 @@ public class ProductDetailController extends HttpServlet {
 		ArrayList<Bidding> sList = new BiddingService().selectSellBiddingList(pCode);
 		int likeCount = new ProductService().selectCountLike(pCode);
 		int userLike = new ProductService().selectUserLike(userNo, pCode);
-			
+		
 		
 		if(p == null) {
 			session.setAttribute("alertMsg", "상품 상세조회에 실패했습니다.");

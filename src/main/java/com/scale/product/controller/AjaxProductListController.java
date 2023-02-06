@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.scale.product.model.service.ProductService;
+import com.scale.product.model.vo.Like;
 import com.scale.product.model.vo.Product;
 import com.scale.user.model.vo.User;
 
@@ -48,15 +49,12 @@ public class AjaxProductListController extends HttpServlet {
 			userNo = loginUser.getUserNo();
 		}
 		
-		int[] clickLike = new int[list.size()];
-		for(int i=0; i<list.size(); i++) {
-			String productCode = list.get(i).getProductCode();
-			clickLike[i] = new ProductService().clickLike(productCode);
-		}
-		
+		ArrayList<Like> clickLike = new ProductService().clickLike();
+		ArrayList<Like> userLike = new ProductService().selectUserAllLike(userNo);
 		HashMap<String, Object> pmap = new HashMap();
 		pmap.put("list", list);
 		pmap.put("clickLike", clickLike);
+		pmap.put("userLike", userLike);
 		
 		
 		response.setContentType("application/json; charset=UTF-8");

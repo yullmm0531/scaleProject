@@ -279,9 +279,9 @@
                             <tr>
                                 <th colspan="2" id="product-like">
                                     <% if(loginUser == null || userLike == 0) { %>
-                                    	<button type="button" id="like-button" class="btn btn-secondary" onclick="like();">♡ 찜 | <%= likeCount %>
+                                    	<button type="button" id="like-button" class="btn btn-secondary" onclick="like();"><span class="like">♡</span>찜 | <span class="likeCount"><%= likeCount %></span>
                                     <% } else { %>
-                                    	<button type="button" id="like-button" class="btn btn-secondary" onclick="like();">♥ 찜 | <%= likeCount %>
+                                    	<button type="button" id="like-button" class="btn btn-secondary" onclick="like();"><span class="like">♥</span>찜 | <span class="likeCount"><%= likeCount %></span>
                                     <% } %>
                                 </th>
                             </tr>
@@ -317,7 +317,26 @@
                                 alert("로그인 후 이용가능한 페이지입니다.");
                                 location.href = "<%= contextPath %>/loginForm.us";
                             <% } else { %>
-                                
+                                $.ajax({
+                                    url: "<%= contextPath %>/plike.pd",
+                                    data:{
+                                        userNo: <%= loginUser.getUserNo() %>,
+                                        pCode: <%= p.getProductCode() %>
+                                    },
+                                    success:function(countLike){
+                                        if($(".like").text() == "♡"){
+                                            $(".like").text("♥");
+                                        } else{
+                                            $(".like").text("♡");
+                                        }
+                                        $(".likeCount").text(countLike);
+                                        
+                                    },   
+                                    error:function (){  
+                                      alert("찜하기 ajax 통신 실패");                  
+                                    }
+                                  
+                                })
                             <% } %>  
                         }
                     </script>

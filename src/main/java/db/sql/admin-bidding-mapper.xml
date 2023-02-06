@@ -111,7 +111,7 @@
 				                 WHERE BIDDING_STATUS = 'Y'
 				                   AND DEAL_CHECK = 'Y'
 				                 ORDER
-				                    BY BIDDING_NO DESC
+				                    BY DEAL_DATE DESC
 				                ) B
 				        )
 				 WHERE RNUM BETWEEN ? AND ?

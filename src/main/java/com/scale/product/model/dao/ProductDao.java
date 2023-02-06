@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import com.scale.product.model.vo.Brand;
+import com.scale.product.model.vo.Like;
 import com.scale.product.model.vo.Product;
 import com.scale.product.model.vo.ProductImg;
 
@@ -200,21 +201,23 @@ public class ProductDao {
 	}
 	
 	
-	public int clickLike(Connection conn, String productCode) {
-		int result = 0;
+	public ArrayList<Like> clickLike(Connection conn) {
+		
+		ArrayList<Like> clickLike = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
+		
 		String sql = prop.getProperty("clickLike");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, productCode);
-			
 			rset = pstmt.executeQuery();
 			
-			if(rset.next()) {
-				result = rset.getInt("count");
+			while(rset.next()) {
+				Like l = new Like(rset.getString("product_code"),
+								  rset.getInt("like"));
+				clickLike.add(l);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -223,7 +226,7 @@ public class ProductDao {
 			close(pstmt);
 		}
 		
-		return result;
+		return clickLike;
 		
 	}
 	
@@ -484,7 +487,7 @@ public class ProductDao {
 		int userLike = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		System.out.println(userNo);
+		
 		String sql = prop.getProperty("selectUserLike");
 		
 		try {
@@ -498,6 +501,37 @@ public class ProductDao {
 				userLike = rset.getInt("like");
 			}
 			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return userLike;
+		
+	}
+	
+	
+	public ArrayList<Like> selectUserAllLike(Connection conn, int userNo){
+		
+		ArrayList<Like> userLike = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectUserAllLike");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Like l = new Like(rset.getString("product_code"),
+								  rset.getInt("like"));
+				userLike.add(l);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

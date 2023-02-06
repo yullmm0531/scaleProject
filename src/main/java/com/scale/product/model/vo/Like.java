@@ -19,6 +19,14 @@ public class Like {
 		this.userNo = userNo;
 		this.enrollDate = enrollDate;
 	}
+	
+	
+
+	public Like(String productCode, int countLike) {
+		super();
+		this.productCode = productCode;
+		this.countLike = countLike;
+	}
 
 	public String getProductCode() {
 		return productCode;

@@ -79,37 +79,7 @@
             <div class="line"></div>
             <div class="space"></div>
             
-            <div class="menu3">
-                    <label>
-                        <input type="checkbox" name="dealStatus" id="all" value="all"> 전체
-                    </label>
-                    <span class="dealStatus">
-                        <label>
-                            <input type="checkbox" name="dealStatus" id="0" value="0"> 입고전
-                        </label>
-                        <label>
-                            <input type="checkbox" name="dealStatus" id="1" value="1"> 입고 완료
-                        </label>
-                        <label>
-                            <input type="checkbox" name="dealStatus" id="2" value="2"> 검수중
-                        </label>
-                        <label>
-                            <input type="checkbox" name="dealStatus" id="3" value="3"> 검수통과
-                        </label>
-                        <label>
-                            <input type="checkbox" name="dealStatus" id="4" value="4"> 검수미통과
-                        </label>
-                        <label>
-                            <input type="checkbox" name="dealStatus" id="5" value="5"> 발송완료
-                        </label>
-                        <label>
-                            <input type="checkbox" name="dealStatus" id="6" value="6"> 거래완료
-                        </label>
-                        <label >
-                            <input type="button" class="btn btn-outline-secondary btn-sm" name="submit" id="submit" value="확인" onclick="location.href='<%=contextPath%>/';"> 
-                        </label>
-                </span>
-            </div>
+            
         </div>
         <script>
             var flag = true;

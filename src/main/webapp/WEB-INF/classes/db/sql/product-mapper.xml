@@ -107,7 +107,7 @@
 	<entry key="clickLike">
 		SELECT 
 			   PRODUCT_CODE
-			   COUNT(USER_NO) "LIKE"
+			 , COUNT(USER_NO) "LIKE"
 		  FROM TB_PRODUCT
 		  LEFT JOIN TB_LIKE USING (PRODUCT_CODE)
 		 GROUP
@@ -359,7 +359,16 @@
   
   
   
-  
+  	<entry key="selectUserAllLike">
+		SELECT
+		       PRODUCT_CODE
+		     , COUNT(USER_NO) "LIKE"
+		  FROM TB_PRODUCT
+		  LEFT JOIN TB_LIKE USING(PRODUCT_CODE)
+		 WHERE USER_NO = ?
+		 GROUP
+		    BY PRODUCT_CODE
+  	</entry>
   
   
   

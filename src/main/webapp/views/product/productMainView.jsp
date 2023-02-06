@@ -302,7 +302,10 @@
     			success:function(pl){
     				let list = pl.list;
     				let clickLike = pl.clickLike;
-    				
+                    let userLike = pl.userLike;
+                    console.log(list);
+    				console.log(clickLike);
+                    console.log(userLike);
     				let value = "";
                     for(let i =0; i<list.length; i++){
                         value = "<div class='plist'>"
@@ -317,16 +320,21 @@
                                 	 +  "<div class='product-name-ko'>" + list[i].productNameKo + "</div>"
                                  	
                                      + "<div class='like'>";
-                           if(clickLike[i] == 0){
-                                       value += "<a class='heart'>♡</a>"
+                            value += "<a class='heart'>♡</a>"
                                     	+ "<input type='hidden' class='productCode' value='" + list[i].productCode + "'>"
                                 			 + "<span>" + list[i].count + "</span>"
+
+
+
+                               /* 
+                           if(clickLike[i] == 0){
+                                       
                                   } else {
                                            value += "<a class='heart'>♥</a>"
                                         	   value +=  "<input type='hidden' class='productCode' value='" + list[i].productCode + "'>"
                                     			 + "<span>" + list[i].count + "</span>"
-                                  }     
-                                           
+                                  }     */
+                                          
                                    + "</div>"
                                            
                               +"</li>"
@@ -360,14 +368,14 @@
     			$.ajax({
     			    url: "plike.pd",
     			    data: {"userNo":userNo, "pCode":$(this).next().val()}, 
-    			    success:function(result){
+    			    success:function(countLike){
     			    	if(like == "♡"){
     			    		e.text("♥")
-    			    		e.next().next().text(Number(e.next().next().text()) + 1);
+    			    		e.next().next().text(countLike + 1);
     			    		
     			    	}else{
     			    		e.text("♡")
-    			    		e.next().next().text(Number(e.next().next().text()) - 1);
+    			    		e.next().next().text(countLike - 1);
     			    	}
     			    },   
     			    error:function (){  
