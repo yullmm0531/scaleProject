@@ -37,14 +37,6 @@
         background:black;
         color:white;
     }
-    .paging-area button{
-        border:0.5px solid lightgray;
-        margin:3px;
-    }
-    .page-active{
-        background:black;
-        color:white;
-    }
 
     .category{width:100%; height:50px;}
    
@@ -188,6 +180,8 @@
                     
                     if(list.length < 10){
                         $("#more-btn").css("display", "none");
+                    }else{
+                        $("#more-btn").css("display", "block");
                     }
 
                     if(list.length == 0){

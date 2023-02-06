@@ -36,11 +36,11 @@ public class StyleDetailViewController extends HttpServlet {
 		String view = request.getParameter("view");
 		int boardLimit = 12;
 		String tag = request.getParameter("tag") != null ? request.getParameter("tag") : "";
-		String id = request.getParameter("userID") != null ? request.getParameter("userID") : "";
+		String uNum = request.getParameter("userNo") != null ? request.getParameter("userNo") : "";
 		User loginUser = (User)request.getSession().getAttribute("loginUser");
 		int userNo = loginUser != null ? loginUser.getUserNo() : 0;
 		
-		HashMap<String, Object> map = new StyleService().selectDetail(cpage, view, boardLimit, tag, id, userNo);
+		HashMap<String, Object> map = new StyleService().selectDetail(cpage, view, boardLimit, tag, uNum, userNo);
 		
 		request.setAttribute("list", map.get("list"));
 		request.setAttribute("ilist", map.get("ilist"));

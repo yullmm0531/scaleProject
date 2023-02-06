@@ -34,10 +34,16 @@ public class StyleProfileViewController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String nickname = request.getParameter("nickname");
-		User user = new UserService().selectUserByNickname(nickname);
+		int userNo = Integer.parseInt(request.getParameter("userNo"));
+		User user = new UserService().selectUserByUserNo(userNo);
 		request.setAttribute("user", user);
-		request.getRequestDispatcher("views/style/styleProfileView.jsp").forward(request, response);
+		
+		User loginUser = (User)request.getSession().getAttribute("loginUser");
+		if(loginUser != null && loginUser.getUserNo() == userNo) {
+			request.getRequestDispatcher("views/style/styleMyProfile.jsp").forward(request, response);
+		} else {
+			request.getRequestDispatcher("views/style/styleProfileView.jsp").forward(request, response);
+		}
 		
 	}
 

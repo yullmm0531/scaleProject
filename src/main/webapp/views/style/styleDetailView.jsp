@@ -44,18 +44,19 @@
     .pd-info{width: 400px;}
     .pd-info>div{float: left; width: 70px; margin-right: 5px;}
     .pd-info img{width: 70px; height: 70px; box-sizing: border-box;}
-    .pd-info>div>div{width: 70px; font-size: 12px;text-overflow:ellipsis; 
+    .pd-info>div>div{
+        width: 70px; 
+        font-size: 12px;
+        text-overflow:ellipsis; 
     	overflow:hidden;
-    	white-space:nowrap;}
+    	white-space:nowrap;
+    }
 
     .like-td{font-size: 15px;}
     .like{padding:0px !important;}
-
+    
     .text, .tag{
-    	text-overflow:ellipsis; 
-    	overflow:hidden;
-    	width:400px;
-    	white-space:nowrap;
+        width: 400px;
     }
     .tag-area{height: 27px;}
 
@@ -111,6 +112,9 @@
                             <button type="button" data-toggle="dropdown" class="dropdown">❗</button>
                             <div class="dropdown-menu">
                               <a class="dropdown-item report-btn" data-toggle="modal" data-target="#myModal">스타일 신고</a>
+                              <input type="hidden" value="<%= list.get(i).getUserId() %>">
+                              <input type="hidden" value="<%= list.get(i).getStyleNo() %>">
+                              <input type="hidden" value="<%= list.get(i).getUserNo() %>">
                             </div>
                         </div>
                     </td>
@@ -147,15 +151,18 @@
                 </tr>
                 <tr>
                     <td colspan="3" class='pd-info'>
-                        <% for(int p=0; p< plist.size(); p++) { %>
-	                        <% if(list.get(i).getStyleNo() == plist.get(p).getStyleNo()) { %>
-	                        <div>
-	                            <img src='<%= contextPath %>/<%= plist.get(p).getProductImgM() %>'>
-	                            <div><%= plist.get(p).getBrandName() %></div>
-	                            <div><%= plist.get(p).getProductNameKo() %></div>
-	                            <div><%= plist.get(p).getProductNameEng() %></div>
-	                        </div>
-	                        <% } %>
+                        <% if(plist != null) { %>
+                            <% for(int p=0; p< plist.size(); p++) { %>
+                                <% if(list.get(i).getStyleNo() == plist.get(p).getStyleNo()) { %>
+                                <div onclick="goPdDetail(this);">
+                                    <input type='hidden' value='<%= plist.get(p).getProductCode() %>'>
+                                    <img src='<%= contextPath %>/<%= plist.get(p).getProductImgM() %>'>
+                                    <div><%= plist.get(p).getBrandName() %></div>
+                                    <div><%= plist.get(p).getProductNameKo() %></div>
+                                    <div><%= plist.get(p).getProductNameEng() %></div>
+                                </div>
+                                <% } %>
+                            <% } %>
                         <% } %>
                     </td>
                 </tr>
@@ -211,35 +218,45 @@
         
                 <!-- Modal body -->
                     <div class="modal-body">
-                        <div>신고할 아이디 : <span>xxxx</span></div>
+                        <div>신고할 아이디 : <span id="reportedId"></span></div>
+                        <input type="hidden" id="reportedStyleNo" value="">
+                        <input type="hidden" id="reportedUserNo" value="">
                         <br>
                         제목*
                         <br>
-                        <input type="text" name="title" id="title">
+                        <input type="text" id="title">
                         <br><br>
                         내용*
                         <br>
-                        <textarea cols="60" rows="10" name="content" id="content" style="resize: none;"></textarea>
+                        <textarea cols="60" rows="10" id="content" style="resize: none;"></textarea>
                     </div>
             
                     <!-- Modal footer -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" onclick="report();">제출하기</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="button" id="close-btn" class="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
                 <script>
                     function report(){
-                        let 
+                        let reportedUserNo = $("#reportedUserNo").val();
+                        let reportedStyleNo = $("#reportedStyleNo").val();
                         let title = $("#title").val();
-                        let content = $("#content").text();
-                        $.ajax({
-                            url:"",
-                            data:{"title":title, "content":content},
-                            success:function(){
+                        let content = $("#content").val();
 
+                        if(title == "" || content == ""){
+                            alert("제목과 내용을 입력해주세요.");
+                            return;
+                        }
+
+                        $("#close-btn").click();
+                        $.ajax({
+                            url:"<%= contextPath %>/reportStyle.ajax",
+                            data:{"title":title, "content":content, "reportedUserNo":reportedUserNo, "reportedStyleNo":reportedStyleNo},
+                            success:function(result){
+                                alert("문의하신 스타일 탭의 콘텐츠 신고가 접수되었습니다.");
                             },
                             error:function(){
-
+                                console.log("통신 실패");
                             }
                         })
                     }
@@ -254,6 +271,12 @@
                 $(this).attr("data-target", "");
                 alert("로그인 후 이용가능한 서비스입니다.");
                 location.href = "<%= contextPath %>/loginForm.us";
+            <% } else { %>
+                $("#reportedId").text($(this).next().val());
+                $("#reportedStyleNo").val($(this).next().next().val());
+                $("#reportedUserNo").val($(this).next().next().next().val());
+                $("#title").val("");
+                $("#content").val("");
             <% } %>
         })
 
@@ -261,8 +284,7 @@
         let no = <%= no %>;
         let view = "<%= view %>";
             
-        $(document).ready(function () {
-            console.log(no);
+        $(document).ready(function() {
             $('html, body').animate({
                 scrollTop: $('#<%= no %>').offset().top - (300 * (no / 10))
             }, 'fast');
@@ -304,6 +326,9 @@
                                             + "<button type='button' data-toggle='dropdown' class='dropdown'>❗</button>"
                                             + "<div class='dropdown-menu'>"
                                                 + "<a class='dropdown-item' data-toggle='modal' data-target='#myModal'>스타일 신고</a>"
+                                                + "<input type='hidden' value='" + list[i].userId + "''>"
+                                                + "<input type='hidden' value='" + list[i].styleNo + "'>"
+                                                + "<input type='hidden' value='" + list[i].userNo + "'>"
                                             + "</div>"
                                         + "</div>"
                                     + "</td>"
@@ -341,9 +366,11 @@
                                 + "</tr>"
                                 + "<tr>"
                                     + "<td colspan='3' class='pd-info'>";
+                    if(plist != null) {
                         for(let p=0; p<plist.length; p++){
                             if(list[i].styleNo == plist[p].styleNo) {
-                                value += "<div>"
+                                value += "<div onclick='goPdDetail(this);'>"
+                                            + "<input type='hidden' value='" +  plist[p].productCode + "'>"
                                             + "<img src='<%= contextPath %>/" + plist[p].productImgM + "'>"
                                             + "<div> + " + plist[p].brandName + "</div>"
                                             + "<div>" + plist[p].productNameKo + "</div>"
@@ -351,6 +378,7 @@
                                         + "</div>";
                             }
                         }
+                    }
                             value += "</td>"
                                 + "</tr>"
                                 + "<tr>"
@@ -444,6 +472,10 @@
         		 <% } %>
         	})
     	})
+
+        function goPdDetail(e){
+            location.href = "<%= contextPath %>/detail.pd?co=" + $(e).children().eq(0).val();
+        }
     </script>
 
 </body>

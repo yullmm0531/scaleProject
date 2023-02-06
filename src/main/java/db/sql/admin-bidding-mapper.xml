@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="selectBiddingCount">
+		SELECT
+		       COUNT(*) COUNT
+		  FROM TB_BIDDING
+		 WHERE BIDDING_STATUS = 'Y'
+	</entry>
+	
+	
+	
+	<entry key="selectBiddingList">
+		SELECT *
+		  FROM (
+		        SELECT ROWNUM RNUM, B.*
+		          FROM (
+		                SELECT
+		                       BIDDING_NO
+		                     , B.PRODUCT_SIZE "PRODUCT_SIZE"
+		                     , CASE BIDDING_TYPE
+		                       WHEN 1 THEN '구매'
+		                       WHEN 2 THEN '판매'
+		                       END "BIDDING_TYPE"
+		                     , BIDDING_PRICE
+		                     , TO_CHAR(BIDDING_DATE, 'YYYY/MM/DD') "BIDDING_DATE"
+		                     , BIDDING_STATUS
+		                     , PRODUCT_CODE
+		                     , PRODUCT_NAME_KO
+		                     , USER_ID
+		                  FROM TB_BIDDING B
+		                  JOIN TB_USER U USING (USER_NO)
+		                  JOIN TB_PRODUCT P USING (PRODUCT_CODE)
+		                 ORDER
+		                    BY BIDDING_NO DESC
+		                ) B
+		        )
+		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="selectStyleImgList">
+		SELECT
+		       IMG_NO
+		     , CHANGE_NAME
+		     , FILE_PATH
+		     , STYLE_NO
+		     , FILE_LEVEL
+		  FROM TB_STYLE_IMG
+		 WHERE STATUS = 'Y'
+		   AND STYLE_NO = ?
+	</entry>
+</properties>

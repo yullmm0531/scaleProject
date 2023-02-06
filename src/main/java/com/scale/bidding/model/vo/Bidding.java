@@ -40,7 +40,10 @@ public class Bidding {
 	private String productNameEng;
 	private String productNameKo;
 	private String dealCheck;
-	
+	private Date dealDate;
+	private String paymentNo;
+	private String paymentPrice;
+	private String paymentMethod;
 	
 	public Bidding() {
 		
@@ -64,6 +67,7 @@ public class Bidding {
 		this.dDate = dDate;
 		this.pCode = pCode;
 		this.userNo = userNo;
+		
 	}
 	
 	
@@ -167,8 +171,110 @@ public class Bidding {
 		this.dealCheck = dealCheck;
 	}
 	
+	public Bidding(String biddingPrice, Date biddingDate, int inspectionCost, int commission, String recipientName, String recipientPhone, String recipientZipCode,
+			String recipientAddress,String recipientShippingMsg, Date dealDate, String bankName, String bankAccount, String bankOwnerName, String adjustmentPrice) {
+				super();
+				
+				this.biddingPrice = biddingPrice;
+				this.biddingDate = biddingDate;
+				this.inspectionCost = inspectionCost;
+				this.commission = commission;
+				this.recipientName = recipientName;
+				this.recipientPhone = recipientPhone;
+				this.recipientZipCode = recipientZipCode;
+				this.recipientAddress = recipientAddress;
+				this.recipientShippingMsg = recipientShippingMsg;
+				this.dealDate = dealDate;
+				this.bankName = bankName;
+				this.bankAccount = bankAccount;
+				this.bankOwnerName = bankOwnerName;
+				this.adjustmentPrice = adjustmentPrice;
+				
+				}
+	
+	public Bidding(String biddingPrice, Date biddingDate, int inspectionCost, int commission, String recipientName, String recipientPhone, String recipientZipCode,
+					String recipientAddress,String recipientShippingMsg, Date dealDate, String bankName, String bankAccount, String bankOwnerName, String adjustmentPrice,
+					String paymentNo) {
+		super();
+		
+		this.biddingPrice = biddingPrice;
+		this.biddingDate = biddingDate;
+		this.inspectionCost = inspectionCost;
+		this.commission = commission;
+		this.recipientName = recipientName;
+		this.recipientPhone = recipientPhone;
+		this.recipientZipCode = recipientZipCode;
+		this.recipientAddress = recipientAddress;
+		this.recipientShippingMsg = recipientShippingMsg;
+		this.dealDate = dealDate;
+		this.bankName = bankName;
+		this.bankAccount = bankAccount;
+		this.bankOwnerName = bankOwnerName;
+		this.adjustmentPrice = adjustmentPrice;
+		this.paymentNo = paymentNo;
+	}
 	
 	
+	
+
+	public Bidding(String paymentPrice, Date dealDate, int deliveryFee, String biddingPrice, String recipientName, String recipientPhone,
+			String recipientZipCode, String recipientAddress, String recipientShippingMsg,
+			String paymentMethod, String paymentNo) {
+		super();
+		this.paymentPrice = paymentPrice;
+		this.dealDate = dealDate;
+		this.deliveryFee = deliveryFee;
+		this.recipientName = recipientName;
+		this.recipientPhone = recipientPhone;
+		this.recipientZipCode = recipientZipCode;
+		this.recipientAddress = recipientAddress;
+		this.recipientShippingMsg = recipientShippingMsg;
+		this.paymentMethod = paymentMethod;
+		this.paymentNo = paymentNo;
+	}
+	
+	
+
+
+	public String getPaymentPrice() {
+		return paymentPrice;
+	}
+
+
+	public void setPaymentPrice(String paymentPrice) {
+		this.paymentPrice = paymentPrice;
+	}
+
+
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+
+
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+
+
+	public String getPaymentNo() {
+		return paymentNo;
+	}
+
+
+	public void setPaymentNo(String paymentNo) {
+		this.paymentNo = paymentNo;
+	}
+
+
+	public Date getDealDate() {
+		return dealDate;
+	}
+
+
+	public void setDealDate(Date dealDate) {
+		this.dealDate = dealDate;
+	}
+
 
 	public int getProductSize() {
 		return productSize;

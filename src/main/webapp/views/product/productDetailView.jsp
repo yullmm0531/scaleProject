@@ -641,6 +641,10 @@
 
 
                     <script>
+	                    function toMoney(num) {
+	                        return num.toLocaleString('ko-KR');
+	                    }	
+	                    
                         $(function(){
                             $(".deal").click(function(){
                                 $("#deal").attr("hidden", false);
@@ -716,21 +720,21 @@
             								if(dSizeList.length < 5){
             									for(let i=0; i<dSizeList.length; i++){
             										$("#deal-size tbody").children().eq(i+1).html("<td>" + dSizeList[i].pSize + "</td>"
-																								+ "<td align='right'>" + dSizeList[i].bPrice + "</td>"
+																								+ "<td align='right'>" + toMoney(dSizeList[i].bPrice) + "원</td>"
 																								+ "<td align='right'>" + dSizeList[i].dDate + "</td>");
             										
             									}
             								} else{
             									for(let i=0; i<5; i++){
             										$("#deal-size tbody").children().eq(i+1).html("<td>" + dSizeList[i].pSize + "</td>"
-																								+ "<td align='right'>" + dSizeList[i].bPrice + "</td>"
+																								+ "<td align='right'>" + toMoney(dSizeList[i].bPrice) + "원</td>"
 																								+ "<td align='right'>" + dSizeList[i].dDate + "</td>");
             									}
             								}
                                             // 모달
             								for(let i=0; i<dSizeList.length; i++){
         										$("#modalDeal-size tbody").children().eq(i+1).html("<td>" + dSizeList[i].pSize + "</td>"
-																							+ "<td align='right'>" + dSizeList[i].bPrice + "</td>"
+																							+ "<td align='right'>" + toMoney(dSizeList[i].bPrice) + "원</td>"
 																							+ "<td align='right'>" + dSizeList[i].dDate + "</td>");
         									}
             								
@@ -747,21 +751,21 @@
             								if(sSizeList.length < 5){
             									for(let i=0; i<sSizeList.length; i++){
             										$("#sellBidding-size tbody").children().eq(i+1).html("<td>" + sSizeList[i].pSize + "</td>"
-                                                                                                        + "<td align='right'>" + sSizeList[i].bPrice + "</td>"
+                                                                                                        + "<td align='right'>" + toMoney(sSizeList[i].bPrice) + "원</td>"
                                                                                                         + "<td align='right'>" + sSizeList[i].count + "</td>");
             										
             									}
             								} else{
             									for(let i=0; i<5; i++){
             										$("#sellBidding-size tbody").children().eq(i+1).html("<td>" + sSizeList[i].pSize + "</td>"
-                                                                                                        + "<td align='right'>" + sSizeList[i].bPrice + "</td>"
+                                                                                                        + "<td align='right'>" + toMoney(sSizeList[i].bPrice) + "원</td>"
                                                                                                         + "<td align='right'>" + sSizeList[i].count + "</td>");
             									}
             								}
                                             // 모달
                                             for(let i=0; i<sSizeList.length; i++){
         										$("#modalSellBidding-size tbody").children().eq(i+1).html("<td>" + sSizeList[i].pSize + "</td>"
-                                                                                                    + "<td align='right'>" + sSizeList[i].bPrice + "</td>"
+                                                                                                    + "<td align='right'>" + toMoney(sSizeList[i].bPrice) + "원</td>"
                                                                                                     + "<td align='right'>" + sSizeList[i].count + "</td>");
         									}
             								
@@ -778,21 +782,21 @@
             								if(bSizeList.length < 5){
             									for(let i=0; i<bSizeList.length; i++){
             										$("#buyBidding-size tbody").children().eq(i+1).html("<td>" + bSizeList[i].pSize + "</td>"
-                                                                                                        + "<td align='right'>" + bSizeList[i].bPrice + "</td>"
+                                                                                                        + "<td align='right'>" + toMoney(bSizeList[i].bPrice) + "원</td>"
                                                                                                         + "<td align='right'>" + bSizeList[i].count + "</td>");
             										
             									}
             								} else{
             									for(let i=0; i<5; i++){
             										$("#buyBidding-size tbody").children().eq(i+1).html("<td>" + bSizeList[i].pSize + "</td>"
-                                                                                                        + "<td align='right'>" + bSizeList[i].bPrice + "</td>"
+                                                                                                        + "<td align='right'>" + toMoney(bSizeList[i].bPrice) + "원</td>"
                                                                                                         + "<td align='right'>" + bSizeList[i].count + "</td>");
             									}
             								}
                                             // 모달
                                             for(let i=0; i<bSizeList.length; i++){
         										$("#modalBuyBidding-size tbody").children().eq(i+1).html("<td>" + bSizeList[i].pSize + "</td>"
-                                                                                                    + "<td align='right'>" + bSizeList[i].bPrice + "</td>"
+                                                                                                    + "<td align='right'>" + toMoney(bSizeList[i].bPrice) + "원</td>"
                                                                                                     + "<td align='right'>" + bSizeList[i].count + "</td>");
         										
         									}

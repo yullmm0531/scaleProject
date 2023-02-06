@@ -84,14 +84,14 @@
                     <div id="search-btn">
                         <button>검색</button>
                     </div>
-                    
+                    ArrayList<Product> list = null;
                     <% if(list.isEmpty()){ %>
                         <div id="nolsit">검색하신 결과가 없습니다.</div>
                     <%} else {%>
                     	<% for(Product p : list) { %>
                          <div id="productlist">
                             <tr>
-                                <td colspan="2"><img src="<%= contextPath %>/<%= p.getProductImgM() %>"></td>
+                                <td colspan="2"><img src="<%= contextPath %>/<%= p.getProductImgM() %>" width="50px;"></td>
                                 <td><%= p.getProductNameEng() %></td>
                                 <td><%= p.getProductNameKo() %></td>
                                 <input type="hidden" value="<%= p.getProductCode() %>">
@@ -173,7 +173,7 @@
     
     <script>
         $(function(){
-            $(".cell").click(function(){
+            $("#productlist").click(function(){
                 location.href="<%=contextPath%>/detail.pd?co=" +$(this).children('input').val();
             })
         })

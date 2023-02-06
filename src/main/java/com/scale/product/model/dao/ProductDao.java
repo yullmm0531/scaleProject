@@ -96,6 +96,43 @@ public class ProductDao {
 		
 		return list; 
 	}
+	
+	
+	public ArrayList<Product> selectProductSort(Connection conn, int currentPage, int boardLimit){
+		ArrayList<Product> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectProductSort");
+		
+		try {
+			int startRow = (currentPage - 1) * boardLimit + 1;
+			int endRow = startRow + boardLimit - 1;
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Product p = new Product();
+				p.setProductCode(rset.getString("product_code"));
+				p.setProductNameKo(rset.getString("product_name_ko"));
+				p.setProductNameEng(rset.getString("product_name_eng"));
+				p.setProductImgM(rset.getString("product_img_m"));
+				p.setBrandName(rset.getString("brand_name"));
+				p.setCount(rset.getInt("Count"));
+				
+				list.add(p);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list; 
+	}
 		
 	
 
@@ -242,6 +279,8 @@ public class ProductDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, filter);
+			pstmt.setString(2, filter);
+			pstmt.setString(3, filter);
 			
 			rset = pstmt.executeQuery();
 			

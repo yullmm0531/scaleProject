@@ -97,65 +97,33 @@
 	
     <div class="outer">
 		<div id="profile-box">
-			<% if(loginUser != null && loginUser.getUserNo() == user.getUserNo()) { %>
-				<table class="profile">
-					<tr class="header">
-						<td>
-							<img src="<%= user.getProfileImg() %>" class="rounded-circle" id="profile-img">
-							<span id="profile-nickname"><%= user.getUserNickName() %></span>
-						</td>
-						<td class="edit-td">
-							<button type="button" class="edit-btn btn-secondary" data-toggle="modal" data-target="#profile-edit">프로필 편집</button>
-						</td>
-					</tr>
-					<tr>
-						<td class="id-td">
-							<div id="profile-id"><%= user.getUserId() %></div>
-						</td>
-					</tr>
-					<tr>
-						<% if(user.getIntroduce() != null) { %>
+			<table class="profile">
+				<tr class="header">
+					<td>
+						<img src="<%= user.getProfileImg() %>" class="rounded-circle" id="profile-img">
+						<span id="profile-nickname"><%= user.getUserNickName() %></span>
+					</td>
+				</tr>
+				<tr>
+					<td class="id-td">
+						<div id="profile-id"><%= user.getUserId() %></div>
+					</td>
+				</tr>
+				<tr>
+					<% if(user.getIntroduce() != null) { %>
 						<td class="introduce-td">
 							<div id="profile-introduce"><%= user.getIntroduce() %></div>
 						</td>
-						<% } else { %>
+					<% } else { %>
 						<td class="introduce-td">
 							<div id="profile-introduce"></div>
 						</td>
-						<% } %>
-					</tr>
-				</table>
-				<br>
-			<% } else { %>
-				<table class="profile">
-					<tr class="header">
-						<td>
-							<img src="<%= user.getProfileImg() %>" class="rounded-circle" id="profile-img">
-							<span id="profile-nickname"><%= user.getUserNickName() %></span>
-						</td>
-					</tr>
-					<tr>
-						<td class="id-td">
-							<div id="profile-id"><%= user.getUserId() %></div>
-						</td>
-					</tr>
-					<tr>
-						<% if(user.getIntroduce() != null) { %>
-							<td class="introduce-td">
-								<div id="profile-introduce"><%= user.getIntroduce() %></div>
-							</td>
-						<% } else { %>
-							<td class="introduce-td">
-								<div id="profile-introduce"></div>
-							</td>
-						<% } %>
-					</tr>
-				</table>
-				<br>
-			<% } %>
+					<% } %>
+				</tr>
+			</table>
 		</div>
 
-        <br><br>
+        <br>
 		
 	    <div id="table-container">
 	        
@@ -335,7 +303,7 @@
 				$.ajax({
 					url:"<%= contextPath %>/profile.ajax",
 					type:"get",
-					data:{"cpage":cpage, "id":"<%= user.getUserId() %>", "userNo":"<%= user.getUserNo() %>"},
+					data:{"cpage":cpage, "userNo":"<%= user.getUserNo() %>"},
 					success:function(map){
 						let list = map.list;
 						let ilist = map.ilist;
@@ -382,7 +350,7 @@
 											+ "<tr>"
 												+ "<td class='nickname'>"
 													+ "<img src='<%= contextPath %>/" + list[i].profileImg + "' class='rounded-circle'>"
-													+ "<a href='<%= contextPath %>/profileView.st?nickname=" + list[i].styleWriter + "'>" + list[i].styleWriter + "</a>"
+													+ "<a href='<%= contextPath %>/profileView.st?userNo=" + list[i].userNo + "'>" + list[i].styleWriter + "</a>"
 												+ "</td>"
 												+ "<td class='like'>";
 										if(checkLike[i] == 0){
@@ -455,7 +423,8 @@
 			function detail(e){
 				let no = $(e).next().val();
             	let cpage = $(e).next().next().val();
-				location.href = "<%= contextPath %>/detail.st?no=" + no + "&view=profile&userID=" + $("#profile-id").text() + "&cpage=" + cpage;
+				let userNo = <%= user.getUserNo() %>;
+				location.href = "<%= contextPath %>/detail.st?no=" + no + "&view=profile&userNo=" + userNo + "&cpage=" + cpage;
 			}
         </script>
 

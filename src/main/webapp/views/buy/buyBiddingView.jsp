@@ -176,7 +176,7 @@
                 </div>
                 <br>
                 <div align="center">
-                    <button type="button" data-dismiss="modal" class="btn btn-outline-secondary">취소</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-outline-secondary" onclick="history.back();">취소</button>
                     <button type="button" class="btn btn-outline-warning" id="goToTerm" disabled>다음단계</button>
                 </div>
                 
@@ -322,7 +322,7 @@
                 </div>
                 <br><br>
                 <div align="center">
-                    <button type="button" class="btn btn-outline-secondary">취소</button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="history.back();">취소</button>
                     <button type="button" class="btn btn-outline-warning" id="goToBuyOption" disabled>다음단계</button>
                 </div>
                 <br><br>
@@ -358,7 +358,7 @@
                     <br>
                     <br><br>
                     <div align="center">
-                        <button type="button" class="btn btn-outline-secondary">취소</button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="history.back();">취소</button>
                         <button type="submit" class="btn btn-outline-warning">다음단계</button>
                     </div>
     
@@ -381,7 +381,7 @@
                     <br>
                     <br><br>
                     <div align="center">
-                        <button type="button" class="btn btn-outline-secondary">취소</button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="history.back();">취소</button>
                         <button type="submit" class="btn btn-outline-warning goToPayment" disabled>다음단계</button>
                     </div> 
                 </div>

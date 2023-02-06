@@ -99,9 +99,24 @@ public class Address {
 	}
 
 
-
+	
 
 	
+
+
+
+
+	public Address(String zipCode, int addresNo, String address1, String address2, String recipient, String phone, int userNo) {
+		super();
+		
+		this.zipCode = zipCode;
+		this.addresNo = addresNo;
+		this.address1 = address1;
+		this.address2 = address2;
+		this.recipient = recipient;
+		this.phone = phone;
+		this.userNo = userNo;
+	}
 
 
 
