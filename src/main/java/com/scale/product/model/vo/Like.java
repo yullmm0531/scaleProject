@@ -8,6 +8,9 @@ public class Like {
 	private int userNo;
 	private Date enrollDate;
 	
+	private int countLike;
+	private int userLike;
+	
 	public Like() {}
 
 	public Like(String productCode, int userNo, Date enrollDate) {
@@ -39,6 +42,22 @@ public class Like {
 
 	public void setEnrollDate(Date enrollDate) {
 		this.enrollDate = enrollDate;
+	}
+
+	public int getCountLike() {
+		return countLike;
+	}
+
+	public void setCountLike(int countLike) {
+		this.countLike = countLike;
+	}
+
+	public int getUserLike() {
+		return userLike;
+	}
+
+	public void setUserLike(int userLike) {
+		this.userLike = userLike;
 	}
 
 	@Override

@@ -7,6 +7,8 @@
 	ArrayList<ProductImg> pImgList = (ArrayList<ProductImg>)request.getAttribute("pImgList");
 	ArrayList<Bidding> bList = (ArrayList<Bidding>)request.getAttribute("bList");
 	ArrayList<Bidding> sList = (ArrayList<Bidding>)request.getAttribute("sList");
+	int likeCount = (int)request.getAttribute("likeCount");
+	int userLike = (int)request.getAttribute("userLike");
 	DecimalFormat formatter = new DecimalFormat("###,###");
 %> 
     
@@ -269,7 +271,11 @@
                             </tr>
                             <tr>
                                 <th colspan="2" id="product-like">
-                                    <button type="button" id="like-button" class="btn btn-secondary">♡찜 | 2,157</button>
+                                    <% if(loginUser == null || userLike == 0) { %>
+                                    	<button type="button" id="like-button" class="btn btn-secondary">♡ 찜 | <%= likeCount %>
+                                    <% } else { %>
+                                    	<button type="button" id="like-button" class="btn btn-secondary">♥ 찜 | <%= likeCount %>
+                                    <% } %>
                                 </th>
                             </tr>
                         </table>

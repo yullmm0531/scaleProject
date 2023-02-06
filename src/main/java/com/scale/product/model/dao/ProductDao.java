@@ -441,6 +441,67 @@ public class ProductDao {
 		
 		return p;
 	}
+	
+	
+	public int selectCountLike(Connection conn, String pCode) {
+		
+		int likeCount = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectCountLike");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pCode);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				likeCount = rset.getInt("likecount");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return likeCount;
+			
+	}
+	
+	
+	public int selectUserLike(Connection conn, int userNo, String pCode) {
+		
+		int userLike = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		System.out.println(userNo);
+		String sql = prop.getProperty("selectUserLike");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			pstmt.setString(2, pCode);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				userLike = rset.getInt("like");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return userLike;
+		
+	}
 
 
 }

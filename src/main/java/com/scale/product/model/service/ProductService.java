@@ -123,6 +123,40 @@ public class ProductService {
 		return p;
 	}
 	
+	
+	/**
+	 * @author yurim
+	 * @param pCode
+	 * @return 해당 상품의 총 좋아요 개수 리턴
+	 */
+	public int selectCountLike(String pCode) {
+		
+		Connection conn = getConnection();
+		int likeCount = new ProductDao().selectCountLike(conn, pCode);
+		
+		close(conn);
+		
+		return likeCount;
+		
+	}
+	
+	/**
+	 * @author yurim
+	 * @param userNo
+	 * @param pCode
+	 * @return user가 해당 상품을 찜했는지 여부를 반환 (1 : 찜O | 2 : 찜X)
+	 */
+	public int selectUserLike(int userNo, String pCode) {
+		
+		Connection conn = getConnection();
+		int userLike = new ProductDao().selectUserLike(conn, userNo, pCode);
+		
+		close(conn);
+		
+		return userLike;
+		
+	}
+	
 }
 
 	
