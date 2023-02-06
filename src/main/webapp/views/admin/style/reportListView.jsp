@@ -5,6 +5,7 @@
     PageInfo pi = (PageInfo)request.getAttribute("pi");
     ArrayList<StyleReport> list = (ArrayList<StyleReport>)request.getAttribute("list");
     String select = (String)request.getAttribute("select");
+    String id = (String)request.getAttribute("id");
 %>
 <!DOCTYPE html>
 <html>
@@ -87,20 +88,21 @@
                 <br>
             </div>
             <div class="list-area">
-                <form class="input-group mb-3" style="width:400px" action="" method="get">
+                <form class="input-group mb-3" style="width:400px" action="<%= contextPath %>/searchreport.ad" method="get">
+                    <input type="hidden" name="cpage" value="<%= pi.getCurrentPage() %>">
                     <div id="processing-status">
                         <span>처리현황</span>
                         <select name="select" id="select">
-                            <option value="all">전체</option>
-                            <option value="ready">신고완료</option>
-                            <option value="report">처리완료</option>
-                            <option value="reject">반려</option>
+                            <option value="all" id="all">전체</option>
+                            <option value="ready" id="ready">신고완료</option>
+                            <option value="report" id="report">처리완료</option>
+                            <option value="reject" id="reject">반려</option>
                         </select>
                     </div>
                     <br><br>
                     <div>
-                        <span>닉네임</span>
-                        <input type="search" id="search">
+                        <span>아이디</span>
+                        <input type="search" name="id" id="search" required placeholder="피신고자 아이디 검색">
                         <button type="submit" id="search-btn">검색</button>
                     </div>
                 </form>

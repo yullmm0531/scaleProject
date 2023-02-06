@@ -573,35 +573,6 @@
 		 WHERE RNUM BETWEEN ? AND ?
 	</entry>
 	
-	<entry key="selectReportByStatus">
-		SELECT
-		       *
-		  FROM (
-		        SELECT
-		               ROWNUM RNUM, A.*
-		          FROM (
-		                SELECT
-						       REPORT_NO
-						     , REPORTED_USER
-		                     , REPORTING_USER
-						     , U.USER_ID "REPORTED_ID"
-						     , I.USER_ID "REPORTING_ID"
-						     , REPORT_TITLE
-						     , REPORT_CONTENT
-						     , REPORT_DATE
-						     , STYLE_NO
-						     , REPORT_CHECK
-						  FROM TB_STYLE_REP
-						  JOIN TB_USER U ON (REPORTED_USER = U.USER_NO)
-		                  JOIN TB_USER I ON (REPORTING_USER = I.USER_NO)
-		                 WHERE REPORT_CHECK = ?
-		                 ORDER
-		                    BY REPORT_NO DESC
-		                ) A
-		        )
-		 WHERE RNUM BETWEEN ? AND ?
-	</entry>
-	
 	<entry key="selectReport">
 		SELECT
 		       REPORT_NO
@@ -647,5 +618,81 @@
 		       TB_USER
 		   SET STYLE_BLOCK_DATE = SYSDATE
 		 WHERE USER_NO = ?
+	</entry>
+	
+	<entry key="selectReportCountByNickname">
+		SELECT
+		       COUNT(REPORT_NO) COUNT
+		  FROM TB_STYLE_REP
+		  JOIN TB_USER ON (REPORTED_USER = USER_NO)
+		 WHERE USER_ID = ?
+	</entry>
+	
+	<entry key="selectReportCountByStatus">
+		SELECT
+		       COUNT(REPORT_NO) COUNT
+		  FROM TB_STYLE_REP
+		  JOIN TB_USER ON (REPORTED_USER = USER_NO)
+		 WHERE USER_ID = ?
+		   AND REPORT_CHECK = ?
+	</entry>
+	
+	<entry key="selectReportByNickname">
+		SELECT
+		       *
+		  FROM (
+		        SELECT
+		               ROWNUM RNUM, A.*
+		          FROM (
+		                SELECT
+						       REPORT_NO
+						     , REPORTED_USER
+		                     , REPORTING_USER
+						     , U.USER_ID "REPORTED_ID"
+						     , I.USER_ID "REPORTING_ID"
+						     , REPORT_TITLE
+						     , REPORT_CONTENT
+						     , REPORT_DATE
+						     , STYLE_NO
+						     , REPORT_CHECK
+						  FROM TB_STYLE_REP
+						  JOIN TB_USER U ON (REPORTED_USER = U.USER_NO)
+		                  JOIN TB_USER I ON (REPORTING_USER = I.USER_NO)
+		                 WHERE U.USER_ID = ?
+		                 ORDER
+		                    BY REPORT_NO DESC
+		                ) A
+		        )
+		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="selectReportByStatus">
+		SELECT
+		       *
+		  FROM (
+		        SELECT
+		               ROWNUM RNUM, A.*
+		          FROM (
+		                SELECT
+						       REPORT_NO
+						     , REPORTED_USER
+		                     , REPORTING_USER
+						     , U.USER_ID "REPORTED_ID"
+						     , I.USER_ID "REPORTING_ID"
+						     , REPORT_TITLE
+						     , REPORT_CONTENT
+						     , REPORT_DATE
+						     , STYLE_NO
+						     , REPORT_CHECK
+						  FROM TB_STYLE_REP
+						  JOIN TB_USER U ON (REPORTED_USER = U.USER_NO)
+		                  JOIN TB_USER I ON (REPORTING_USER = I.USER_NO)
+		                 WHERE U.USER_ID = ?
+		                   AND REPORT_CHECK = ?
+		                 ORDER
+		                    BY REPORT_NO DESC
+		                ) A
+		        )
+		 WHERE RNUM BETWEEN ? AND ?
 	</entry>
 </properties>

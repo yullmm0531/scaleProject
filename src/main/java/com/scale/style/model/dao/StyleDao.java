@@ -1272,4 +1272,134 @@ public class StyleDao {
 		
 		return result;
 	}
+	
+	public int selectReportCountByNickname(Connection conn, String id) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectReportCountByNickname");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public int selectReportCountByStatus(Connection conn, String id, String select) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectReportCountByStatus");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, select);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public ArrayList<StyleReport> selectReportByNickname(Connection conn, PageInfo pi, String id){
+		ArrayList<StyleReport> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectReportByNickname");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			
+			pstmt.setString(1, id);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new StyleReport(rset.getInt("report_no"),
+									     rset.getInt("reported_user"),
+									     rset.getInt("reporting_user"),
+									     rset.getString("report_title"),
+									     rset.getString("report_content"),
+									     rset.getDate("report_date"),
+									     rset.getInt("style_no"),
+									     rset.getString("report_check"),
+									     rset.getString("reported_id"),
+									     rset.getString("reporting_id")
+									     ));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+	
+	public ArrayList<StyleReport> selectReportByStatus(Connection conn, PageInfo pi, String id, String select){
+		ArrayList<StyleReport> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectReportByStatus");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			
+			pstmt.setString(1, id);
+			pstmt.setString(2, select);
+			pstmt.setInt(3, startRow);
+			pstmt.setInt(4, endRow);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new StyleReport(rset.getInt("report_no"),
+									     rset.getInt("reported_user"),
+									     rset.getInt("reporting_user"),
+									     rset.getString("report_title"),
+									     rset.getString("report_content"),
+									     rset.getDate("report_date"),
+									     rset.getInt("style_no"),
+									     rset.getString("report_check"),
+									     rset.getString("reported_id"),
+									     rset.getString("reporting_id")
+									     ));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
 }
