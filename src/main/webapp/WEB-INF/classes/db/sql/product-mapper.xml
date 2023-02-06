@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-	
+
 	<entry key="selectProductList">
 		SELECT
 			   PRODUCT_CODE
@@ -151,7 +151,7 @@
 	        OR BRAND_NAME = ?
 	        OR PRODUCT_SIZE = ?
 	        
-	</entry>>
+	</entry>
 	
 	
 	
@@ -264,7 +264,7 @@
 	
 	<entry key = "increaseCount">
 		UPDATE
-			   PRODUCT
+			   TB_PRODUCT
 		   SET COUNT = COUNT +1
 		 WHERE PRODUCT_CODE = ?
 	</entry>
@@ -301,7 +301,7 @@
      
      <entry key = "insertProduct">
      	INSERT
-     	  INTO PRODUCT
+     	  INTO TB_PRODUCT
      	  (
      	  	PRODUCT_CODE
      	  	PRODUCT_NAME_KO
@@ -318,7 +318,12 @@
      </entry>
      
      
-     
+     <entry key = "updateProduct">
+     	UPDATE
+     		   PRODUCT
+     	   SET 
+     	 WHERE  
+     </entry>
      
      
      

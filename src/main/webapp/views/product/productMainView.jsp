@@ -213,7 +213,7 @@
 
     </div>
     
-  
+
     <!-- 필터바 -->
     <script>
         $(".cate").click(function(){
@@ -298,7 +298,7 @@
                         value = "<div class='plist'>"
                             		+"<ul class ='row'>"
                            			 +"<li class='cell'>"
-                             		 +"<input type='hidden' value='"+ list[i].productCode +"'>"
+                             		 +"<input type='hidden' class='pNo' value='"+ list[i].productCode +"'>"
                              		 +"<input type='hidden' value='"+ list[i].productCategory+"'>"
                                 	 +"<div class='img-box'><img src='<%= contextPath %>/"+ list[i].productImgM +"'></div>"
                                    
@@ -333,6 +333,8 @@
     				
     		})
     	}
+    	
+        
 	 
     <!-- Like -->
 
@@ -366,6 +368,14 @@
     		})
     		
     </script>
+    
+    <script>
+    
+    	$(document).on("click", ".cell", function(){
+    		location.href = "<%= contextPath %>/detail.pd?co=" + $(this).children().eq(0).val();
+    	})
+				
+	</script>
     
 	<!-- 클릭 -->    
     <script>
