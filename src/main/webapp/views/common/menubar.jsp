@@ -148,8 +148,8 @@
         </div>
 
         <div id="searchBox">
-            <input type="text" id="searchInput" placeholder="상품을 검색해보세요."  data-toggle="modal" data-target="#myModal">
-            <button type="submit"></button>
+            <input type="text" id="searchInput" placeholder="상품을 검색해보세요.">
+            <button type="submit" id="searchbtn"></button>
         </div>
 
         <div id="utilities">
@@ -189,8 +189,14 @@
                         location.href = "<%= contextPath %>/stylelist.st?view=trending";
                     <% } %>
                 }
+                
+                $(document).on("click", ".searchInput", function(){
+        			location.href = "<%= contextPath %>/psearch.pd" 
+        		})
+                
             </script>
         </div>
+            
     </div>
    </div>
    
