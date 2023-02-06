@@ -51,9 +51,9 @@ public class ProductService {
 		return list;
 	}
 	
-	public int clickLike(int userNo, String productCode){
+	public int clickLike(String productCode){
 		Connection conn = getConnection();
-		int result = new ProductDao().clickLike(conn, userNo, productCode);
+		int result = new ProductDao().clickLike(conn, productCode);
 		close(conn);
 		return result;
 	}

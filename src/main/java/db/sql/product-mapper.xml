@@ -107,9 +107,8 @@
 	<entry key="clickLike">
 		SELECT COUNT(*) COUNT
 		  FROM TB_LIKE
-		 WHERE USER_NO = ? 
-		   AND PRODUCT_CODE = ?
-	
+		 GROUP
+            BY PRODUCT_CODE
 	</entry>
 	
 	
@@ -148,8 +147,6 @@
 		  JOIN TB_BRAND USING (BRAND_CODE)
 	     WHERE BLIND_CHECK ='N'
 	       AND PRODUCT_CATEGORY = ?
-	        OR BRAND_NAME = ?
-	        OR PRODUCT_SIZE = ?
 	        
 	</entry>
 	

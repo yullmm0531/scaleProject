@@ -200,7 +200,7 @@ public class ProductDao {
 	}
 	
 	
-	public int clickLike(Connection conn, int userNo, String productCode) {
+	public int clickLike(Connection conn, String productCode) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -208,8 +208,9 @@ public class ProductDao {
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, userNo);
-			pstmt.setString(2, productCode);
+			
+			pstmt.setString(1, productCode);
+			
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
@@ -279,8 +280,6 @@ public class ProductDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, filter);
-			pstmt.setString(2, filter);
-			pstmt.setString(3, filter);
 			
 			rset = pstmt.executeQuery();
 			

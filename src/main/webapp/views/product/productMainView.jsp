@@ -102,6 +102,9 @@
     	#top{
     		float:right;
     	}
+        .product-name-ko, .product-name-eng{
+    		width:170px;
+    	}
         
   </style>
 </head>
@@ -111,9 +114,9 @@
         <div id="pheader">
             <div id="pheader-1">
             	<br>
-                <button type="button" class="btn btn-secondary" id="topBtn" >신발</button>
-                <button type="button" class="btn btn-secondary" id="topBtn1">지갑</button>
-                <button type="button" class="btn btn-secondary" id="topBtn2">테크</button>
+                <button type="button" class="btn btn-secondary topBtn" id="topBtn" >신발</button>
+                <button type="button" class="btn btn-secondary topBtn" id="topBtn1">지갑</button>
+                <button type="button" class="btn btn-secondary topBtn" id="topBtn2">테크</button>
             </div>
             <div id="pheader-2">
             	
@@ -379,11 +382,85 @@
     
 	<!-- 클릭 -->    
     <script>
-		$(function(){
+		// $(function(){
 			
-			$(".btn btn-secondary").on('click', function(){
-				$.ajax({
-					url: "<%= contextPath%>/productList.pd",
+		// 	$(".btn btn-secondary").on('click', function(){
+		// 		$.ajax({
+		// 			url: "<%= contextPath%>/productList.pd",
+		// 			type:"post",
+		// 			data:{"cpage":cpage, "filter":filter
+		// 			},
+		// 			success : function(pl){
+	    // 				let list = pl.list;
+	    // 				let filter = pl.filter;
+	    // 				let value = "";
+	    				
+	    //                 for(let i =0; i<list.length; i++){
+	    //                     value = "<div class='plist'>"
+	    //                         		+"<ul class ='row'>"
+	    //                        			 +"<li class='cell'>"
+	    //                          		 +"<input type='hidden' value='"+ list[i].productCode +"'>"
+	                             		 
+	    //                          		for(let j=0; j<list.length; j++){{
+	    //     		    					switch(list[j].filter){
+	    //     		    					case "Shoes" : list[j].filter = "Shoes" ; break;
+	    //     		    					case "Wallet" : list[j].filter = "Wallet" ; break;
+	    //     		    					case "Tech" : list[j].filter = "Tech" ; break;
+	    //     	    					}
+	    //     	    				}
+	    //                            value += "<input type='hidden' value='"+ list[j].productCategory+"'>"
+	    //                             	 +"<div class='img-box'><img src='<%= contextPath %>/"+ list[i].productImgM +"'></div>"
+	                                   
+	    //                             	 + "<div class='brand-name'>" + list[i].brandName + "</div>"
+	    //                             	 +  "<div class='product-name-eng'>" + list[i].productNameEng + "</div>"
+	    //                             	 +  "<div class='product-name-ko'>" + list[i].productNameKo + "</div>"
+	                                 	
+	    //                                  + "<div class='like'>";
+	    //                        if(clickLike[i] == 0){
+	    //                                    value += "<a class='heart'>♡</a>"
+	    //                                 	+ "<input type='hidden' class='productCode' value='" + list[i].productCode + "'>"
+	    //                             			 + "<span>" + list[i].count + "</span>"
+	    //                               } else {
+	    //                                        value += "<a class='heart'>♥</a>"
+	    //                                     	   value +=  "<input type='hidden' class='productCode' value='" + list[i].productCode + "'>"
+	    //                                 			 + "<span>" + list[i].count + "</span>"
+	    //                               }     
+	                                           
+	    //                                + "</div>"
+		                                           
+		//                               +"</li>"
+		//                            + "</ul>"
+		//                        + "</div>";
+	    //                 	}
+	    //                     $("#plist").append(value);
+	    //                    }
+	    //                 },
+		// 			error : function(data){
+		// 				alert('error');
+		// 			}
+		// 		})
+		// 	})
+		// })
+    
+    </script>
+    
+    <script>
+                
+		$(function(){
+			$("#cell").click(function(){
+			location.href = "<%=contextPath%>/detail.pd?co=" + $(this).children('input').val();
+			})
+
+            $(".topBtn").click(function(){
+                let filter = $(this).text();
+                switch(filter){
+                    case "신발": filter = "Shoes"; break;
+                    case "지갑": filter = "Wallet"; break;
+                    case "테크": filter = "Tech"; break;
+                }
+
+                $.ajax({
+					url: "<%= contextPath%>/filter.pd",
 					type:"post",
 					data:{"cpage":cpage, "filter":filter
 					},
@@ -391,7 +468,7 @@
 	    				let list = pl.list;
 	    				let filter = pl.filter;
 	    				let value = "";
-	    				
+                        let clickLike = pl.clickLike;
 	    				
 	    				
 	                    for(let i =0; i<list.length; i++){
@@ -438,17 +515,7 @@
 						alert('error');
 					}
 				})
-			})
-		})
-    
-    </script>
-    
-    <script>
-                
-		$(function(){
-			$("#cell").click(function(){
-			location.href = "<%=contextPath%>/detail.pd?co=" + $(this).children('input').val();
-			})
+            })
 		})
 		
 	</script>

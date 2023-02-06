@@ -42,13 +42,23 @@ public class ProductFilterController extends HttpServlet {
 		
 		ArrayList<Product> list = new ProductService().selectProductFilter(filter);
 		
-		request.setAttribute("filter", filter);
-		request.setAttribute("list", list);
-		request.getRequestDispatcher("views/product/productMainView.jsp").forward(request, response);
+		int[] clickLike = new int[list.size()];
+		for(int i=0; i<list.size(); i++) {
+			String productCode = list.get(i).getProductCode();
+			clickLike[i] = new ProductService().clickLike(productCode);
+		}
+		
+		
+//		request.setAttribute("filter", filter);
+//		request.setAttribute("list", list);
+//		request.getRequestDispatcher("views/product/productMainView.jsp").forward(request, response);
 		
 		HashMap<String, Object> pmap = new HashMap();
 		pmap.put("list", list);
 		pmap.put("filter", filter);
+		pmap.put("clickLike", clickLike);
+		
+		System.out.println(list);
 		
 		response.setContentType("application/json; charset=UTF-8");
 		new Gson().toJson(pmap, response.getWriter());

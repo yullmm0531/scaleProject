@@ -148,8 +148,6 @@
 		  JOIN TB_BRAND USING (BRAND_CODE)
 	     WHERE BLIND_CHECK ='N'
 	       AND PRODUCT_CATEGORY = ?
-	        OR BRAND_NAME = ?
-	        OR PRODUCT_SIZE = ?
 	        
 	</entry>
 	
