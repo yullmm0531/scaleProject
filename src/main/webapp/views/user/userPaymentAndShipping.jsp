@@ -60,6 +60,8 @@
 
 
 
+		#address-div{border: solid blue;}
+
 
         div{
             box-sizing: border-box;
@@ -72,6 +74,7 @@
         }
 
         .wrap>div{
+        	b
             width: 100%;
         }
         
@@ -321,15 +324,16 @@
 				                    <br>
 				                    
 				                    
-				                    
+		<% if(list != null) { %>	                    
 		<% for(Address ad : list){ %>  
-         <div class="wrap-div" style=" cursor: pointer;" onclick="test2(<%= ad.getAddressNo()%>,<%= ad.getUserNo()%> );">
+         <div class="wrap-div" id="address-div" style=" cursor: pointer;" onclick="test2(<%= ad.getUserNo()%>, <%=ad.getAddresNo()%> );">
          		
-         		<input type="hidden" id="addressNo" value="<%= ad.getAddressNo()%>">
+         		
          		<input type="hidden" id="userNo" value="<%= ad.getUserNo()%>">
+         		
             <div class="sell-product-div1">
-                <div class="img">
-                    <img src="<%=ad.getAddress1() %>" alt="사용자이미지" id="sell-img">
+                <div class="img" id="sell-img">
+                    <%=ad.getAddress1() %>
                 </div>
             </div>
             <div class="sell-product-div2">
@@ -355,12 +359,13 @@
         <script>
     	
     	
-    	function test1(e1,e2){
-    		
-    		location.href = "<%=contextPath%>/updateBasicAddress.us?AddressNo=" + $(e).children('#addressNo').val()"&" + userNo=$(e).children('#userNo').val();
+    	function test2(e1,e2){
+    		console.log(e1);
+    		console.log(e2);
+    		location.href = "<%=contextPath%>/updateBasicAddress.us?userNo=" + e1 + "&addressNo=" + e2;
     	}
     </script>
-				                    
+		<% } %>	                    
 				                    
 				                    <div id="edit-address-div">
 				                        <a href="" class="btn btn outlinegrey small" type="button" id="edit-address">수정</a>

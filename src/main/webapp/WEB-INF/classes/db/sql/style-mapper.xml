@@ -142,6 +142,8 @@
 		 WHERE I.STATUS = 'Y'
 		   AND S.STATUS = 'Y'
 		   AND STYLE_NO = ?
+		 ORDER
+		    BY FILE_LEVEL ASC
 	</entry>
 	
 	<entry key="selectTagList">
@@ -153,7 +155,6 @@
 				               HASHTAG_NO
 				             , KEYWORD
 				          FROM TB_HASHTAG
-				         WHERE STATUS = 'Y'
 				         ORDER
 				            BY COUNT DESC
 				        ) A
@@ -257,6 +258,7 @@
 				             , USER_NO
 				             , USER_ID
 				             , USER_NICKNAME
+				             , INTRODUCE
 				             , S.ENROLL_DATE
 				             , HASHTAG
 				             , STYLE_CONTENT
@@ -281,9 +283,9 @@
 	
 	<entry key="checkLike">
 		SELECT COUNT(*) COUNT
-		  FROM TB_STYLE_LIKE
+		  FROM TB_STYLE_LIKE L
 		  JOIN TB_STYLE USING (STYLE_NO)
-		 WHERE USER_NO = ? AND STYLE_NO = ?
+		 WHERE L.USER_NO = ? AND STYLE_NO = ?
 	</entry>
 	
 	<entry key="deleteLike">
@@ -372,4 +374,101 @@
 		 WHERE STYLE_NO = ?
 	</entry>
 	
+	<entry key="adminSearchListCountByNickname">
+		SELECT
+		       COUNT(*) COUNT
+		  FROM TB_STYLE S
+		  JOIN TB_USER USING (USER_NO)
+		 WHERE S.STATUS = 'Y'
+		   AND USER_NICKNAME = ?
+		   AND S.ENROLL_DATE BETWEEN TO_DATE(?, 'YYYY-MM-DD') AND TO_DATE(?, 'YYYY-MM-DD')
+	</entry>
+	
+	<entry key="adminSearchListCountByHashtag">
+		SELECT
+		       COUNT(*) COUNT
+		  FROM TB_STYLE S
+		  JOIN TB_USER USING (USER_NO)
+		 WHERE S.STATUS = 'Y'
+		   AND HASHTAG LIKE '%' || ? || '%'
+		   AND S.ENROLL_DATE BETWEEN TO_DATE(?, 'YYYY-MM-DD') AND TO_DATE(?, 'YYYY-MM-DD')
+	</entry>
+	
+	<entry key="adminSearchListByNickname">
+		SELECT
+		       *
+		  FROM (
+		        SELECT
+		               ROWNUM RNUM
+		             , A.*
+		          FROM (
+		                SELECT 
+		                       STYLE_NO
+		                     , PROFILE_IMG
+		                     , STYLE_CONTENT
+		                     , S.ENROLL_DATE
+		                     , HASHTAG
+		                     , USER_NO
+		                     , USER_NICKNAME
+		                  FROM TB_STYLE S
+		                  JOIN TB_USER USING (USER_NO)
+		                 WHERE S.STATUS = 'Y'
+		                   AND USER_NICKNAME = ?
+		                   AND S.ENROLL_DATE BETWEEN TO_DATE(?, 'YYYY-MM-DD') AND TO_DATE(?, 'YYYY-MM-DD')
+		                 ORDER
+		                    BY S.ENROLL_DATE DESC
+		                ) A
+		        )
+		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="adminSearchListByHashtag">
+		SELECT
+		       *
+		  FROM (
+		        SELECT
+		               ROWNUM RNUM
+		             , A.*
+		          FROM (
+		                SELECT 
+		                       STYLE_NO
+		                     , PROFILE_IMG
+		                     , STYLE_CONTENT
+		                     , S.ENROLL_DATE
+		                     , HASHTAG
+		                     , USER_NO
+		                     , USER_NICKNAME
+		                  FROM TB_STYLE S
+		                  JOIN TB_USER USING (USER_NO)
+		                 WHERE S.STATUS = 'Y'
+		                   AND HASHTAG LIKE '%' || ? || '%'
+		                   AND S.ENROLL_DATE BETWEEN TO_DATE(?, 'YYYY-MM-DD') AND TO_DATE(?, 'YYYY-MM-DD')
+		                 ORDER
+		                    BY S.ENROLL_DATE DESC
+		                ) A
+		        )
+		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="deleteImg">
+		DELETE
+		  FROM TB_STYLE_IMG
+		 WHERE STYLE_NO = ?
+	</entry>
+	
+	<entry key="deleteProduct">
+		DELETE
+		  FROM TB_STYLE_PD
+		 WHERE STYLE_NO = ?
+	</entry>
+	
+	<entry key="updateStyle">
+		UPDATE
+		       TB_STYLE
+		   SET
+	           STYLE_CONTENT = ?
+	         , MODIFY_DATE = SYSDATE
+	         , HASHTAG = ?
+		 WHERE STYLE_NO = ?
+	</entry>
 </properties>

@@ -1,6 +1,8 @@
 package com.scale.user.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.scale.user.model.dao.UserDao;
 import com.scale.user.model.service.UserService;
 import com.scale.user.model.vo.Address;
 
@@ -40,17 +43,19 @@ public class UserPaymentAndShipping extends HttpServlet {
 		String recipient = request.getParameter("recipient");
 		String Phone = request.getParameter("Phone");
 		int userNo = Integer.parseInt(request.getParameter("userNo"));
-		
+		System.out.println(userNo);
 		Address ad = new Address(zipCode, address1, address2, recipient, Phone, defaultAdd, userNo);
-		
+		System.out.println(ad);
 		int result = new UserService().updatePaymentAndShipping(ad);
 		
 		HttpSession session = request.getSession();
-		
+		System.out.println(result);
 		if(result > 0) { 
 			
 			session.setAttribute("alertMsg", "배송지를 추가하였습니다");
+			ArrayList<Address> list = new UserService().selectBasicAddressList(userNo);
 			
+			request.setAttribute("list",list);
 			request.getRequestDispatcher("views/user/userPaymentAndShipping.jsp").forward(request, response);
 			
 		}else {

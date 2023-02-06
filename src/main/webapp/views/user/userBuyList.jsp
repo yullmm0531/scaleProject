@@ -235,7 +235,8 @@
 			        <div class="title-div"><h4>구매한 상품 목록</h4></div>
 			        
 	  <% for(Product p : list){ %>
-         <div class="wrap-div" style=" cursor: pointer;" onclick="test1(<%= p.getPaymentNo() %>,<%= p.getBiddingNo() %>,<%= p.getUserNo() %>);">
+	  
+         <div class="wrap-div" style=" cursor: pointer;" onclick="test1('<%= p.getPaymentNo() %>',<%= p.getBiddingNo() %>,<%= p.getUserNo() %>);">
          		<input type="hidden" value="<%= p.getPaymentNo() %>">
          		<input type="hidden" value="<%= p.getBiddingNo() %>">
          		<input type="hidden" value="<%= p.getUserNo() %>">

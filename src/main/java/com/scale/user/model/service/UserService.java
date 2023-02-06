@@ -215,10 +215,10 @@ public class UserService {
 	}
 	
 
-public Product userDetailImg(int biddingNo) {
+public Product userDetailImg(int userNo) {
 		
 		Connection conn = getConnection();
-		Product p = new UserDao().userDetailImg(conn, biddingNo);
+		Product p = new UserDao().userDetailImg(conn, userNo);
 		
 		close(conn);
 		
@@ -319,7 +319,7 @@ public Product userDetailImg(int biddingNo) {
 		
 		return result;
 	}
-	/*
+	
 	public ArrayList<Address> selectBasicAddressList(int userNo){
 		
 		Connection conn = getConnection();
@@ -330,11 +330,11 @@ public Product userDetailImg(int biddingNo) {
 		return list;
 		
 	}
-	*/
-	public int updateBasicAddress(int addressNo) {
+	
+	public int updateBasicAddress(int userNo, int addressNo) {
 		
 		Connection conn = getConnection();
-		int result = new UserDao().updateBasicAddress(conn, addressNo);
+		int result = new UserDao().updateBasicAddress(conn, userNo, addressNo);
 		
 		
 		if(result > 0) {
@@ -376,4 +376,14 @@ public Product userDetailImg(int biddingNo) {
 		
 		return b1;
 	}
+	
+	public Product userDetailImgForBuy(int userNo) {
+		
+		Connection conn = getConnection();
+		Product p = new UserDao().userDetailImgForBuy(conn, userNo);
+		
+		close(conn);
+		
+		return p;
+}
 }

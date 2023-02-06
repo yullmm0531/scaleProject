@@ -34,7 +34,7 @@ public class UserBuyListController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		int userNo = Integer.parseInt(request.getParameter("userNo"));
-		System.out.println(userNo);
+		
 		
 		ArrayList<Product> list = new UserService().userBuyList(userNo);
 		

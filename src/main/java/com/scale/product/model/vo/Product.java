@@ -31,6 +31,8 @@ public class Product {
 	private int userNo;
 	
 	private String paymentNo;
+	
+	
 
 	public int getStyleNo() {
 		return styleNo;
@@ -116,7 +118,21 @@ public class Product {
 		this.paymentNo = paymentNo;
 	}
 	
-	
+	public Product(String productImgM, String productNameEng, String brandName, Date dealDate, int dealStep, int biddingNo,
+			String modelCode, int userNo) {
+		super();
+		
+		this.productImgM = productImgM;
+		this.productNameEng = productNameEng;
+		this.brandName = brandName;
+		this.dealDate = dealDate;
+		this.dealStep = dealStep;
+		this.biddingNo = biddingNo;
+		this.modelCode = modelCode;
+		this.userNo = userNo;
+		
+		
+}
 	
 
 

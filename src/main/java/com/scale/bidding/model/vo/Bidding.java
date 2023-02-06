@@ -44,6 +44,7 @@ public class Bidding {
 	private String paymentNo;
 	private String paymentPrice;
 	private String paymentMethod;
+	private String modelCode;
 	
 	public Bidding() {
 		
@@ -172,7 +173,8 @@ public class Bidding {
 	}
 	
 	public Bidding(String biddingPrice, Date biddingDate, int inspectionCost, int commission, String recipientName, String recipientPhone, String recipientZipCode,
-			String recipientAddress,String recipientShippingMsg, Date dealDate, String bankName, String bankAccount, String bankOwnerName, String adjustmentPrice) {
+			String recipientAddress,String recipientShippingMsg, String bankName, String bankAccount, String bankOwnerName, String modelCode,
+			String adjustmentPrice,  Date dealDate) {
 				super();
 				
 				this.biddingPrice = biddingPrice;
@@ -184,11 +186,13 @@ public class Bidding {
 				this.recipientZipCode = recipientZipCode;
 				this.recipientAddress = recipientAddress;
 				this.recipientShippingMsg = recipientShippingMsg;
-				this.dealDate = dealDate;
+				
 				this.bankName = bankName;
 				this.bankAccount = bankAccount;
 				this.bankOwnerName = bankOwnerName;
+				this.modelCode = modelCode;
 				this.adjustmentPrice = adjustmentPrice;
+				this.dealDate = dealDate;
 				
 				}
 	
@@ -224,6 +228,7 @@ public class Bidding {
 		this.paymentPrice = paymentPrice;
 		this.dealDate = dealDate;
 		this.deliveryFee = deliveryFee;
+		this.biddingPrice = biddingPrice;
 		this.recipientName = recipientName;
 		this.recipientPhone = recipientPhone;
 		this.recipientZipCode = recipientZipCode;
@@ -234,6 +239,16 @@ public class Bidding {
 	}
 	
 	
+	
+
+	public String getModelCode() {
+		return modelCode;
+	}
+
+
+	public void setModelCode(String modelCode) {
+		this.modelCode = modelCode;
+	}
 
 
 	public String getPaymentPrice() {

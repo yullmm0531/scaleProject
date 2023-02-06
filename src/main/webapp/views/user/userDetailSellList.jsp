@@ -220,8 +220,8 @@
 		        <div class="title-div">
 		            <h5>종료된 거래</h5>
 		            <div class="underline"></div>
-		            <span>주문번호</span>
-		            <span>주문번호넘버</span>
+		            <span>모델번호</span>
+		            <span><%=b1.getModelCode() %></span>
 		            <div class="underline"></div>
 		        </div>
 		        

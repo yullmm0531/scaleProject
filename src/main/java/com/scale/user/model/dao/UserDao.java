@@ -495,7 +495,9 @@ public class UserDao {
 				p.setDealDate(rset.getDate("deal_date"));
 				p.setDealStep(rset.getInt("deal_step"));
 				p.setBiddingNo(rset.getInt("bidding_no"));
+				p.setModelCode(rset.getString("model_code"));
 				p.setUserNo(rset.getInt("user_no"));
+				
 				list.add(p);
 			}
 		} catch (SQLException e) {
@@ -541,7 +543,7 @@ public class UserDao {
 	}
 	
 
-	public Product userDetailImg(Connection conn, int biddingNo) {
+	public Product userDetailImg(Connection conn, int userNo) {
 		
 		Product p = null;
 		PreparedStatement pstmt = null;
@@ -551,7 +553,7 @@ public class UserDao {
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, biddingNo);
+			pstmt.setInt(1, userNo);
 			
 			rset = pstmt.executeQuery();
 			
@@ -841,10 +843,11 @@ public class UserDao {
 		return result;
 		
 	}
-/*	
-public ArrayList<Address> selectBasicAddressList(Connection conn, int userNo){
+
+	public ArrayList<Address> selectBasicAddressList(Connection conn, int userNo){
 		
 		ArrayList<Address> list = new ArrayList<>();
+		Address ad = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
@@ -857,7 +860,7 @@ public ArrayList<Address> selectBasicAddressList(Connection conn, int userNo){
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
-				Address ad = new Address();
+				 ad = new Address();
 						 ad.setZipCode(rset.getString("zipcode"));
 						 ad.setAddresNo(rset.getInt("address_no"));
 						 ad.setAddress1(rset.getString("address1"));
@@ -880,8 +883,8 @@ public ArrayList<Address> selectBasicAddressList(Connection conn, int userNo){
 		return list;
 		
 	}
-	*/
-	public int updateBasicAddress(Connection conn, int addressNo) {
+	
+	public int updateBasicAddress(Connection conn, int userNo, int addressNo) {
 		
 		int result = 0;
 		PreparedStatement pstmt = null;
@@ -890,7 +893,8 @@ public ArrayList<Address> selectBasicAddressList(Connection conn, int userNo){
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, addressNo);
+			pstmt.setInt(1, userNo);
+			pstmt.setInt(2, addressNo);
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -928,12 +932,13 @@ public ArrayList<Address> selectBasicAddressList(Connection conn, int userNo){
 						,rset.getString("RECIPIENT_PHONE")
 						,rset.getString("RECIPIENT_ZIPCODE")
 						,rset.getString("RECIPIENT_ADDRESS")
-						,rset.getString("RECIPIENT_SHIPPING_MSG")
-						,rset.getDate("DEAL_DATE")
+						,rset.getString("RECIPIENT_SHIPPING_MSG")						
 						,rset.getString("BANK_NAME")
 						,rset.getString("BANK_ACCOUNT")
 						,rset.getString("BANK_OWNER_NAME")
+						,rset.getString("MODEL_CODE")
 						,rset.getString("ADJUSTMENT_PRICE")
+						,rset.getDate("DEAL_DATE")
 						);
 												
 			}
@@ -1017,7 +1022,7 @@ public ArrayList<Address> selectBasicAddressList(Connection conn, int userNo){
 						,rset.getString("RECIPIENT_ADDRESS")
 						,rset.getString("RECIPIENT_SHIPPING_MSG")
 						
-						,rset.getString(" PAYMENT_METHOD")
+						,rset.getString("PAYMENT_METHOD")
 						,rset.getString("PAYMENT_NUMBER")
 						
 						);
@@ -1031,5 +1036,37 @@ public ArrayList<Address> selectBasicAddressList(Connection conn, int userNo){
 			close(pstmt);
 		}
 		return b1;
+	}
+	
+public Product userDetailImgForBuy(Connection conn, int userNo) {
+		
+		Product p = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("userDetailImgForBuy");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				p = new Product(
+				rset.getString("product_name_eng")
+				,rset.getString("product_img_m")
+				,rset.getString("brand_name")
+				);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+		}
+		return p;
 	}
 }

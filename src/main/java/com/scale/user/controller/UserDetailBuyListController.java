@@ -36,7 +36,7 @@ public class UserDetailBuyListController extends HttpServlet {
 		int userNo = Integer.parseInt(request.getParameter("userNo"));
 		int biddingNo = Integer.parseInt(request.getParameter("biddingNo"));
 		
-		Product p1 = new UserService().userDetailImg(userNo);
+		Product p1 = new UserService().userDetailImgForBuy(userNo);
 		Bidding b1 = new UserService().selectDetailBuyList(paymentNo,userNo,biddingNo);
 		
 		HttpSession session = request.getSession();

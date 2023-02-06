@@ -217,6 +217,7 @@
 		    ,DEAL_STEP
 		    ,BIDDING_NO
 		    ,USER_NO
+		    ,MODEL_CODE
 		FROM
 			TB_PRODUCT
 		JOIN TB_BRAND USING(BRAND_CODE)
@@ -347,6 +348,7 @@
 		    ,PRODUCT_NAME_KO
 		    ,DEAL_CHECK
 		    
+		    
 		FROM
 			TB_BIDDING B
 		JOIN TB_SELLER USING(BIDDING_NO)
@@ -439,7 +441,9 @@
 			   TB_ADDRESS
 		   SET DEFAULT_ADD = 'Y'
 		       
-		 WHERE ADDRESS_NO = ?
+		 WHERE USER_NO = ?
+		 	ADDRESS_NO = ?
+		 	
 	</entry>
 	
 	<entry key="selectDetailSellList">
@@ -459,10 +463,12 @@
 		  , BANK_ACCOUNT
 		  , BANK_OWNER_NAME
 		  , ADJUSTMENT_PRICE
+		  , MODEL_CODE
 		  
 		  		  
 		  FROM TB_BIDDING B
 		  	JOIN TB_SELLER ON(USER_NO = SELLER_NO)
+		  	JOIN TB_PRODUCT USING(PRODUCT_CODE)
 		 WHERE USER_NO = ?
 		 		AND B.BIDDING_NO = ?
 			  	AND BIDDING_TYPE = 2
@@ -510,17 +516,34 @@
 	
 		  , PAYMENT_METHOD
 		  , PAYMENT_NUMBER
+		  , MODEL_CODE
 		  
 		  		  
-		  FROM TB_BIDDING 
+		  FROM TB_BIDDING B
 		  	JOIN TB_BUYER ON(USER_NO = BUYER_NO)
+		  	JOIN TB_PRODUCT USING(PRODUCT_CODE)
 		 WHERE USER_NO = ?
 		 		AND PAYMENT_NUMBER = ?
-		 		AND BIDDING_NO = ?
+		 		AND B.BIDDING_NO = ?
 			  	AND BIDDING_TYPE = 1
 			    AND DEAL_CHECK != 'N'
 		 	   
 		   
+	</entry>
+	
+	<entry key="userDetailImgForBuy">
+		SELECT
+		    PRODUCT_IMG_M
+		    ,PRODUCT_NAME_ENG
+		    ,BRAND_NAME
+		    
+		FROM
+			TB_PRODUCT
+		JOIN TB_BRAND USING(BRAND_CODE)
+		JOIN TB_BIDDING USING(PRODUCT_CODE)
+			WHERE USER_NO = ?
+			  	AND BIDDING_TYPE = 1
+			    AND DEAL_CHECK != 'N'
 	</entry>
 	
 </properties>

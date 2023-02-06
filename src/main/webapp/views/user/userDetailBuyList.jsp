@@ -244,7 +244,7 @@
 		
 		        <div id="payment-form">
 		            <div class="title-div">
-		                <h5>판매정산내역</h5>
+		                <h5>구매정산내역</h5>
 		                <div class="underline"></div>
 		            </div>
 		                <div id="payment-fee-div">
@@ -253,7 +253,7 @@
 		                </div>
 		
 		                <div id="payment-fee-div">
-		                    <div id="payment-fee-tag"><span>구매가</span></div>
+		                    <div id="payment-fee-tag"><span>입찰가격</span></div>
 		                    <div id="payment-fee"><span><%=b1.getBiddingPrice() %></span></div>
 		                </div>
 		
