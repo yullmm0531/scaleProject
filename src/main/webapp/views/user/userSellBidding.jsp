@@ -255,11 +255,12 @@
             <div class="sell-product-div3"><%=p.getBiddingDate() %></div>
             
             
-            <button onclick="drop(<%=p.getBiddingNo()%>,<%=userNo%>);">입찰취소</button>
+            
             
             
             
         </div>
+        <button onclick="drop(<%=p.getBiddingNo()%>,<%=userNo%>);">입찰취소</button>
         <% } %>
         
         <script>

@@ -42,10 +42,8 @@ public class UserSellBiddingDropController extends HttpServlet {
 		if(result > 0) {
 			
 			session.setAttribute("alertMsg", "판매입찰을 취소하였습니다.");			
+			response.sendRedirect(request.getContextPath() + "/myPage.us");
 			
-			ArrayList<Product> list = new UserService().userSellList(userNo);
-			request.setAttribute("list", list);
-			request.getRequestDispatcher("views/user/userSellBidding.jsp").forward(request, response);
 		}else {
 			session.setAttribute("alertMsg", "판매입찰을 취소에 실패하였습니다.");
 			response.sendRedirect(request.getContextPath() + "/userSellBidding.us");
