@@ -212,7 +212,8 @@ public class BiddingDao {
 									 rset.getString("product_code"),
 									 rset.getString("product_name_ko"),
 									 rset.getString("buyer_id"),
-									 rset.getString("seller_id")		
+									 rset.getString("seller_id"),
+									 rset.getInt("seller_no")
 						));
 			}
 		} catch (SQLException e) {
@@ -341,7 +342,8 @@ public class BiddingDao {
 							    rset.getString("product_code"),
 							    rset.getString("product_name_ko"),
 							    rset.getString("buyer_id"),
-							    rset.getString("seller_id"));
+							    rset.getString("seller_id"),
+							    rset.getInt("seller_no"));
 			}
 			
 		} catch (SQLException e) {
@@ -354,5 +356,34 @@ public class BiddingDao {
 		return b;
 		
 	}
+	
+	
+	public int insertPenalty(Connection conn, int bNo, int sellerNo) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertPenalty");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bNo);
+			pstmt.setInt(2, sellerNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+		
+		
+	}
+	
+	
 	
 }

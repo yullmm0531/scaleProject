@@ -1,6 +1,9 @@
 package com.scale.admin.bidding.model.service;
 
-import static com.scale.common.JDBCTemplate.*;
+import static com.scale.common.JDBCTemplate.close;
+import static com.scale.common.JDBCTemplate.commit;
+import static com.scale.common.JDBCTemplate.getConnection;
+import static com.scale.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -8,8 +11,6 @@ import java.util.ArrayList;
 import com.scale.admin.bidding.model.dao.BiddingDao;
 import com.scale.admin.bidding.model.vo.Bidding;
 import com.scale.common.model.vo.PageInfo;
-import com.scale.customerCenter.model.dao.CustomerCenterDao;
-import com.scale.customerCenter.model.vo.Faq;
 
 
 
@@ -113,7 +114,7 @@ public class BiddingService {
 	}
 	
 	
-	public int updateDealStep(int bNo, String dStep) {
+	public int updateDealStep(int bNo, String dStep, int sellerNo) {
 		
 		Connection conn = getConnection();
 		int result = 0;
@@ -124,7 +125,13 @@ public class BiddingService {
 		} else if(dStep.equals("3") || dStep.equals("4")) { // 검수완료 | 검수미통과
 			int result1 = new BiddingDao().updateDealStep(conn, bNo, dStep);
 			int result2 = new BiddingDao().updateInspectionDate(conn, bNo);
-			result = result1 * result2;
+			if(dStep.equals("4")){
+				int result3 = new BiddingDao().insertPenalty(conn, bNo, sellerNo);
+				result = result1 * result2 * result3;
+			} else {
+				result = result1 * result2;
+			}
+			
 		} else if(dStep.equals("5")) { // 출고완료
 			int result1 = new BiddingDao().updateDealStep(conn, bNo, dStep);
 			int result2 = new BiddingDao().updateShipDate(conn, bNo);

@@ -83,35 +83,38 @@
 	</entry>
 	
 	<entry key="selectDealList">
-		SELECT *
-		  FROM (
-		        SELECT ROWNUM RNUM, B.*
-		          FROM (
-		                SELECT
-		                       BIDDING_NO
-		                     , DEAL_STEP
-		                     , NVL2(STORE_DATE, TO_CHAR(STORE_DATE, 'YYYY/MM/DD'), '-') "STORE_DATE"
-		                     , NVL2(INSPECTION_DATE, TO_CHAR(INSPECTION_DATE, 'YYYY/MM/DD'), '-') "INSPECTION_DATE"
-		                     , NVL2(SHIP_DATE, TO_CHAR(SHIP_DATE, 'YYYY/MM/DD'), '-') "SHIP_DATE"
-		                     , PRODUCT_CODE
-		                     , PRODUCT_NAME_KO
-		                     , (SELECT USER_ID
-		                          FROM TB_BUYER TB
-		                          JOIN TB_USER U ON (BUYER_NO = U.USER_NO)
-		                         WHERE TB.BIDDING_NO = B.BIDDING_NO) "BUYER_ID"
-		                     , (SELECT USER_ID
-		                          FROM TB_SELLER TS
-		                          JOIN TB_USER U ON (SELLER_NO = U.USER_NO)
-		                         WHERE TS.BIDDING_NO = B.BIDDING_NO) "SELLER_ID"
-		                  FROM TB_BIDDING B
-		                  JOIN TB_PRODUCT P USING (PRODUCT_CODE)
-		                 WHERE BIDDING_STATUS = 'Y'
-		                   AND DEAL_CHECK = 'Y'
-		                 ORDER
-		                    BY BIDDING_NO DESC
-		                ) B
-		        )
-		 WHERE RNUM BETWEEN ? AND ?
+				SELECT *
+				  FROM (
+				        SELECT ROWNUM RNUM, B.*
+				          FROM (
+				                SELECT
+				                       BIDDING_NO
+				                     , DEAL_STEP
+				                     , NVL2(STORE_DATE, TO_CHAR(STORE_DATE, 'YYYY/MM/DD'), '-') "STORE_DATE"
+				                     , NVL2(INSPECTION_DATE, TO_CHAR(INSPECTION_DATE, 'YYYY/MM/DD'), '-') "INSPECTION_DATE"
+				                     , NVL2(SHIP_DATE, TO_CHAR(SHIP_DATE, 'YYYY/MM/DD'), '-') "SHIP_DATE"
+				                     , PRODUCT_CODE
+				                     , PRODUCT_NAME_KO
+				                     , (SELECT USER_ID
+				                          FROM TB_BUYER TB
+				                          JOIN TB_USER U ON (BUYER_NO = U.USER_NO)
+				                         WHERE TB.BIDDING_NO = B.BIDDING_NO) "BUYER_ID"
+				                     , (SELECT USER_ID
+				                          FROM TB_SELLER TS
+				                          JOIN TB_USER U ON (SELLER_NO = U.USER_NO)
+				                         WHERE TS.BIDDING_NO = B.BIDDING_NO) "SELLER_ID"
+		                             , (SELECT SELLER_NO
+		                                  FROM TB_SELLER TS
+		                                 WHERE TS.BIDDING_NO = B.BIDDING_NO) "SELLER_NO"
+				                  FROM TB_BIDDING B
+				                  JOIN TB_PRODUCT P USING (PRODUCT_CODE)
+				                 WHERE BIDDING_STATUS = 'Y'
+				                   AND DEAL_CHECK = 'Y'
+				                 ORDER
+				                    BY BIDDING_NO DESC
+				                ) B
+				        )
+				 WHERE RNUM BETWEEN ? AND ?
 	</entry>
 	
 	<entry key="updateDealStep">
@@ -155,11 +158,37 @@
 		          FROM TB_SELLER TS
 		          JOIN TB_USER U ON (SELLER_NO = U.USER_NO)
 		         WHERE TS.BIDDING_NO = B.BIDDING_NO) "SELLER_ID"
+		     , (SELECT SELLER_NO
+		          FROM TB_SELLER TS
+		         WHERE TS.BIDDING_NO = B.BIDDING_NO) "SELLER_NO"
 		  FROM TB_BIDDING B
 		  JOIN TB_PRODUCT P USING (PRODUCT_CODE)
 		 WHERE BIDDING_STATUS = 'Y'
 		   AND DEAL_CHECK = 'Y'
 		   AND BIDDING_NO = ?
+	</entry
+	>
+	<entry key="getUserNoByUserId">
+		SELECT
+			   USER_NO
+		  FROM TB_USER
+		 WHERE USER_ID = ?
+	</entry>
+	
+	<entry key="insertPenalty">
+		INSERT 
+		  INTO TB_PENALTY
+		      ( 
+		        BIDDING_NO
+		      , SELLER_NO
+		      , PENALTY_DATE
+		      )
+		VALUES       
+		      (
+		        ?
+		      , ?
+		      , SYSDATE
+		      )
 	</entry>
 	
 </properties>

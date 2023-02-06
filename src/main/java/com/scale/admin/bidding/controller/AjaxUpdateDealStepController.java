@@ -37,8 +37,9 @@ public class AjaxUpdateDealStepController extends HttpServlet {
 		//System.out.println(bNo);
 		String dStep = request.getParameter("dStep");
 		//System.out.println(dStep);
+		int sellerNo = Integer.parseInt(request.getParameter("seller"));
 		
-		int result = new BiddingService().updateDealStep(bNo, dStep);
+		int result = new BiddingService().updateDealStep(bNo, dStep, sellerNo);
 		Bidding b = new BiddingService().selectChangeBidding(bNo);
 		//System.out.println(result);
 		//System.out.println(b);
