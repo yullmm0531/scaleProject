@@ -165,7 +165,7 @@
                     <div class="sideMenu-div">
                         <li><a href="">쇼핑정보</a>
                             <ul>
-                                <li><a href="<%=contextPath %>/userBuyList.us">구매내역</a></li>
+                                <li><a href="<%=contextPath %>/userBuyList.us?userNo=<%=userNo%>">구매내역</a></li>
                                 <li><a href="<%=contextPath %>/userSellList.us?userNo=<%=userNo%>">판매내역</a></li>
                                  <li><a href="">구매입찰</a></li>
 
@@ -179,7 +179,7 @@
                         <li><a href="">내정보</a>
                             <ul>
                                 <li><a href="<%=contextPath%>/userInfoUpdate.us">회원정보수정</a></li>
-                                <li><a href="<%=contextPath%>/paymentAndShippingOnlyView.us">결제 및 배송정보</a></li>
+                                <li><a href="<%=contextPath%>/paymentAndShippingView.us">결제 및 배송정보</a></li>
                                 
                             </ul>
                         </li>
