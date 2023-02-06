@@ -1,29 +1,29 @@
 package com.scale.user.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-
-import com.scale.bidding.model.vo.Bidding;
-import com.scale.bidding.model.vo.Seller;
 import com.scale.product.model.vo.Product;
 import com.scale.user.model.service.UserService;
 
 /**
- * Servlet implementation class UserDetailSellBiddingController
+ * Servlet implementation class UserSellBiddingDropController
  */
-@WebServlet("/userDetailSellBidding.us")
-public class UserDetailSellBiddingController extends HttpServlet {
+@WebServlet("/userSellBiddingDrop.us")
+public class UserSellBiddingDropController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserDetailSellBiddingController() {
+    public UserSellBiddingDropController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,22 +32,22 @@ public class UserDetailSellBiddingController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
 		
-
-		int productCode2 = Integer.parseInt(request.getParameter("productCode2"));
-		String productSize = request.getParameter("productSize");
+		int biddingNo = Integer.parseInt(request.getParameter("biddingNo"));
 		int userNo = Integer.parseInt(request.getParameter("userNo"));
 		
-		Seller s = new UserService().userDetailSellBidding1(productCode2, productSize);
-		Product p = new UserService().userDetailSellBidding2(productCode2);
-		Bidding b = new UserService().userDetailSellBidding3(productCode2, productSize,userNo);
+		int result = new UserService().userSellBiddingDrop(biddingNo);
 		
-		request.setAttribute("s", s);
-		request.setAttribute("p", p);
-		request.setAttribute("b", b);
-		System.out.println(s);
-		System.out.println(b);
-		request.getRequestDispatcher("views/user/userDetailSellBidding.jsp").forward(request, response);
+		if(result > 0) {
+			
+			session.setAttribute("alertMsg", "판매입찰을 취소하였습니다.");			
+			response.sendRedirect(request.getContextPath() + "/myPage.us");
+			
+		}else {
+			session.setAttribute("alertMsg", "판매입찰을 취소에 실패하였습니다.");
+			response.sendRedirect(request.getContextPath() + "/userSellBidding.us");
+		}
 	}
 
 	/**

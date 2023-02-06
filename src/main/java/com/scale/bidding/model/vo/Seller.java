@@ -51,6 +51,21 @@ public class Seller {
 		this.bankAccountOwner = bankAccountOwner;
 		this.adjustmentPrice = adjustmentPrice;
 	}
+	
+	
+
+	public Seller(String recipientName, String recipientPhone, String recipientAddress, String recipientShippingMsg,
+			String bankName, String bankAccount, String bankAccountOwner, int adjustmentPrice) {
+		super();
+		this.recipientName = recipientName;
+		this.recipientPhone = recipientPhone;
+		this.recipientAddress = recipientAddress;
+		this.recipientShippingMsg = recipientShippingMsg;
+		this.bankName = bankName;
+		this.bankAccount = bankAccount;
+		this.bankAccountOwner = bankAccountOwner;
+		this.adjustmentPrice = adjustmentPrice;
+	}
 
 	public int getbNo() {
 		return bNo;

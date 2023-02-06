@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import com.scale.bidding.model.vo.Bidding;
+import com.scale.bidding.model.vo.Seller;
 import com.scale.product.model.vo.Product;
 import com.scale.user.model.vo.Address;
 import com.scale.user.model.vo.User;
@@ -685,6 +686,8 @@ public class UserDao {
 				p.setBrandName(rset.getString("brand_name"));
 				p.setDealDate(rset.getDate("bidding_date"));
 				p.setBiddingNo(rset.getInt("bidding_no"));
+				p.setProductCode2(rset.getInt("product_code"));
+				p.setProductSize(rset.getString("product_size"));
 				list.add(p);
 			}
 		} catch (SQLException e) {
@@ -693,10 +696,108 @@ public class UserDao {
 			close(rset);
 			close(pstmt);
 		}
+		System.out.println(list);
 		return list;
 	}
 	
-	public Bidding userDetailSellBidding(Connection conn, int biddingNo) {
+	public int userSellBiddingDrop(Connection conn, int biddingNo) {
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("userSellBiddingDrop");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, biddingNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	
+	public Seller userDetailSellBidding1(Connection conn, int productCode2, String productSize) {
+		
+		Seller s = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		
+		
+		String sql = prop.getProperty("userDetailSellBidding1");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, productCode2);
+			pstmt.setString(2, productSize);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				
+				s = new Seller(rset.getString("RECIPIENT_NAME")
+						,rset.getString("RECIPIENT_PHONE")
+						
+						,rset.getString("RECIPIENT_ADDRESS")
+						,rset.getString("RECIPIENT_SHIPPING_MSG")
+						,rset.getString("BANK_NAME")
+						,rset.getString("BANK_ACCOUNT")
+						,rset.getString("BANK_OWNER_NAME")
+						,rset.getInt("ADJUSTMENT_PRICE")
+						
+						);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+			
+		}
+		return s;
+	}
+	
+	public Product userDetailSellBidding2(Connection conn, int productCode2) {
+		
+		Product p = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		
+		
+		String sql = prop.getProperty("userDetailSellBidding2");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, productCode2);
+			
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				
+				p = new Product(rset.getString("PRODUCT_NAME_ENG")
+						,rset.getString("PRODUCT_IMG_M")
+						,rset.getString("BRAND_NAME")
+						,rset.getString("PRODUCT_NAME_KO")
+						);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rset);
+			close(pstmt);
+			
+		}
+		return p;
+	}
+	
+public Bidding userDetailSellBidding3(Connection conn, int productCode2, String productSize, int userNo) {
 		
 		Bidding b = null;
 		PreparedStatement pstmt = null;
@@ -704,36 +805,20 @@ public class UserDao {
 		
 		
 		
-		String sql = prop.getProperty("userDetailSellBidding");
+		String sql = prop.getProperty("userDetailSellBidding3");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, biddingNo);
-			
+			pstmt.setInt(1, productCode2);
+			pstmt.setInt(2, userNo);
+			pstmt.setString(3, productSize);
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
 				
-				b = new Bidding(rset.getInt("product_size")
-						,rset.getString("BIDDING_PRICE")
-						,rset.getDate("BIDDING_DATE")
+				b = new Bidding(rset.getString("COMMISSION")
+						,rset.getInt("BIDDING_PRICE")
 						,rset.getInt("INSPECTION_COST")
-						,rset.getInt("COMMISSION")
-						,rset.getInt("DELIVERY_FEE")								
-						,rset.getInt("SELLER_NO")
-						,rset.getString("RECIPIENT_NAME")
-						,rset.getString("RECIPIENT_PHONE")
-						,rset.getString("RECIPIENT_ZIPCODE")
-						,rset.getString("RECIPIENT_ADDRESS")
-						,rset.getString("RECIPIENT_SHIPPING_MSG")
-						,rset.getString("BANK_NAME")
-						,rset.getString("BANK_ACCOUNT")
-						,rset.getString("BANK_OWNER_NAME")
-						,rset.getString("ADJUSTMENT_PRICE")
-						,rset.getString("PRODUCT_IMG_M")
-						,rset.getString("PRODUCT_NAME_ENG")
-						,rset.getString("PRODUCT_NAME_KO")
-						,rset.getString("DEAL_CHECK")
 						);
 			}
 		} catch (SQLException e) {

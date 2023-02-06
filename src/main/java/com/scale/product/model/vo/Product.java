@@ -32,7 +32,7 @@ public class Product {
 	
 	private String paymentNo;
 	
-	
+	private int productCode2;
 
 	public int getStyleNo() {
 		return styleNo;
@@ -138,17 +138,30 @@ public class Product {
 
 	
 
+	public Product(String productNameEng, String productImgM, String brandName,
+					String productNameKo) {
+		super();
+		this.productNameEng = productNameEng;
+		this.productImgM = productImgM;
+		this.brandName = brandName;
+		this.productNameKo = productNameKo;
+	}
+	
 	public Product(String productNameEng, String productImgM, String brandName) {
 		super();
 		this.productNameEng = productNameEng;
 		this.productImgM = productImgM;
 		this.brandName = brandName;
-	}
+		
+}
+
+	
 	
 	
 
 
-	public Product(String productImgM, String productNameEng, String brandName, Date biddingDate, int biddingNo) {
+	public Product(String productImgM, String productNameEng, String brandName, Date biddingDate, int biddingNo,
+					int productCode2, String productSize) {
 		super();
 		
 		this.productImgM = productImgM;
@@ -156,9 +169,19 @@ public class Product {
 		this.brandName = brandName;
 		this.biddingDate = biddingDate;
 		this.biddingNo = biddingNo;
+		this.productCode2 = productCode2;
+		this.productSize = productSize;
 	}
 	
 	
+
+	public int getProductCode2() {
+		return productCode2;
+	}
+
+	public void setProductCode2(int productCode2) {
+		this.productCode2 = productCode2;
+	}
 
 	public String getPaymentNo() {
 		return paymentNo;
