@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.scale.customerCenter.model.service.CustomerCenterService;
+import com.scale.admin.customerCenter.model.service.AdminCustomerCenterService;
 import com.scale.customerCenter.model.vo.Inquire;
 
 /**
@@ -32,7 +32,7 @@ public class AdminInquireDetailController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int inquireNo = Integer.parseInt(request.getParameter("inquireNo"));
 		
-		Inquire iq = new CustomerCenterService().selectAdminInquireDetail(inquireNo);
+		Inquire iq = new AdminCustomerCenterService().selectAdminInquireDetail(inquireNo);
 		
 		request.setAttribute("iq", iq);
 		request.getRequestDispatcher("views/admin/customerCenter/adminInquireDetailView.jsp").forward(request, response);

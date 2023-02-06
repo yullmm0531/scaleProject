@@ -94,6 +94,15 @@
 <body>
 
 	<%@ include file="../common/menubar.jsp" %>
+
+    <script>
+        $(function(){
+            <% if(loginUser != null && loginUser.getStyleBlockDate() != null) { %>
+                alert("스타일 신고 누적으로 STYLE 차단되었습니다.");
+                location.href = "<%= contextPath %>";
+            <% } %>
+        })
+    </script>
 	
 	<div class="outer">
         <div class="set-container">
@@ -104,7 +113,7 @@
                         <img src="<%= contextPath %>/<%= list.get(i).getProfileImg() %>" class="rounded-circle">
                     </td>
                     <td class="nickname-td">
-                        <a class="nickname" href="<%= contextPath %>/profileView.st?nickname=<%= list.get(i).getStyleWriter() %>"><%= list.get(i).getStyleWriter() %></a>
+                        <a class="nickname" href="<%= contextPath %>/profileView.st?userNo=<%= list.get(i).getUserNo() %>"><%= list.get(i).getStyleWriter() %></a>
                         <div class="date"><%= list.get(i).getEnrollDate() %></div>
                     </td>
                     <td class="report-td">
@@ -318,7 +327,7 @@
                                         + "<img src='<%= contextPath %>/" + list[i].profileImg + "' class='rounded-circle'>"
                                     + "</td>"
                                     + "<td class='nickname-td'>"
-                                        + "<a class='nickname' href='<%= contextPath %>/profileView.st?nickname=" + list[i].styleWriter + "'>" + list[i].styleWriter + "</a>"
+                                        + "<a class='nickname' href='<%= contextPath %>/profileView.st?userNo=" + list[i].userNo + "'>" + list[i].styleWriter + "</a>"
                                         + "<div class='date'>" + list[i].enrollDate + "</div>"
                                     + "</td>"
                                     + "<td class='report-td'>"

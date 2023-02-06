@@ -322,10 +322,61 @@
      	 WHERE  
      </entry>
      
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+	  <entry key="selectCountLike">
+			SELECT COUNT(*) "LIKECOUNT"
+			  FROM TB_LIKE
+			 WHERE PRODUCT_CODE = ?
+	  </entry>
      
-     
-     
-     
+      <entry key="selectUserLike">
+      		SELECT COUNT(*) "LIKE"
+			  FROM TB_LIKE
+			 WHERE USER_NO = ?
+			   AND PRODUCT_CODE = ?
+      </entry>
      
      
      

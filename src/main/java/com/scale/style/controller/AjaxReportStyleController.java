@@ -31,13 +31,18 @@ public class AjaxReportStyleController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String reportedNo = request.getParameter("reportedUserNo");
-		String reportingNo = String.valueOf(((User)request.getSession().getAttribute("loginUser")).getUserNo());
+		int reportedNo = Integer.parseInt(request.getParameter("reportedUserNo"));
+		int reportingNo = ((User)request.getSession().getAttribute("loginUser")).getUserNo();
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		int styleNo = Integer.parseInt(request.getParameter("reportedStyleNo"));
 		
-		StyleReport rep = new StyleReport(reportedNo, reportingNo, title, content, styleNo);
+		StyleReport rep = new StyleReport();
+		rep.setReportedUser(reportedNo);
+		rep.setReportingUser(reportingNo);
+		rep.setTitle(title);
+		rep.setContent(content);
+		rep.setStyleNo(styleNo);
 		int result = new StyleService().insertStyleReport(rep);
 		
 		response.getWriter().print(result);

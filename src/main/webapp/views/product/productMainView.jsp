@@ -110,6 +110,14 @@
 </head>
 <body>
 	 <%@ include file="../common/menubar.jsp" %> 
+     <script>
+        $(function(){
+            <% if(loginUser != null && loginUser.getShopBlockDate() != null) { %>
+                alert("페널티 누적으로 SHOP 차단되었습니다.");
+                location.href = "<%= contextPath %>";
+            <% } %>
+        })
+    </script>
 	  <div class="pwrap">
         <div id="pheader">
             <div id="pheader-1">
@@ -196,7 +204,7 @@
                     <div class="sortbar" align="right"> 
                         <select name="sortlist" id="sort">
                             <option value="popular">인기순</option>
-                            <option value="newest" onclick="location.href='<%= contextPath %>/psort.pd'">최신순</option>
+                            <option value="newest" class="newest" >최신순</option>
                         </select>
                     </div>
                 </div>
@@ -351,7 +359,7 @@
                 	let userNo = <%= loginUser.getUserNo() %>;
     			$.ajax({
     			    url: "plike.pd",
-    			    data: {"userNo":userNo, "productCode":$(this).next().val()}, 
+    			    data: {"userNo":userNo, "pCode":$(this).next().val()}, 
     			    success:function(result){
     			    	if(like == "♡"){
     			    		e.text("♥")
@@ -376,7 +384,13 @@
     	$(document).on("click", ".cell", function(){
     		location.href = "<%= contextPath %>/detail.pd?co=" + $(this).children().eq(0).val();
     	})
-				
+    	
+		
+    	$(document).on("click", ".newest", function(){
+        	location.href = "<%= contextPath %>/psort.pd" 
+        })
+    	
+    	
 	</script>
     
 	<!-- 클릭 -->    

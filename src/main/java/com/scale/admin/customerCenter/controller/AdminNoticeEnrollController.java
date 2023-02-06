@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.scale.customerCenter.model.service.CustomerCenterService;
+import com.scale.admin.customerCenter.model.service.AdminCustomerCenterService;
 
 /**
  * Servlet implementation class AdminNoticeEnrollController
@@ -35,7 +35,7 @@ public class AdminNoticeEnrollController extends HttpServlet {
 		String display = request.getParameter("display");
 		String noticeWriter = request.getParameter("noticeWriter");
 		
-		int result = new CustomerCenterService().insertNotice(title, content, display, noticeWriter);
+		int result = new AdminCustomerCenterService().insertNotice(title, content, display, noticeWriter);
 		
 		if(result > 0) {
 			request.getSession().setAttribute("alertMsg", "공지사항이 등록되었습니다.");

@@ -48,7 +48,7 @@
             <form class="enroll-form" action="updateTerms.ad" method="post">
                 <table class="table enroll-form">
                     <tr>
-                        <th height="200">서비스 이용약관 내용</th>
+                        <th height="200" width="150">이용약관 내용</th>
                         <td>
                         <% if(p != null) {%>
                             <textarea name="content" id="summernote"><%= p.getPolicyContent() %></textarea>

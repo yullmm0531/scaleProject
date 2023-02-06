@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.scale.admin.customerCenter.model.service.AdminCustomerCenterService;
 import com.scale.common.model.vo.PageInfo;
-import com.scale.customerCenter.model.service.CustomerCenterService;
 import com.scale.customerCenter.model.vo.Inquire;
 
 /**
@@ -42,7 +42,7 @@ public class AjaxAdminInquireFilterController extends HttpServlet {
 		if(category.equals("all")) {
 			response.sendRedirect(request.getContextPath() + "/inquireList.ad?cpage=1");
 		}else {
-			listCount = new CustomerCenterService().selectAdminInquireCountCategory(category);
+			listCount = new AdminCustomerCenterService().selectAdminInquireCountCategory(category);
 			// 페이징
 			int pageLimit = 5;
 			int boardLimit = 10;
@@ -64,7 +64,7 @@ public class AjaxAdminInquireFilterController extends HttpServlet {
 
 			// 게시글 조회
 			ArrayList<Inquire> list = new ArrayList<>();
-			list = new CustomerCenterService().selectAdminInquireListCategory(category, pi);
+			list = new AdminCustomerCenterService().selectAdminInquireListCategory(category, pi);
 			
 			response.setContentType("application/json; charset=UTF-8");
 			HashMap<String, Object> map = new HashMap();

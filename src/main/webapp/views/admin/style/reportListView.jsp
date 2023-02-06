@@ -5,6 +5,7 @@
     PageInfo pi = (PageInfo)request.getAttribute("pi");
     ArrayList<StyleReport> list = (ArrayList<StyleReport>)request.getAttribute("list");
     String select = (String)request.getAttribute("select");
+    String id = (String)request.getAttribute("id");
 %>
 <!DOCTYPE html>
 <html>
@@ -71,6 +72,9 @@
         width: 1000px;
     }
     
+    .pagination{
+        justify-content: center;
+    }
 </style>
 </head>
 <body>
@@ -84,20 +88,21 @@
                 <br>
             </div>
             <div class="list-area">
-                <form class="input-group mb-3" style="width:400px" action="" method="get">
+                <form class="input-group mb-3" style="width:400px" action="<%= contextPath %>/searchreport.ad" method="get">
+                    <input type="hidden" name="cpage" value="<%= pi.getCurrentPage() %>">
                     <div id="processing-status">
                         <span>처리현황</span>
                         <select name="select" id="select">
-                            <option value="all">전체</option>
-                            <option value="ready">신고완료</option>
-                            <option value="report">처리완료</option>
-                            <option value="reject">반려</option>
+                            <option value="all" id="all">전체</option>
+                            <option value="ready" id="ready">신고완료</option>
+                            <option value="report" id="report">처리완료</option>
+                            <option value="reject" id="reject">반려</option>
                         </select>
                     </div>
                     <br><br>
                     <div>
-                        <span>닉네임</span>
-                        <input type="search" id="search">
+                        <span>아이디</span>
+                        <input type="search" name="id" id="search" required placeholder="피신고자 아이디 검색">
                         <button type="submit" id="search-btn">검색</button>
                     </div>
                 </form>
@@ -106,29 +111,35 @@
                     <thead class="thead-dark">
                         <tr>
                             <th id="no">번호</th>
-                            <th id="reporting">신고인</th>
+                            <th id="reporting">신고자</th>
                             <th id="title">신고제목</th>
                             <th id="report-date">신고일</th>
-                            <th id="reported">피신고인</th>
+                            <th id="reported">피신고자</th>
                             <th id="status">처리현황</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% for(StyleReport rep : list) { %>
+                        <% if(list != null) { %>
+                        <% for(int i=0; i<list.size(); i++) { %>
                         <tr class="list-row">
-                            <td><%= rep.getReportNo() %></td>
-                            <input type="hidden" value="<%= rep.getStyleNo() %>">
-                            <td><%= rep.getReportingUser() %></td>
-                            <td><%= rep.getTitle() %></td>
-                            <td><%= rep.getReportedDate() %></td>
-                            <td><%= rep.getReportedUser() %></td>
-                            <% switch(rep.getReportCheck()) { 
-                            	case "0": rep.setReportCheck("신고접수"); break;
-                            	case "1": rep.setReportCheck("처리완료"); break;
-                            	case "2": rep.setReportCheck("반려"); break;
+                            <td><%= list.get(i).getReportNo() %></td>
+                            <input type="hidden" value="<%= list.get(i).getStyleNo() %>">
+                            <td><%= list.get(i).getReportingId() %></td>
+                            <td><%= list.get(i).getTitle() %></td>
+                            <td><%= list.get(i).getReportedDate() %></td>
+                            <td><%= list.get(i).getReportedId() %></td>
+                            <% switch(list.get(i).getReportCheck()) { 
+                            	case "0": list.get(i).setReportCheck("신고접수"); break;
+                            	case "1": list.get(i).setReportCheck("처리완료"); break;
+                            	case "2": list.get(i).setReportCheck("반려"); break;
                              } %>
-                             <td><%= rep.getReportCheck() %></td>
+                             <td><%= list.get(i).getReportCheck() %></td>
                         </tr>
+                        <% } %>
+                        <% } else { %>
+                            <tr class="list-row">
+                                <td colspan="6" align="center">조회된 게시물이 없습니다.</td>
+                            </tr>
                         <% } %>
                     </tbody>
                 </table>
@@ -137,7 +148,7 @@
 
             <script>
                 $(".list-row").on("click", function(){
-                    location.href = "detailreport.ad?repNo=" + $(this).children().eq(0).text() + "&styleNo=" + $(this).children().eq(1).val();
+                    location.href = "detailreport.ad?repNo=" + $(this).children().eq(0).text() + "&styleNo=" + $(this).children().eq(1).val() + "&cpage=" + <%= pi.getCurrentPage() %>;
                 });
 
             </script>
@@ -163,7 +174,26 @@
                         </li>
                     <% } %>
                 </ul>
-            
+            <% } else { %>
+                <ul class="pagination">
+                    <% if(pi.getCurrentPage() != 1) { %>
+                    <li class="page-item">
+                        <a class="page-link" href="<%= contextPath %>/stylereport.ad?cpage=<%= pi.getCurrentPage()-1 %>">&lt;</a>
+                    </li>
+                    <% } %>
+                    
+                    <% for(int p=pi.getStartPage(); p<=pi.getEndPage(); p++) { %>
+                        <li class="page-item">
+                            <a class="page-link" href="<%= contextPath %>/stylereport.ad?cpage=<%= p %>"><%= p %></a>
+                        </li>
+                    <% } %>
+                    
+                    <% if(pi.getCurrentPage() != pi.getMaxPage() && pi.getMaxPage() != 0) { %>
+                        <li class="page-item">
+                            <a class="page-link" href="<%= contextPath %>/stylereport.ad?cpage=<%= pi.getCurrentPage()+1 %>">&gt;</a>
+                        </li>
+                    <% } %>
+                </ul>
             <% } %>
             <br><br>
         </div>

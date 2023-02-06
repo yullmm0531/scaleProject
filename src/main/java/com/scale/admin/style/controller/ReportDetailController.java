@@ -33,17 +33,20 @@ public class ReportDetailController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int repNo = Integer.parseInt(request.getParameter("repNo"));
 		int styleNo = Integer.parseInt(request.getParameter("styleNo"));
-		HashMap<String, Object> map = new StyleService().selectStyleDetail(styleNo);
+		int cpage = Integer.parseInt(request.getParameter("cpage"));
+		HashMap<String, Object> map = new StyleService().selectReortDetail(styleNo);
 		StyleReport rep = new StyleService().selectReport(repNo);
 		
+		request.setAttribute("st", map.get("st"));
+		request.setAttribute("ilist", map.get("ilist"));
+		request.setAttribute("plist", map.get("plist"));
+		request.setAttribute("rep", rep);
+		request.setAttribute("cpage", cpage);
 		if(map.get("st") != null && rep != null) {
-			request.setAttribute("st", map.get("st"));
-			request.setAttribute("ilist", map.get("ilist"));
-			request.setAttribute("plist", map.get("plist"));
 			request.getRequestDispatcher("views/admin/style/reportDetailView.jsp").forward(request, response);
 		} else {
-			request.getSession().setAttribute("alertMsg", "신고 상세 조회에 실패했습니다.");
-			response.sendRedirect(request.getContextPath() + "/");
+			request.getSession().setAttribute("alertMsg", "신고 상세조회에 실패했습니다.");
+			response.sendRedirect(request.getContextPath() + "/stylereport.ad?cpage=1");
 		}
 		
 	}

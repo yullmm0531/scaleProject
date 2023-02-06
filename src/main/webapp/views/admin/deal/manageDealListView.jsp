@@ -134,6 +134,8 @@
                 }
             })
 
+            $("")
+
         </script>
         
         <div class="biddingList-area">
@@ -164,6 +166,7 @@
                             <tr class="rowNum" id="<%= b.getbNo() %>">
                                 <input type="hidden" name="bNo" value="<%= b.getbNo() %>">
                                 <input type="hidden" name="dStep" value="<%= b.getdStep() %>">
+                                <input type="hidden" name="sellerNo" value="<%= b.getSellerNo() %>">
                                 <td class="biddingNo"><%= b.getbNo() %></td>
                                 <td><%= b.getpCode() %></td>
                                 <td><div class="productNameKo"><%= b.getpNameKo() %></div></td>
@@ -223,7 +226,8 @@
             $(".stepChange").click(function(){
                 var val = $(this).parent().parent().children().eq(1).val();
                 $("#dealStep").val(val);
-                var info = "<input type='hidden' id='thisBiddingNo' value='" + $(this).parent().parent().children().eq(3).text() + "'>";
+                var info = "";
+                info += "<input type='hidden' class='sellerNo' value='" + $(this).parent().parent().children().eq(2).val() + "'>";
                 info += "입찰 번호 : <input type='text' name='biddingNo' value='" + $(this).parent().parent().children().eq(0).val() + "'><br>";
                 info += "상품 번호 : " + $(this).parent().parent().children().eq(3).text() + "<br>";
                 info += "상품명 : " + $(this).parent().parent().children().eq(4).text() + "<br>";
@@ -237,7 +241,8 @@
                     url: "<%= contextPath %>/updateDealStep.ad",
                     data: {
                         bNo: $("input:text").val(),
-                        dStep: $("#dealStep").val()
+                        dStep: $("#dealStep").val(),
+                        seller: $(".sellerNo").val()
                     },
                     method: "post",
                     success: function(b){
@@ -247,6 +252,7 @@
                         let value = "";
                         value += "<input type='hidden' name='bNo' value='" + b.bNo + "'>";
                         value += "<input type='hidden' name='dStep' value='" + b.dStep + "'>";
+                        value += "<input type='hidden' name='sellerNo' value='" + b.sellerNo + "'>";
                         value += "<td class='biddingNo'>" + b.bNo + "</td>";
                         value += "<td>" + b.pCode + "</td>";
                         value += "<td><div class='productNameKo'>" + b.pNameKo + "</div></td>";

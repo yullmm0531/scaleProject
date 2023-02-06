@@ -16,19 +16,6 @@
     .title{
         margin:70px 0px;
     }
-    .inquire-form{
-        text-align:center;
-        font-size:14px;
-    }
-	.inquire-form textarea{
-	    width:60%
-	}
-	.inquire-form input[type=text]{
-	    width:60%
-	}
-	.inquire-form td{
-	    text-align:left
-	}
 	.btn{
 	    margin:5px;
 	}
@@ -48,7 +35,7 @@
             <form class="enroll-form" action="updatePrivacy.ad" method="post">
                 <table class="table enroll-form">
                     <tr>
-                        <th height="200">개인정보처리방침 내용</th>
+                        <th height="200" width="170">개인정보처리방침<br>내용</th>
                         <td>
                         <% if(p != null) {%>
                             <textarea name="content" id="summernote"><%= p.getPolicyContent() %></textarea>

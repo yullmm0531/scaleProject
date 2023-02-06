@@ -229,7 +229,8 @@ public class ProductDao {
 	
 	
 	
-	public int insertLike(Connection conn, int userNo, String productCode) {
+	public int insertLike(Connection conn, int userNo, String pCode) {
+		
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql = prop.getProperty("insertLike");
@@ -237,27 +238,31 @@ public class ProductDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, userNo);
-			pstmt.setString(2, productCode);
+			pstmt.setString(2, pCode);
 			
 			result = pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
 		}
+		
 		return result;
 	}
 	
 	
-	public int deleteLike(Connection conn, int userNo, String productCode) {
+	public int deleteLike(Connection conn, int userNo, String pCode) {
+		
 		int result = 0;
 		PreparedStatement pstmt = null;
+		
 		String sql = prop.getProperty("deleteLike");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, userNo);
-			pstmt.setString(2, productCode);
+			pstmt.setString(2, pCode);
 			
 			result = pstmt.executeUpdate();
 			
@@ -266,6 +271,7 @@ public class ProductDao {
 		}finally {
 			close(pstmt);
 		}
+		
 		return result;
 		
 	}
@@ -440,6 +446,67 @@ public class ProductDao {
 		}
 		
 		return p;
+	}
+	
+	
+	public int selectCountLike(Connection conn, String pCode) {
+		
+		int likeCount = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectCountLike");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pCode);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				likeCount = rset.getInt("likecount");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return likeCount;
+			
+	}
+	
+	
+	public int selectUserLike(Connection conn, int userNo, String pCode) {
+		
+		int userLike = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		System.out.println(userNo);
+		String sql = prop.getProperty("selectUserLike");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			pstmt.setString(2, pCode);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				userLike = rset.getInt("like");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return userLike;
+		
 	}
 
 

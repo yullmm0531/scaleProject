@@ -51,6 +51,12 @@
 		</script>
 		<% session.removeAttribute("alertMsg"); %>
 	<% } %>
+	<% if(adminUser == null){ %>
+		<script>
+			alert("로그인 후 이용해주세요.");
+			location.href = "<%=contextPath%>/loginForm.ad";
+		</script>
+	<% } %>
 <div class="wrap">
 	<div id="navigator">
 		<ul id="navi">

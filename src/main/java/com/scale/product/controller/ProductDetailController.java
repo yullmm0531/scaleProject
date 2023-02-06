@@ -15,6 +15,7 @@ import com.scale.bidding.model.vo.Bidding;
 import com.scale.product.model.service.ProductService;
 import com.scale.product.model.vo.Product;
 import com.scale.product.model.vo.ProductImg;
+import com.scale.user.model.vo.User;
 
 /**
  * Servlet implementation class ProductDetailController
@@ -36,6 +37,13 @@ public class ProductDetailController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		HttpSession session = request.getSession();
+		int userNo = 0;
+		User loginUser = (User)session.getAttribute("loginUser");
+		if(loginUser != null) {
+			userNo = loginUser.getUserNo();
+		}
+		
 		String pCode = request.getParameter("co");
 		
 		Product p = new ProductService().selectProduct(pCode);
@@ -43,8 +51,10 @@ public class ProductDetailController extends HttpServlet {
 		ArrayList<ProductImg> pImgList = new ProductService().selectProductImg(pCode);
 		ArrayList<Bidding> bList = new BiddingService().selectBuyBiddingList(pCode);
 		ArrayList<Bidding> sList = new BiddingService().selectSellBiddingList(pCode);
+		int likeCount = new ProductService().selectCountLike(pCode);
+		int userLike = new ProductService().selectUserLike(userNo, pCode);
+			
 		
-		HttpSession session = request.getSession();
 		if(p == null) {
 			session.setAttribute("alertMsg", "상품 상세조회에 실패했습니다.");
 		} else {
@@ -53,6 +63,8 @@ public class ProductDetailController extends HttpServlet {
 			request.setAttribute("pImgList", pImgList);
 			request.setAttribute("bList", bList);
 			request.setAttribute("sList", sList);
+			request.setAttribute("likeCount", likeCount);
+			request.setAttribute("userLike", userLike);
 			request.getRequestDispatcher("views/product/productDetailView.jsp").forward(request, response);
 		}
 		
