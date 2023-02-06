@@ -241,6 +241,16 @@ public class Bidding {
 	
 	
 
+	public Bidding(int commission,String biddingPrice, int inspectionCost ) {
+		super();
+		this.commission = commission;
+		this.biddingPrice = biddingPrice;
+		this.inspectionCost = inspectionCost;
+		
+		
+	}
+
+
 	public String getModelCode() {
 		return modelCode;
 	}

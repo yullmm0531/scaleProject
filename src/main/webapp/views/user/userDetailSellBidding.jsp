@@ -1,8 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="com.scale.bidding.model.vo.Bidding"%>
-    
+    pageEncoding="UTF-8" import="com.scale.bidding.model.vo.Bidding,
+    com.scale.bidding.model.vo.Seller, com.scale.product.model.vo.Product"%>
+  
     <%
 	Bidding b = (Bidding)request.getAttribute("b");
+    Seller s = (Seller)request.getAttribute("s");
+    Product p = (Product)request.getAttribute("p");
 	%>
 <!DOCTYPE html>
 <html>
@@ -211,13 +214,13 @@
 		         
 				            <div class="sell-product-div1">
 				                <div class="img">
-				                    <img src="<%= b.getProductImgM() %>" alt="사용자이미지" id="sell-img">
+				                    <img src="<%= p.getProductImgM() %>" alt="사용자이미지" id="sell-img">
 				                </div>
 				            </div>
 				            <div class="sell-product-div2">
-				                <div class="brand-name"><%= b.getProductNameEng() %></div>
+				                <div class="brand-name"><%= p.getBrandName() %></div>
 				                <br><br>
-				                <div class="product-ex"></div>
+				                <div class="product-ex"><%= p.getProductNameEng() %></div>
 				            </div>
 				        </div>
 				        <br><br>
@@ -229,23 +232,17 @@
 				            </div>
 				                <div id="payment-fee-div">
 				                    <div id="payment-fee-tag"><span>상품이름</span></div>
-				                    <div id="payment-fee"><span><%= b.getProductNameKo() %></span></div>
+				                    <div id="payment-fee"><span><%= p.getProductNameKo() %></span></div>
 				                </div>
 				
-				                <div id="payment-fee-div">
-				                    <div id="payment-fee-tag"><span>사이즈</span></div>
-				                    <div id="payment-fee"><span><%= b.getProductSize() %></span></div>
-				                </div>
+				                
 				
 				                <div id="payment-fee-div">
 				                    <div id="payment-fee-tag"><span>입찰가격</span></div>
 				                    <div id="payment-fee"><span><%= b.getBiddingPrice() %></span></div>
 				                </div>
 				
-				                <div id="payment-fee-div">
-				                    <div id="payment-fee-tag"><span>입찰일</span></div>
-				                    <div id="payment-fee"><span><%= b.getBiddingDate() %></span></div>
-				                </div>
+				                
 				                
 				                <div id="payment-fee-div">
 				                    <div id="payment-fee-tag"><span>검수비</span></div>
@@ -257,23 +254,16 @@
 				                    <div id="payment-fee"><span><%= b.getCommission() %></span></div>
 				                </div>
 				                
-				                <%if(b.getDealCheck() == "N") { %>
+				                
 				
 				                <div id="payment-fee-div">
 				                    <div id="payment-fee-tag"><span>배송비</span></div>
-				                    <div id="payment-fee"><span>구매자부담</span></div>
-				                </div>
-				                
-				                <% }else{ %>
-				                	<div id="payment-fee-div">
-				                    <div id="payment-fee-tag"><span>배송비</span></div>
-				                    <div id="payment-fee"><span><%= b.getDeliveryFee() %></span></div>
-				                </div>
-				                <% } %>
+				                    <div id="payment-fee"><span>선불/판매자부담</span></div>
+				               
 				                
 				                <div id="payment-fee-div">
 				                    <div id="payment-fee-tag"><span>판매정산금액</span></div>
-				                    <div id="payment-fee"><span><%= b.getAdjustmentPrice() %></span></div>
+				                    <div id="payment-fee"><span><%= s.getAdjustmentPrice() %></span></div>
 				                </div>
 				
 				                
@@ -315,7 +305,7 @@
 				
 				                <div id="shipping-address-div">
 				                    <div id="shipping-address-tag"><span>주소</span></div>
-				                    <div id="shipping-address-tag"><span><%= b.getRecipientZipCode() %></span></div>
+				                    
 				                    <div id="shipping-address"><span><%= b.getRecipientAddress() %></span></div>
 				                </div>
 				                <div class="underline"></div>

@@ -212,7 +212,7 @@
 	 <div id="content-2">
 	 
 	 	<div class="outer">
-        <div class="title-div"><h4>판매내역</h4></div>
+        <div class="title-div"><h4>판매입찰내역</h4></div>
 
             <div id="list-outLine">
                 <div id="list-outLine2">
@@ -239,7 +239,7 @@
         
         
         <% for(Product p : list){ %>
-         <div class="wrap-div" style=" cursor: pointer;" onclick="test1(this);">
+         <div class="wrap-div" style=" cursor: pointer;" onclick="test1(<%=p.getProductCode2()%>,'<%=p.getProductSize() %>',<%=userNo%>);">
          		
          		<input type="hidden" value="<%= p.getBiddingNo() %>">
             <div class="sell-product-div1">
@@ -255,6 +255,8 @@
             <div class="sell-product-div3"><%=p.getBiddingDate() %></div>
             
             
+            <button onclick="drop(<%=p.getBiddingNo()%>,<%=userNo%>);">입찰취소</button>
+            
             
             
         </div>
@@ -263,11 +265,17 @@
         <script>
     	
     	
-    	function test1(e){
-    		
-    		location.href = "<%=contextPath%>/userDetailSellBidding.us?biddingNo=" + $(e).children("input").val();
+    	function test1(e1,e2,e3){
+    		console.log(e2);
+    		location.href = "<%=contextPath%>/userDetailSellBidding.us?productCode2=" + e1 + "&productSize=" + e2 + "&userNo=" + e3;
     	}
     </script>
+    
+    <script>
+            	function drop(e1,e2){
+            		location.href = "<%=contextPath%>/userSellBiddingDrop.us?biddingNo=" + e1 + "&userNo=" + e2;
+            	}
+            </script>
         
     </div>
 	 
