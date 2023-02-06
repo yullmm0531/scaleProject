@@ -445,4 +445,40 @@ public class StyleService {
 		close(conn);
 		return result1 * result2 * result3;
 	}
+	
+	public int searchReportCount(String select, String id) {
+		Connection conn = getConnection();
+		switch(select) {
+		case "all": select = "all"; break;
+		case "ready": select = "0"; break;
+		case "report": select = "1"; break;
+		case "reject": select = "22"; break;
+		}
+		int result = 0;
+		if(select.equals("all")) {
+			result = new StyleDao().selectReportCountByNickname(conn, id);
+		} else {
+			result = new StyleDao().selectReportCountByStatus(conn, id, select);
+		}
+		close(conn);
+		return result;
+	}
+	
+	public ArrayList<StyleReport> selectSearchReport(PageInfo pi, String select, String id){
+		Connection conn = getConnection();
+		switch(select) {
+		case "all": select = "all"; break;
+		case "ready": select = "0"; break;
+		case "report": select = "1"; break;
+		case "reject": select = "22"; break;
+		}
+		ArrayList<StyleReport> list = new ArrayList<StyleReport>();
+		if(select.equals("all")) {
+			list = new StyleDao().selectReportByNickname(conn, pi, id);
+		} else {
+			list = new StyleDao().selectReportByStatus(conn, pi, id, select);
+		}
+		close(conn);
+		return list;
+	}
 }
