@@ -222,7 +222,7 @@
                             paging += "<button onclick='filtering(`"+category+"`,"+(cpage-1)+");'>&lt;</button>";
                         }
                         for(let i=pi.startPage; i<=pi.endPage; i++){
-                            paging += "<button onclick='filtering(`"+category+"`,"+(cpage+1)+");'>"+[i]+"</button>";
+                            paging += "<button onclick='filtering(`"+category+"`,"+i+");'>"+i+"</button>";
                         }
 
                         if(pi.currentPage != pi.maxPage && pi.maxPage != 0){
