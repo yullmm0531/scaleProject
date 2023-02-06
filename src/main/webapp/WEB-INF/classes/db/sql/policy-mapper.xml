@@ -2,19 +2,19 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 	
-	<entry key="selectPolicy">
+	<entry key="selectInspectionPolicy">
 		SELECT 
 			   POLICY_CONTENT
 			 , TO_CHAR(MODIFY_DATE, 'YYYY.MM.DD') "MODIFY_DATE"
 			 , POLICY_TYPE
 	      FROM TB_POLICY
-	     WHERE POLICY_TYPE = ?
+	     WHERE POLICY_TYPE = 1
 	</entry>
 	
-	<entry key="updatePolicy">
+	<entry key="updateInspectionPolicy">
 		UPDATE TB_POLICY 
 		   SET POLICY_CONTENT = ?
 			 , MODIFY_DATE = SYSDATE
-	     WHERE POLICY_TYPE = ?
+	     WHERE POLICY_TYPE = 1
 	</entry>
 </properties>

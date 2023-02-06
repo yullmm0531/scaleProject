@@ -15,16 +15,16 @@ import com.scale.common.model.vo.PageInfo;
 import com.scale.customerCenter.model.service.CustomerCenterService;
 
 /**
- * Servlet implementation class BiddingListController
+ * Servlet implementation class DealListController
  */
-@WebServlet("/biddingList.ad")
-public class BiddingListController extends HttpServlet {
+@WebServlet("/dealList.ad")
+public class DealListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BiddingListController() {
+    public DealListController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -48,7 +48,7 @@ public class BiddingListController extends HttpServlet {
 			endPage = maxPage;
 		}
 		
-		listCount = new BiddingService().selectBiddingListCount();
+		listCount = new BiddingService().selectDealListCount();
 		currentPage = Integer.parseInt(request.getParameter("cpage"));
 		pageLimit = 5;
 		boardLimit = 10;
@@ -64,11 +64,11 @@ public class BiddingListController extends HttpServlet {
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 		
 		// 페이지 조회
-		ArrayList<Bidding> list = new BiddingService().selectBiddingList(pi);
+		ArrayList<Bidding> list = new BiddingService().selectDealList(pi);
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
 		
-		request.getRequestDispatcher("views/admin/deal/manageBiddingListView.jsp").forward(request, response);
+		request.getRequestDispatcher("views/admin/deal/manageDealListView.jsp").forward(request, response);
 	}
 
 	/**
