@@ -13,14 +13,14 @@ import com.scale.policy.model.vo.Policy;
 /**
  * Servlet implementation class AdminInspectionUpdateController
  */
-@WebServlet("/updateInspection.ad")
-public class AdminInspectionUpdateController extends HttpServlet {
+@WebServlet("/updatePrivacy.ad")
+public class AdminPrivacyUpdateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AdminInspectionUpdateController() {
+    public AdminPrivacyUpdateController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,16 +31,16 @@ public class AdminInspectionUpdateController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		String content = request.getParameter("content");
-		int policyType = 1;
+		int policyType = 3;
 		int result = new PolicyService().updatePolicy(content, policyType);
 		
 		if(result > 0) {
-			request.getSession().setAttribute("alertMsg", "검수정책이 수정되었습니다.");
+			request.getSession().setAttribute("alertMsg", "개인정보처리방침이 수정되었습니다.");
 		}else {
-			request.getSession().setAttribute("alertMsg", "검수정책 수정 실패");
+			request.getSession().setAttribute("alertMsg", "개인정보처리방침 수정 실패");
 		}
 		
-		response.sendRedirect(request.getContextPath() + "/inspection.ad");
+		response.sendRedirect(request.getContextPath() + "/privacy.ad");
 		
 	}
 

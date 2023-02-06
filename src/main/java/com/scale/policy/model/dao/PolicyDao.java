@@ -26,14 +26,15 @@ private Properties prop = new Properties();
 		}
 	}
 	
-	public Policy selectInspectionPolicy(Connection conn) {
+	public Policy selectPolicy(Connection conn, int policyType) {
 		Policy p = null;
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("selectInspectionPolicy");
+		String sql = prop.getProperty("selectPolicy");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, policyType);
 			
 			rset = pstmt.executeQuery();
 			if(rset.next()) {
@@ -52,14 +53,15 @@ private Properties prop = new Properties();
 		return p;
 	}
 	
-	public int updateInspectionPolicy(Connection conn, String content) {
+	public int updatePolicy(Connection conn, String content, int policyType) {
 		int result = 0;
 		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("updateInspectionPolicy");
+		String sql = prop.getProperty("updatePolicy");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, content);
+			pstmt.setInt(2, policyType);
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {

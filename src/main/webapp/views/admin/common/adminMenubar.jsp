@@ -96,8 +96,8 @@
 			<li><a href="">정책 관리</a>
 				<ul>
 					<li><a href="<%=contextPath%>/inspection.ad">검수정책</a></li>
-					<li><a href="">이용약관</a></li>
-					<li><a href="">개인정보처리방침</a></li>
+					<li><a href="<%=contextPath%>/terms.ad">이용약관</a></li>
+					<li><a href="<%=contextPath%>/privacy.ad">개인정보처리방침</a></li>
 				</ul>
 			</li>
 		</ul>

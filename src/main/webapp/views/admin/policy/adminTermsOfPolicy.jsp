@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>검수정책</title>
+<title>이용약관</title>
 <style>
     .outer{
         width:1200px;
@@ -40,15 +40,15 @@
 	<div class="outer" align="center">
         <div class="outer-2">
             <div class="title">
-                <h2><b>검수정책 관리</b></h2>
+                <h2><b>서비스 이용약관 관리</b></h2>
                 <br>
             </div>
             <br><br>
         <div class="form-area">
-            <form class="enroll-form" action="updateInspection.ad" method="post">
+            <form class="enroll-form" action="updateTerms.ad" method="post">
                 <table class="table enroll-form">
                     <tr>
-                        <th height="200">검수 정책 내용</th>
+                        <th height="200">서비스 이용약관 내용</th>
                         <td>
                         <% if(p != null) {%>
                             <textarea name="content" id="summernote"><%= p.getPolicyContent() %></textarea>
