@@ -197,7 +197,6 @@
                         <select name="sortlist" id="sort">
                             <option value="popular">인기순</option>
                             <option value="newest" onclick="location.href='<%= contextPath %>/psort.pd'">최신순</option>
-                            
                         </select>
                     </div>
                 </div>
