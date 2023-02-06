@@ -30,7 +30,8 @@ public class AdminInspectionController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Policy p = new PolicyService().selectInspectionPolicy();
+		int policyType = 1;
+		Policy p = new PolicyService().selectPolicy(policyType);
 		
 		request.setAttribute("p", p);
 		request.getRequestDispatcher("views/admin/policy/adminInspectionPolicy.jsp").forward(request, response);

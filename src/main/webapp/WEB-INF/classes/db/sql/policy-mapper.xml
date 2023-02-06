@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	
+	<entry key="selectPolicy">
+		SELECT 
+			   POLICY_CONTENT
+			 , TO_CHAR(MODIFY_DATE, 'YYYY.MM.DD') "MODIFY_DATE"
+			 , POLICY_TYPE
+	      FROM TB_POLICY
+	     WHERE POLICY_TYPE = ?
+	</entry>
+	
+	<entry key="updatePolicy">
+		UPDATE TB_POLICY 
+		   SET POLICY_CONTENT = ?
+			 , MODIFY_DATE = SYSDATE
+	     WHERE POLICY_TYPE = ?
+	</entry>
+</properties>

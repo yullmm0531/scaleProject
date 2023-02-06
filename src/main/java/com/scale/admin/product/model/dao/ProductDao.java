@@ -236,7 +236,7 @@ public class ProductDao {
 			pstmt.setInt(1, productCode);
 			
 			rset = pstmt.executeQuery();
-			
+			/*
 			if(rset.next()) {
 				at = new ProductImg(rset.getInt("file_no"),
 									rset.getString("origin_name"),
@@ -255,7 +255,7 @@ public class ProductDao {
 		return at;
 		
 	}
-	
+	*/
 	
 	public int insertProduct(Connection conn, Product p) {
 		int result = 0;
@@ -280,6 +280,34 @@ public class ProductDao {
 		return result ;
 		
 	}
+	
+	
+	public int updateProduct(Connection conn, Product p) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("updateBoard");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, p.getProductCode());
+			pstmt.setString(2, p.getProductNameKo());
+			pstmt.setString(3, p.getProductNameEng());
+			pstmt.setString(4, p.getProductCategory());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	
+	
+	
 	
 	
 }

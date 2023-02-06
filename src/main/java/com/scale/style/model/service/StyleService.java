@@ -9,7 +9,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.scale.product.model.dao.ProductDao;
+import com.scale.common.model.vo.PageInfo;
 import com.scale.product.model.vo.Product;
 import com.scale.style.model.dao.StyleDao;
 import com.scale.style.model.vo.Hashtag;
@@ -328,58 +328,65 @@ public class StyleService {
 		return list;
 	}
 	
-	public int deleteImgPd(int styleNo) {
-		Connection conn = getConnection();
-		int result1 = new StyleDao().deleteImg(conn, styleNo);
-		int result2 = new StyleDao().deleteProduct(conn, styleNo);
-		if(result1 > 0 && result2 > 0) {
-			commit(conn);
-		} else {
-			rollback(conn);
-		}
-		close(conn);
-		return result1 * result2;
-	}
-	
 	public int updateStyle(Style st, ArrayList<StyleImg> list, String[] pcodeArr) {
 		Connection conn = getConnection();
-			// 1. TB_STYLE INSERT(필수)
-			int result1 = new StyleDao().updateStyle(conn, st);
-			
-			// 2. TB_STYLE_IMG INSERT(필수)
-			int result2 = new StyleDao().insertStyleImg(conn, list);
-			
-			// 3. TB_STYLE-PD INSERT(선택)
-			int result3 = 1;
-			if(pcodeArr != null) {
-				result3 = new StyleDao().insertStylePd(conn, pcodeArr);
+		int result1 = new StyleDao().updateStyle(conn, st);
+		int result2 = 0;
+		int result3 = 1;
+		if(result1 > 0) {
+			result2 = new StyleDao().deleteImg(conn, st.getStyleNo());
+			ArrayList<Product> pd = new StyleDao().selectDetailProduct(conn, st.getStyleNo());
+			if(!pd.isEmpty()) {
+				result3 = new StyleDao().deleteProduct(conn, st.getStyleNo());
 			}
 			
-			// 4. TB_HASHTAG INSERT(선택) 
-			// 먼저 기존의 해쉬태그 있는지 확인(SELECT) 후 있으면 UPDATE 없으면 INSERT(반복문)
-			int result4 = 1;
+		}
+		
+		int result4 = 0;
+		int result5 = 1;
+		int result6 = 1;
+		if(result1>0 && result2>0 && result3>0) {
+			result4 = new StyleDao().insertChangeStyleImg(conn, st.getStyleNo(), list);
+			if(pcodeArr != null) {
+				result5 = new StyleDao().insertChangeStylePd(conn, st.getStyleNo(), pcodeArr);
+			}
+			
 			if(st.getHashtag() != "") {
 				String[] tagArr = st.getHashtag().split(" ");
 				for(int i=0; i<tagArr.length; i++) {
 					Hashtag t = new StyleDao().selectHashtag(conn, tagArr[i]);
 					if(t == null) {
 						// INSERT
-						result4 = new StyleDao().insertHashtag(conn, tagArr[i]);
+						result6 = new StyleDao().insertHashtag(conn, tagArr[i]);
 					} else {
 						// UPDATE
-						result4 = new StyleDao().updateHashtag(conn, tagArr[i]);
+						result6 = new StyleDao().updateHashtag(conn, tagArr[i]);
 					}
 				}
 			}
-			
-			if(result1 > 0 && result2 > 0 && result3 > 0 && result4 > 0) {
-				commit(conn);
-			} else {
-				rollback(conn);
-			}
-			
-			close(conn);
-			
-			return result1 * result2 * result3 * result4;
+		}
+		
+		if(result1 > 0 && result2 > 0 && result3 > 0 && result4 > 0 && result5>0 && result6>0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result1 * result2 * result3 * result4 * result5 * result6;
+	}
+	
+	public int selectReportCount() {
+		Connection conn = getConnection();
+		int result = new StyleDao().selectReportCount(conn);
+		close(conn);
+		return result;
+	}
+	
+	public ArrayList<StyleReport> selectReportList(PageInfo pi){
+		Connection conn = getConnection();
+		ArrayList<StyleReport> list = new StyleDao().selectReportList(conn, pi);
+		close(conn);
+		return list;
 	}
 }

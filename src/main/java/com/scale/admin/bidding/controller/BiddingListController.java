@@ -33,7 +33,7 @@ public class BiddingListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-request.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
 		
 		// 페이징바
 		int listCount = new CustomerCenterService().selectNoticeListCount();
@@ -68,7 +68,7 @@ request.setCharacterEncoding("UTF-8");
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
 		
-		request.getRequestDispatcher("views/admin/deal/manageDealListView.jsp").forward(request, response);
+		request.getRequestDispatcher("views/admin/deal/manageBiddingListView.jsp").forward(request, response);
 	}
 
 	/**

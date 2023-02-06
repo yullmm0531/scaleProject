@@ -251,7 +251,8 @@
                         <div id="input-box">
                             <% for(int i=0; i<ilist.size(); i++) { %>
                             <div class="thumbnail-box" style="border: 0px;">
-                                <img id="thumbnail<%= i+1 %>" name="thumbnail<%= i+1 %>" class="thumbnail" src="<%= contextPath %>/<%= ilist.get(i).getFilePath() %><%= ilist.get(i).getChangeName() %>" onclick="clickFile(<%= i+1 %>);">
+                                <img id="thumbnail<%= i+1 %>" class="thumbnail" src="<%= contextPath %>/<%= ilist.get(i).getFilePath() %><%= ilist.get(i).getChangeName() %>" onclick="clickFile(<%= i+1 %>);">
+                                <input type="hidden" name="thumbnail<%= i+1 %>" value="<%= ilist.get(i).getChangeName() %>">
                                 <input type="hidden" name="cname<%= i+1 %>" value="<%= ilist.get(i).getChangeName() %>">
                                 <div class="delete-btn" id="btn<%= i+1 %>">❌</div>
                             </div>
@@ -259,6 +260,8 @@
                             <% for(int j=ilist.size(); j<10; j++) { %>
                             <div class="thumbnail-box">
                                 <img id="thumbnail<%= j+1 %>" class="thumbnail" src="<%= contextPath %>/resources/images/style/plus.png" onclick="clickFile(<%= j+1 %>);">
+                                <input type="hidden" name="thumbnail<%= j+1 %>" value="plus.png">
+                                <input type="hidden">
                                 <div class="delete-btn" id="btn<%= j+1 %>" style="display: none">❌</div>
                             </div>
                             <% } %>
@@ -278,8 +281,9 @@
 
                                     reader.onload = function(e){
                                         $("#thumbnail" + num).attr("src", e.target.result);
+                                        $("input[name=thumbnail" + num + "]").val(e.target.result);
                                         $("#thumbnail" + num).parent().css("border", "none");
-                                        $("#thumbnail" + num).next().show();
+                                        $("#thumbnail" + num).next().next().next().show();
 
                                         if(num == 1){
                                             if($("#style-box>div>img") == null){
@@ -315,7 +319,7 @@
 
                             $(document).on("click", ".delete-btn", function(){
                                 $("input[name=file" + $(this).attr("id").substring(3) + "]").val("");
-                                $(this).prev().attr("src", "<%= contextPath %>/resources/images/style/plus.png");
+                                $(this).prev().prev().prev().attr("src", "<%= contextPath %>/resources/images/style/plus.png");
                                 $(this).parent().css("border", "5px dotted lightgray");
                                 $(this).css("display", "none");
                                 
@@ -408,6 +412,7 @@
                                 });
 
                                 $(document).on("click", ".tag-delete", function(){
+                                    $(this).prev().prev().remove();
                                     $(this).prev().remove();
                                     $(this).remove();
                                 })

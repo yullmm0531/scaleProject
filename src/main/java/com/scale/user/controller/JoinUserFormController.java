@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.scale.policy.model.service.PolicyService;
+import com.scale.policy.model.vo.Policy;
+
 /**
  * Servlet implementation class JoinUserFormController
  */
@@ -26,6 +29,14 @@ public class JoinUserFormController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int terms = 2;
+		Policy t = new PolicyService().selectPolicy(terms);
+		int privacy = 3;
+		Policy p = new PolicyService().selectPolicy(privacy);
+		
+		request.setAttribute("t", t);
+		request.setAttribute("p", p);
+		
 		request.getRequestDispatcher("views/user/joinUserForm.jsp").forward(request, response);
 	}
 

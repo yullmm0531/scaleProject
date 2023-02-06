@@ -86,7 +86,7 @@ public class ProductService {
 		
 		int result2 = 1;		// 첨부파일 없는 게시물일수도 있기 때문에 대비해서 0이 아닌 1로 초기화
 		if(at != null) {
-			result2 = new BoardDao().insertAttachment(conn, at);
+			result2 = new ProductDao().insertProductImg(conn, at);
 		}
 		
 		if(result1 >0 && result2 >0) {
@@ -99,6 +99,29 @@ public class ProductService {
 		
 		return result1 * result2; 
 		
+	}
+	
+	
+	public int updateProduct(Product p, ProductImg at) {
+		Connection conn = getConnection();
+		int result1 = new ProductDao().updateProduct(conn, p);
+		
+		int result2 = 1;
+		if(at != null) {
+			if(at.getpImgNo() != 0) {
+				result2 = new ProductDao().updateProductImg(conn, at);
+			}else {
+				result2 = new ProductDao().insertProductImg(conn, at)
+			}
+		}
+		if(result1 > 0 && result2 > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result1 * result2;
 	}
 	
 }

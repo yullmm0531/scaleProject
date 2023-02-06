@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import com.scale.common.model.vo.PageInfo;
 import com.scale.product.model.vo.Product;
 import com.scale.style.model.vo.Hashtag;
 import com.scale.style.model.vo.Style;
@@ -304,7 +305,7 @@ public class StyleDao {
 	public int insertStyleImg(Connection conn, ArrayList<StyleImg> list) {
 		int result = 0;
 		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("insertStyleImg");
+		String sql = prop.getProperty("insertChangeStyleImg");
 		
 		try {
 			for(StyleImg img : list) {
@@ -720,8 +721,8 @@ public class StyleDao {
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, rep.getReportedUserNo());
-			pstmt.setInt(2, rep.getReportingUserNo());
+			pstmt.setString(1, rep.getReportedUser());
+			pstmt.setString(2, rep.getReportingUser());
 			pstmt.setString(3, rep.getTitle());
 			pstmt.setString(4, rep.getContent());
 			pstmt.setInt(5, rep.getStyleNo());
@@ -989,5 +990,111 @@ public class StyleDao {
 		}
 		
 		return result;
+	}
+	
+	public int insertChangeStyleImg(Connection conn, int styleNo, ArrayList<StyleImg> list) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertChangeStyleImg");
+		
+		try {
+			for(StyleImg img : list) {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, img.getOriginName());
+				pstmt.setString(2, img.getChangeName());
+				pstmt.setString(3, img.getFilePath());
+				pstmt.setInt(4, img.getFileLevel());
+				pstmt.setInt(5, styleNo);
+				
+				result = pstmt.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public int insertChangeStylePd(Connection conn, int styleNo, String[] codeArr) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertChangeStylePd");
+		
+		try {
+			for(int i=0; i<codeArr.length; i++) {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, styleNo);
+				pstmt.setString(2, codeArr[i]);
+				
+				result = pstmt.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public int selectReportCount(Connection conn) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectReportCount");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public ArrayList<StyleReport> selectReportList(Connection conn, PageInfo pi) {
+		ArrayList<StyleReport> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectReportList");
+		
+		try {
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, startRow);
+			pstmt.setInt(2, endRow);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new StyleReport(rset.getInt("report_no"),
+										 rset.getString("reported_user_id"),
+										 rset.getString("reporting_user_id"),
+										 rset.getString("report_title"),
+										 rset.getString("report_content"),
+										 rset.getDate("report_date"),
+										 rset.getInt("style_no"),
+										 rset.getString("report_check")
+										 ));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
 	}
 }

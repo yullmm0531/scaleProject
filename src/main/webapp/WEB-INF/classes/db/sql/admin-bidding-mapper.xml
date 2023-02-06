@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="selectBiddingCount">
+		SELECT
+		       COUNT(*) COUNT
+		  FROM TB_BIDDING
+		 WHERE BIDDING_STATUS = 'Y'
+	</entry>
+	
+	
+	
+	<entry key="selectBiddingList">
+		SELECT *
+		  FROM (
+		        SELECT ROWNUM RNUM, B.*
+		          FROM (
+		                SELECT
+		                       BIDDING_NO
+		                     , B.PRODUCT_SIZE "PRODUCT_SIZE"
+		                     , CASE BIDDING_TYPE
+		                       WHEN 1 THEN '구매'
+		                       WHEN 2 THEN '판매'
+		                       END "BIDDING_TYPE"
+		                     , BIDDING_PRICE
+		                     , TO_CHAR(BIDDING_DATE, 'YYYY/MM/DD') "BIDDING_DATE"
+		                     , BIDDING_STATUS
+		                     , PRODUCT_CODE
+		                     , PRODUCT_NAME_KO
+		                     , USER_ID
+		                  FROM TB_BIDDING B
+		                  JOIN TB_USER U USING (USER_NO)
+		                  JOIN TB_PRODUCT P USING (PRODUCT_CODE)
+		                 ORDER
+		                    BY BIDDING_NO DESC
+		                ) B
+		        )
+		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="selectBiddingTypeCount">
+		SELECT
+			   COUNT(*) "COUNT"		                      
+          FROM TB_BIDDING
+         WHERE BIDDING_TYPE = ?
+	</entry>
+	
+	<entry key="selectBiddingTypeList">
+		SELECT *
+		  FROM (
+		        SELECT ROWNUM RNUM, B.*
+		          FROM (
+		                SELECT
+		                       BIDDING_NO
+		                     , B.PRODUCT_SIZE "PRODUCT_SIZE"
+		                     , CASE BIDDING_TYPE
+		                       WHEN 1 THEN '구매'
+		                       WHEN 2 THEN '판매'
+		                       END "BIDDING_TYPE"
+		                     , BIDDING_PRICE
+		                     , TO_CHAR(BIDDING_DATE, 'YYYY/MM/DD') "BIDDING_DATE"
+		                     , BIDDING_STATUS
+		                     , PRODUCT_CODE
+		                     , PRODUCT_NAME_KO
+		                     , USER_ID
+		                  FROM TB_BIDDING B
+		                  JOIN TB_USER U USING (USER_NO)
+		                  JOIN TB_PRODUCT P USING (PRODUCT_CODE)
+		                 WHERE BIDDING_TYPE = ?
+		                 ORDER
+		                    BY BIDDING_NO DESC
+		                ) B
+		        )
+		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="selectDealListCount">
+		SELECT
+			   COUNT(*) "COUNT"		                      
+          FROM TB_BIDDING
+         WHERE BIDDING_STATUS = 'Y'
+           AND DEAL_CHECK = 'Y'
+	</entry>
+	
+	<entry key="selectDealList">
+		SELECT *
+		  FROM (
+		        SELECT ROWNUM RNUM, B.*
+		          FROM (
+		                SELECT
+		                       BIDDING_NO
+		                     , DEAL_STEP
+		                     , NVL2(STORE_DATE, TO_CHAR(STORE_DATE, 'YYYY/MM/DD'), '-') "STORE_DATE"
+		                     , NVL2(INSPECTION_DATE, TO_CHAR(INSPECTION_DATE, 'YYYY/MM/DD'), '-') "INSPECTION_DATE"
+		                     , NVL2(SHIP_DATE, TO_CHAR(SHIP_DATE, 'YYYY/MM/DD'), '-') "SHIP_DATE"
+		                     , PRODUCT_CODE
+		                     , PRODUCT_NAME_KO
+		                     , (SELECT USER_ID
+		                          FROM TB_BUYER TB
+		                          JOIN TB_USER U ON (BUYER_NO = U.USER_NO)
+		                         WHERE TB.BIDDING_NO = B.BIDDING_NO) "BUYER_ID"
+		                     , (SELECT USER_ID
+		                          FROM TB_SELLER TS
+		                          JOIN TB_USER U ON (SELLER_NO = U.USER_NO)
+		                         WHERE TS.BIDDING_NO = B.BIDDING_NO) "SELLER_ID"
+		                  FROM TB_BIDDING B
+		                  JOIN TB_PRODUCT P USING (PRODUCT_CODE)
+		                 WHERE BIDDING_STATUS = 'Y'
+		                   AND DEAL_CHECK = 'Y'
+		                 ORDER
+		                    BY BIDDING_NO DESC
+		                ) B
+		        )
+		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="updateDealStep">
+		UPDATE TB_BIDDING
+		   SET DEAL_STEP = ?
+		 WHERE BIDDING_NO = ?
+	</entry>
+	
+	<entry key="updateStoreDate">
+		UPDATE TB_BIDDING
+		   SET STORE_DATE = SYSDATE
+		 WHERE BIDDING_NO = ?
+	</entry>
+	
+	<entry key="updateInspectionDate">
+		UPDATE TB_BIDDING
+		   SET INSPECTION_DATE = SYSDATE
+		 WHERE BIDDING_NO = ?
+	</entry>
+	
+	<entry key="updateShipDate">
+		UPDATE TB_BIDDING
+		   SET SHIP_DATE = SYSDATE
+		 WHERE BIDDING_NO = ?
+	</entry>
+	
+	<entry key="selectChangeBidding">
+		SELECT
+		       BIDDING_NO
+		     , DEAL_STEP
+		     , NVL2(STORE_DATE, TO_CHAR(STORE_DATE, 'YYYY/MM/DD'), '-') "STORE_DATE"
+		     , NVL2(INSPECTION_DATE, TO_CHAR(INSPECTION_DATE, 'YYYY/MM/DD'), '-') "INSPECTION_DATE"
+		     , NVL2(SHIP_DATE, TO_CHAR(SHIP_DATE, 'YYYY/MM/DD'), '-') "SHIP_DATE"
+		     , PRODUCT_CODE
+		     , PRODUCT_NAME_KO
+		     , (SELECT USER_ID
+		          FROM TB_BUYER TB
+		          JOIN TB_USER U ON (BUYER_NO = U.USER_NO)
+		         WHERE TB.BIDDING_NO = B.BIDDING_NO) "BUYER_ID"
+		     , (SELECT USER_ID
+		          FROM TB_SELLER TS
+		          JOIN TB_USER U ON (SELLER_NO = U.USER_NO)
+		         WHERE TS.BIDDING_NO = B.BIDDING_NO) "SELLER_ID"
+		  FROM TB_BIDDING B
+		  JOIN TB_PRODUCT P USING (PRODUCT_CODE)
+		 WHERE BIDDING_STATUS = 'Y'
+		   AND DEAL_CHECK = 'Y'
+		   AND BIDDING_NO = ?
+	</entry>
+	
+</properties>

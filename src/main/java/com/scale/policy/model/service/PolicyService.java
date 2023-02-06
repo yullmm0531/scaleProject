@@ -9,16 +9,16 @@ import com.scale.policy.model.vo.Policy;
 
 public class PolicyService {
 
-	public Policy selectInspectionPolicy() {
+	public Policy selectPolicy(int policyType) {
 		Connection conn = getConnection();
-		Policy p = new PolicyDao().selectInspectionPolicy(conn);
+		Policy p = new PolicyDao().selectPolicy(conn, policyType);
 		close(conn);
 		return p;
 	}
 	
-	public int updateInspectionPolicy(String content) {
+	public int updatePolicy(String content, int policyType) {
 		Connection conn = getConnection();
-		int result = new PolicyDao().updateInspectionPolicy(conn, content);
+		int result = new PolicyDao().updatePolicy(conn, content, policyType);
 		if(result > 0) {
 			commit(conn);
 		}else {

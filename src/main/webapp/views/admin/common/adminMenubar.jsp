@@ -64,8 +64,8 @@
 			</li>
 			<li><a href="">결제 관리</a>
 				<ul>
-					<li><a href="<%= contextPath %>/biddingList.ad?cpage=1">거래 리스트</a></li>
-					<li><a href="">검수내역</a></li>
+					<li><a href="<%= contextPath %>/biddingList.ad?cpage=1">입찰 리스트</a></li>
+					<li><a href="<%= contextPath %>/dealList.ad?cpage=1">거래내역</a></li>
 				</ul>
 			</li>
 			<li><a href="">회원 관리</a>
@@ -96,8 +96,8 @@
 			<li><a href="">정책 관리</a>
 				<ul>
 					<li><a href="<%=contextPath%>/inspection.ad">검수정책</a></li>
-					<li><a href="">이용약관</a></li>
-					<li><a href="">개인정보처리방침</a></li>
+					<li><a href="<%=contextPath%>/terms.ad">이용약관</a></li>
+					<li><a href="<%=contextPath%>/privacy.ad">개인정보처리방침</a></li>
 				</ul>
 			</li>
 		</ul>

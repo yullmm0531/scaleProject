@@ -50,12 +50,20 @@
                     <tr>
                         <th height="200">검수 정책 내용</th>
                         <td>
+                        <% if(p != null) {%>
                             <textarea name="content" id="summernote"><%= p.getPolicyContent() %></textarea>
+                        <%}else{ %>
+                            <textarea name="content" id="summernote"></textarea>
+                        <%} %>
                         </td>
                     </tr>
                     <tr>
                         <th>최종 수정일</th>
+                    <% if(p != null) {%>
                         <td><%= p.getModifyDate() %></td>
+                    <%}else{ %>
+                    	<td></td>
+                    <%} %>
                     </tr>
                 </table>
                 <button type="submit" class="btn btn-dark">수정</button>
