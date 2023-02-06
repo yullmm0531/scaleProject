@@ -168,8 +168,19 @@
         <div id="navigator">
             <ul id="navi">
                 <li><a href="<%=contextPath%>/stylelist.st?view=trending">STYLE</a></li>
-                <li><a href="<%=contextPath%>/plist.pd">SHOP</a></li>
+                <li><a onclick="shop();">SHOP</a></li>
             </ul>
+
+            <script>
+                function shop(){
+                    <% if(loginUser != null && loginUser.getShopBlockDate() != null) { %>
+                        alert("페널티 누적으로 SHOP 차단되었습니다.");
+                        location.href = "<%= contextPath %>"; 
+                    <% } else { %>
+                        location.href = "<%=contextPath%>/plist.pd";   
+                    <% } %>
+                }
+            </script>
         </div>
     </div>
    </div>

@@ -143,6 +143,7 @@
 </head>
 <body>
     <%@ include file="../common/menubar.jsp" %>
+
     <div class="outer">
         <div class="product-header">
             <br><br>
@@ -277,7 +278,10 @@
                         function buy(){
                             <% if(loginUser == null) { %>
                                 alert("로그인 후 이용가능한 페이지입니다.");
-                                    location.href = "<%= contextPath %>/loginForm.us";
+                                location.href = "<%= contextPath %>/loginForm.us";
+                            <% } else if(loginUser != null && loginUser.getShopBlockDate() != null) { %>
+                                alert("페널티 누적으로 SHOP 차단되었습니다.");
+                                location.href = "<%= contextPath %>"; 
                             <% } else { %>
                                 location.href='<%= contextPath %>/buy.bi?co=<%= p.getProductCode() %>';        
                             <% } %>
@@ -286,7 +290,10 @@
                         function sell(){
                             <% if(loginUser == null) { %>
                                 alert("로그인 후 이용가능한 페이지입니다.");
-                                    location.href = "<%= contextPath %>/loginForm.us";
+                                location.href = "<%= contextPath %>/loginForm.us";
+                            <% } else if(loginUser != null && loginUser.getShopBlockDate() != null) { %>
+                                alert("페널티 누적으로 SHOP 차단되었습니다.");
+                                location.href = "<%= contextPath %>"; 
                             <% } else { %>
                                 location.href='<%= contextPath %>/sell.bi?co=<%= p.getProductCode() %>';
                             <% } %>  
