@@ -847,4 +847,64 @@ private Properties prop = new Properties();
 			
 			return list;
 		}
+		
+		public int selectAdminNoAnswerCount(Connection conn) {
+			int result = 0;
+			PreparedStatement pstmt = null;
+			ResultSet rset = null;
+			String sql = prop.getProperty("selectAdminNoAnswerCount");
+			
+			try {
+				pstmt = conn.prepareStatement(sql);
+				
+				rset = pstmt.executeQuery();
+				if(rset.next()) {
+					result = rset.getInt("count");
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+			
+			return result;
+		}
+		
+		public ArrayList<Inquire> selectAdminNoAnswerList(Connection conn, PageInfo pi){
+			ArrayList<Inquire> list = new ArrayList<>();
+			PreparedStatement pstmt = null;
+			ResultSet rset = null;
+			String sql = prop.getProperty("selectAdminNoAnswerList");
+			
+			try {
+				pstmt = conn.prepareStatement(sql);
+				
+				int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+				int endRow = startRow + pi.getBoardLimit() - 1;
+				
+				pstmt.setInt(1, startRow);
+				pstmt.setInt(2, endRow);
+				
+				rset = pstmt.executeQuery();
+				
+				while(rset.next()) {
+					list.add(new Inquire(rset.getInt("INQUIRE_NO"),
+										rset.getString("INQUIRE_TITLE"),
+										rset.getString("INQUIRE_DATE"),
+										rset.getString("ANSWER_MODIFY_DATE"),
+										rset.getString("ANSWER_STATUS"),
+										rset.getString("INQUIRE_USER"),
+										rset.getString("ANSWER_USER"),
+										rset.getString("CATEGORY")
+							));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(rset);
+				close(pstmt);
+			}
+			
+			return list;
+		}
 }

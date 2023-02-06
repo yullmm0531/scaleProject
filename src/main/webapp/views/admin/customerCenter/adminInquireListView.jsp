@@ -19,12 +19,28 @@
     .title{
         margin:70px 0px;
     }
+    .input-group{
+        font-size:14px;
+    }
+    #search-input::placeholder{
+        font-size:14px;
+    }
     .mb-3 button{
         background:black;
         color:white;
     }
     input[type=radio]{
         margin:10px;
+    }
+    .category-radio, .answer-filter{
+        font-size:14px;
+    }
+    .category-radio{
+        float:left;
+    }
+    .answer-filter{
+        float:right;
+        margin-top:10px;
     }
     .table{
         text-align:center;
@@ -38,6 +54,7 @@
     }
     .paging-area button{
         border:0.5px solid lightgray;
+        margin:auto;
     }
     .page-active{
         background:black;
@@ -54,7 +71,20 @@
                 <h2><b>1:1문의 관리</b></h2>
                 <br>
             </div>
-            <div align="left">
+            <!-- <form class="input-group mb-3" style="width:400px" action="<%=contextPath%>/searchNotice.ad" method="get">
+                <select name="option" id="search-option">
+                    <option value="all">문의내용</option>
+                    <option value="title">답변내용</option>
+                    <option value="content">문의자 아이디</option>
+                </select>
+                <input type="text" class="form-control" placeholder="검색어를 입력하세요." id="search-input" name="keyword">
+                <input type="hidden" name="cpage" value="1">
+                <div class="input-group-append">
+                <button class="btn" type="submit" id="search-btn">검색</button>
+                </div>
+            </form> -->
+            <br>
+            <div class="category-radio" align="left">
                 <input type="radio" name="category" value="all" checked>전체
                 <input type="radio" name="category" value="buy" onclick="filtering($(this).val(), 1);">구매
                 <input type="radio" name="category" value="sell" onclick="filtering($(this).val(), 1);">판매
@@ -63,18 +93,21 @@
                 <input type="radio" name="category" value="product" onclick="filtering($(this).val(), 1);">상품
                 <input type="radio" name="category" value="site" onclick="filtering($(this).val(), 1);">사이트이용
             </div>
-            <br>
+            <div class="answer-filter">
+                <input type="checkbox" id="a-filter">  미답변 문의만 보기
+            </div>
+            <br><br>
             <table class="table table-hover">
                 <thead class="thead-dark">
                     <tr>
-                    	<th>번호</th>
-                        <th>구분</th>
+                    	<th width="70">번호</th>
+                        <th width="70">구분</th>
                         <th width="600">문의 제목</th>
-                        <th>문의일</th>
-                        <th>문의자</th>
-                        <th>답변유무</th>
-                        <th>답변자</th>
-                        <th>답변일</th>
+                        <th width="70">문의일</th>
+                        <th width="70">문의자</th>
+                        <th width="80">답변유무</th>
+                        <th width="70">답변자</th>
+                        <th width="70">답변일</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -161,6 +194,15 @@
                 location.href = "<%=contextPath%>/detailInquire.ad?inquireNo=" + inquireNo;
             })
 
+            $("#a-filter").change(function(){
+                if($(this).is(':checked')){
+                    answerFilter(1);
+                }else{
+                    location.href = "<%=contextPath%>/inquireList.ad?cpage=1";
+                }
+
+            })
+
         })
 
         function filtering(e, c){
@@ -237,13 +279,97 @@
                         let inquireNo = $(this).children(":first").text();
                         location.href = "<%=contextPath%>/detailInquire.ad?inquireNo=" + inquireNo;
                     })
+
+                    $(".paging-area>button").each(function(){
+                            if($(this).text() == cpage){
+                                $(this).addClass("page-active");
+                            }
+                    })
                 }, error:function(){
                     console.log("필터링 통신 실패");
                 }
             })
         }
 
+        // 미답변 문의만 보기
+        function answerFilter(c){
+            $("tbody").empty();
+            $(".paging-area").empty();
+            cpage = c;
+
+            if($(this).attr("checked", true)){
+                $.ajax({
+                    url:"<%=contextPath%>/inqAnswerFilter.ad",
+                    data:{"cpage":cpage},
+                    success:function(map){
+                        let list = map.list;
+                        let pi = map.pi;
+                        let value = "";
+                        let paging = "";
+
+                        if(list.length == 0){
+                            value = "<tr><td colspan='5' align='center'>등록된 문의가 없습니다.</td></tr>";
+                        }else{
+                            for(let i=0; i<list.length; i++){{
+                                switch(list[i].category){
+                                    case "buy": list[i].category = "구매"; break;
+                                    case "sell": list[i].category = "판매"; break;
+                                    case "payment": list[i].category = "결제"; break;
+                                    case "shipping": list[i].category = "배송"; break;
+                                    case "product": list[i].category = "상품"; break;
+                                    case "site": list[i].category = "사이트이용"; break;
+                                }
+
+                                value += "<tr class='my-inquire'>";
+                                value += "<td>" + list[i].inquireNo + "</td>";
+                                value += "<td>" + list[i].category + "</td>";
+                                value += "<td class='inquire-title'>";
+                                value += "<div><p>" + list[i].inquireTitle + "</p></div></td>";
+                                value += "<td>" + list[i].inquireDate + "</td>";
+                                value += "<td>" + list[i].inquireUser + "</td>";
+                                value += "<td>" + list[i].answerStatus + "</td>";
+                                value += "<td>-</td>";
+                                value += "<td>-</td></tr>";
+
+                            }}
+
+                            if(pi.currentPage != 1){
+                                paging += "<button onclick='answerFilter("+(cpage-1)+");'>&lt;</button>";
+                            }
+                            for(let i=pi.startPage; i<=pi.endPage; i++){
+                                paging += "<button onclick='answerFilter("+i+");'>"+i+"</button>";
+                            }
+
+                            if(pi.currentPage != pi.maxPage && pi.maxPage != 0){
+                                paging += "<button onclick='answerFilter("+(cpage+1)+");'>&gt;</button>";
+                            }
+                        }
+                    
+                        $("tbody").append(value);
+                        $(".paging-area").append(paging);
+
+                        $(".table tr:not(:first)").on("click", function(){
+                            let inquireNo = $(this).children(":first").text();
+                            location.href = "<%=contextPath%>/detailInquire.ad?inquireNo=" + inquireNo;
+                        })
+
+                        $(".paging-area>button").each(function(){
+                            if($(this).text() == cpage){
+                                $(this).addClass("page-active");
+                            }
+                        })
+                                
+                    },error:function(){
+                        console.log("미답변 문의 통신 실패");
+                    }
+                    
+                    
+                })
+            }else{
+
+            }
             
+        }
        
 
     </script>

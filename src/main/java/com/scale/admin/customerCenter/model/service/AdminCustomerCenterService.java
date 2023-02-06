@@ -250,4 +250,18 @@ public class AdminCustomerCenterService {
 			close(conn);
 			return list;
 		}
+		
+		public int selectAdminNoAnswerCount() {
+			Connection conn = getConnection();
+			int result = new AdminCustomerCenterDao().selectAdminNoAnswerCount(conn);
+			close(conn);
+			return result;
+		}
+		
+		public ArrayList<Inquire> selectAdminNoAnswerList(PageInfo pi){
+			Connection conn = getConnection();
+			ArrayList<Inquire> list = new AdminCustomerCenterDao().selectAdminNoAnswerList(conn, pi);
+			close(conn);
+			return list;
+		}
 }

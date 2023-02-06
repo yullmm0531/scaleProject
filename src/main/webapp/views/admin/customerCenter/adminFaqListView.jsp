@@ -14,6 +14,12 @@
     .title{
         margin:70px 0px;
     }
+    .input-group{
+        font-size:14px;
+    }
+    #search-input::placeholder{
+        font-size:14px;
+    }
     .mb-3 button{
         background:black;
         color:white;
