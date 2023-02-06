@@ -13,77 +13,38 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <style>
        
-        #modal {
-            display:none;
-
-            position:relative;
-            width:100%;
-            height:100%;
-            z-index:1;
-        }
-
-        #modal h2 {
-        margin:0;   
-        }
-
-        #modal button {
-        display:inline-block;
-        width:30px;
-        margin-left:calc(100% - 100px - 10px);
-        }
-
-        #modal .modal_content {
-        width: 600px;
-        margin:100px auto;
-        padding:20px 20px;
-        background:#fff;
-        border:2px solid #666;
-        }
-
-        #modal .modal_layer {
-        position:fixed;
-        top:0;
-        left:0;
-        width:100%;
-        height:100%;
-        background:rgba(0, 0, 0, 0.5);
-        z-index:-1;
-        }   
-
-        #header-1{width:500px; height:30px;}
-        #header-1{position:relative;}
-        #search-form>div{
-            height:100%;
-            float:left;
-        }
-        #search-text{width:80%;}
-        #search-btn{width:20%;}
-
-        #search-form input{
-            width:100%; 
-            height:100%;
-            box-sizing: border-box;
-        }
-
+      
     </style>
 </head>
 <body>
-    <div class = modal >
-       
-        <div class="modal_content">
-            <button type="button" id="modal_close_btn">X</button>
+    <!-- Button to Open the Modal -->
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+	   검색
+	</button>
+	
+       <!-- The Modal -->
+	<div class="modal" id="myModal">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
             
-            <div id="header-1">
+            <!-- Modal Header -->
+	      <div class="modal-header">
+	        <h4 class="modal-title">Modal Heading</h4>
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	      </div>
+            
+             <!-- Modal body -->
+     		 <div class="modal-body">
                 <form action="" id="search-form">
                     <div id="search-text">
                         <input type="text" id="productInput" name="keyword" placeholder="상품명을 입력하세요" onkeyup="search(this);">
                         
                     </div>
-                    <div id="search-btn">
-                        <button>검색</button>
-                    </div>
+                    <div id="search-btn"><button>검색</button></div>
+                    
                     ArrayList<Product> list = null;
                     <% if(list.isEmpty()){ %>
                         <div id="nolsit">검색하신 결과가 없습니다.</div>
@@ -101,8 +62,6 @@
                      <% } %>
                     <h5 id="selected"></h5>
                 </form>
-                
-                
             </div>
 
             <br>
@@ -148,17 +107,17 @@
                     <img src="resources/s_sample.jpg" width=100px>
                     <p>브랜드명</p>
                     <p>영문상품명</p>
-                    
                 </div>        
-        
-        
             </div>
-        
         </div>
     
-        <div class="modal_layer"></div>
+        <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+      
     </div>
-
+</div>
     <script>
             
         $("#modal_opne_btn").click(function(){

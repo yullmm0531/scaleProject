@@ -19,6 +19,12 @@ public class Bidding {
 	private int userNo;
 	private String userId;
 	
+	private String storeDate;
+	private String inspectionDate;
+	private String shipDate;
+	
+	private String buyerId;
+	private String sellerId;
 	
 	public Bidding() {
 		
@@ -61,6 +67,23 @@ public class Bidding {
 		this.pCode = pCode;
 		this.pNameKo = pNameKo;
 		this.userId = userId;
+	}
+
+	
+	
+	
+	public Bidding(int bNo, String dStep, String storeDate, String inspectionDate,
+			String shipDate, String pCode, String pNameKo, String buyerId, String sellerId) {
+		super();
+		this.bNo = bNo;
+		this.dStep = dStep;
+		this.storeDate = storeDate;
+		this.inspectionDate = inspectionDate;
+		this.shipDate = shipDate;
+		this.pCode = pCode;
+		this.pNameKo = pNameKo;
+		this.buyerId = buyerId;
+		this.sellerId = sellerId;
 	}
 
 
@@ -221,6 +244,56 @@ public class Bidding {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+
+	public String getStoreDate() {
+		return storeDate;
+	}
+
+
+	public void setStoreDate(String storeDate) {
+		this.storeDate = storeDate;
+	}
+
+
+	public String getInspectionDate() {
+		return inspectionDate;
+	}
+
+
+	public void setInspectionDate(String inspectionDate) {
+		this.inspectionDate = inspectionDate;
+	}
+
+
+	public String getShipDate() {
+		return shipDate;
+	}
+
+
+	public void setShipDate(String shipDate) {
+		this.shipDate = shipDate;
+	}
+
+
+	public String getBuyerId() {
+		return buyerId;
+	}
+
+
+	public void setBuyerId(String buyerId) {
+		this.buyerId = buyerId;
+	}
+
+
+	public String getSellerId() {
+		return sellerId;
+	}
+
+
+	public void setSellerId(String sellerId) {
+		this.sellerId = sellerId;
 	}
 
 

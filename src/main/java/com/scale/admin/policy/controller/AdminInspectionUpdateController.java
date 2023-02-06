@@ -31,8 +31,8 @@ public class AdminInspectionUpdateController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		String content = request.getParameter("content");
-		
-		int result = new PolicyService().updateInspectionPolicy(content);
+		int policyType = 1;
+		int result = new PolicyService().updatePolicy(content, policyType);
 		
 		if(result > 0) {
 			request.getSession().setAttribute("alertMsg", "검수정책이 수정되었습니다.");

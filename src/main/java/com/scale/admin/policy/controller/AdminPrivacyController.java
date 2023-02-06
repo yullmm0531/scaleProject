@@ -1,6 +1,7 @@
-package com.scale.user.controller;
+package com.scale.admin.policy.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,16 +12,16 @@ import com.scale.policy.model.service.PolicyService;
 import com.scale.policy.model.vo.Policy;
 
 /**
- * Servlet implementation class JoinUserFormController
+ * Servlet implementation class AdminInspectionController
  */
-@WebServlet("/join.us")
-public class JoinUserFormController extends HttpServlet {
+@WebServlet("/privacy.ad")
+public class AdminPrivacyController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public JoinUserFormController() {
+    public AdminPrivacyController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,15 +30,11 @@ public class JoinUserFormController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int terms = 2;
-		Policy t = new PolicyService().selectPolicy(terms);
-		int privacy = 3;
-		Policy p = new PolicyService().selectPolicy(privacy);
+		int policyType = 3;
+		Policy p = new PolicyService().selectPolicy(policyType);
 		
-		request.setAttribute("t", t);
 		request.setAttribute("p", p);
-		
-		request.getRequestDispatcher("views/user/joinUserForm.jsp").forward(request, response);
+		request.getRequestDispatcher("views/admin/policy/adminPrivacyPolicy.jsp").forward(request, response);
 	}
 
 	/**

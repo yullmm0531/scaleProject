@@ -1,4 +1,4 @@
-package com.scale.user.controller;
+package com.scale.admin.policy.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -11,16 +11,16 @@ import com.scale.policy.model.service.PolicyService;
 import com.scale.policy.model.vo.Policy;
 
 /**
- * Servlet implementation class JoinUserFormController
+ * Servlet implementation class AdminInspectionUpdateController
  */
-@WebServlet("/join.us")
-public class JoinUserFormController extends HttpServlet {
+@WebServlet("/updateTerms.ad")
+public class AdminTermsOfPolicyUpdateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public JoinUserFormController() {
+    public AdminTermsOfPolicyUpdateController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,15 +29,19 @@ public class JoinUserFormController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int terms = 2;
-		Policy t = new PolicyService().selectPolicy(terms);
-		int privacy = 3;
-		Policy p = new PolicyService().selectPolicy(privacy);
+		request.setCharacterEncoding("UTF-8");
+		String content = request.getParameter("content");
+		int policyType = 3;
+		int result = new PolicyService().updatePolicy(content, policyType);
 		
-		request.setAttribute("t", t);
-		request.setAttribute("p", p);
+		if(result > 0) {
+			request.getSession().setAttribute("alertMsg", "이용약관이 수정되었습니다.");
+		}else {
+			request.getSession().setAttribute("alertMsg", "이용약관 수정 실패");
+		}
 		
-		request.getRequestDispatcher("views/user/joinUserForm.jsp").forward(request, response);
+		response.sendRedirect(request.getContextPath() + "/terms.ad");
+		
 	}
 
 	/**

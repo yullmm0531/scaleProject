@@ -73,23 +73,23 @@ public class AdminProductUpdateController extends HttpServlet {
 				
 				if(multiRequest.getParameter("originFileNo")!= null) {
 					// 기존의 첨부파일이 있었을 경우 => UPDATE ATTACHMENT (기존파일번호)
-					at.setFileNo(Integer.parseInt(multiRequest.getParameter("originFileNo")));
+					at.setpImgNo(Integer.parseInt(multiRequest.getParameter("originFileNo")));
 				}else {
 					// 기존의 첨부파일이 없었을 경우 => INSERT ATTACHMENT(현재게시글번호)
-					at.setProductCode(productCode);
+					at.setpCode(productCode);
 				}
 			}
 	
 			int result = new ProductService().updateProduct(p, at);
 			
 			if(result >0) {
-				//성공  => views/board/boardDetailview.jsp
+				//성공 
 				request.getSession().setAttribute("alertMsg", "성공적으로 수정되었습니다.");
 				response.sendRedirect(request.getContextPath() + "/AdPSelect.apd?no=" + productCode);
 				
 				
 			}else {
-				//실패 => 에러페이지
+				//실패 
 				
 			}
 	

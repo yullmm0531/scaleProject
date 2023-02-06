@@ -82,7 +82,9 @@
             </div>
             <br><br>
             <div align="left">
+            <% if(p != null) {%>
             	<%= p.getPolicyContent() %>
+            <%} %>
             </div>
         </div>
     </div>

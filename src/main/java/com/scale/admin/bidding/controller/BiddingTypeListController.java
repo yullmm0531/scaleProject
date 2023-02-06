@@ -2,6 +2,7 @@ package com.scale.admin.bidding.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,22 +10,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.scale.admin.bidding.model.service.BiddingService;
 import com.scale.admin.bidding.model.vo.Bidding;
 import com.scale.common.model.vo.PageInfo;
-import com.scale.customerCenter.model.service.CustomerCenterService;
 
 /**
- * Servlet implementation class BiddingListController
+ * Servlet implementation class BiddingTypeListController
  */
-@WebServlet("/biddingList.ad")
-public class BiddingListController extends HttpServlet {
+@WebServlet("/biddingTypeList.ad")
+public class BiddingTypeListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BiddingListController() {
+    public BiddingTypeListController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,42 +34,33 @@ public class BiddingListController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
 		
-		// 페이징바
-		int listCount = new CustomerCenterService().selectNoticeListCount();
+		String biddingType = request.getParameter("biddingType");
+		
+		// 페이징
+		int biddingTypeCount = new BiddingService().selectBiddingTypeCount(biddingType);
 		int currentPage = Integer.parseInt(request.getParameter("cpage"));
 		int pageLimit = 5;
 		int boardLimit = 10;
 		
-		int maxPage = (int)Math.ceil((double)listCount / boardLimit);
+		int maxPage = (int)Math.ceil((double)biddingTypeCount / boardLimit);
 		int startPage = (currentPage-1) / pageLimit * pageLimit + 1;
 		int endPage  = startPage + pageLimit - 1;
 		if(endPage > maxPage) {
 			endPage = maxPage;
 		}
+
+		PageInfo pi = new PageInfo(biddingTypeCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
+
+
+		// 입찰목록 조회
+		ArrayList<Bidding> biddingTypeList = new BiddingService().selectBiddingTypeList(biddingType, pi);
 		
-		listCount = new BiddingService().selectBiddingListCount();
-		currentPage = Integer.parseInt(request.getParameter("cpage"));
-		pageLimit = 5;
-		boardLimit = 10;
-		
-		maxPage = (int)Math.ceil((double)listCount / boardLimit);
-		startPage = (currentPage-1) / pageLimit * pageLimit + 1;
-		endPage = startPage + pageLimit - 1;
-		if(endPage > maxPage) {
-			endPage = maxPage;
-		}
-		
-		
-		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
-		
-		// 페이지 조회
-		ArrayList<Bidding> list = new BiddingService().selectBiddingList(pi);
 		request.setAttribute("pi", pi);
-		request.setAttribute("list", list);
+		request.setAttribute("biddingTypeList", biddingTypeList);
+		request.setAttribute("biddingType", biddingType);
 		
-		request.getRequestDispatcher("views/admin/deal/manageBiddingListView.jsp").forward(request, response);
+		request.getRequestDispatcher("views/admin/deal/manageBiddingTypeListView.jsp").forward(request, response);
 	}
 
 	/**
