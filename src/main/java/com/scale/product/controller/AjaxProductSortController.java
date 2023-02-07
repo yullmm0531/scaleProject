@@ -40,15 +40,10 @@ public class AjaxProductSortController extends HttpServlet {
 		int boardLimit = 12;
 		int userNo = 0;
 		
-		ArrayList<Product> list = new ProductService().selectProductSort(currentPage, boardLimit);
 		
+		String sortfilter = request.getParameter("sortfilter");
 		
-		User loginUser = (User)request.getSession().getAttribute("loginUser");
-		if(loginUser != null) {
-			userNo = loginUser.getUserNo();
-		}
-		
-		
+		ArrayList<Product> list = new ProductService().selectProductSort(sortfilter);
 		ArrayList<Like> likeList = new ProductService().clickLike();
 		
 		int[] clickLike = new int[list.size()];
@@ -59,8 +54,10 @@ public class AjaxProductSortController extends HttpServlet {
 		
 		HashMap<String, Object> pmap = new HashMap();
 		pmap.put("list", list);
+		pmap.put("sortfilter", sortfilter);
 		pmap.put("clickLike", clickLike);
 		
+		System.out.println(list);
 		
 		response.setContentType("application/json; charset=UTF-8");
 		new Gson().toJson(pmap, response.getWriter());

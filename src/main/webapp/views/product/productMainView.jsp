@@ -390,22 +390,21 @@
     		location.href = "<%= contextPath %>/detail.pd?co=" + $(this).children().eq(0).val();
     	})
     	
-        // 최신순, 인기순 정렬 수정해요!!!!!
+        // 최신순, 인기순 정렬 
     	$("#sort").change(function(){
             let sortFilter = $(this).val();
-        	//location.href = "<%= contextPath %>/psort.pd?sortFilter=" + sortFilter;
+        	
             cpage = 1;
             $.ajax({
     			url:"<%= contextPath%>/psort.pd",
     			type:"get",
     			data:{"cpage":cpage, "sortFilter":sortFilter},
     			success:function(pl){
+    				 $("#pcontent-2").empty();
     				let list = pl.list;
     				let clickLike = pl.clickLike;
                     let userLike = pl.userLike;
-                    console.log(list);
-    				console.log(clickLike);
-                    console.log(userLike);
+                    
     				let value = "";
                     for(let i =0; i<list.length; i++){
                         value = "<div class='plist'>"
@@ -438,7 +437,7 @@
                               +"</li>"
                            + "</ul>"
                        + "</div>";
-                        $("#plist").append(value);
+                        $("#pcontent-2").append(value);
                        }
                                     
                     },	
