@@ -66,7 +66,7 @@
 		  JOIN TB_BRAND USING (BRAND_CODE)
 	     WHERE BLIND_CHECK ='N'
 	     ORDER
-	        BY ENROLL_DATE
+	        BY ENROLL_DATE DESC
 	</entry>
 	
 	
