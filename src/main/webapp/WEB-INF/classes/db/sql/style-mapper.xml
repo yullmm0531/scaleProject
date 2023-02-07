@@ -703,7 +703,6 @@
 		        )
 		 WHERE RNUM BETWEEN ? AND ?
 	</entry>
-	
 
 	<entry key="selectReportByOnlyStatus">
 		SELECT
