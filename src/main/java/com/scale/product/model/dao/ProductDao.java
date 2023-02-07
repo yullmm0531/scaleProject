@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import com.scale.product.model.vo.Brand;
+import com.scale.product.model.vo.Like;
 import com.scale.product.model.vo.Product;
 import com.scale.product.model.vo.ProductImg;
 
@@ -200,21 +201,23 @@ public class ProductDao {
 	}
 	
 	
-	public int clickLike(Connection conn, String productCode) {
-		int result = 0;
+	public ArrayList<Like> clickLike(Connection conn) {
+		
+		ArrayList<Like> clickLike = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
+		
 		String sql = prop.getProperty("clickLike");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, productCode);
-			
 			rset = pstmt.executeQuery();
 			
-			if(rset.next()) {
-				result = rset.getInt("count");
+			while(rset.next()) {
+				Like l = new Like(rset.getString("product_code"),
+								  rset.getInt("like"));
+				clickLike.add(l);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -223,13 +226,14 @@ public class ProductDao {
 			close(pstmt);
 		}
 		
-		return result;
+		return clickLike;
 		
 	}
 	
 	
 	
-	public int insertLike(Connection conn, int userNo, String productCode) {
+	public int insertLike(Connection conn, int userNo, String pCode) {
+		
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql = prop.getProperty("insertLike");
@@ -237,27 +241,31 @@ public class ProductDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, userNo);
-			pstmt.setString(2, productCode);
+			pstmt.setString(2, pCode);
 			
 			result = pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
 		}
+		
 		return result;
 	}
 	
 	
-	public int deleteLike(Connection conn, int userNo, String productCode) {
+	public int deleteLike(Connection conn, int userNo, String pCode) {
+		
 		int result = 0;
 		PreparedStatement pstmt = null;
+		
 		String sql = prop.getProperty("deleteLike");
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, userNo);
-			pstmt.setString(2, productCode);
+			pstmt.setString(2, pCode);
 			
 			result = pstmt.executeUpdate();
 			
@@ -266,6 +274,7 @@ public class ProductDao {
 		}finally {
 			close(pstmt);
 		}
+		
 		return result;
 		
 	}
@@ -440,6 +449,98 @@ public class ProductDao {
 		}
 		
 		return p;
+	}
+	
+	
+	public int selectCountLike(Connection conn, String pCode) {
+		
+		int likeCount = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectCountLike");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pCode);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				likeCount = rset.getInt("likecount");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return likeCount;
+			
+	}
+	
+	
+	public int selectUserLike(Connection conn, int userNo, String pCode) {
+		
+		int userLike = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectUserLike");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			pstmt.setString(2, pCode);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				userLike = rset.getInt("like");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return userLike;
+		
+	}
+	
+	
+	public ArrayList<Like> selectUserAllLike(Connection conn, int userNo){
+		
+		ArrayList<Like> userLike = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectUserAllLike");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Like l = new Like(rset.getString("product_code"),
+								  rset.getInt("like"));
+				userLike.add(l);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return userLike;
+		
 	}
 
 

@@ -110,6 +110,14 @@
 </head>
 <body>
 	 <%@ include file="../common/menubar.jsp" %> 
+     <script>
+        $(function(){
+            <% if(loginUser != null && loginUser.getShopBlockDate() != null) { %>
+                alert("페널티 누적으로 SHOP 차단되었습니다.");
+                location.href = "<%= contextPath %>";
+            <% } %>
+        })
+    </script>
 	  <div class="pwrap">
         <div id="pheader">
             <div id="pheader-1">
@@ -196,8 +204,7 @@
                     <div class="sortbar" align="right"> 
                         <select name="sortlist" id="sort">
                             <option value="popular">인기순</option>
-                            <option value="newest" onclick="location.href='<%= contextPath %>/psort.pd'">최신순</option>
-                            
+                            <option value="newest" class="newest" >최신순</option>
                         </select>
                     </div>
                 </div>
@@ -295,7 +302,10 @@
     			success:function(pl){
     				let list = pl.list;
     				let clickLike = pl.clickLike;
-    				
+                    let userLike = pl.userLike;
+                    console.log(list);
+    				console.log(clickLike);
+                    console.log(userLike);
     				let value = "";
                     for(let i =0; i<list.length; i++){
                         value = "<div class='plist'>"
@@ -310,16 +320,21 @@
                                 	 +  "<div class='product-name-ko'>" + list[i].productNameKo + "</div>"
                                  	
                                      + "<div class='like'>";
-                           if(clickLike[i] == 0){
-                                       value += "<a class='heart'>♡</a>"
+                            value += "<a class='heart'>♡</a>"
                                     	+ "<input type='hidden' class='productCode' value='" + list[i].productCode + "'>"
                                 			 + "<span>" + list[i].count + "</span>"
+
+
+
+                               /* 
+                           if(clickLike[i] == 0){
+                                       
                                   } else {
                                            value += "<a class='heart'>♥</a>"
                                         	   value +=  "<input type='hidden' class='productCode' value='" + list[i].productCode + "'>"
                                     			 + "<span>" + list[i].count + "</span>"
-                                  }     
-                                           
+                                  }     */
+                                          
                                    + "</div>"
                                            
                               +"</li>"
@@ -352,15 +367,15 @@
                 	let userNo = <%= loginUser.getUserNo() %>;
     			$.ajax({
     			    url: "plike.pd",
-    			    data: {"userNo":userNo, "productCode":$(this).next().val()}, 
-    			    success:function(result){
+    			    data: {"userNo":userNo, "pCode":$(this).next().val()}, 
+    			    success:function(countLike){
     			    	if(like == "♡"){
     			    		e.text("♥")
-    			    		e.next().next().text(Number(e.next().next().text()) + 1);
+    			    		e.next().next().text(countLike + 1);
     			    		
     			    	}else{
     			    		e.text("♡")
-    			    		e.next().next().text(Number(e.next().next().text()) - 1);
+    			    		e.next().next().text(countLike - 1);
     			    	}
     			    },   
     			    error:function (){  
@@ -377,7 +392,13 @@
     	$(document).on("click", ".cell", function(){
     		location.href = "<%= contextPath %>/detail.pd?co=" + $(this).children().eq(0).val();
     	})
-				
+    	
+		
+    	$(document).on("click", ".newest", function(){
+        	location.href = "<%= contextPath %>/psort.pd" 
+        })
+    	
+    	
 	</script>
     
 	<!-- 클릭 -->    

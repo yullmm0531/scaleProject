@@ -21,6 +21,12 @@
     .title{
         margin:70px 0px;
     }
+    .input-group{
+        font-size:14px;
+    }
+    #search-input::placeholder{
+        font-size:14px;
+    }
     .mb-3 button{
         background:black;
         color:white;
@@ -28,6 +34,9 @@
     .table{
         text-align:center;
         font-size:14px;
+    }
+    .list-row:hover{
+        cursor:pointer;
     }
     .paging-area button{
         border:0.5px solid lightgray;
@@ -127,6 +136,11 @@
                     $(this).attr("selected", true);
                 }
             });
+
+            $(".table tr:not(:first)").on("click", function(){
+                let noticeNo = $(this).children(":first").text();
+                location.href = "<%=contextPath%>/detailNotice.ad?noticeNo=" + noticeNo;
+            })
         })
 
     </script>

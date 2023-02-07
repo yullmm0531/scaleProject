@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import com.scale.bidding.model.vo.Bidding;
+import com.scale.bidding.model.vo.Seller;
 import com.scale.product.model.vo.Product;
 import com.scale.user.model.dao.UserDao;
 import com.scale.user.model.vo.Address;
@@ -287,10 +288,43 @@ public Product userDetailImg(int userNo) {
 		return list;
 	}
 	
-	public Bidding userDetailSellBidding(int biddingNo) {
+	public int userSellBiddingDrop(int biddingNo) {
 		
 		Connection conn = getConnection();
-		Bidding b = new UserDao().userDetailSellBidding(conn, biddingNo);
+		int result = new UserDao().userSellBiddingDrop(conn, biddingNo);
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+	
+	public Seller userDetailSellBidding1(int productCode2, String productSize) {
+		
+		Connection conn = getConnection();
+		Seller s = new UserDao().userDetailSellBidding1(conn, productCode2, productSize);
+		
+		close(conn);
+		
+		return s;
+	}
+	
+	public Product userDetailSellBidding2(int productCode2) {
+		
+		Connection conn = getConnection();
+		Product p = new UserDao().userDetailSellBidding2(conn, productCode2);
+		
+		close(conn);
+		
+		return p;
+	}
+	
+	public Bidding userDetailSellBidding3(int productCode2, String productSize, int userNo) {
+		
+		Connection conn = getConnection();
+		Bidding b = new UserDao().userDetailSellBidding3(conn, productCode2, productSize, userNo);
 		
 		close(conn);
 		

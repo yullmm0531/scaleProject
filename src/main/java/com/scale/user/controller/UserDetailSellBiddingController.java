@@ -7,7 +7,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 import com.scale.bidding.model.vo.Bidding;
+import com.scale.bidding.model.vo.Seller;
+import com.scale.product.model.vo.Product;
 import com.scale.user.model.service.UserService;
 
 /**
@@ -31,13 +34,19 @@ public class UserDetailSellBiddingController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 
-		int biddingNo = Integer.parseInt(request.getParameter("biddingNo"));
+		int productCode2 = Integer.parseInt(request.getParameter("productCode2"));
+		String productSize = request.getParameter("productSize");
+		int userNo = Integer.parseInt(request.getParameter("userNo"));
 		
-		Bidding b = new UserService().userDetailSellBidding(biddingNo);
+		Seller s = new UserService().userDetailSellBidding1(productCode2, productSize);
+		Product p = new UserService().userDetailSellBidding2(productCode2);
+		Bidding b = new UserService().userDetailSellBidding3(productCode2, productSize,userNo);
 		
-		
-		
+		request.setAttribute("s", s);
+		request.setAttribute("p", p);
 		request.setAttribute("b", b);
+		System.out.println(s);
+		System.out.println(b);
 		request.getRequestDispatcher("views/user/userDetailSellBidding.jsp").forward(request, response);
 	}
 

@@ -148,8 +148,8 @@
         </div>
 
         <div id="searchBox">
-            <input type="text" id="searchInput" placeholder="상품을 검색해보세요."  data-toggle="modal" data-target="#myModal">
-            <button type="submit"></button>
+            <input type="text" id="searchInput" placeholder="상품을 검색해보세요.">
+            <button type="submit" id="searchbtn"></button>
         </div>
 
         <div id="utilities">
@@ -167,14 +167,38 @@
         
         <div id="navigator">
             <ul id="navi">
-                <li><a href="<%=contextPath%>/stylelist.st?view=trending">STYLE</a></li>
-                <li><a href="<%=contextPath%>/plist.pd">SHOP</a></li>
+                <li><a onclick="goStyle();">STYLE</a></li>
+                <li><a onclick="shop();">SHOP</a></li>
             </ul>
+
+            <script>
+                function shop(){
+                    <% if(loginUser != null && loginUser.getShopBlockDate() != null) { %>
+                        alert("페널티 누적으로 SHOP 차단되었습니다.");
+                        location.href = "<%= contextPath %>"; 
+                    <% } else { %>
+                        location.href = "<%=contextPath%>/plist.pd";   
+                    <% } %>
+                }
+
+                function goStyle(){
+                    <% if(loginUser != null && loginUser.getStyleBlockDate() != null) { %>
+                        alert("스타일 신고 누적으로 STYLE 차단되었습니다.");
+                        location.href = "<%= contextPath %>";
+                    <% } else { %>
+                        location.href = "<%= contextPath %>/stylelist.st?view=trending";
+                    <% } %>
+                }
+                
+                $(document).on("click", ".searchInput", function(){
+        			location.href = "<%= contextPath %>/psearch.pd" 
+        		})
+                
+            </script>
         </div>
+            
     </div>
    </div>
-   
-   
    
 </body>       
 </html>

@@ -79,37 +79,7 @@
             <div class="line"></div>
             <div class="space"></div>
             
-            <div class="menu3">
-                    <label>
-                        <input type="checkbox" name="dealStatus" id="all" value="all"> 전체
-                    </label>
-                    <span class="dealStatus">
-                        <label>
-                            <input type="checkbox" name="dealStatus" id="0" value="0"> 입고전
-                        </label>
-                        <label>
-                            <input type="checkbox" name="dealStatus" id="1" value="1"> 입고 완료
-                        </label>
-                        <label>
-                            <input type="checkbox" name="dealStatus" id="2" value="2"> 검수중
-                        </label>
-                        <label>
-                            <input type="checkbox" name="dealStatus" id="3" value="3"> 검수통과
-                        </label>
-                        <label>
-                            <input type="checkbox" name="dealStatus" id="4" value="4"> 검수미통과
-                        </label>
-                        <label>
-                            <input type="checkbox" name="dealStatus" id="5" value="5"> 발송완료
-                        </label>
-                        <label>
-                            <input type="checkbox" name="dealStatus" id="6" value="6"> 거래완료
-                        </label>
-                        <label >
-                            <input type="button" class="btn btn-outline-secondary btn-sm" name="submit" id="submit" value="확인" onclick="location.href='<%=contextPath%>/';"> 
-                        </label>
-                </span>
-            </div>
+            
         </div>
         <script>
             var flag = true;
@@ -133,6 +103,8 @@
                     $("#all").prop("checked", false);
                 }
             })
+
+            $("")
 
         </script>
         
@@ -164,6 +136,7 @@
                             <tr class="rowNum" id="<%= b.getbNo() %>">
                                 <input type="hidden" name="bNo" value="<%= b.getbNo() %>">
                                 <input type="hidden" name="dStep" value="<%= b.getdStep() %>">
+                                <input type="hidden" name="sellerNo" value="<%= b.getSellerNo() %>">
                                 <td class="biddingNo"><%= b.getbNo() %></td>
                                 <td><%= b.getpCode() %></td>
                                 <td><div class="productNameKo"><%= b.getpNameKo() %></div></td>
@@ -223,7 +196,8 @@
             $(".stepChange").click(function(){
                 var val = $(this).parent().parent().children().eq(1).val();
                 $("#dealStep").val(val);
-                var info = "<input type='hidden' id='thisBiddingNo' value='" + $(this).parent().parent().children().eq(3).text() + "'>";
+                var info = "";
+                info += "<input type='hidden' class='sellerNo' value='" + $(this).parent().parent().children().eq(2).val() + "'>";
                 info += "입찰 번호 : <input type='text' name='biddingNo' value='" + $(this).parent().parent().children().eq(0).val() + "'><br>";
                 info += "상품 번호 : " + $(this).parent().parent().children().eq(3).text() + "<br>";
                 info += "상품명 : " + $(this).parent().parent().children().eq(4).text() + "<br>";
@@ -237,7 +211,8 @@
                     url: "<%= contextPath %>/updateDealStep.ad",
                     data: {
                         bNo: $("input:text").val(),
-                        dStep: $("#dealStep").val()
+                        dStep: $("#dealStep").val(),
+                        seller: $(".sellerNo").val()
                     },
                     method: "post",
                     success: function(b){
@@ -247,6 +222,7 @@
                         let value = "";
                         value += "<input type='hidden' name='bNo' value='" + b.bNo + "'>";
                         value += "<input type='hidden' name='dStep' value='" + b.dStep + "'>";
+                        value += "<input type='hidden' name='sellerNo' value='" + b.sellerNo + "'>";
                         value += "<td class='biddingNo'>" + b.bNo + "</td>";
                         value += "<td>" + b.pCode + "</td>";
                         value += "<td><div class='productNameKo'>" + b.pNameKo + "</div></td>";

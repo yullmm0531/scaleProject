@@ -105,8 +105,11 @@
 	
 	
 	<entry key="clickLike">
-		SELECT COUNT(*) COUNT
-		  FROM TB_LIKE
+		SELECT 
+			   PRODUCT_CODE
+			 , COUNT(USER_NO) "LIKE"
+		  FROM TB_PRODUCT
+		  LEFT JOIN TB_LIKE USING (PRODUCT_CODE)
 		 GROUP
             BY PRODUCT_CODE
 	</entry>
@@ -322,10 +325,70 @@
      	 WHERE  
      </entry>
      
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  	<entry key="selectUserAllLike">
+		SELECT
+		       PRODUCT_CODE
+		     , COUNT(USER_NO) "LIKE"
+		  FROM TB_PRODUCT
+		  LEFT JOIN TB_LIKE USING(PRODUCT_CODE)
+		 WHERE USER_NO = ?
+		 GROUP
+		    BY PRODUCT_CODE
+  	</entry>
+  
+  
+  
+  
+  
+  
+  
+  
+	  <entry key="selectCountLike">
+			SELECT COUNT(*) "LIKECOUNT"
+			  FROM TB_LIKE
+			 WHERE PRODUCT_CODE = ?
+	  </entry>
      
-     
-     
-     
+      <entry key="selectUserLike">
+      		SELECT COUNT(*) "LIKE"
+			  FROM TB_LIKE
+			 WHERE USER_NO = ?
+			   AND PRODUCT_CODE = ?
+      </entry>
      
      
      

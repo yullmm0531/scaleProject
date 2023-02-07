@@ -50,7 +50,7 @@ public class AjaxProductSortController extends HttpServlet {
 		int[] clickLike = new int[list.size()];
 		for(int i=0; i<list.size(); i++) {
 			String productCode = list.get(i).getProductCode();
-			clickLike[i] = new ProductService().clickLike(userNo, productCode);
+			clickLike[i] = new ProductService().clickLike(productCode);
 		}
 		
 		HashMap<String, Object> pmap = new HashMap();

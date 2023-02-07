@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.scale.admin.customerCenter.model.service.AdminCustomerCenterService;
 import com.scale.admin.user.model.vo.AdminUser;
-import com.scale.customerCenter.model.service.CustomerCenterService;
 import com.scale.customerCenter.model.vo.Faq;
 
 /**
@@ -43,7 +43,7 @@ public class AdminFaqInsertController extends HttpServlet {
 
 		Faq f = new Faq(question, answer, category, faqWriter);
 		
-		int result = new CustomerCenterService().insertFaq(f);
+		int result = new AdminCustomerCenterService().insertFaq(f);
 		
 		HttpSession session = request.getSession();
 		if(result > 0) {

@@ -31,7 +31,7 @@ public class AdminTermsOfPolicyUpdateController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		String content = request.getParameter("content");
-		int policyType = 3;
+		int policyType = 2;
 		int result = new PolicyService().updatePolicy(content, policyType);
 		
 		if(result > 0) {

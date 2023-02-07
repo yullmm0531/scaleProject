@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.scale.customerCenter.model.service.CustomerCenterService;
+import com.scale.admin.customerCenter.model.service.AdminCustomerCenterService;
 import com.scale.customerCenter.model.vo.Notice;
 
 /**
@@ -39,7 +39,7 @@ public class AdminUpdateNoticeController extends HttpServlet {
 		Notice n = new Notice(noticeNo, noticeTitle, noticeContent, display);
 		
 		
-		int result = new CustomerCenterService().updateNotice(n);
+		int result = new AdminCustomerCenterService().updateNotice(n);
 		
 		if(result > 0) {
 			request.getSession().setAttribute("alertMsg", "공지사항이 수정되었습니다.");

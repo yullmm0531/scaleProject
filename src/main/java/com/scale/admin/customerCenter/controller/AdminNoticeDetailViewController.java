@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.scale.customerCenter.model.service.CustomerCenterService;
+import com.scale.admin.customerCenter.model.service.AdminCustomerCenterService;
 import com.scale.customerCenter.model.vo.Notice;
 
 /**
@@ -32,16 +32,9 @@ public class AdminNoticeDetailViewController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int noticeNo = Integer.parseInt(request.getParameter("noticeNo")); 
 		
-		if(noticeNo == 0) {
-			request.getSession().setAttribute("alertMsg", "유효하지 않은 공지사항입니다.");
-			response.sendRedirect(request.getContextPath() + "/noticeList.ad?cpage=1");
-		}else {
-			Notice n = new CustomerCenterService().selectAdminNoticeDetail(noticeNo);
+			Notice n = new AdminCustomerCenterService().selectAdminNoticeDetail(noticeNo);
 			request.setAttribute("n", n);
 			request.getRequestDispatcher("views/admin/customerCenter/adminNoticeDetailView.jsp").forward(request, response);
-		}
-		
-		
 	}
 
 	/**

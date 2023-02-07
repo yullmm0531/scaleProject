@@ -1,4 +1,4 @@
-package com.scale.product.controller;
+package com.scale.user.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,21 +8,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import com.scale.product.model.service.ProductService;
 import com.scale.product.model.vo.Product;
+import com.scale.user.model.service.UserService;
 
 /**
- * Servlet implementation class ProductLikeController
+ * Servlet implementation class UserSellBiddingDropController
  */
-@WebServlet("/plike.pd")
-public class ProductLikeController extends HttpServlet {
+@WebServlet("/userSellBiddingDrop.us")
+public class UserSellBiddingDropController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ProductLikeController() {
+    public UserSellBiddingDropController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,16 +32,22 @@ public class ProductLikeController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
 		
+		int biddingNo = Integer.parseInt(request.getParameter("biddingNo"));
 		int userNo = Integer.parseInt(request.getParameter("userNo"));
-		String productCode = request.getParameter("productCode");
 		
-		int clickLike = new ProductService().clickLike(userNo, productCode);
-		int result = new ProductService().updateLike(clickLike, userNo, productCode);
+		int result = new UserService().userSellBiddingDrop(biddingNo);
 		
-		response.getWriter().print(result);
-		
-		
+		if(result > 0) {
+			
+			session.setAttribute("alertMsg", "판매입찰을 취소하였습니다.");			
+			response.sendRedirect(request.getContextPath() + "/myPage.us");
+			
+		}else {
+			session.setAttribute("alertMsg", "판매입찰을 취소에 실패하였습니다.");
+			response.sendRedirect(request.getContextPath() + "/userSellBidding.us");
+		}
 	}
 
 	/**

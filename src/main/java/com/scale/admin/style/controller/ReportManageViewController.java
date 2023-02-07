@@ -46,6 +46,7 @@ public class ReportManageViewController extends HttpServlet {
 		
 		ArrayList<StyleReport> list = new StyleService().selectReportList(pi);
 		request.setAttribute("list", list);
+		request.setAttribute("pi", pi);
 		request.getRequestDispatcher("views/admin/style/reportListView.jsp").forward(request, response);
 	}
 

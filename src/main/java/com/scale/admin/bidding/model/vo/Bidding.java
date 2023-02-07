@@ -25,6 +25,7 @@ public class Bidding {
 	
 	private String buyerId;
 	private String sellerId;
+	private int sellerNo;
 	
 	public Bidding() {
 		
@@ -73,7 +74,7 @@ public class Bidding {
 	
 	
 	public Bidding(int bNo, String dStep, String storeDate, String inspectionDate,
-			String shipDate, String pCode, String pNameKo, String buyerId, String sellerId) {
+			String shipDate, String pCode, String pNameKo, String buyerId, String sellerId, int sellerNo) {
 		super();
 		this.bNo = bNo;
 		this.dStep = dStep;
@@ -84,6 +85,17 @@ public class Bidding {
 		this.pNameKo = pNameKo;
 		this.buyerId = buyerId;
 		this.sellerId = sellerId;
+		this.sellerNo = sellerNo;
+	}
+
+
+	public int getSellerNo() {
+		return sellerNo;
+	}
+
+
+	public void setSellerNo(int sellerNo) {
+		this.sellerNo = sellerNo;
 	}
 
 

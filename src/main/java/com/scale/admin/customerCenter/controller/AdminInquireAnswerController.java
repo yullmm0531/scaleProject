@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.scale.admin.customerCenter.model.service.AdminCustomerCenterService;
 import com.scale.admin.user.model.vo.AdminUser;
-import com.scale.customerCenter.model.service.CustomerCenterService;
 import com.scale.customerCenter.model.vo.Inquire;
 
 /**
@@ -40,7 +40,7 @@ public class AdminInquireAnswerController extends HttpServlet {
 		
 		Inquire iq = new Inquire(inquireNo, answerContent, answerUser);
 		
-		int result = new CustomerCenterService().updateAnswer(iq);
+		int result = new AdminCustomerCenterService().updateAnswer(iq);
 		
 		if(result > 0) {
 			request.getSession().setAttribute("alertMsg", "답변이 등록되었습니다.");

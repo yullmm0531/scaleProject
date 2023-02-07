@@ -2,7 +2,7 @@
     pageEncoding="UTF-8" import="java.util.ArrayList, com.scale.product.model.vo.*"%>
     
 <%
-	ArrayList<Product> list = (ArrayList<Product>)request.getAttribute("list");
+	// ArrayList<Product> list = (ArrayList<Product>)request.getAttribute("list");
 	ArrayList<Brand> blist = (ArrayList<Brand>)request.getAttribute("blist");
 %>
 <!DOCTYPE html>
@@ -101,6 +101,14 @@
 </head>
 <body>
 	 <%@ include file="../common/menubar.jsp" %> 
+     <script>
+        $(function(){
+            <% if(loginUser != null && loginUser.getShopBlockDate() != null) { %>
+                alert("페널티 누적으로 SHOP 차단되었습니다.");
+                location.href = "<%= contextPath %>";
+            <% } %>
+        })
+    </script>
 	  <div class="pwrap">
         <div id="pheader">
             <div id="pheader-1">
@@ -185,7 +193,7 @@
                     </span>
                     <div class="sortbar" align="right"> 
                         <select name="sortlist" id="sort">
-                            <option value="popular" onclick="location.href='<%= contextPath %>/productList.pd?view=list'">인기순</option>
+                            <option value="popular" class="popular">인기순</option>
                             <option value="newest" >최신순</option>
                             
                         </select>
@@ -198,12 +206,15 @@
                 
                 <script>
                 
-					$(function(){
-						$(".cell").click(function(){
-							location.href = "<%=contextPath%>/detail.pd?co=" + $(this).children('input').val();
-						})
-					})
-				
+                $(document).on("click", ".cell", function(){
+            		location.href = "<%= contextPath %>/detail.pd?co=" + $(this).children().eq(0).val();
+            	})
+            	
+        		
+            	$(document).on("click", ".popular", function(){
+                	location.href = "<%= contextPath %>/psort.pd" 
+                })
+            	
 				</script>
                 
                 

@@ -20,24 +20,15 @@
     </style>
 </head>
 <body>
-    <!-- Button to Open the Modal -->
-	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-	   검색
-	</button>
+    
 	
-       <!-- The Modal -->
-	<div class="modal" id="myModal">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-            
-            <!-- Modal Header -->
-	      <div class="modal-header">
-	        <h4 class="modal-title">Modal Heading</h4>
+	      <div class="header">
+	        <h4 class="title">상품검색</h4>
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	      </div>
             
-             <!-- Modal body -->
-     		 <div class="modal-body">
+            
+     		 <div class="body">
                 <form action="" id="search-form">
                     <div id="search-text">
                         <input type="text" id="productInput" name="keyword" placeholder="상품명을 입력하세요" onkeyup="search(this);">
@@ -87,9 +78,9 @@
                 <h4>인기브랜드</h4>
                 <table>
                     <tr>
-                        <td><img src="resources/s_sample.jpg" width=100px></td>
-                        <td><img src="resources/s_sample.jpg" width=100px></td>
-                        <td><img src="resources/s_sample.jpg" width=100px></td>
+                        <td><img src="resources/images/product/brand/pb13.jpg" width=100px></td>
+                        <td><img src="resources/images/product/brand/pb8.jpg" width=100px></td>
+                        <td><img src="resources/images/product/brand/pb18.jpg" width=100px></td>
                     </tr>
                     <tr>
                         <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Nike</td>
@@ -100,19 +91,10 @@
             </div>
         
             <br><br>
-            <div class="p-recent">
-                <span>최근 본 상품</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span><u>지우기</u></span>
-                <div>
-                    <img src="resources/s_sample.jpg" width=100px>
-                    <p>브랜드명</p>
-                    <p>영문상품명</p>
-                </div>        
-            </div>
+           
         </div>
     
-        <!-- Modal footer -->
-      <div class="modal-footer">
+      <div class="footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
       </div>
       
@@ -120,22 +102,13 @@
 </div>
     <script>
             
-        $("#modal_opne_btn").click(function(){
-            $("#modal").attr("style", "display:block");
-        });
-    
-        $("#modal_close_btn").click(function(){
-            $("#modal").attr("style", "display:none");
-        });      
-
     </script>
     
     <script>
-        $(function(){
-            $("#productlist").click(function(){
-                location.href="<%=contextPath%>/detail.pd?co=" +$(this).children('input').val();
-            })
-        })
+	    $(document).on("click", "#productlist", function(){
+			location.href = "<%= contextPath %>/detail.pd?co=" + $(this).children().eq(0).val();
+		})
+		
     </script>
    
     

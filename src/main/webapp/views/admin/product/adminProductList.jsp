@@ -102,7 +102,7 @@
          <% }else { %>
                             <!-- 게시글 있을 경우-->
         	<%for(Product p : list) { %>
-		        <tr>
+		        <tr class="line">
 		            <td><%=p.getProductCode() %></td>
 		            <td><%=p.getProductCategory() %></td>
 		            <td><%=p.getProductNameKo() %></td>
@@ -118,11 +118,11 @@
     </table>
     
      <script>
-        	$(function(){
-        		$(".table table-hover>tr>td").click(function(){
-        			location.href = '<%=contextPath%>/AdPSelect.apd?=' + $(this).children().eq(0).text(); 
-        		})
-        	})
+     		
+		     $(document).on("click", ".line", function(){
+		 		location.href = "<%= contextPath %>/AdPSelect.apd?co=" + $(this).children().eq(0).val();
+		 	})
+		     
      </script>
      
      <div class="paging-area">

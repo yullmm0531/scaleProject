@@ -314,49 +314,77 @@
 		    ,BRAND_NAME
 		    ,BIDDING_DATE
 		    ,BIDDING_NO
+		    ,PRODUCT_CODE
+		    ,B.PRODUCT_SIZE
 		FROM
-			TB_PRODUCT
+			TB_PRODUCT 
 		JOIN TB_BRAND USING(BRAND_CODE)
-		JOIN TB_BIDDING USING(PRODUCT_CODE)
+		JOIN TB_BIDDING B USING(PRODUCT_CODE)
 			WHERE USER_NO = ?
 			  	AND BIDDING_TYPE = 2
 			    AND DEAL_CHECK = 'N'
+			    AND BIDDING_STATUS = 'Y'
 		   		 
 
 	</entry>
 	
-	<entry key="userDetailSellBidding">
+	<entry key="userSellBiddingDrop">
+		UPDATE TB_BIDDING
+		   SET BIDDING_STATUS = 'N'
+		 WHERE BIDDING_NO = ?
+		   		 
+
+	</entry>
+	
+	<entry key="userDetailSellBidding1">
 		SELECT
-		    B.PRODUCT_SIZE
-		    ,BIDDING_PRICE
-		    ,BIDDING_DATE
-		    ,INSPECTION_COST
-		    ,COMMISSION
-		    ,DELIVERY_FEE
-		    ,SELLER_NO
-		    ,RECIPIENT_NAME
-			,RECIPIENT_PHONE
-			,RECIPIENT_ZIPCODE
-			,RECIPIENT_ADDRESS
-			,RECIPIENT_SHIPPING_MSG
-			,BANK_NAME
-			,BANK_ACCOUNT
-			,BANK_OWNER_NAME
-			,ADJUSTMENT_PRICE
-			,PRODUCT_IMG_M
+        RECIPIENT_NAME
+        ,RECIPIENT_PHONE
+        ,RECIPIENT_ADDRESS
+        ,RECIPIENT_SHIPPING_MSG
+        ,BANK_NAME
+        ,BANK_ACCOUNT
+        ,BANK_OWNER_NAME
+        ,ADJUSTMENT_PRICE
+        
+    FROM TB_SELLER    
+    WHERE BIDDING_NO = (SELECT                           
+                            BIDDING_NO
+                            FROM TB_BIDDING
+                        WHERE PRODUCT_CODE = ?
+                            AND USER_NO = 1
+                            AND BIDDING_TYPE = 2
+                            AND DEAL_CHECK = 'N'
+                            AND PRODUCT_SIZE = ?)
+		   		 
+
+	</entry>
+	
+	<entry key="userDetailSellBidding2">
+		SELECT
+        	PRODUCT_IMG_M
 		    ,PRODUCT_NAME_ENG
+		    ,BRAND_NAME
 		    ,PRODUCT_NAME_KO
-		    ,DEAL_CHECK
 		    
-		    
-		FROM
-			TB_BIDDING B
-		JOIN TB_SELLER USING(BIDDING_NO)
-		JOIN TB_PRODUCT USING(PRODUCT_CODE)
+        
+    FROM TB_PRODUCT  
+    JOIN TB_BRAND USING(BRAND_CODE)  
+    WHERE PRODUCT_CODE = ?
+		   		 
+
+	</entry>
+	
+	<entry key="userDetailSellBidding3">
+	SELECT
+        BIDDING_PRICE
+        ,INSPECTION_COST
+		,COMMISSION
 		
-			WHERE BIDDING_NO = ?
-			  	AND BIDDING_TYPE = 2
-			    AND DEAL_CHECK = 'N'
+        FROM TB_BIDDING
+    WHERE PRODUCT_CODE = ?
+        AND USER_NO = ?
+        AND PRODUCT_SIZE = ?
 		   		 
 
 	</entry>

@@ -146,6 +146,20 @@
 		    BY FILE_LEVEL ASC
 	</entry>
 	
+	<entry key="selectReportStyleImgByNo">
+		SELECT
+		       IMG_NO
+		     , CHANGE_NAME
+		     , FILE_PATH
+		     , STYLE_NO
+		     , FILE_LEVEL
+		  FROM TB_STYLE_IMG I
+		  JOIN TB_STYLE S USING (STYLE_NO)
+		 WHERE STYLE_NO = ?
+		 ORDER
+		    BY FILE_LEVEL ASC
+	</entry>
+	
 	<entry key="selectTagList">
 		SELECT *
 		  FROM (SELECT
@@ -329,8 +343,8 @@
 		  INTO TB_STYLE_REP
 		  (
 		    REPORT_NO
-		  , REPORTED_USER_NO
-		  , REPORTING_USER_NO
+		  , REPORTED_USER
+		  , REPORTING_USER
 		  , REPORT_TITLE
 		  , REPORT_CONTENT
 		  , STYLE_NO
@@ -358,6 +372,19 @@
 		  JOIN TB_USER USING (USER_NO)
 		 WHERE STYLE_NO = ?
 		   AND S.STATUS = 'Y'
+	</entry>
+	
+	<entry key="selectReportStyle">
+		SELECT
+		       STYLE_NO
+		     , STYLE_CONTENT
+		     , S.ENROLL_DATE
+		     , HASHTAG
+		     , USER_NICKNAME
+		     , USER_NO
+		  FROM TB_STYLE S
+		  JOIN TB_USER USING (USER_NO)
+		 WHERE STYLE_NO = ?
 	</entry>
 	
 	<entry key="deleteStyle">
@@ -525,20 +552,115 @@
 		        SELECT
 		               ROWNUM RNUM, A.*
 		          FROM (
-                       SELECT
+		                SELECT
+		                       REPORT_NO
+		                     , REPORTED_USER
+		                     , REPORTING_USER
+		                     , U.USER_ID "REPORTED_ID"
+		                     , I.USER_ID "REPORTING_ID"
+		                     , REPORT_TITLE
+		                     , REPORT_CONTENT
+		                     , REPORT_DATE
+		                     , STYLE_NO
+		                     , REPORT_CHECK
+		                  FROM TB_STYLE_REP
+		                  JOIN TB_USER U ON (REPORTED_USER = U.USER_NO)
+		                  JOIN TB_USER I ON (REPORTING_USER = I.USER_NO)
+		                 ORDER
+		                    BY REPORT_NO DESC
+		                ) A
+		        )
+		 WHERE RNUM BETWEEN ? AND ?
+	</entry>
+	
+	<entry key="selectReport">
+		SELECT
+		       REPORT_NO
+		     , REPORTED_USER
+		     , REPORTING_USER
+		     , U.USER_ID "REPORTED_ID"
+		     , I.USER_ID "REPORTING_ID"
+		     , REPORT_TITLE
+		     , REPORT_CONTENT
+		     , REPORT_DATE
+		     , STYLE_NO
+		     , REPORT_CHECK
+		  FROM TB_STYLE_REP
+		  JOIN TB_USER U ON (REPORTED_USER = U.USER_NO)
+          JOIN TB_USER I ON (REPORTING_USER = I.USER_NO)
+		 WHERE REPORT_NO = ?
+	</entry>
+	
+	<entry key="rejectReport">
+		UPDATE
+		       TB_STYLE_REP
+		   SET REPORT_CHECK = 2
+		 WHERE REPORT_NO = ?
+	</entry>
+	
+	<entry key="processReport">
+		UPDATE
+		       TB_STYLE_REP
+		   SET REPORT_CHECK = 1
+		 WHERE REPORT_NO = ?
+	</entry>
+	
+	<entry key="selectReportCountByNo">
+		SELECT
+		       COUNT(*) COUNT
+		  FROM TB_STYLE_REP
+		 WHERE REPORTED_USER = ?
+		   AND REPORT_CHECK = 1
+	</entry>
+	
+	<entry key="updateStyleBlockDate">
+		UPDATE
+		       TB_USER
+		   SET STYLE_BLOCK_DATE = SYSDATE
+		 WHERE USER_NO = ?
+	</entry>
+	
+	<entry key="selectReportCountByNickname">
+		SELECT
+		       COUNT(REPORT_NO) COUNT
+		  FROM TB_STYLE_REP
+		  JOIN TB_USER ON (REPORTED_USER = USER_NO)
+		 WHERE USER_ID = ?
+	</entry>
+	
+	<entry key="selectReportCountByStatus">
+		SELECT
+		       COUNT(REPORT_NO) COUNT
+		  FROM TB_STYLE_REP
+		  JOIN TB_USER ON (REPORTED_USER = USER_NO)
+		 WHERE USER_ID = ?
+		   AND REPORT_CHECK = ?
+	</entry>
+	
+	<entry key="selectReportByNickname">
+		SELECT
+		       *
+		  FROM (
+		        SELECT
+		               ROWNUM RNUM, A.*
+		          FROM (
+		                SELECT
 						       REPORT_NO
-						     , U.USER_ID "REPORTED_USER_ID"
-						     , I.USER_ID "REPORTING_USER_ID"
+						     , REPORTED_USER
+		                     , REPORTING_USER
+						     , U.USER_ID "REPORTED_ID"
+						     , I.USER_ID "REPORTING_ID"
 						     , REPORT_TITLE
 						     , REPORT_CONTENT
 						     , REPORT_DATE
 						     , STYLE_NO
 						     , REPORT_CHECK
 						  FROM TB_STYLE_REP
-						  JOIN TB_USER U ON (REPORTED_USER_ID = U.USER_NO)
-						  JOIN TB_USER I ON (REPORTING_USER_ID = I.USER_NO)
-	                 	 ORDER
-	                    	BY REPORT_NO DESC
+						  JOIN TB_USER U ON (REPORTED_USER = U.USER_NO)
+		                  JOIN TB_USER I ON (REPORTING_USER = I.USER_NO)
+		                 WHERE U.USER_ID = ?
+		                 ORDER
+		                    BY REPORT_NO DESC
 		                ) A
 		        )
 		 WHERE RNUM BETWEEN ? AND ?
@@ -553,37 +675,24 @@
 		          FROM (
 		                SELECT
 						       REPORT_NO
-						     , U.USER_ID "REPORTED_USER_ID"
-						     , I.USER_ID "REPORTING_USER_ID"
+						     , REPORTED_USER
+		                     , REPORTING_USER
+						     , U.USER_ID "REPORTED_ID"
+						     , I.USER_ID "REPORTING_ID"
 						     , REPORT_TITLE
 						     , REPORT_CONTENT
 						     , REPORT_DATE
 						     , STYLE_NO
 						     , REPORT_CHECK
 						  FROM TB_STYLE_REP
-						  JOIN TB_USER U ON (REPORTED_USER_ID = U.USER_NO)
-						  JOIN TB_USER I ON (REPORTING_USER_ID = I.USER_NO)
-		                 WHERE REPORT_CHECK = ?
+						  JOIN TB_USER U ON (REPORTED_USER = U.USER_NO)
+		                  JOIN TB_USER I ON (REPORTING_USER = I.USER_NO)
+		                 WHERE U.USER_ID = ?
+		                   AND REPORT_CHECK = ?
 		                 ORDER
 		                    BY REPORT_NO DESC
 		                ) A
 		        )
 		 WHERE RNUM BETWEEN ? AND ?
-	</entry>
-	
-	<entry key="selectReport">
-		SELECT
-		       REPORT_NO
-		     , U.USER_ID "REPORTED_USER_ID"
-		     , I.USER_ID "REPORTING_USER_ID"
-		     , REPORT_TITLE
-		     , REPORT_CONTENT
-		     , REPORT_DATE
-		     , STYLE_NO
-		     , REPORT_CHECK
-		  FROM TB_STYLE_REP
-		  JOIN TB_USER U ON (REPORTED_USER_ID = U.USER_NO)
-		  JOIN TB_USER I ON (REPORTING_USER_ID = I.USER_NO)
-		 WHERE REPORT_NO = ?
 	</entry>
 </properties>

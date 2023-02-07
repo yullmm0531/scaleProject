@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.scale.admin.customerCenter.model.service.AdminCustomerCenterService;
 import com.scale.common.model.vo.PageInfo;
 import com.scale.customerCenter.model.service.CustomerCenterService;
 import com.scale.customerCenter.model.vo.Faq;
@@ -36,7 +37,7 @@ public class AdminFaqListController extends HttpServlet {
 		int listCount = new CustomerCenterService().selectFaqListCountAll();
 		int currentPage = Integer.parseInt(request.getParameter("cpage"));
 		int pageLimit = 5;
-		int boardLimit = 20;
+		int boardLimit = 10;
 		
 		int maxPage = (int)Math.ceil((double)listCount / boardLimit);
 		int startPage = (currentPage-1) / pageLimit * pageLimit + 1;
@@ -49,7 +50,7 @@ public class AdminFaqListController extends HttpServlet {
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 		
 		// 페이지 조회
-		ArrayList<Faq> list = new CustomerCenterService().selectAdminFaqListAll(pi);
+		ArrayList<Faq> list = new AdminCustomerCenterService().selectAdminFaqListAll(pi);
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
 		

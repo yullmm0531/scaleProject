@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.scale.customerCenter.model.service.CustomerCenterService;
+import com.scale.admin.customerCenter.model.service.AdminCustomerCenterService;
+
 
 /**
  * Servlet implementation class AdminFaqDeleteController
@@ -32,7 +33,7 @@ public class AdminFaqDeleteController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int faqNo = Integer.parseInt(request.getParameter("faqNo"));
 		
-		int result = new CustomerCenterService().deleteFaq(faqNo);
+		int result = new AdminCustomerCenterService().deleteFaq(faqNo);
 		
 		HttpSession session = request.getSession();
 		if(result > 0) {

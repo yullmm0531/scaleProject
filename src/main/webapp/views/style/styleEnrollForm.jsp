@@ -207,12 +207,22 @@
 
 	<%@ include file="../common/menubar.jsp" %>
 
-    	<% if(loginUser == null) { %>
-    		<script>
-    		alert("로그인 후 이용가능한 페이지입니다.");
-    		location.href = "<%= contextPath %>/loginForm.us";
-    		</script>
-    	<% } %>
+    <% if(loginUser == null) { %>
+        <script>
+        alert("로그인 후 이용가능한 페이지입니다.");
+        location.href = "<%= contextPath %>/loginForm.us";
+        </script>
+    <% } %>
+
+    <script>
+        $(function(){
+            <% if(loginUser != null && loginUser.getStyleBlockDate() != null) { %>
+                alert("스타일 신고 누적으로 STYLE 차단되었습니다.");
+                location.href = "<%= contextPath %>";
+            <% } %>
+        })
+    </script>
+    
     <div class="outer" align="center">
         <br>
         <h2 style="font-size: 30px;"><b>스타일 등록</b></h2>

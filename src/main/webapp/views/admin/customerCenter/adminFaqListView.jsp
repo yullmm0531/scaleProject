@@ -14,6 +14,12 @@
     .title{
         margin:70px 0px;
     }
+    .input-group{
+        font-size:14px;
+    }
+    #search-input::placeholder{
+        font-size:14px;
+    }
     .mb-3 button{
         background:black;
         color:white;
@@ -69,7 +75,7 @@
         background:rgb(247, 247, 247) !important;
     }
 
-    .edit-btn, .delete-btn, .writer{
+    .edit-btn, .delete-btn, .writer, .modify-date{
         position:absolute;
         width:60px;
         height:33px;
@@ -86,7 +92,11 @@
         right:60px;
         font-size:12px !important;
     }
-
+    .modify-date{
+        width:200px;
+        right:200px;
+        font-size:12px !important;
+    }
     #search-more-btn{
         display:none;
     }
@@ -101,14 +111,14 @@
                 <br>
             </div>
             <div class="list-area">
-                <!-- <form class="input-group mb-3" style="width:400px" action="<%=contextPath%>/searchFaq.ad" method="get">
+                <div class="input-group mb-3" style="width:400px">
                     <input type="text" class="form-control" placeholder="검색어를 입력하세요." id="search-input" name="keyword">
                     <div class="input-group-append">
-                        <button class="btn" type="submit" id="search-btn">검색</button>
+                        <button class="btn" type="button" id="search-btn">검색</button>
                     </div>
                     <input type="hidden" name="cpage" value="1">
-                </form>
-                <br> -->
+                </div>
+                <br>
             
                 <div class="category">
                     <button class="c-btn active" value="all" onclick="categoryFilter(this);">전체</button>
@@ -139,7 +149,7 @@
                         <form action="insertFaq.ad" method="post">
                             <div class="modal-body">
                                 * 카테고리 :
-                                <select name="category" id="">
+                                <select name="category">
                                     <option value="none">선택하세요</option>
                                     <option value="policy">이용정책</option>
                                     <option value="common">공통</option>
@@ -194,13 +204,12 @@
             $(".c-btn").click(function(){
                 $(this).addClass("active");
                 $(this).siblings().removeClass("active");
+                $("#search-input").val("");
             })
 
             // 진입 시 전체 로드
-            $("#accordion").empty();
             categoryFilter($(".category>button").eq(0));
 
-            // 셀렉트 옵션 선택
         })
 
         // 삭제
@@ -241,7 +250,8 @@
                     }
 
                     if(list.length == 0){
-						$("#accordion").append("<div align='center'>작성된 글이 없습니다.</div>");
+						value += "<div align='center'>작성된 글이 없습니다.</div>";
+                        $("#accordion").append(value);
 					}else{
                         
                         for(let i=0; i<list.length; i++){{
@@ -257,6 +267,7 @@
                             value += "<a class='card-link' data-toggle='collapse' href='#collapse" + [i] + "'>";
                             value += "<span>[" + list[i].category + "]</span>" + list[i].faqQuestion + "</a>";
                             value += "<span class='writer'>작성자 : " + list[i].faqWriter + "</span>";
+                            value += "<span class='modify-date'>최종수정일 : " + list[i].modifyDate + "</span>";
                             value += "<button type='button' class='btn btn-outline-primary edit-btn' data-toggle='modal' data-target='#edit-modal" + [i] + "'>수정</button>";
                             value += "<button class='btn btn-outline-danger delete-btn' id='"+ list[i].faqNo +"' onclick='deleteFaq(this);'>삭제</button></div>";
                             value += "<div id='collapse" + [i] +"' class='collapse' data-parent='#accordion'>";
@@ -269,10 +280,10 @@
                             value += "<div class='modal' id='edit-modal" + [i] + "'>";
                             value += "<div class='modal-dialog modal-lg'><div class='modal-content'>";
                             value += "<div class='modal-header'><h4 class='modal-titl'>자주묻는질문 수정</h4><button type='button' class='close' data-dismiss='modal'>&times;</button></div>";
-
+                            
                             // 모달 바디
                             value += "<form action='updateFaq.ad' method='post'><div class='modal-body'>";
-                            value += "* 카테고리 : <select name='category' id=''>";
+                            value += "* 카테고리 : <select name='category' id='category"+list[i].faqNo+"'>"; 
                             value += "<option value='policy'>이용정책</option>";
                             value += "<option value='common'>공통</option>";
                             value += "<option value='buy'>구매</option>";
@@ -283,8 +294,21 @@
                                 
                             // 모달 푸터
                             value += "<div class='modal-footer'><button type='submit' class='btn btn-primary'>수정</button></div></form></div></div></div>";
+                            
                         }}
+                        
                         $("#accordion").append(value);
+
+                        for(let i=0; i<list.length; i++){{
+                            switch(list[i].category){
+                                case "이용정책": list[i].category = "policy"; break;
+                                case "공통": list[i].category = "common"; break;
+                                case "구매": list[i].category = "buy"; break;
+                                case "판매": list[i].category = "sell"; break;
+                            }
+
+                            $("#category"+list[i].faqNo).val(list[i].category);
+                        }}
                         cpage++;
                     }
                 }, error:function(){
@@ -292,7 +316,6 @@
                 }
             })
         }
-
         $("#more-btn").click(function(){
            $.ajax({
                 url:"<%=contextPath%>/faqFilter.ad",
@@ -319,12 +342,12 @@
 
                         value += "<div class='card'>";
                         value += "<div class='card-header'>";
-                        value += "<a class='card-link' data-toggle='collapse' href='#collapse" + (j+(20*(cpage-1))) + "'>";
+                        value += "<a class='card-link' data-toggle='collapse' href='#collapse" + (j+(10*(cpage-1))) + "'>";
                         value += "<span>[" + list[j].category + "]</span>" + list[j].faqQuestion + "</a>";
                         value += "<span class='writer'>작성자 : " + list[j].faqWriter + "</span>";
                         value += "<button type='button' class='btn btn-outline-primary edit-btn' data-toggle='modal' data-target='#edit-modal" + (j+(10*(cpage-1))) +"'>수정</button>";
                         value += "<button class='btn btn-outline-danger delete-btn' onclick='deleteFaq();'>삭제</button></div>";
-                        value += "<div id='collapse" + (j+(20*(cpage-1))) +"' class='collapse' data-parent='#accordion'>";
+                        value += "<div id='collapse" + (j+(10*(cpage-1))) +"' class='collapse' data-parent='#accordion'>";
                         value += "<div class='card-body'>";
                         value += list[j].faqAnswer;
                         value += "</div></div></div>";
@@ -337,7 +360,7 @@
 
                         // 모달 바디
                         value += "<form action='updateFaq.ad' method='post'><div class='modal-body'>";
-                        value += "* 카테고리 : <select name='category' id=''>";
+                        value += "* 카테고리 : <select name='category' id='category"+list[j].faqNo+"'>";
                         value += "<option value='policy'>이용정책</option>";
                         value += "<option value='common'>공통</option>";
                         value += "<option value='buy'>구매</option>";
@@ -350,7 +373,20 @@
                         value += "<div class='modal-footer'><button type='submit' class='btn btn-primary'>수정</button></div></form></div></div></div>";
                     }}
                     $("#accordion").append(value);
+                    
+                    for(let j=0; j<list.length; j++){{
+                            switch(list[j].category){
+                                case "이용정책": list[j].category = "policy"; break;
+                                case "공통": list[j].category = "common"; break;
+                                case "구매": list[j].category = "buy"; break;
+                                case "판매": list[j].category = "sell"; break;
+                            }
+
+                            $("#category"+list[j].faqNo).val(list[j].category);
+                    }}
+
                     cpage++;
+
                 }, error:function(){
                     console.log("faq 리스트 가져오기 통신 실패");
                 }
@@ -373,7 +409,7 @@
                     let searchList = map.searchList;
                     let pi = map.pi;
                     let value = "";
-                    
+                 
                     if(searchList.length < 10){
                         $("#search-more-btn").css("display", "none");
                     }else{
@@ -381,7 +417,8 @@
                     }
 
                     if(searchList.length == 0){
-						$("#accordion").append("<div align='center'>검색 결과가 없습니다.</div>");
+                        value += "<div align='center'>검색 결과가 없습니다.</div>";
+                        $("#accordion").append(value);
 					}else {
 
                         for(let i=0; i<searchList.length; i++){{
@@ -395,17 +432,54 @@
                             value += "<div class='card'>";
                             value += "<div class='card-header'>";
                             value += "<a class='card-link' data-toggle='collapse' href='#collapse" + [i] + "'>";
-                            value += "<span>[" + searchList[i].category + "]</span>" + searchList[i].faqQuestion + "</a>"
-                            value += "<span class='writer'>작성자 : " + searchList[i].faqWriter + "</span></div>";
+                            value += "<span>[" + searchList[i].category + "]</span>" + searchList[i].faqQuestion + "</a>";
+                            value += "<span class='writer'>작성자 : " + searchList[i].faqWriter + "</span>";
+                            value += "<span class='modify-date'>최종수정일 : " + searchList[i].modifyDate + "</span>";
+                            value += "<button type='button' class='btn btn-outline-primary edit-btn' data-toggle='modal' data-target='#edit-modal" + [i] + "'>수정</button>";
+                            value += "<button class='btn btn-outline-danger delete-btn' id='"+ searchList[i].faqNo +"' onclick='deleteFaq(this);'>삭제</button></div>";
                             value += "<div id='collapse" + [i] +"' class='collapse' data-parent='#accordion'>";
                             value += "<div class='card-body'>";
                             value += searchList[i].faqAnswer;
                             value += "</div></div></div>";
+                            
+                            // 수정 모달
+                            // 모달 헤더
+                            value += "<div class='modal' id='edit-modal" + [i] + "'>";
+                            value += "<div class='modal-dialog modal-lg'><div class='modal-content'>";
+                            value += "<div class='modal-header'><h4 class='modal-titl'>자주묻는질문 수정</h4><button type='button' class='close' data-dismiss='modal'>&times;</button></div>";
+                            
+                            // 모달 바디
+                            value += "<form action='updateFaq.ad' method='post'><div class='modal-body'>";
+                            value += "* 카테고리 : <select name='category' id='category"+searchList[i].faqNo+"'>"; 
+                            value += "<option value='policy'>이용정책</option>";
+                            value += "<option value='common'>공통</option>";
+                            value += "<option value='buy'>구매</option>";
+                            value += "<option value='sell'>판매</option>";
+                            value += "</select><br><br><br>* 질문 : <br><input type='text' style='width:750px' name='question' value='" + searchList[i].faqQuestion + "' required><br><br>"        
+                            value += "* 답변 : <br><textarea name='answer' cols='115' rows='10' style='resize:none' required>" + searchList[i].faqAnswer  + "</textarea></div>";
+                            value += "<input type='hidden' name='faqNo' value='" + searchList[i].faqNo + "'>";
+                                
+                            // 모달 푸터
+                            value += "<div class='modal-footer'><button type='submit' class='btn btn-primary'>수정</button></div></form></div></div></div>";
+                            
                         }}
                         
                         $("#accordion").append(value);
+
+                        for(let i=0; i<searchList.length; i++){{
+                            switch(searchList[i].category){
+                                case "이용정책": searchList[i].category = "policy"; break;
+                                case "공통": searchList[i].category = "common"; break;
+                                case "구매": searchList[i].category = "buy"; break;
+                                case "판매": searchList[i].category = "sell"; break;
+                            }
+
+                            $("#category"+searchList[i].faqNo).val(searchList[i].category);
+                        }}
+
                         cpage++;
                     }
+
                 }, error:function(){
                     console.log("faq 검색 통신 실패");
                 }
@@ -430,7 +504,8 @@
                     }
 
                     if(searchList.length == 0){
-						$("#accordion").append("<div align='center'>검색 결과가 없습니다.</div>");
+						value += "<div align='center'>검색 결과가 없습니다.</div>";
+                        $("#accordion").append(value);
 					}else {
 
                         for(let j=0; j<searchList.length; j++){{
@@ -444,15 +519,49 @@
                             value += "<div class='card'>";
                             value += "<div class='card-header'>";
                             value += "<a class='card-link' data-toggle='collapse' href='#collapse" + (j+(10*(cpage-1))) + "'>";
-                            value += "<span>[" + searchList[j].category + "]</span>" + searchList[j].faqQuestion + "</a></div>";
+                            value += "<span>[" + searchList[j].category + "]</span>" + searchList[j].faqQuestion + "</a>";
+                            value += "<span class='writer'>작성자 : " + searchList[j].faqWriter + "</span>";
+                            value += "<button type='button' class='btn btn-outline-primary edit-btn' data-toggle='modal' data-target='#edit-modal" + (j+(10*(cpage-1))) +"'>수정</button>";
+                            value += "<button class='btn btn-outline-danger delete-btn' onclick='deleteFaq();'>삭제</button></div>";
                             value += "<div id='collapse" + (j+(10*(cpage-1))) +"' class='collapse' data-parent='#accordion'>";
                             value += "<div class='card-body'>";
                             value += searchList[j].faqAnswer;
                             value += "</div></div></div>";
 
+                            // 수정 모달
+                            // 모달 헤더
+                            value += "<div class='modal' id='edit-modal" + (j+(10*(cpage-1))) +"'>";
+                            value += "<div class='modal-dialog modal-lg'><div class='modal-content'>";
+                            value += "<div class='modal-header'><h4 class='modal-titl'>자주묻는질문 수정</h4><button type='button' class='close' data-dismiss='modal'>&times;</button></div>";
+
+                            // 모달 바디
+                            value += "<form action='updateFaq.ad' method='post'><div class='modal-body'>";
+                            value += "* 카테고리 : <select name='category' id='category"+searchList[j].faqNo+"'>";
+                            value += "<option value='policy'>이용정책</option>";
+                            value += "<option value='common'>공통</option>";
+                            value += "<option value='buy'>구매</option>";
+                            value += "<option value='sell'>판매</option>";
+                            value += "</select><br><br><br>* 질문 : <br><input type='text' style='width:750px' name='question' value='" + searchList[j].faqQuestion + "' required><br><br>"        
+                            value += "* 답변 : <br><textarea name='answer' cols='115' rows='10' style='resize:none' required>" + searchList[j].faqAnswer  + "</textarea></div>";
+                            value += "<input type='hidden' name='faqNo' value='" + searchList[j].faqNo + "'>";
+                                
+                            // 모달 푸터
+                            value += "<div class='modal-footer'><button type='submit' class='btn btn-primary'>수정</button></div></form></div></div></div>";
                         }}
-                        
+                    
                         $("#accordion").append(value);
+                    
+                        for(let j=0; j<searchList.length; j++){{
+                            switch(searchList[j].category){
+                                case "이용정책": searchList[j].category = "policy"; break;
+                                case "공통": searchList[j].category = "common"; break;
+                                case "구매": searchList[j].category = "buy"; break;
+                                case "판매": searchList[j].category = "sell"; break;
+                            }
+
+                            $("#category"+searchList[j].faqNo).val(searchList[j].category);
+                        }}
+
                         cpage++;
                     }
                 }, error:function(){

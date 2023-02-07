@@ -37,7 +37,7 @@ public class AjaxFaqSearchController extends HttpServlet {
 		String keyword = request.getParameter("keyword");
 		int currentPage = Integer.parseInt(request.getParameter("cpage"));
 		
-		// 카테고리별 개수 조회
+		// 검색결과 개수 조회
 		int searchCount = new CustomerCenterService().selectFaqSearchCount(keyword);
 		
 

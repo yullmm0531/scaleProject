@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.scale.admin.customerCenter.model.service.AdminCustomerCenterService;
 import com.scale.common.model.vo.PageInfo;
-import com.scale.customerCenter.model.service.CustomerCenterService;
 import com.scale.customerCenter.model.vo.Notice;
 
 /**
@@ -38,7 +38,7 @@ public class AdminNoticeSearchController extends HttpServlet {
 		String keyword = request.getParameter("keyword");
 		
 		// 페이징바
-		int listCount = new CustomerCenterService().searchAdminNoticeCount(option, keyword);
+		int listCount = new AdminCustomerCenterService().searchAdminNoticeCount(option, keyword);
 		int currentPage = Integer.parseInt(request.getParameter("cpage"));
 		int pageLimit = 5;
 		int boardLimit = 10;
@@ -53,7 +53,7 @@ public class AdminNoticeSearchController extends HttpServlet {
 		PageInfo pi = new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 
 		// 페이지 조회
-		ArrayList<Notice> list = new CustomerCenterService().searchAdminNoticeList(pi, option, keyword);
+		ArrayList<Notice> list = new AdminCustomerCenterService().searchAdminNoticeList(pi, option, keyword);
 		
 		request.setAttribute("pi", pi);
 		request.setAttribute("list", list);
