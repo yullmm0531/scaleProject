@@ -208,7 +208,7 @@
         
         <br><br>
         <div class="title-div">
-        	<h4>판매한 상품 목록</h4>
+        	<h4>판매 입찰 목록</h4>
         </div>
         
         
@@ -227,12 +227,7 @@
                 <div class="product-ex"><%=p.getProductNameEng() %></div>
             </div>
             <div class="sell-product-div3"><%=p.getBiddingDate() %></div>
-            
-            
-            
-            
-            
-            
+                                                                      
         </div>
         <button onclick="drop(<%=p.getBiddingNo()%>,<%=userNo%>);">입찰취소</button>
         <% } %>

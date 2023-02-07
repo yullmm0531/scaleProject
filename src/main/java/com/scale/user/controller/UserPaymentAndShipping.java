@@ -43,9 +43,9 @@ public class UserPaymentAndShipping extends HttpServlet {
 		String recipient = request.getParameter("recipient");
 		String Phone = request.getParameter("Phone");
 		int userNo = Integer.parseInt(request.getParameter("userNo"));
-		System.out.println(userNo);
+		
 		Address ad = new Address(zipCode, address1, address2, recipient, Phone, defaultAdd, userNo);
-		System.out.println(ad);
+		
 		int result = new UserService().updatePaymentAndShipping(ad);
 		
 		HttpSession session = request.getSession();
