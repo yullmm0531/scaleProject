@@ -116,6 +116,11 @@
             margin:5px;
         }
 
+        .like{
+        	font-size:15px;
+        }
+        
+        
   </style>
 </head>
 <body>
@@ -146,9 +151,11 @@
                         	<img src="<%= contextPath %>/<%= b.getBrandImg() %>" width="70" height="70" style="box-sizing:border-box">
                         </td>
                       	</tr>
+                      	<tr>
                       	 <td>
                         	 <div align="center" class="brandN" ><%= b.getBrandName() %></div>
                         </td>
+                        </tr>
                      </table>
                  </div>
                  <% } %>
@@ -165,10 +172,9 @@
                     <li class="cate" style="cursor:pointer">
                         카테고리
                         <ul class="sub" style="display:none">
-                        	<li><input type="radio" id="ckb" class="chk">전체</li>
-                            <li><input type="radio" id="ckb1" class="chk">신발</li>
-                            <li><input type="radio" id="ckb2" class="chk">지갑</li>
-                            <li><input type="radio" id="ckb3" class="chk">테크</li>
+                            <li><input type="checkbox" id="ckb1" class="chk">신발</li>
+                            <li><input type="checkbox" id="ckb2" class="chk">지갑</li>
+                            <li><input type="checkbox" id="ckb3" class="chk">테크</li>
                         </ul>
                     </li>
                     <li class="brand" style="cursor:pointer">
@@ -201,13 +207,11 @@
                         <button id="cbtn" style="display:none;" class="shbtn">카테고리</button>
                         <button id="bbtn" style="display:none;" class="shbtn">브랜드</button>
                         <button id="sbtn" style="display:none;" class="shbtn">사이즈</button>
-                        <button id="phbtn" style="display:none;" class="shbtn">가격</button>
-                        
                     </span>
                     
                     <div class="sortbar" align="right"> 
                         <select name="sortlist" id="sort">
-                            <option value="popular">인기순</option>
+                            <option value="popular" class="popular">인기순</option>
                             <option value="newest" class="newest" >최신순</option>
                         </select>
                     </div>
@@ -396,14 +400,14 @@
         // 최신순, 인기순 정렬 
     	$("#sort").change(function(){
             let sortFilter = $(this).val();
-        	
+        	// location.href = "<%= contextPath %>/psort.pd?sortFilter=" + sortFilter; 
             cpage = 1;
             $.ajax({
     			url:"<%= contextPath%>/psort.pd",
     			type:"get",
     			data:{"cpage":cpage, "sortFilter":sortFilter},
     			success:function(pl){
-    				 $("#pcontent-2").empty();
+    				 $("#plist").empty();
     				let list = pl.list;
     				let clickLike = pl.clickLike;
                     let userLike = pl.userLike;
@@ -440,7 +444,7 @@
                               +"</li>"
                            + "</ul>"
                        + "</div>";
-                        $("#pcontent-2").append(value);
+                        $("#plist").append(value);
                        }
                                     
                     },	
@@ -456,7 +460,7 @@
     	
 	</script>
     
-	<!-- 클릭 -->    
+	<!-- 카테고리 -->    
    
     <script>
 

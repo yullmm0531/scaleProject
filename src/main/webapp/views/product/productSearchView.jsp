@@ -41,7 +41,9 @@
                     <div id="search-text">
                         <input type="text" id="productInput" name="keyword" placeholder="상품명을 입력하세요" onkeyup="search(this);">
                     </div>
-                    <div id="search-btn"><button>검색</button></div>
+                    <div id="search-btn"><button type="submit">검색</button></div>
+                    
+                    
                     
                     <% if(list.isEmpty()){ %>
                         <div id="nolsit">검색하신 결과가 없습니다.</div>
