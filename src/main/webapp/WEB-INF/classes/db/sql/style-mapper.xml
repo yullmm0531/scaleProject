@@ -368,6 +368,7 @@
 		     , HASHTAG
 		     , USER_NICKNAME
 		     , USER_NO
+		     , PROFILE_IMG
 		  FROM TB_STYLE S
 		  JOIN TB_USER USING (USER_NO)
 		 WHERE STYLE_NO = ?
@@ -382,6 +383,7 @@
 		     , HASHTAG
 		     , USER_NICKNAME
 		     , USER_NO
+		     , PROFILE_IMG
 		  FROM TB_STYLE S
 		  JOIN TB_USER USING (USER_NO)
 		 WHERE STYLE_NO = ?
