@@ -336,7 +336,7 @@ public class StyleDao {
 	public int insertStyleImg(Connection conn, ArrayList<StyleImg> list) {
 		int result = 0;
 		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("insertChangeStyleImg");
+		String sql = prop.getProperty("insertStyleImg");
 		
 		try {
 			for(StyleImg img : list) {
