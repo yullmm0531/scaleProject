@@ -924,22 +924,36 @@
                         	</tr>
                     	</thead>
                     	<tbody>
-                        	<tr>
-                        	<% for(int i=0; i<st.size(); i++) { %>
-                        		<td><%= st.get(i).getUserId()  %></td>
+                        	
+                        	<% if(st.size() < 4) {  %>
+	                        	<tr>
+	                        	<% for(int i=0; i<st.size(); i++) { %>
+	                        		<td><%= st.get(i).getUserId()  %></td>
+	                        	<% } %>
+	                        	<% for(int i=st.size(); i<4; i++) { %>
+	                        		<td></td>
+	                        	<% } %>
+	                        	</tr>
+	                        	<tr>
+	                        	<% for(int i=0; i<st.size(); i++) { %>
+	                        		<td><%= st.get(i).getHashtag() %></td>
+	                        	<% } %>
+	                        	<% for(int i=st.size(); i<4; i++) { %>
+	                        		<td></td>
+	                        	<% } %>
+                        	    </tr>
+                        	<% } else { %>
+                        		<tr>
+                       			<% for(int i=0; i<4; i++) { %>
+                       				<td><%= st.get(i).getUserId() %></td>
+                       			<% } %>
+                        		</tr>
+                        		<tr>
+                        		<% for(int i=0; i<4; i++) { %>
+                        			<td><%= st.get(i).getHashtag() %></td>
+                        		<% } %>
+                        		</tr>
                         	<% } %>
-                        	<% for(int i=st.size(); i<4; i++) { %>
-                        		<td></td>
-                        	<% } %>
-                        	</tr>
-                        	<tr>
-                        	<% for(int i=0; i<st.size(); i++) { %>
-                        		<td><%= st.get(i).getHashtag() %></td>
-                        	<% } %>
-                        	<% for(int i=st.size(); i<4; i++) { %>
-                        		<td></td>
-                        	<% } %>
-                        	</tr>
                         <% } else {%>
                         	<tr class="noStyle" rowspan = "3">
                         		<td colspan="4" align="center">작성된 스타일 게시글이 없습니다.</td>

@@ -50,7 +50,7 @@ box-sizing: border-box;
         margin-top: 1.9%;
         margin-left: 1%;
     }
-    #thumb_img{width: 100%; height: 100%;}
+    #thumb_img{width: 70%; height: 80%;}
     .user_info{
         
         width:  70%;

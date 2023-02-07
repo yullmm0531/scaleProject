@@ -59,7 +59,7 @@
         .sideMenu-area{margin-top: 30%;}
 
 
-
+		
 		#address-div{border: solid blue;}
 
 
@@ -125,7 +125,7 @@
 	                        <li><a href="">내정보</a>
 	                            <ul>
 	                                <li><a href="<%=contextPath%>/userInfoUpdate.us">회원정보수정</a></li>
-	                                <li><a href="<%=contextPath%>/paymentAndShippingView.us">결제 및 배송정보</a></li>
+	                                <li><a href="<%=contextPath%>/paymentAndShippingView.us?userNo=<%=userNo%>">결제 및 배송정보</a></li>
 	                                
 	                            </ul>
 	                        </li>
@@ -148,7 +148,7 @@
 				                    
 				                    
 				                    
-				                    <div id="add-address-div">
+				                    <div id="add-address-div" class="add-address-div">
 				                        
 				                        
 				                        	<div id="insert-address-div">
@@ -209,8 +209,8 @@
 												</div>
 												
 												
-												<!-- 스크립트 -->
-												<!-- 주소 api -->
+												
+												
 								<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 								<script>
 								    function sample6_execDaumPostcode() {
@@ -264,7 +264,7 @@
 				                    <br>
 				                    
 				                    
-		<% if(list != null) { %>	                    
+			                    
 		<% for(Address ad : list){ %>  
          <div class="wrap-div" id="address-div" style=" cursor: pointer;" onclick="test2(<%= ad.getUserNo()%>, <%=ad.getAddresNo()%> );">
          		
@@ -300,25 +300,17 @@
     	
     	
     	function test2(e1,e2){
-    		console.log(e1);
-    		console.log(e2);
+    		
     		location.href = "<%=contextPath%>/updateBasicAddress.us?userNo=" + e1 + "&addressNo=" + e2;
     	}
     </script>
-		<% } %>	                    
+			                    
 				                    
-				                    <div id="edit-address-div">
-				                        <a href="" class="btn btn outlinegrey small" type="button" id="edit-address">수정</a>
-				                    </div>
-				                    <div id="delete-address-div">
-				                        <a href="" class="btn btn outlinegrey small" type="button" id="delete-address">삭제</a>
-				                    </div>
+				                    
 				                </div>
 				                
 				            </div>
-				            <br>
-				            <div class="underline"></div>
-				            <br>
+				           
 				            
 				
 				        </div>

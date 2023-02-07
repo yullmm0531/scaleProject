@@ -226,9 +226,10 @@
                              , FAQ_ANSWER
                              , TO_CHAR(MODIFY_DATE, 'YYYY.MM.DD') "MODIFY_DATE"
                              , CATEGORY
-                             , FAQ_WRITER
-		                  FROM TB_FAQ
-		                 WHERE STATUS = 'Y'
+                             , USER_NAME "FAQ_WRITER"
+		                  FROM TB_FAQ F
+		                  JOIN TB_USER U ON(U.USER_NO = F.FAQ_WRITER)
+		                 WHERE F.STATUS = 'Y'
                            AND FAQ_QUESTION LIKE '%' || ? || '%'
             				OR FAQ_ANSWER LIKE '%' || ? || '%'
 		                 ORDER

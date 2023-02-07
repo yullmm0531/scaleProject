@@ -241,6 +241,24 @@
 
 	</entry>
 	
+	<entry key="selectbasicAddress">
+		SELECT 
+			
+		   ADDRESS_NO
+		  , ZIPCODE
+		  , ADDRESS1
+		  , ADDRESS2
+		  , RECIPIENT
+		  , PHONE
+		  , USER_NO
+		  
+		  
+		  FROM TB_ADDRESS
+		 WHERE USER_NO = ?
+		   		 
+
+	</entry>
+	
 	<entry key="selectUserAcc">
 		SELECT
 		       USER_NO
