@@ -107,9 +107,8 @@
 	<entry key="clickLike">
 		SELECT COUNT(*) COUNT
 		  FROM TB_LIKE
-		 WHERE USER_NO = ? 
-		   AND PRODUCT_CODE = ?
-	
+		 GROUP
+            BY PRODUCT_CODE
 	</entry>
 	
 	
