@@ -65,7 +65,6 @@
         <div class="space"></div>
         <div><img src="<%= contextPath %>/<%= success.getProductImg() %>" alt=""></div>
         <br>
-        <a href="" class="btn btn-outline-secondary">내역 상세보기</a>
         <a href="<%=contextPath%>/plist.pd" class="btn btn-outline-secondary">SHOP 바로가기</a>
         <br><br><br>
         <div class="order-info">
