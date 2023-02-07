@@ -267,12 +267,24 @@ public class UserDao {
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				user = new User();
-				user.setUserNo(rset.getInt("user_no"));
-				user.setUserId(rset.getString("user_id"));
-				user.setUserNickName(rset.getString("user_nickname"));
-				user.setProfileImg(rset.getString("profile_img"));
-				user.setIntroduce(rset.getString("introduce"));
+				user = new User(rset.getInt("user_no"),
+								 rset.getString("user_id"),
+								 rset.getString("user_pwd"),
+								 rset.getString("user_name"),
+								 rset.getString("user_nickname"),
+								 rset.getString("phone"),
+								 rset.getString("email"),
+								 rset.getDate("enroll_date"),
+								 rset.getString("status"),
+								 rset.getDate("delete_date"),
+								 rset.getString("manager_check"),
+								 rset.getString("user_acc_bank"),
+								 rset.getString("user_acc_number"),
+								 rset.getDate("shop_block_date"),
+								 rset.getDate("style_block_date"),
+								 rset.getString("introduce"),
+								 rset.getString("profile_img")
+								 );
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

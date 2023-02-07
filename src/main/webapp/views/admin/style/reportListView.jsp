@@ -94,7 +94,7 @@
                         <span>처리현황</span>
                         <select name="select" id="select">
                             <option value="all" id="all">전체</option>
-                            <option value="ready" id="ready">신고완료</option>
+                            <option value="ready" id="ready">신고처리</option>
                             <option value="report" id="report">처리완료</option>
                             <option value="reject" id="reject">반려</option>
                         </select>

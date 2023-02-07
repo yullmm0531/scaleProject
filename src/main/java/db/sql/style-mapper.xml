@@ -143,7 +143,7 @@
 		   AND S.STATUS = 'Y'
 		   AND STYLE_NO = ?
 		 ORDER
-		    BY FILE_LEVEL ASC
+		    BY FILE_LEVEL ASC, CHANGE_NAME
 	</entry>
 	
 	<entry key="selectReportStyleImgByNo">

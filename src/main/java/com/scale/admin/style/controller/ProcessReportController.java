@@ -1,6 +1,7 @@
 package com.scale.admin.style.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.scale.style.model.service.StyleService;
+import com.scale.user.model.service.UserService;
+import com.scale.user.model.vo.User;
 
 /**
  * Servlet implementation class ProcessReportController
@@ -33,9 +36,12 @@ public class ProcessReportController extends HttpServlet {
 		int cpage = Integer.parseInt(request.getParameter("cpage"));
 		int userNo = Integer.parseInt(request.getParameter("userNo"));
 		int result = new StyleService().processReport(repNo, userNo);
-		
+		User reportedUser = new UserService().selectUserByUserNo(userNo);
+		System.out.println(reportedUser);
 		if(result == 0) {
 			request.getSession().setAttribute("alertMsg", "신고처리 실패");
+		} else {
+			request.getSession().setAttribute("loginUser", reportedUser);
 		}
 		response.sendRedirect(request.getContextPath() + "/detailreport.ad?repNo=" + repNo + "&styleNo=" + styleNo + "&cpage=" + cpage);
 	}
