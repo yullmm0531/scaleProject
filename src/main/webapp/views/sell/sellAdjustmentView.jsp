@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.scale.product.model.vo.Product, com.scale.bidding.model.vo.Bidding, java.text.DecimalFormat, com.scale.user.model.vo.*" %>
+<%@ page import="com.scale.product.model.vo.Product, com.scale.bidding.model.vo.Bidding, java.text.DecimalFormat, com.scale.user.model.vo.*, com.scale.policy.model.vo.*" %>
 <%
 	Product p = (Product)request.getAttribute("p");
 	String size = (String)request.getAttribute("size");
@@ -9,6 +9,7 @@
 	int price = (int)request.getAttribute("price");
 	Address ad = (Address)request.getAttribute("ad");
 	User u = (User)request.getAttribute("u");
+    Policy t = (Policy)request.getAttribute("t");
 	DecimalFormat formatter = new DecimalFormat("###,###");
 %>
 <!DOCTYPE html>
@@ -169,7 +170,7 @@
         #shippingZipCode{
             border: none;
             background-color: whitesmoke;
-            width: 75px;
+            width: 80px;
         }
         #shippingAddress{
             border: none;
@@ -179,7 +180,7 @@
 	    #userAccBank{
 	    	border: none;
 	        background-color: whitesmoke;
-            width: 75px;
+            width: 85px;
 	    }
 	    #userAccNum{
 	    	border: none;
@@ -190,7 +191,8 @@
             padding:10px;
         }
         #zipCode{
-            width:350px; display:inline-block;
+            width:330px; 
+            display:inline-block;
         }
         ::placeholder{font-size:12px;}
         .check-input{
@@ -218,6 +220,10 @@
             width: 90%;
             text-align: left !important; 
             border: none;
+        }
+        .buy-terms span{
+            color: blue;
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -988,7 +994,7 @@
                         <tr>
                             <td>
                                 <div class="terms-detail">이용정책 위반 시, 페널티가 부여됩니다. 페널티 3회 누적시 이용이 제한됩니다.</div>
-                                <div><a href="">이용정책 보기</a></div>
+                                <div><span data-toggle="modal" data-target="#modal-t">이용정책 보기</span></div>
                             </td>
                         </tr>
                         <tr>
@@ -1007,7 +1013,26 @@
                     </table>
                 </div>
                 <br><br>
-
+                <!-- SCALE 서비스 이용약관 -->
+					<div class="modal" id="modal-t">
+                        <div class="modal-dialog modal-dialog-scrollable">
+                          <div class="modal-content">
+                      
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                              <h4 class="modal-title">SCALE 서비스 이용약관</h4>
+                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                      
+                            <!-- Modal body -->
+                            <% if(t != null) {%>
+                               <div class="modal-body"><%= t.getPolicyContent() %></div>
+                            <%}else{ %>
+                               <div class="modal-body"><%= t.getPolicyContent() %></div>
+                            <%} %>
+                          </div>
+                        </div>
+                    </div>
                 <div class="total-price-info">
                     <table id="total-price-info">
                         <tr>
@@ -1046,9 +1071,7 @@
                     }
                 })
             })
-            function addressList(){
-
-            }
+            
         </script>
         <br><br>
     </div>

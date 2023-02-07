@@ -98,7 +98,7 @@
         #priceI, #priceB{
         	font-style: italic;
         }
-        a{
+        .terms-detail span{
             color: blue;
             text-decoration: underline;
         }
@@ -305,7 +305,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <div class="terms-detail"><a data-toggle="modal" data-target="#modal-i">검수기준 보기</a></div>
+                                <div class="terms-detail"><span data-toggle="modal" data-target="#modal-i">검수기준 보기</span></div>
                             </td>
                         </tr>
                         <tr>
@@ -330,7 +330,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <div class="terms-detail"><a data-toggle="modal" data-target="#modal-t">이용정책 보기</a></div>
+                                <div class="terms-detail"><span data-toggle="modal" data-target="#modal-t">이용정책 보기</span></div>
                             </td>
                         </tr>
                     </table>

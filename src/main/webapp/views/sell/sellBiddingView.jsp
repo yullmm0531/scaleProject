@@ -98,6 +98,10 @@
         #priceI, #priceB{
         	font-style: italic;
         }
+        .terms-detail span{
+            color: blue;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -161,7 +165,7 @@
                                     size += <%= (pList.get(i)).getpSize() %> + ", ";
                                     price += "<%= (pList.get(i)).getbPrice() %>" + "/ ";
                                 <% } %>
-                                size += <%= (pList.get(pList.size()-1)).getpSize() %>;
+                                size += "<%= (pList.get(pList.size()-1)).getpSize() %>";
                                 price += "<%= (pList.get(pList.size()-1)).getbPrice() %>";
                             <% } %>
                             var sizeArr = size.split(", ");
@@ -300,7 +304,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <div class="terms-detail"><a data-toggle="modal" data-target="#modal-i">검수기준 보기</a></div>
+                                <div class="terms-detail"><span data-toggle="modal" data-target="#modal-i">검수기준 보기</span></div>
                             </td>
                         </tr>
                         <tr>
@@ -345,7 +349,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <div class="terms-detail"><a data-toggle="modal" data-target="#modal-t">이용정책 보기</a></div>
+                                <div class="terms-detail"><span data-toggle="modal" data-target="#modal-t">이용정책 보기</span></div>
                             </td>
                         </tr>
                     </table>
