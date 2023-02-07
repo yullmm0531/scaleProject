@@ -27,11 +27,11 @@
         margin:auto;
     }
     .title{text-align: center;}
+    .outer-2{float:left; width:80%;}
     .space{height: 10px;}
     .line{
         border: 0.5px solid gray;
         width: 1200px;
-        margin-left: 250px;
     }
     .table{
         box-sizing: border-box;
@@ -56,6 +56,7 @@
                 <h2><b>거래 리스트</b></h2>
                 <br>
             </div>
+            <div class="outer-2">
             <div class="menu">
                 <div class="menu1">
                     <div class="btn-group-toggle" data-toggle="buttons">
@@ -149,7 +150,7 @@
             
             <div class="biddingList-area">
                 <br>
-                <table class="table table-hover" style="table-layout: fixed; width: 1100px">
+                <table class="table table-hover">
                     <thead class="thead-dark">
                         <tr>
                             <th style="width: 8%;">입찰번호</th>
@@ -205,7 +206,7 @@
             </div>
             <br><br>
         
-
+        </div>
     </div>
     <script>
         function toMoney(num) {
