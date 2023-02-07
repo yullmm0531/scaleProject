@@ -158,24 +158,18 @@
                     <div class="sideMenu-div">
                         <li><a href="">쇼핑정보</a>
                             <ul>
-                                <li><a href="<%=contextPath %>/userBuyList.us">구매내역</a></li>
+                                <li><a href="<%=contextPath %>/userBuyList.us?userNo=<%=userNo%>">구매내역</a></li>
                                 
                                 <li>
                                 	<a href="<%=contextPath %>/userSellList.us?userNo=<%=userNo%>">판매내역</a>
-                                	<!-- 
-                                	<form action="<%= contextPath %>/userSellList.us" method="post">
-					        			<input type="hidden" name="userNo" value="<%=userNo%>">
-					        	
-					        			<button type="submit" class="btn btn-secondary btn-sm" class="moveList">판매내역</button>
-				        			</form>
-				        			 -->
+                                	
                                 </li>
                                 
-                                <li><a href="">구매입찰</a></li>
+                                
 
                                 <li><a href="<%=contextPath %>/userSellBidding.us?userNo=<%=userNo%>">판매입찰</a></li>
                                 
-                                <li><a href="<%=contextPath %>/userLikeList.us">찜목록</a></li>
+                                
                             </ul>
                         </li>
                     </div>
@@ -184,7 +178,7 @@
                         <li><a href="">내정보</a>
                             <ul>
                                 <li><a href="<%=contextPath%>/userInfoUpdate.us">회원정보수정</a></li>
-                                <li><a href="<%=contextPath%>/paymentAndShippingOnlyView.us">결제 및 배송정보</a></li>
+                                <li><a href="<%=contextPath%>/paymentAndShippingView.us">결제 및 배송정보</a></li>
                                 
                             </ul>
                         </li>
@@ -279,9 +273,9 @@
 				            </div>
 				            
 				                <div id="selling-account-div">
-				                    <div id="selling-account-tag"><span><%= b.getBankName() %></span></div>
-				                    <div id="selling-account-tag"><span><%= b.getBankOwnerName() %></span></div>
-				                    <div id="selling-account"><span><%= b.getBankAccount() %></span></div>
+				                    <div id="selling-account-tag"><span><%= s.getBankName() %></span></div>
+				                    <div id="selling-account-tag"><span><%= s.getBankAccountOwner() %></span></div>
+				                    <div id="selling-account"><span><%= s.getBankAccount() %></span></div>
 				                </div>
 				                
 				                <br>
@@ -295,18 +289,18 @@
 				            <div class="underline"></div>
 				                <div id="shipping-address-div">
 				                    <div id="shipping-address-tag"><span>받는사람</span></div>
-				                    <div id="shipping-address"><span><%= b.getRecipientName() %></span></div>
+				                    <div id="shipping-address"><span><%= s.getRecipientName() %></span></div>
 				                </div>
 				
 				                <div id="shipping-address-div">
 				                    <div id="shipping-address-tag"><span>연락처</span></div>
-				                    <div id="shipping-address"><span><%= b.getRecipientPhone() %></span></div>
+				                    <div id="shipping-address"><span><%= s.getRecipientPhone() %></span></div>
 				                </div>
 				
 				                <div id="shipping-address-div">
 				                    <div id="shipping-address-tag"><span>주소</span></div>
 				                    
-				                    <div id="shipping-address"><span><%= b.getRecipientAddress() %></span></div>
+				                    <div id="shipping-address"><span><%= s.getRecipientAddress() %></span></div>
 				                </div>
 				                <div class="underline"></div>
 				        </div>
@@ -321,7 +315,7 @@
 				            
 				                <div id="shipping-request-div">
 				                    <div id="shipping-request-tag"><span>요청사항</span></div>
-				                    <div id="shipping-request"><span><%= b.getRecipientShippingMsg() %></span></div>
+				                    <div id="shipping-request"><span><%= s.getRecipientShippingMsg() %></span></div>
 				                </div>
 				                
 				                

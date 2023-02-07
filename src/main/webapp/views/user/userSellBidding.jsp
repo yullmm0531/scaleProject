@@ -181,11 +181,11 @@
                                 <li><a href="<%=contextPath %>/userBuyList.us?userNo=<%=userNo%>">구매내역</a></li>
                                 <li><a href="<%=contextPath %>/userSellList.us?userNo=<%=userNo%>">판매내역</a></li>
                                 
-                                <li><a href="">구매입찰</a></li>
+                                
 
                                 <li><a href="<%=contextPath %>/userSellBidding.us?userNo=<%=userNo%>">판매입찰</a></li>
                                 
-                                <li><a href="<%=contextPath %>/userLikeList.us">찜목록</a></li>
+                                
                             </ul>
                         </li>
                     </div>

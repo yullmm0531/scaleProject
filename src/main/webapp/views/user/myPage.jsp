@@ -208,20 +208,14 @@
                                 
                                 <li>
                                 	<a href="<%=contextPath %>/userSellList.us?userNo=<%=userNo%>">판매내역</a>
-                                	<!-- 
-                                	<form action="<%= contextPath %>/userSellList.us" method="post">
-					        			<input type="hidden" name="userNo" value="<%=userNo%>">
-					        	
-					        			<button type="submit" class="btn btn-secondary btn-sm" class="moveList">판매내역</button>
-				        			</form>
-				        			 -->
+                                	
                                 </li>
                                 
-                                <li><a href="">구매입찰</a></li>
+                                
 
                                 <li><a href="<%=contextPath %>/userSellBidding.us?userNo=<%=userNo%>">판매입찰</a></li>
                                 
-                                <li><a href="<%=contextPath %>/userLikeList.us">찜목록</a></li>
+                                
                             </ul>
                         </li>
                     </div>
@@ -242,6 +236,7 @@
             	String userId = loginUser.getUserId();
             	String email = loginUser.getEmail();
             	String nickName = loginUser.getUserNickName();
+            	String profileImg = loginUser.getProfileImg();
             %>
 
             <div id="content-2">
@@ -251,7 +246,7 @@
             
                         <div class="user_detail">
                             <div class="user_thumb">
-                                <img src="" alt="사용자이미지" id="thumb_img">
+                                <img src="<%=profileImg %>" alt="사용자이미지" id="thumb_img">
                                 
                             </div>
                             <div class="user_info">
@@ -267,64 +262,13 @@
             
                     </div>
                     <br><br>
-                    <div class="inside-outer">
-                        <h4 id="sellingList">판매내역</h4>
-                    <div class="buttonDiv1"><a href="<%=contextPath %>/userSellList.us" type="button" class="btn btn-dark" id="selligDetail">더보기</a></div>
-                        <div class="outLine">  
-                            <div class="userSelling">
-                                <div class="userSellingBox" align="center">
-                                    <div class="a">
-                                        <span>발송중<br>0</span>
-                                    </div>
-                                    <div class="a">
-                                        <span>발송중<br>0</span>
-                                    </div>
-                                    <div class="a">
-                                        <span>발송중<br>0</span>
-                                    </div>
-                                    <div class="a">
-                                        <span>발송중<br>0</span>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    <br><br><br><br>
-                    </div>
                     
             
                     
-                    <div class="inside-outer">
-                        <div class="buttonDiv2"><a href="<%=contextPath %>/userBuyList.us" type="button" class="btn btn-dark">더보기</a></div>
-                
-                        <div class="outLine">
-                            
-                            <div class="userBuying">
-                                <div id="buyingList-div"><h4 id="buyingList">구매내역</h4></div>
-                                <div class="userBuyingBox" align="center">
-                                    <div class="b">
-                                        <span>발송중<br>0</span>
-                                    </div>
-                                    <div class="b">
-                                        <span>발송중<br>0</span>
-                                    </div>
-                                    <div class="b">
-                                        <span>발송중<br>0</span>
-                                    </div>
-                                    <div class="b">
-                                        <span>발송중<br>0</span>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
+                    
                         
             
-                        <div id="likeList-div">
-                            <h4 id="likeList">찜 목록</h4>
-                            <a href="<%=contextPath %>/userLikeList.us" type="button" class="btn btn-dark" id="buttonDiv3">찜 더보기</a>
-                        </div>
+                        
                 </div>
 
             </div>
