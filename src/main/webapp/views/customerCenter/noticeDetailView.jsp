@@ -85,6 +85,7 @@
             <div>
                 <a class="btn btn-secondary" href="list.no?cpage=1">목록</a>
             </div>
+            <br><br><br>
         </div>
 </body>
 </html>

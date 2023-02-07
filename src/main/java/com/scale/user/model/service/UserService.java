@@ -186,6 +186,13 @@ public class UserService {
 		return list;
 	}
 	
+	public ArrayList<Address> selectbasicAddressF(int userNo) {
+		Connection conn = getConnection();
+		ArrayList<Address> list = new UserDao().selectbasicAddressF(conn, userNo);
+		close(conn);
+		return list;
+	}
+	
 	public User updateNickname(User u) {
 		Connection conn = getConnection();
 		int result = new UserDao().updateNickname(conn, u);

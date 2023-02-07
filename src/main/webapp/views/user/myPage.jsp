@@ -59,7 +59,7 @@
             margin-top: 1.9%;
             margin-left: 1%;
         }
-        #thumb_img{width: 100%; height: 100%;}
+        #thumb_img{width: 50%; height: 50%;}
         .user_info{
             border: 1px solid gray;
             width:  70%;
@@ -224,7 +224,7 @@
                         <li><a href="">내정보</a>
                             <ul>
                                 <li><a href="<%=contextPath%>/userInfoUpdate.us">회원정보수정</a></li>
-                                <li><a href="<%=contextPath%>/paymentAndShippingView.us">결제 및 배송정보</a></li>
+                                <li><a href="<%=contextPath%>/paymentAndShippingView.us?userNo=<%=userNo%>">결제 및 배송정보</a></li>
                                 
                             </ul>
                         </li>
