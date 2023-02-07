@@ -37,7 +37,7 @@ public class ProcessReportController extends HttpServlet {
 		int userNo = Integer.parseInt(request.getParameter("userNo"));
 		int result = new StyleService().processReport(repNo, userNo);
 		User reportedUser = new UserService().selectUserByUserNo(userNo);
-		System.out.println(reportedUser);
+		
 		if(result == 0) {
 			request.getSession().setAttribute("alertMsg", "신고처리 실패");
 		} else {
