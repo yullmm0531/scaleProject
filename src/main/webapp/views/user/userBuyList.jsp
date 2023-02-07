@@ -203,7 +203,7 @@
 			                        <li><a href="">내정보</a>
 			                            <ul>
 			                                <li><a href="<%=contextPath%>/userInfoUpdate.us">회원정보수정</a></li>
-			                                <li><a href="<%=contextPath%>/paymentAndShippingView.us">">결제 및 배송정보</a></li>
+			                                <li><a href="<%=contextPath%>/paymentAndShippingView.us">결제 및 배송정보</a></li>
 			                                
 			                            </ul>
 			                        </li>
@@ -216,26 +216,7 @@
 	 <div id="content-2">
 	 
 				 <div class="outer">
-			        <div class="title-div"><h4>구매내역</h4></div>
-			
-			            <div id="list-outLine">
-			                <div id="list-outLine2">
-			                    <div id="buyingList-div1" class="buyingList-div">
-			                        <div class="buying-count" align="center"><span>0</span></div>
-			                        <div class="buying-tag" align="center"><span>구매입찰</span></div>
-			                    </div>
-			                    <div id="buyingList-div2" class="buyingList-div">
-			                        <div class="buying-count" align="center"><span>0</span></div>
-			                        <div class="buying-tag" align="center"><span>진행중</span></div>
-			                    </div>
-			                    <div id="buyingList-div3" class="buyingList-div">
-			                        <div class="buying-count" align="center"><span>0</span></div>
-			                        <div class="buying-tag" align="center"><span>종료</span></div>
-			                    </div>
-			                </div>
-			                
-			        </div>
-			        <div class="underline"></div>
+			        
 			        <br><br>
 			        <div class="title-div"><h4>구매한 상품 목록</h4></div>
 			        

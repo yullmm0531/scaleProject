@@ -210,26 +210,7 @@
 	 <div id="content-2">
 	 
 	 	<div class="outer">
-        <div class="title-div"><h4>판매내역</h4></div>
-
-            <div id="list-outLine">
-                <div id="list-outLine2">
-                    <div id="sellingList-div1" class="sellingList-div">
-                        <div class="selling-count" align="center"><span>0</span></div>
-                        <div class="selling-tag" align="center"><span>판매입찰</span></div>
-                    </div>
-                    <div id="sellingList-div2" class="sellingList-div">
-                        <div class="selling-count" align="center"><span>0</span></div>
-                        <div class="selling-tag" align="center"><span>진행중</span></div>
-                    </div>
-                    <div id="sellingList-div3" class="sellingList-div">
-                        <div class="selling-count" align="center"><span>0</span></div>
-                        <div class="selling-tag" align="center"><span>종료</span></div>
-                    </div>
-                </div>
-                
-        </div>
-        <div class="underline"></div>
+        
         <br><br>
         <div class="title-div">
         	<h4>판매한 상품 목록</h4>
