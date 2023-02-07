@@ -787,6 +787,7 @@ public class StyleDao {
 				st.setHashtag(rset.getString("hashtag"));
 				st.setStyleWriter(rset.getString("user_nickname"));
 				st.setUserNo(rset.getInt("user_no"));
+				st.setProfileImg(rset.getString("profile_img"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -817,6 +818,7 @@ public class StyleDao {
 				st.setHashtag(rset.getString("hashtag"));
 				st.setStyleWriter(rset.getString("user_nickname"));
 				st.setUserNo(rset.getInt("user_no"));
+				st.setProfileImg(rset.getString("profile_img"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
