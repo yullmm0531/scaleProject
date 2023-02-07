@@ -120,7 +120,12 @@
         	font-size:15px;
         }
         
-        
+        .bannerimg{
+            box-sizing:border-box;
+            width:100%;
+            height:600px;
+        }
+
   </style>
 </head>
 <body>
@@ -167,38 +172,8 @@
 
         <div id="pcontent">
             <div id="pcontent-1" style="margin-top:60px">
-                 <span><h3>필터</h3></span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  
-                 <div class="category-box">
-                    <li class="cate" style="cursor:pointer">
-                        카테고리
-                        <ul class="sub" style="display:none">
-                            <li><input type="checkbox" id="ckb1" class="chk">신발</li>
-                            <li><input type="checkbox" id="ckb2" class="chk">지갑</li>
-                            <li><input type="checkbox" id="ckb3" class="chk">테크</li>
-                        </ul>
-                    </li>
-                    <li class="brand" style="cursor:pointer">
-                        브랜드
-                        <ul class="sub1" style="display:none">
-                            <div id="b-box" style="overflow:auto; width:120px; height:100px">
-                             <% for(Brand b : blist){ %>
-                            <li><input type="radio" class="chk"><%= b.getBrandName() %></li>
-                             <% } %>
-                            </div>
-                        </ul>
-                    </li>
-                    <li  class="size" style="cursor:pointer">
-                        사이즈
-                        <ul class="sub2" style="display:none">
-                            <li><button>220</button><button>225</button><button>230</button></li>
-                            <li><button>235</button><button>240</button><button>245</button></li>
-                            <li><button>250</button><button>255</button><button>260</button></li>
-                            <li><button>265</button><button>270</button><button>275</button></li>
-                            <li><button>280</button><button>285</button><button>290</button></li>
-                            <li><button>295</button><button>300</button></li>
-                        </ul>
-                    </li>
-                  
+                 <div class="banner">
+                    <image src="resources/images/banner1.jpg" class="bannerimg"></image>
                 </div>
             </div>
             <div id="pcontent-2">
