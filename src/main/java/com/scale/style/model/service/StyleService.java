@@ -464,6 +464,13 @@ public class StyleService {
 		return result;
 	}
 	
+	public int selectReportCountByOnlyStatus(int select) {
+		Connection conn = getConnection();
+		int result = new StyleDao().selectReportCountByOnlyStatus(conn, select);
+		close(conn);
+		return result;
+	}
+	
 	public ArrayList<StyleReport> selectSearchReport(PageInfo pi, String select, String id){
 		Connection conn = getConnection();
 		switch(select) {
@@ -478,6 +485,13 @@ public class StyleService {
 		} else {
 			list = new StyleDao().selectReportByStatus(conn, pi, id, select);
 		}
+		close(conn);
+		return list;
+	}
+	
+	public ArrayList<StyleReport> selectReportByOnlyStatus(PageInfo pi, int select){
+		Connection conn = getConnection();
+		ArrayList<StyleReport> list = new StyleDao().selectReportByOnlyStatus(conn, pi, select);
 		close(conn);
 		return list;
 	}
