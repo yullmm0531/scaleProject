@@ -147,7 +147,7 @@
         padding:10px;
     }
     #zipCode{
-        width:350px; display:inline-block;
+        width:330px; display:inline-block;
     }
     ::placeholder{font-size:12px;}
     .check-input{

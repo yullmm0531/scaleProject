@@ -101,7 +101,7 @@
         .terms-detail span{
             color: blue;
             text-decoration: underline;
-        
+        }
     </style>
 </head>
 <body>
@@ -165,7 +165,7 @@
                                     size += <%= (pList.get(i)).getpSize() %> + ", ";
                                     price += "<%= (pList.get(i)).getbPrice() %>" + "/ ";
                                 <% } %>
-                                size += <%= (pList.get(pList.size()-1)).getpSize() %>;
+                                size += "<%= (pList.get(pList.size()-1)).getpSize() %>";
                                 price += "<%= (pList.get(pList.size()-1)).getbPrice() %>";
                             <% } %>
                             var sizeArr = size.split(", ");

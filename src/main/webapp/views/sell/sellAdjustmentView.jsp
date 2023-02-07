@@ -170,7 +170,7 @@
         #shippingZipCode{
             border: none;
             background-color: whitesmoke;
-            width: 75px;
+            width: 80px;
         }
         #shippingAddress{
             border: none;
@@ -180,7 +180,7 @@
 	    #userAccBank{
 	    	border: none;
 	        background-color: whitesmoke;
-            width: 75px;
+            width: 85px;
 	    }
 	    #userAccNum{
 	    	border: none;
@@ -191,7 +191,8 @@
             padding:10px;
         }
         #zipCode{
-            width:350px; display:inline-block;
+            width:330px; 
+            display:inline-block;
         }
         ::placeholder{font-size:12px;}
         .check-input{
@@ -1070,9 +1071,7 @@
                     }
                 })
             })
-            function addressList(){
-
-            }
+            
         </script>
         <br><br>
     </div>
