@@ -59,7 +59,7 @@
             margin-top: 1.9%;
             margin-left: 1%;
         }
-        #thumb_img{width: 100%; height: 100%;}
+        #thumb_img{width: 50%; height: 50%;}
         .user_info{
             border: 1px solid gray;
             width:  70%;
