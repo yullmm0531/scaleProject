@@ -60,26 +60,11 @@
 <div class="wrap">
 	<div id="navigator">
 		<ul id="navi">
-			<li>
-				<a href="">상품 관리</a>
-				<ul>
-					<li><a href="<%= contextPath %>/adplist.apd">상품 검색/목록</a></li>
-					<li><a href="">상품 등록</a></li>
-					<li><a href="">상품 수정</a></li>
-				</ul>
-			</li>
+			<img src="<%= contextPath %>/resources/images/logo.png" width="200">
 			<li><a href="">결제 관리</a>
 				<ul>
 					<li><a href="<%= contextPath %>/biddingList.ad?cpage=1">입찰 리스트</a></li>
 					<li><a href="<%= contextPath %>/dealList.ad?cpage=1">거래내역</a></li>
-				</ul>
-			</li>
-			<li><a href="">회원 관리</a>
-				<ul>
-					<li><a href="">HTML</a></li>
-					<li><a href="">CSS</a></li>
-					<li><a href="">JavaScript</a></li>
-					<li><a href="">jQuery</a></li>
 				</ul>
 			</li>
 			<li><a href="">스타일 관리</a>
@@ -93,10 +78,6 @@
 					<li><a href="<%=contextPath%>/noticeList.ad?cpage=1">공지사항 관리</a></li>
 					<li><a href="<%=contextPath%>/faqList.ad?cpage=1">자주묻는질문 관리</a></li>
 					<li><a href="<%=contextPath%>/inquireList.ad?cpage=1">1:1문의 관리</a></li>
-				</ul>
-			</li>
-			<li><a href="">배너 관리</a>
-				<ul>
 				</ul>
 			</li>
 			<li><a href="">정책 관리</a>
