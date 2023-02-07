@@ -35,7 +35,7 @@ public class AdminProductInsertController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		/*
 		request.setCharacterEncoding("UTF-8");
 		
 		if(ServletFileUpload.isMultipartContent(request)) {
@@ -79,7 +79,7 @@ public class AdminProductInsertController extends HttpServlet {
 			request.setAttribute("errorMsg", "일반게시글 작성 실패");
 			}
 		}
-		
+		*/
 	}
 
 	/**

@@ -56,7 +56,6 @@ public class AjaxProductListController extends HttpServlet {
 		pmap.put("clickLike", clickLike);
 		pmap.put("userLike", userLike);
 		
-		
 		response.setContentType("application/json; charset=UTF-8");
 		new Gson().toJson(pmap, response.getWriter());
 	

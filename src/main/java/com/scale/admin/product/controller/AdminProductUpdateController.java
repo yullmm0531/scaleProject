@@ -36,7 +36,7 @@ public class AdminProductUpdateController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-
+/*
 		request.setCharacterEncoding("UTF-8");
 		
 		if(ServletFileUpload.isMultipartContent(request)) {
@@ -92,8 +92,9 @@ public class AdminProductUpdateController extends HttpServlet {
 				//실패 
 				
 			}
-	
+	*/
 	}
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
