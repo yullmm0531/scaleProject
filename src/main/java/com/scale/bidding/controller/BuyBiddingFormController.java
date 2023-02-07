@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.scale.bidding.model.service.BiddingService;
 import com.scale.bidding.model.vo.Bidding;
+import com.scale.policy.model.service.PolicyService;
+import com.scale.policy.model.vo.Policy;
 import com.scale.product.model.service.ProductService;
 import com.scale.product.model.vo.Product;
 
@@ -37,6 +39,13 @@ public class BuyBiddingFormController extends HttpServlet {
 		Product p = new ProductService().selectProduct(pCode);
 		ArrayList<Bidding> pList = new BiddingService().selectSellBiddingPriceList(pCode);
 		
+		int terms = 2;
+		Policy t = new PolicyService().selectPolicy(terms);
+		int inspec = 1;
+		Policy i = new PolicyService().selectPolicy(inspec);
+		
+		request.setAttribute("t", t);
+		request.setAttribute("i", i);
 		request.setAttribute("p", p);
 		request.setAttribute("pList", pList);
 		

@@ -82,46 +82,29 @@
             
         </div>
         <script>
-            var flag = true;
-            const $dealStatus = $(".dealStatus input");
-
-            // 거래상태 전체
-            $("#all").click(function(){
-                if($(this).is(":checked")){
-                    $dealStatus.prop("checked", true);
-                } else {
-                    $dealStatus.prop("checked", false);
-                }
-                
+            $("#biddingList").click(function(){
+                location.href = "<%= contextPath %>/biddingList.ad?cpage=1"
             })
-
-            // 거래상태 개별체크에 따른 전체 체크여부
-            $dealStatus.click(function(){
-                if($dealStatus.is(":checked").length == 7){
-                    $("#all").prop("checked", true);
-                } else{
-                    $("#all").prop("checked", false);
-                }
+            $("#dealList").click(function(){
+                location.href = "<%= contextPath %>/dealList.ad?cpage=1"
             })
-
-            $("")
 
         </script>
         
-        <div class="biddingList-area">
+        <div class="biddingList-area" align="center">
             <br>
-            <table class="table table-hover" style="table-layout: fixed; width: 1100px">
+            <table class="table table-hover" style="table-layout: fixed; width: 1200px">
                 <thead class="thead-dark">
                     <tr>
                         <th style="width: 8%;">입찰번호</th>
                         <th style="width: 8%;">상품번호</th>
-                        <th style="width: 26%;">상품명</th>
+                        <th style="width: 22%;">상품명</th>
                         <th style="width: 8%;">판매자</th>
                         <th style="width: 8%;">구매자</th>
                         <th style="width: 10%;">입고완료일</th>
                         <th style="width: 10%;">검수완료일</th>
                         <th style="width: 10%;">출고일</th>
-                        <th style="width: 12%;" colspan="2">진행상태</th>
+                        <th style="width: 16%;" colspan="2">진행상태</th>
                     </tr>
                     </thead>
                 <tbody class="listSpace">
@@ -145,7 +128,21 @@
                                 <td><%= b.getStoreDate() %></td>
                                 <td><%= b.getInspectionDate() %></td>
                                 <td><%= b.getShipDate() %></td>
-                                <td class="dealStatus"><%= b.getdStep() %></td>
+                                <% if(b.getdStep().equals("0")) { %>
+                                    <td class="dealStatus">입고전</td>
+                                <% } else if(b.getdStep().equals("1")) { %>
+                                    <td class="dealStatus">입고완료</td>
+                                <% } else if(b.getdStep().equals("2")) { %>
+                                    <td class="dealStatus">검수중</td>
+                                <% } else if(b.getdStep().equals("3")) { %>
+                                    <td class="dealStatus">검수완료</td>
+                                <% } else if(b.getdStep().equals("4")) { %>
+                                    <td class="dealStatus">검수미통과</td>
+                                <% } else if(b.getdStep().equals("5")) { %>
+                                    <td class="dealStatus">발송완료</td>
+                                <% } else { %>
+                                    <td class="dealStatus">거래완료</td>
+                                <% } %>
                                 <td><input type="button" class="btn btn-outline-secondary btn-sm stepChange" value="변경" data-toggle="modal" data-target="#changeStep"></td>
                             </tr>
                         <% } %>
@@ -231,7 +228,21 @@
                         value += "<td>" + b.storeDate + "</td>";
                         value += "<td>" + b.inspectionDate + "</td>";
                         value += "<td>" + b.shipDate + "</td>";
-                        value += "<td class='dealStatus'>" + b.dStep + "</td>";
+                        if(b.dStep == 0){
+                            value += "<td class='dealStatus'>입고전</td>";
+                        } else if(b.dStep == 1){
+                            value += "<td class='dealStatus'>입고완료</td>";
+                        } else if(b.dStep == 2){
+                            value += "<td class='dealStatus'>검수중</td>";
+                        } else if(b.dStep == 3){
+                            value += "<td class='dealStatus'>검수완료</td>";
+                        } else if(b.dStep == 4){
+                            value += "<td class='dealStatus'>검수미통과</td>";
+                        } else if(b.dStep == 5){
+                            value += "<td class='dealStatus'>발송완료</td>";
+                        } else{
+                            value += "<td class='dealStatus'>거래완료</td>";
+                        } 
                         value += "<td><input type='button' class='btn btn-outline-secondary btn-sm stepChange' value='변경' data-toggle='modal' data-target='#changeStep'></td>";
                         $("#" + b.bNo).html(value);
                         

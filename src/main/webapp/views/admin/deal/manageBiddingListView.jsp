@@ -65,7 +65,16 @@
                             <input type="radio" name="options" id="dealList" value="dealList"> 체결거래
                         </label>
                     </div>
-                </div>    
+                </div>  
+                <script>
+                    $("#biddingList").click(function(){
+                        location.href = "<%= contextPath %>/biddingList.ad?cpage=1"
+                    })
+                    $("#dealList").click(function(){
+                        location.href = "<%= contextPath %>/dealList.ad?cpage=1"
+                    })
+        
+                </script>  
                 <div class="space"></div>
                 <div class="line"></div>
                 <div class="space"></div>

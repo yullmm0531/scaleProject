@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.scale.product.model.vo.*, java.util.ArrayList, com.scale.bidding.model.vo.Bidding, java.text.DecimalFormat" %>
+<%@ page import="com.scale.product.model.vo.*, java.util.ArrayList, com.scale.bidding.model.vo.Bidding, java.text.DecimalFormat, com.scale.policy.model.vo.*" %>
 <% 
 	Product p = (Product)request.getAttribute("p");
 	ArrayList<Bidding> pList = (ArrayList<Bidding>)request.getAttribute("pList");
+    Policy t = (Policy)request.getAttribute("t");
+    Policy I = (Policy)request.getAttribute("i");
 	DecimalFormat formatter = new DecimalFormat("###,###");
 %> 
 <!DOCTYPE html>
@@ -298,7 +300,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <div class="terms-detail"><a href="">검수기준 보기</a></div>
+                                <div class="terms-detail"><a data-toggle="modal" data-target="#modal-i">검수기준 보기</a></div>
                             </td>
                         </tr>
                         <tr>
@@ -331,7 +333,7 @@
                         <tr>
                             <td>
                                 <div class="terms">
-                                    KREAM의 최신 이용정책을 모두 확인하였으며, 판매를 계속합니다.
+                                    SCALE의 최신 이용정책을 모두 확인하였으며, 판매를 계속합니다.
                                 </div>
                             </td>
                             <th rowspan="3"><input type="checkbox" id="term5"></th>
@@ -343,11 +345,56 @@
                         </tr>
                         <tr>
                             <td>
-                                <div class="terms-detail"><a href="">이용정책 보기</a></div>
+                                <div class="terms-detail"><a data-toggle="modal" data-target="#modal-t">이용정책 보기</a></div>
                             </td>
                         </tr>
                     </table>
                 </div>
+
+                <!-- SCALE 서비스 이용약관 -->
+					<div class="modal" id="modal-t">
+                        <div class="modal-dialog modal-dialog-scrollable">
+                          <div class="modal-content">
+                      
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                              <h4 class="modal-title">SCALE 서비스 이용약관</h4>
+                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                      
+                            <!-- Modal body -->
+                            <% if(t != null) {%>
+                               <div class="modal-body"><%= t.getPolicyContent() %></div>
+                            <%}else{ %>
+                               <div class="modal-body"><%= t.getPolicyContent() %></div>
+                            <%} %>
+                          </div>
+                        </div>
+                    </div>
+
+
+                <!-- 검수정책 -->
+					<div class="modal" id="modal-i">
+                        <div class="modal-dialog modal-dialog-scrollable">
+                          <div class="modal-content">
+                      
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                              <h4 class="modal-title">SCALE 검수기준</h4>
+                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                      
+                            <!-- Modal body -->
+                            <% if(I != null) {%>
+                               <div class="modal-body"><%= I.getPolicyContent() %></div>
+                            <%}else{ %>
+                               <div class="modal-body"><%= I.getPolicyContent() %></div>
+                            <%} %>
+                          </div>
+                        </div>
+                      </div>
+
+
                 <br><br>
                 <div align="center">
                     <button type="button" class="btn btn-outline-secondary" onclick="history.back();">취소</button>
