@@ -703,7 +703,7 @@
 		        )
 		 WHERE RNUM BETWEEN ? AND ?
 	</entry>
-	
+
 	<entry key="selectReportByOnlyStatus">
 		SELECT
 		       *
@@ -732,4 +732,5 @@
 		        )
 		 WHERE RNUM BETWEEN ? AND ?
 	</entry>
+
 </properties>

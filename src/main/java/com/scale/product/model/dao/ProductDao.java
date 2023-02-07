@@ -15,6 +15,8 @@ import com.scale.product.model.vo.Brand;
 import com.scale.product.model.vo.Like;
 import com.scale.product.model.vo.Product;
 import com.scale.product.model.vo.ProductImg;
+import com.scale.style.model.vo.Style;
+import com.scale.style.model.vo.StyleImg;
 
 public class ProductDao {
 
@@ -537,6 +539,67 @@ public class ProductDao {
 		
 		return userLike;
 		
+	}
+	
+	
+	public ArrayList<Style> selectReviewStyle(Connection conn, String pCode){
+		
+		ArrayList<Style> stList = new ArrayList<Style> ();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectReviewStyle");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pCode);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Style st = new Style(rset.getInt("style_no"),
+									 rset.getString("style_content"),
+									 rset.getString("hashtag"),
+									 rset.getString("user_id"));
+				stList.add(st);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return stList;
+		
+	}
+	
+	
+	public StyleImg selectReviewImg(Connection conn, int styleNo){
+		
+		StyleImg si = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectReviewImg");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, styleNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				si = new StyleImg(rset.getString("file_path"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return si;
 	}
 
 

@@ -311,33 +311,25 @@
   
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+  	<entry key="selectReviewStyle">
+		SELECT STYLE_NO
+		     , STYLE_CONTENT
+		     , HASHTAG
+		     , USER_ID
+		  FROM TB_STYLE_PD P
+		  JOIN TB_STYLE USING (STYLE_NO)
+		  JOIN TB_USER USING (USER_NO)
+		 WHERE PRODUCT_CODE = ?
+		 ORDER
+		    BY STYLE_NO DESC
+	</entry>
+	
+	<entry key="selectReviewImg">
+		SELECT FILE_PATH || CHANGE_NAME "FILE_PATH"
+		  FROM TB_STYLE_IMG
+		 WHERE FILE_LEVEL = 1
+		   AND STYLE_NO = ?
+	</entry>
   
   
   
@@ -352,11 +344,6 @@
 		 GROUP
 		    BY PRODUCT_CODE
   	</entry>
-  
-  
-  
-  
-  
   
   
   

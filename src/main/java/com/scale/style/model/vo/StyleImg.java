@@ -36,6 +36,13 @@ public class StyleImg {
 		this.styleNo = styleNo;
 		this.fileLevel = fileLevel;
 	}
+	
+	
+
+	public StyleImg(String filePath) {
+		super();
+		this.filePath = filePath;
+	}
 
 	public int getImgNo() {
 		return imgNo;
