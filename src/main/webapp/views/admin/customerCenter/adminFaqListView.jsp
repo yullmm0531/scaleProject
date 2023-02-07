@@ -345,6 +345,7 @@
                         value += "<a class='card-link' data-toggle='collapse' href='#collapse" + (j+(10*(cpage-1))) + "'>";
                         value += "<span>[" + list[j].category + "]</span>" + list[j].faqQuestion + "</a>";
                         value += "<span class='writer'>작성자 : " + list[j].faqWriter + "</span>";
+                        value += "<span class='modify-date'>최종수정일 : " + list[j].modifyDate + "</span>";
                         value += "<button type='button' class='btn btn-outline-primary edit-btn' data-toggle='modal' data-target='#edit-modal" + (j+(10*(cpage-1))) +"'>수정</button>";
                         value += "<button class='btn btn-outline-danger delete-btn' onclick='deleteFaq();'>삭제</button></div>";
                         value += "<div id='collapse" + (j+(10*(cpage-1))) +"' class='collapse' data-parent='#accordion'>";
@@ -521,6 +522,7 @@
                             value += "<a class='card-link' data-toggle='collapse' href='#collapse" + (j+(10*(cpage-1))) + "'>";
                             value += "<span>[" + searchList[j].category + "]</span>" + searchList[j].faqQuestion + "</a>";
                             value += "<span class='writer'>작성자 : " + searchList[j].faqWriter + "</span>";
+                            value += "<span class='modify-date'>최종수정일 : " + searchList[j].modifyDate + "</span>";
                             value += "<button type='button' class='btn btn-outline-primary edit-btn' data-toggle='modal' data-target='#edit-modal" + (j+(10*(cpage-1))) +"'>수정</button>";
                             value += "<button class='btn btn-outline-danger delete-btn' onclick='deleteFaq();'>삭제</button></div>";
                             value += "<div id='collapse" + (j+(10*(cpage-1))) +"' class='collapse' data-parent='#accordion'>";
