@@ -692,6 +692,17 @@ public class UserDao {
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
+				list.add(new Product(rset.getString("product_img_m"),
+						rset.getString("product_name_eng"),
+						rset.getString("brand_name"),
+						rset.getDate("bidding_date"),
+						rset.getInt("bidding_no"),
+						rset.getInt("product_code"),
+						rset.getString("product_size")
+									));
+			}
+			/*
+			while(rset.next()) {
 				Product p = new Product();
 				p.setProductImgM(rset.getString("product_img_m"));
 				p.setProductNameEng(rset.getString("product_name_eng"));
@@ -702,6 +713,7 @@ public class UserDao {
 				p.setProductSize(rset.getString("product_size"));
 				list.add(p);
 			}
+			*/
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
@@ -771,6 +783,7 @@ public class UserDao {
 			close(pstmt);
 			
 		}
+		System.out.println("Seller s : " + s);
 		return s;
 	}
 	

@@ -97,13 +97,14 @@ box-sizing: border-box;
 		String userPhone = loginUser.getPhone(); 
 		String userEmail = loginUser.getEmail();
 		String nickName = loginUser.getUserNickName();
+		String profileImg = loginUser.getProfileImg();
 	%>
 
     <div class="userMembership">
 
         <div class="user_detail">
             <div class="user_thumb">
-                <img src="resources/111500268.2.jpg" alt="사용자이미지" id="thumb_img">
+                <img src="<%=profileImg %>" alt="사용자이미지" id="thumb_img">
                 
             </div>
             <div class="user_info">

@@ -2,7 +2,7 @@
     pageEncoding="UTF-8" import="java.util.ArrayList, com.scale.product.model.vo.*"%>
     
 <%
-	// ArrayList<Product> list = (ArrayList<Product>)request.getAttribute("list");
+	ArrayList<Product> list = (ArrayList<Product>)request.getAttribute("list");
 	ArrayList<Brand> blist = (ArrayList<Brand>)request.getAttribute("blist");
 %>
 <!DOCTYPE html>

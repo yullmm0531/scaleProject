@@ -101,19 +101,15 @@ public class ProductDao {
 	}
 	
 	
-	public ArrayList<Product> selectProductSort(Connection conn, int currentPage, int boardLimit){
+	public ArrayList<Product> selectProductSort(Connection conn, String sortfilter){
 		ArrayList<Product> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		String sql = prop.getProperty("selectProductSort");
 		
 		try {
-			int startRow = (currentPage - 1) * boardLimit + 1;
-			int endRow = startRow + boardLimit - 1;
-			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, startRow);
-			pstmt.setInt(2, endRow);
+			
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
@@ -122,9 +118,9 @@ public class ProductDao {
 				p.setProductNameKo(rset.getString("product_name_ko"));
 				p.setProductNameEng(rset.getString("product_name_eng"));
 				p.setProductImgM(rset.getString("product_img_m"));
+				p.setProductCategory(rset.getString("product_category"));
 				p.setBrandName(rset.getString("brand_name"));
-				p.setCount(rset.getInt("Count"));
-				
+			
 				list.add(p);
 			}
 		} catch (SQLException e) {

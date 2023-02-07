@@ -35,11 +35,12 @@ public class ProductService {
 	}
 	
 	
-	public ArrayList<Product> selectProductSort(int currentPage, int boardLimit){
+	public ArrayList<Product> selectProductSort(String sortfilter){
 		Connection conn = getConnection();
-		ArrayList<Product> list = new ProductDao().selectProductListPage(conn,currentPage, boardLimit);
+		ArrayList<Product> list = new ProductDao().selectProductSort(conn,sortfilter);
 		close(conn);
 		return list;
+		
 	}
 	
 	public ArrayList<Brand> selectBrandList(){
