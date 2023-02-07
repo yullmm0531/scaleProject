@@ -1,7 +1,6 @@
 package com.scale.admin.bidding.controller;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.scale.admin.bidding.model.service.BiddingService;
 import com.scale.admin.bidding.model.vo.Bidding;
+import com.scale.user.model.service.UserService;
+import com.scale.user.model.vo.User;
 
 /**
  * Servlet implementation class AjaxUpdateDealStepController
@@ -45,6 +46,8 @@ public class AjaxUpdateDealStepController extends HttpServlet {
 		//System.out.println(b);
 		
 		if(result > 0) {
+			User reportedUser = new UserService().selectUserByUserNo(sellerNo);
+			request.getSession().setAttribute("loginUser", reportedUser);
 			response.setContentType("application/json; charset=UTF-8");
 			new Gson().toJson(b, response.getWriter());
 		} else {

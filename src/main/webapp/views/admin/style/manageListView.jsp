@@ -106,6 +106,13 @@
     .pagination{
         justify-content: center;
     }
+    #nothing{
+        width: 1000px;
+        font-size: 23px;
+        font-weight: bold;
+        margin-left: 700px;
+        margin-top: 100px;
+    }
 </style>
 </head>
 <body>
@@ -135,6 +142,22 @@
                 <button id="search-btn" onclick="click(this);">검색</button>
             </div>
         </form>
+
+        <script>
+            $(function(){
+                let select = "<%= select %>"
+                $("#standard option").each(function(){
+                    if($(this).val() == select){
+                        $(this).val(select).prop('selected', true);
+                    }
+                })
+
+                let keyword = "<%= keyword %>";
+                if(keyword != "null"){
+                    $("#search").val(keyword);
+                }
+            })
+        </script>
         
         <form action="<%= contextPath %>/deleteStyle.ad" method="post">
             <input type="hidden" name="cpage" value="<%= pi.getCurrentPage() %>">
@@ -145,6 +168,9 @@
             <hr>
 
             <div id="feed">
+                <% if(list.isEmpty()){ %>
+                    <p id="nothing">조회된 스타일이 없습니다.</p>
+                <% } %>
                 <% for(int i=0; i<list.size(); i++) { %>
                 <div>
                     <input type="checkbox" class="check" name="styleNo" value="<%= list.get(i).getStyleNo() %>">

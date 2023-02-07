@@ -75,6 +75,12 @@
     .pagination{
         justify-content: center;
     }
+
+    .answer-filter{
+        float:right;
+        margin-top:10px;
+        font-size:15px;
+    }
 </style>
 </head>
 <body>
@@ -94,7 +100,7 @@
                         <span>처리현황</span>
                         <select name="select" id="select">
                             <option value="all" id="all">전체</option>
-                            <option value="ready" id="ready">신고처리</option>
+                            <option value="ready" id="ready">신고접수</option>
                             <option value="report" id="report">처리완료</option>
                             <option value="reject" id="reject">반려</option>
                         </select>
@@ -106,7 +112,110 @@
                         <button type="submit" id="search-btn">검색</button>
                     </div>
                 </form>
-                <br>
+                <div class="answer-filter">
+                    <input type="checkbox" id="a-filter">   신고접수만 보기
+                </div>
+
+                <script>
+                    $(function(){
+                        let select = "<%= select %>"
+                        $("#select option").each(function(){
+                            if($(this).val() == select){
+                                $(this).val(select).prop('selected', true);
+                            }
+                        })
+
+                        let id = "<%= id %>";
+                        if(id != "null"){
+                            $("#search").val(id);
+                        }
+                    })
+
+                    $("#a-filter").change(function(){
+                        if($(this).is(':checked')){
+                            answerFilter(1);
+                        }else{
+                            location.href = "<%=contextPath%>/stylereport.ad?cpage=1";
+                        }
+                    })
+
+                    function answerFilter(c){
+                        $("tbody").empty();
+                        $(".paging-area").empty();
+                        let cpage = c;
+
+                        if($(this).attr("checked", true)){
+                            $.ajax({
+                                url:"<%= contextPath %>/searchReadyReport.ad",
+                                data:{"cpage":cpage, "select":0},
+                                success:function(map){
+                                    let list = map.list;
+                                    let pi = map.pi;
+                                    let value = "";
+                                    let paging = "";
+                                    
+                                    if(list.length == 0){
+                                        value = "<tr class='list-row'><td colspan='6' align='center'>조회된 게시물이 없습니다.</td></tr>";
+                                    }else{
+                                        for(let i=0; i<list.length; i++){{
+                                            switch(list[i].reportCheck) { 
+                                                case "0": list[i].reportCheck = "신고접수"; break;
+                                                case "1": list[i].reportCheck = "처리완료"; break;
+                                                case "2": list[i].reportCheck = "반려"; break;
+                                            }
+
+                                            value += "<tr class='list-row'>";
+                                            value += "<td>" + list[i].reportNo + "</td>";
+                                            value += "<input type='hidden' value='" + list[i].styleNo + "''>";
+                                            value += "<td>" + list[i].reportingId + "</td>";
+                                            value += "<td>" + list[i].title + "</td>";
+                                            value += "<td>" + list[i].reportedDate + "</td>";
+                                            value += "<td>" + list[i].reportedId + "</td>";
+                                            value += "<td>" + list[i].reportCheck + "</td>";
+                                            value += "</tr>";
+
+                                        }}
+                                            paging += "<ul class='pagination'>"
+                                        if(pi.currentPage != 1){
+                                            paging += "<li class='page-item'><a class='page-link' onclick='answerFilter("+(cpage-1)+");'>&lt;</a></li>";
+                                        }
+                                        for(let i=pi.startPage; i<=pi.endPage; i++){
+                                            paging += "<li class='page-item'><a class='page-link' onclick='answerFilter("+i+");'>" + i + "</a></li>";
+                                        }
+
+                                        if(pi.currentPage != pi.maxPage && pi.maxPage != 0){
+                                            paging += "<li class='page-item'><a class='page-link' onclick='answerFilter("+(cpage+1)+");'>&gt;</a></li>";
+                                        }
+                                            paging += "</ul>"
+                                    }
+                                
+                                    $("tbody").append(value);
+                                    $(".paging-area").append(paging);
+
+                                    $(".table tr:not(:first)").on("click", function(){
+                                        let repNo = $(this).children().eq(0).text();
+                                        let styleNo = $(this).children().eq(1).val();
+                                        location.href = "detailreport.ad?repNo=" + repNo + "&styleNo=" + styleNo + "&cpage=" + cpage;
+                                    })
+
+                                    // $(".paging-area>button").each(function(){
+                                    //     if($(this).text() == cpage){
+                                    //         $(this).addClass("page-active");
+                                    //     }
+                                    // })
+                                            
+                                },error:function(){
+                                    console.log("미답변 문의 통신 실패");
+                                }
+                                
+                                
+                            })
+                        }
+                        
+                    }
+                </script>
+
+                <br><br>
                 <table class="table table-hover">
                     <thead class="thead-dark">
                         <tr>
@@ -119,23 +228,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% if(list != null) { %>
-                        <% for(int i=0; i<list.size(); i++) { %>
-                        <tr class="list-row">
-                            <td><%= list.get(i).getReportNo() %></td>
-                            <input type="hidden" value="<%= list.get(i).getStyleNo() %>">
-                            <td><%= list.get(i).getReportingId() %></td>
-                            <td><%= list.get(i).getTitle() %></td>
-                            <td><%= list.get(i).getReportedDate() %></td>
-                            <td><%= list.get(i).getReportedId() %></td>
-                            <% switch(list.get(i).getReportCheck()) { 
-                            	case "0": list.get(i).setReportCheck("신고접수"); break;
-                            	case "1": list.get(i).setReportCheck("처리완료"); break;
-                            	case "2": list.get(i).setReportCheck("반려"); break;
-                             } %>
-                             <td><%= list.get(i).getReportCheck() %></td>
-                        </tr>
-                        <% } %>
+                        <% if(!list.isEmpty()) { %>
+                            <% for(int i=0; i<list.size(); i++) { %>
+                            <tr class="list-row">
+                                <td><%= list.get(i).getReportNo() %></td>
+                                <input type="hidden" value="<%= list.get(i).getStyleNo() %>">
+                                <td><%= list.get(i).getReportingId() %></td>
+                                <td><%= list.get(i).getTitle() %></td>
+                                <td><%= list.get(i).getReportedDate() %></td>
+                                <td><%= list.get(i).getReportedId() %></td>
+                                <% switch(list.get(i).getReportCheck()) { 
+                                    case "0": list.get(i).setReportCheck("신고접수"); break;
+                                    case "1": list.get(i).setReportCheck("처리완료"); break;
+                                    case "2": list.get(i).setReportCheck("반려"); break;
+                                } %>
+                                <td><%= list.get(i).getReportCheck() %></td>
+                            </tr>
+                            <% } %>
                         <% } else { %>
                             <tr class="list-row">
                                 <td colspan="6" align="center">조회된 게시물이 없습니다.</td>
@@ -154,47 +263,49 @@
             </script>
 
             <!-- 페이징 -->
-            <% if(select != null) { %>
-                <ul class="pagination">
-                    <% if(pi.getCurrentPage() != 1) { %>
-                    <li class="page-item">
-                        <a class="page-link" href="<%= contextPath %>/searchreport.ad?cpage=<%= pi.getCurrentPage()-1 %>">&lt;</a>
-                    </li>
-                    <% } %>
-                    
-                    <% for(int p=pi.getStartPage(); p<=pi.getEndPage(); p++) { %>
+            <div class="paging-area">
+                <% if(select != null) { %>
+                    <ul class="pagination">
+                        <% if(pi.getCurrentPage() != 1) { %>
                         <li class="page-item">
-                            <a class="page-link" href="<%= contextPath %>/searchreport.ad?cpage=<%= p %>"><%= p %></a>
+                            <a class="page-link" href="<%= contextPath %>/searchreport.ad?cpage=<%= pi.getCurrentPage()-1 %>">&lt;</a>
                         </li>
-                    <% } %>
-                    
-                    <% if(pi.getCurrentPage() != pi.getMaxPage() && pi.getMaxPage() != 0) { %>
+                        <% } %>
+                        
+                        <% for(int p=pi.getStartPage(); p<=pi.getEndPage(); p++) { %>
+                            <li class="page-item">
+                                <a class="page-link" href="<%= contextPath %>/searchreport.ad?cpage=<%= p %>"><%= p %></a>
+                            </li>
+                        <% } %>
+                        
+                        <% if(pi.getCurrentPage() != pi.getMaxPage() && pi.getMaxPage() != 0) { %>
+                            <li class="page-item">
+                                <a class="page-link" href="<%= contextPath %>/searchreport.ad?cpage=<%= pi.getCurrentPage()+1 %>">&gt;</a>
+                            </li>
+                        <% } %>
+                    </ul>
+                <% } else { %>
+                    <ul class="pagination">
+                        <% if(pi.getCurrentPage() != 1) { %>
                         <li class="page-item">
-                            <a class="page-link" href="<%= contextPath %>/searchreport.ad?cpage=<%= pi.getCurrentPage()+1 %>">&gt;</a>
+                            <a class="page-link" href="<%= contextPath %>/stylereport.ad?cpage=<%= pi.getCurrentPage()-1 %>">&lt;</a>
                         </li>
-                    <% } %>
-                </ul>
-            <% } else { %>
-                <ul class="pagination">
-                    <% if(pi.getCurrentPage() != 1) { %>
-                    <li class="page-item">
-                        <a class="page-link" href="<%= contextPath %>/stylereport.ad?cpage=<%= pi.getCurrentPage()-1 %>">&lt;</a>
-                    </li>
-                    <% } %>
-                    
-                    <% for(int p=pi.getStartPage(); p<=pi.getEndPage(); p++) { %>
-                        <li class="page-item">
-                            <a class="page-link" href="<%= contextPath %>/stylereport.ad?cpage=<%= p %>"><%= p %></a>
-                        </li>
-                    <% } %>
-                    
-                    <% if(pi.getCurrentPage() != pi.getMaxPage() && pi.getMaxPage() != 0) { %>
-                        <li class="page-item">
-                            <a class="page-link" href="<%= contextPath %>/stylereport.ad?cpage=<%= pi.getCurrentPage()+1 %>">&gt;</a>
-                        </li>
-                    <% } %>
-                </ul>
-            <% } %>
+                        <% } %>
+                        
+                        <% for(int p=pi.getStartPage(); p<=pi.getEndPage(); p++) { %>
+                            <li class="page-item">
+                                <a class="page-link" href="<%= contextPath %>/stylereport.ad?cpage=<%= p %>"><%= p %></a>
+                            </li>
+                        <% } %>
+                        
+                        <% if(pi.getCurrentPage() != pi.getMaxPage() && pi.getMaxPage() != 0) { %>
+                            <li class="page-item">
+                                <a class="page-link" href="<%= contextPath %>/stylereport.ad?cpage=<%= pi.getCurrentPage()+1 %>">&gt;</a>
+                            </li>
+                        <% } %>
+                    </ul>
+                <% } %>
+            </div>
             <br><br>
         </div>
     </div>

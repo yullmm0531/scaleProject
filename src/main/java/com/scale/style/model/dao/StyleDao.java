@@ -1322,6 +1322,30 @@ public class StyleDao {
 		return result;
 	}
 	
+	public int selectReportCountByOnlyStatus(Connection conn, int select) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectReportCountByOnlyStatus");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, select);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
 	public ArrayList<StyleReport> selectReportByNickname(Connection conn, PageInfo pi, String id){
 		ArrayList<StyleReport> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
@@ -1378,6 +1402,46 @@ public class StyleDao {
 			pstmt.setString(2, select);
 			pstmt.setInt(3, startRow);
 			pstmt.setInt(4, endRow);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				list.add(new StyleReport(rset.getInt("report_no"),
+									     rset.getInt("reported_user"),
+									     rset.getInt("reporting_user"),
+									     rset.getString("report_title"),
+									     rset.getString("report_content"),
+									     rset.getDate("report_date"),
+									     rset.getInt("style_no"),
+									     rset.getString("report_check"),
+									     rset.getString("reported_id"),
+									     rset.getString("reporting_id")
+									     ));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+	
+	public ArrayList<StyleReport> selectReportByOnlyStatus(Connection conn, PageInfo pi, int select){
+		ArrayList<StyleReport> list = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectReportByOnlyStatus");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			int startRow = (pi.getCurrentPage() - 1) * pi.getBoardLimit() + 1;
+			int endRow = startRow + pi.getBoardLimit() - 1;
+			
+			pstmt.setInt(1, select);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
 			rset = pstmt.executeQuery();
 			
 			while(rset.next()) {
