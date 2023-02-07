@@ -111,7 +111,11 @@
     		width:70px;
     		font-size:10px;
     	}
-        
+        .thumbnail-1{
+            display:inline-block;
+            margin:5px;
+        }
+
   </style>
 </head>
 <body>
@@ -135,7 +139,7 @@
             <div id="pheader-2">
             	
             	 <% for(Brand b : blist){ %>
-         		 <div class="thumbnail-1" style="float:left;">
+         		 <div class="thumbnail-1" >
          		 	<table>
          		 		<tr>
          		 		<td>
@@ -147,7 +151,6 @@
                         </td>
                      </table>
                  </div>
-                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                  <% } %>
                   
             </div>
@@ -156,7 +159,7 @@
       
 
         <div id="pcontent">
-            <div id="pcontent-1">
+            <div id="pcontent-1" style="margin-top:60px">
                  <span><h3>필터</h3></span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  
                  <div class="category-box">
                     <li class="cate" style="cursor:pointer">
