@@ -124,6 +124,7 @@
         height:100%;
         text-align:center;
         line-height:64px;
+        cursor:pointer;
     }
     #navi a:hover{
         color:rgb(80, 80, 80);
