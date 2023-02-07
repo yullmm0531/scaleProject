@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="com.scale.product.model.vo.*, java.util.ArrayList, com.scale.bidding.model.vo.Bidding, java.text.DecimalFormat" %>
+<%@ page import="com.scale.style.model.vo.*" %>
 <% 
 	Product p = (Product)request.getAttribute("p");
 	ArrayList<Bidding> dList = (ArrayList<Bidding>)request.getAttribute("dList");
@@ -9,6 +10,8 @@
 	ArrayList<Bidding> sList = (ArrayList<Bidding>)request.getAttribute("sList");
 	int likeCount = (int)request.getAttribute("likeCount");
 	int userLike = (int)request.getAttribute("userLike");
+	ArrayList<Style> st = (ArrayList<Style>)request.getAttribute("st");
+	ArrayList<StyleImg> iList = (ArrayList<StyleImg>)request.getAttribute("iList");
 	DecimalFormat formatter = new DecimalFormat("###,###");
 %> 
     
@@ -122,6 +125,9 @@
             height: 300px;
             
         }
+        #style-preview td{
+        	width: 300px;
+        }
         .carousel-control-prev-icon { 
             background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E"); 
         }
@@ -139,6 +145,9 @@
             text-overflow:ellipsis; 
             overflow:hidden;
             white-space:nowrap;
+        }
+        .noStyle{
+        	height: 300px
         }
         
     </style>
@@ -904,35 +913,51 @@
                         <tr>
                             <th colspan="4" style="font-size: 20px;">스타일</th>
                         </tr>
-                        <tr>
-                            <td><img src="<%= contextPath %>/resources/images/style/style_upfiles/1-1.jpg" alt=""></td>
-                            <td><img src="<%= contextPath %>/resources/images/style/style_upfiles/1-2.jpg" alt=""></td>
-                            <td><img src="<%= contextPath %>/resources/images/style/style_upfiles/17.jpg" alt=""></td>
-                            <td><img src="<%= contextPath %>/resources/images/style/style_upfiles/18.jpg" alt=""></td>
-                        </tr>
-                    </thead>
-                    
-                    <tbody>
-                        <tr>
-                            <th>user01</th>
-                            <th>user01</th>
-                            <th>user01</th>
-                            <th>user01</th>
-                        </tr>
-                        <tr>
-                            <td>#해쉬태그1 #해쉬태그2 #해쉬태그3</td>
-                            <td>#해쉬태그1 #해쉬태그2 #해쉬태그3</td>
-                            <td>#해쉬태그1 #해쉬태그2 #해쉬태그3</td>
-                            <td>#해쉬태그1 #해쉬태그2 #해쉬태그3</td>
-                        </tr>
-                    </tbody>
+                        <% if(st.size() != 0 && iList.size() != 0) { %>
+                        	<tr>
+                        	<% for(int i=0; i<iList.size(); i++) { %>
+                        		<td><img src="<%= contextPath %>/<%= iList.get(i).getFilePath() %>" alt=""></td>
+                        	<% } %>
+                        	<% for(int i=iList.size(); i<4; i++) { %>
+                        		<td></td>
+                        	<% } %>
+                        	</tr>
+                    	</thead>
+                    	<tbody>
+                        	<tr>
+                        	<% for(int i=0; i<st.size(); i++) { %>
+                        		<td><%= st.get(i).getUserId()  %></td>
+                        	<% } %>
+                        	<% for(int i=st.size(); i<4; i++) { %>
+                        		<td></td>
+                        	<% } %>
+                        	</tr>
+                        	<tr>
+                        	<% for(int i=0; i<st.size(); i++) { %>
+                        		<td><%= st.get(i).getHashtag() %></td>
+                        	<% } %>
+                        	<% for(int i=st.size(); i<4; i++) { %>
+                        		<td></td>
+                        	<% } %>
+                        	</tr>
+                        <% } else {%>
+                        	<tr class="noStyle" rowspan = "3">
+                        		<td colspan="4" align="center">작성된 스타일 게시글이 없습니다.</td>
+                        	</tr>
+                        <% } %>
+                   </tbody>
+                       
                 </table>
                 <br><br><br>
-                <div style="text-align: center;"><button type="button" class="btn btn-secondary btn-sm">더보기</button></div>
+                <div style="text-align: center;"><button type="button" class="btn btn-secondary btn-sm moreStyle">더보기</button></div>
             </div>
         </div>
 		<br><br>
     </div>
-    
+    <script>
+    	$(".moreStyle").click(function(){
+    		location.href = "<%= contextPath %>/stylelist.st?view=trending";
+    	})
+    </script>
 </body>
 </html>

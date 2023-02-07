@@ -15,6 +15,8 @@ import com.scale.bidding.model.vo.Bidding;
 import com.scale.product.model.service.ProductService;
 import com.scale.product.model.vo.Product;
 import com.scale.product.model.vo.ProductImg;
+import com.scale.style.model.vo.Style;
+import com.scale.style.model.vo.StyleImg;
 import com.scale.user.model.vo.User;
 
 /**
@@ -54,6 +56,20 @@ public class ProductDetailController extends HttpServlet {
 		int likeCount = new ProductService().selectCountLike(pCode);
 		int userLike = new ProductService().selectUserLike(userNo, pCode);
 		
+		// 상품 상세 아래에 띄울 스타일 4개 조회
+		ArrayList<Style> st = new ProductService().selectReviewStyle(pCode);
+		ArrayList<StyleImg> iList = new ArrayList<StyleImg> ();
+		if(st.size() < 4) {
+			for(int i=0; i<st.size(); i++) {
+				StyleImg si = new ProductService().selectReviewImg(st.get(i).getStyleNo());
+				iList.add(si);
+			}
+		} else {
+			for(int i=0; i<4; i++) {
+				StyleImg si = new ProductService().selectReviewImg(st.get(i).getStyleNo());
+				iList.add(si);
+			}
+		}
 		
 		if(p == null) {
 			session.setAttribute("alertMsg", "상품 상세조회에 실패했습니다.");
@@ -65,6 +81,8 @@ public class ProductDetailController extends HttpServlet {
 			request.setAttribute("sList", sList);
 			request.setAttribute("likeCount", likeCount);
 			request.setAttribute("userLike", userLike);
+			request.setAttribute("st", st);
+			request.setAttribute("iList", iList);
 			request.getRequestDispatcher("views/product/productDetailView.jsp").forward(request, response);
 		}
 		

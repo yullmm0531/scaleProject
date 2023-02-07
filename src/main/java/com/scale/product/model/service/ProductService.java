@@ -13,6 +13,8 @@ import com.scale.product.model.vo.Brand;
 import com.scale.product.model.vo.Like;
 import com.scale.product.model.vo.Product;
 import com.scale.product.model.vo.ProductImg;
+import com.scale.style.model.vo.Style;
+import com.scale.style.model.vo.StyleImg;
 
 
 public class ProductService {
@@ -173,6 +175,27 @@ public class ProductService {
 		close(conn);
 		
 		return userLike;
+	}
+	
+	public ArrayList<Style> selectReviewStyle(String pCode){
+		
+		Connection conn = getConnection();
+		ArrayList<Style> stList = new ProductDao().selectReviewStyle(conn, pCode);
+		
+		close(conn);
+		
+		return stList;
+	}
+	
+	
+	public StyleImg selectReviewImg(int styleNo) {
+		
+		Connection conn = getConnection();
+		StyleImg si = new ProductDao().selectReviewImg(conn, styleNo);
+		
+		close(conn);
+		
+		return si;
 	}
 	
 }

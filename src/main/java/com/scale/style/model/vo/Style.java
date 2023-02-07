@@ -38,6 +38,16 @@ public class Style {
 		this.rowNum = rowNum;
 		this.userNo = userNo;
 	}
+	
+	
+
+	public Style(int styleNo, String content, String hashtag, String userId) {
+		super();
+		this.styleNo = styleNo;
+		this.content = content;
+		this.hashtag = hashtag;
+		this.userId = userId;
+	}
 
 	public int getStyleNo() {
 		return styleNo;
