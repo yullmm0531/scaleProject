@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.scale.product.model.service.ProductService;
+import com.scale.product.model.vo.Like;
 import com.scale.product.model.vo.Product;
 
 /**
@@ -41,11 +42,12 @@ public class ProductFilterController extends HttpServlet {
 		String filter = request.getParameter("filter");
 		
 		ArrayList<Product> list = new ProductService().selectProductFilter(filter);
+		ArrayList<Like> likeList = new ProductService().clickLike();
 		
 		int[] clickLike = new int[list.size()];
 		for(int i=0; i<list.size(); i++) {
 			String productCode = list.get(i).getProductCode();
-			clickLike[i] = new ProductService().clickLike(productCode);
+			clickLike[i] = likeList.get(i).getCountLike();
 		}
 		
 		

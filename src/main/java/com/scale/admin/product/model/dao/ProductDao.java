@@ -187,7 +187,7 @@ public class ProductDao {
 		return result;
 	}
 	
-	
+	/*
 	public Product selectProductDetail(Connection conn, int productCode) {
 		Product p = null;
 		PreparedStatement pstmt = null;
@@ -236,6 +236,7 @@ public class ProductDao {
 			pstmt.setInt(1, productCode);
 			
 			rset = pstmt.executeQuery();
+			
 			/*
 			if(rset.next()) {
 				at = new ProductImg(rset.getInt("file_no"),

@@ -4,6 +4,7 @@
 <%
 	ArrayList<Product> list = (ArrayList<Product>)request.getAttribute("list");
 	ArrayList<Brand> blist = (ArrayList<Brand>)request.getAttribute("blist");
+	ArrayList<Like> likeList = (ArrayList<Like>)request.getAttribute("likeList");
 %>
 <!DOCTYPE html>
 <html>
@@ -105,6 +106,11 @@
         .product-name-ko, .product-name-eng{
     		width:170px;
     	}
+    	
+    	.brandN{
+    		width:70px;
+    		font-size:10px;
+    	}
         
   </style>
 </head>
@@ -130,10 +136,16 @@
             	
             	 <% for(Brand b : blist){ %>
          		 <div class="thumbnail-1" style="float:left;">
-         		 		
-                        <img src="<%= contextPath %>/<%= b.getBrandImg() %>" width="70" height="70">
-                        <p align="center" ><%= b.getBrandName() %></p>
-                      	
+         		 	<table>
+         		 		<tr>
+         		 		<td>
+                        	<img src="<%= contextPath %>/<%= b.getBrandImg() %>" width="70" height="70" style="box-sizing:border-box">
+                        </td>
+                      	</tr>
+                      	 <td>
+                        	 <div align="center" class="brandN" ><%= b.getBrandName() %></div>
+                        </td>
+                     </table>
                  </div>
                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                  <% } %>
@@ -177,18 +189,7 @@
                             <li><button>295</button><button>300</button></li>
                         </ul>
                     </li>
-                    <!-- 
-                    <li class="price" style="cursor:pointer">
-                        가격
-                        <ul class="sub3" style="display:none">
-                        	<li><input type="radio"  class="chk">전체</li>
-                            <li><input type="radio"  class="chk">10만원이하</li>
-                            <li><input type="radio"  class="chk">10만원~30만원이하</li>
-                            <li><input type="radio"  class="chk">30만원~50만원이하</li>
-                            <li><input type="radio"  class="chk">50만원이상</li>
-                        </ul>
-                    </li>
-                     -->
+                  
                 </div>
             </div>
             <div id="pcontent-2">
@@ -324,8 +325,6 @@
                                     	+ "<input type='hidden' class='productCode' value='" + list[i].productCode + "'>"
                                 			 + "<span>" + list[i].count + "</span>"
 
-
-
                                /* 
                            if(clickLike[i] == 0){
                                        
@@ -352,8 +351,6 @@
     		})
     	}
     	
-        
-	 
     <!-- Like -->
 
     	$(document).on("click", ".heart", function(){
@@ -393,84 +390,15 @@
     		location.href = "<%= contextPath %>/detail.pd?co=" + $(this).children().eq(0).val();
     	})
     	
-		
     	$(document).on("click", ".newest", function(){
         	location.href = "<%= contextPath %>/psort.pd" 
         })
     	
-    	
 	</script>
     
 	<!-- 클릭 -->    
+   
     <script>
-		// $(function(){
-			
-		// 	$(".btn btn-secondary").on('click', function(){
-		// 		$.ajax({
-		// 			url: "<%= contextPath%>/productList.pd",
-		// 			type:"post",
-		// 			data:{"cpage":cpage, "filter":filter
-		// 			},
-		// 			success : function(pl){
-	    // 				let list = pl.list;
-	    // 				let filter = pl.filter;
-	    // 				let value = "";
-	    				
-	    //                 for(let i =0; i<list.length; i++){
-	    //                     value = "<div class='plist'>"
-	    //                         		+"<ul class ='row'>"
-	    //                        			 +"<li class='cell'>"
-	    //                          		 +"<input type='hidden' value='"+ list[i].productCode +"'>"
-	                             		 
-	    //                          		for(let j=0; j<list.length; j++){{
-	    //     		    					switch(list[j].filter){
-	    //     		    					case "Shoes" : list[j].filter = "Shoes" ; break;
-	    //     		    					case "Wallet" : list[j].filter = "Wallet" ; break;
-	    //     		    					case "Tech" : list[j].filter = "Tech" ; break;
-	    //     	    					}
-	    //     	    				}
-	    //                            value += "<input type='hidden' value='"+ list[j].productCategory+"'>"
-	    //                             	 +"<div class='img-box'><img src='<%= contextPath %>/"+ list[i].productImgM +"'></div>"
-	                                   
-	    //                             	 + "<div class='brand-name'>" + list[i].brandName + "</div>"
-	    //                             	 +  "<div class='product-name-eng'>" + list[i].productNameEng + "</div>"
-	    //                             	 +  "<div class='product-name-ko'>" + list[i].productNameKo + "</div>"
-	                                 	
-	    //                                  + "<div class='like'>";
-	    //                        if(clickLike[i] == 0){
-	    //                                    value += "<a class='heart'>♡</a>"
-	    //                                 	+ "<input type='hidden' class='productCode' value='" + list[i].productCode + "'>"
-	    //                             			 + "<span>" + list[i].count + "</span>"
-	    //                               } else {
-	    //                                        value += "<a class='heart'>♥</a>"
-	    //                                     	   value +=  "<input type='hidden' class='productCode' value='" + list[i].productCode + "'>"
-	    //                                 			 + "<span>" + list[i].count + "</span>"
-	    //                               }     
-	                                           
-	    //                                + "</div>"
-		                                           
-		//                               +"</li>"
-		//                            + "</ul>"
-		//                        + "</div>";
-	    //                 	}
-	    //                     $("#plist").append(value);
-	    //                    }
-	    //                 },
-		// 			error : function(data){
-		// 				alert('error');
-		// 			}
-		// 		})
-		// 	})
-		// })
-    
-    </script>
-    
-    <script>
-                
-		$(function(){
-			$("#cell").click(function(){
-			location.href = "<%=contextPath%>/detail.pd?co=" + $(this).children('input').val();
-			})
 
             $(".topBtn").click(function(){
                 let filter = $(this).text();
@@ -479,7 +407,6 @@
                     case "지갑": filter = "Wallet"; break;
                     case "테크": filter = "Tech"; break;
                 }
-
                 $.ajax({
 					url: "<%= contextPath%>/filter.pd",
 					type:"post",
@@ -490,7 +417,6 @@
 	    				let filter = pl.filter;
 	    				let value = "";
                         let clickLike = pl.clickLike;
-	    				
 	    				
 	                    for(let i =0; i<list.length; i++){
 	                        value = "<div class='plist'>"
@@ -512,18 +438,21 @@
 	                                	 +  "<div class='product-name-eng'>" + list[i].productNameEng + "</div>"
 	                                	 +  "<div class='product-name-ko'>" + list[i].productNameKo + "</div>"
 	                                 	
-	                                     + "<div class='like'>";
-	                           if(clickLike[i] == 0){
-	                                       value += "<a class='heart'>♡</a>"
-	                                    	+ "<input type='hidden' class='productCode' value='" + list[i].productCode + "'>"
-	                                			 + "<span>" + list[i].count + "</span>"
-	                                  } else {
-	                                           value += "<a class='heart'>♥</a>"
-	                                        	   value +=  "<input type='hidden' class='productCode' value='" + list[i].productCode + "'>"
-	                                    			 + "<span>" + list[i].count + "</span>"
-	                                  }     
-	                                           
-	                                   + "</div>"
+	                                	 + "<div class='like'>";
+	                                     value += "<a class='heart'>♡</a>"
+	                                             	+ "<input type='hidden' class='productCode' value='" + list[i].productCode + "'>"
+	                                         			 + "<span>" + list[i].count + "</span>"
+
+	                                         		 /* 
+	             	                                 if(clickLike[i] == 0){
+	             	                                                
+	             	                                   } else {
+	             	                                 value += "<a class='heart'>♥</a>"
+	             	                                   value +=  "<input type='hidden' class='productCode' value='" + list[i].productCode + "'>"
+	             	                                          + "<span>" + list[i].count + "</span>"
+	             	                                           }     */
+	                                                   
+	                                     + "</div>"
 		                                           
 		                              +"</li>"
 		                           + "</ul>"

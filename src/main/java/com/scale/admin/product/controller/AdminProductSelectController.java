@@ -30,7 +30,7 @@ public class AdminProductSelectController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		/*
 		int productCode = Integer.parseInt(request.getParameter("code")); 
 		
 		ProductService pService = new ProductService();
@@ -50,6 +50,8 @@ public class AdminProductSelectController extends HttpServlet {
 			request.setAttribute("errorMsg", "상세조회 실패");
 			
 		}
+		
+		*/
 	}
 
 	/**

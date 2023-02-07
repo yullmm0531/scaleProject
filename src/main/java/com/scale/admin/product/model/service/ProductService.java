@@ -62,7 +62,7 @@ public class ProductService {
 		return result;
 	}
 	
-	
+	/*
 	public Product selectProductDetail(int productCode) {
 		Connection conn = getConnection();
 		Product p = new ProductDao().selectProductDetail(conn, productCode);
@@ -123,5 +123,5 @@ public class ProductService {
 		
 		return result1 * result2;
 	}
-	
+	*/
 }

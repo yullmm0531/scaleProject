@@ -4,8 +4,6 @@
 	String keyword = String.valueOf(request.getAttribute("keyword"));
 	ArrayList<Product> list = (ArrayList<Product>)request.getAttribute("list");
 	
-	String contextPath = request.getContextPath();
-    request.setCharacterEncoding("utf-8");
 %>
 <!DOCTYPE html>
 <html>
@@ -15,28 +13,36 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <style>
-       
-      
     </style>
 </head>
 <body>
     
-	
-	      <div class="header">
-	        <h4 class="title">상품검색</h4>
+		<%@ include file="../common/menubar.jsp" %> 
+		
+		<!-- Button to Open the Modal -->
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+		   검색
+		</button>
+		
+	      <!-- The Modal -->
+		<div class="modal" id="myModal">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+            
+            <!-- Modal Header -->
+	      <div class="modal-header">
+	        <h4 class="modal-title">상품검색</h4>
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	      </div>
             
-            
-     		 <div class="body">
-                <form action="" id="search-form">
+            <!-- Modal body -->
+     		 <div class="modal-body">
+                <form action="" id="search-form" action="<%=contextPath%>/psearch.pd">
                     <div id="search-text">
                         <input type="text" id="productInput" name="keyword" placeholder="상품명을 입력하세요" onkeyup="search(this);">
-                        
                     </div>
                     <div id="search-btn"><button>검색</button></div>
                     
-                    ArrayList<Product> list = null;
                     <% if(list.isEmpty()){ %>
                         <div id="nolsit">검색하신 결과가 없습니다.</div>
                     <%} else {%>
@@ -93,24 +99,21 @@
             <br><br>
            
         </div>
-    
-      <div class="footer">
+     <!-- Modal footer -->
+      <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
       </div>
       
     </div>
 </div>
     <script>
-            
-    </script>
+    	
     
-    <script>
+
+    
 	    $(document).on("click", "#productlist", function(){
 			location.href = "<%= contextPath %>/detail.pd?co=" + $(this).children().eq(0).val();
 		})
-		
     </script>
-   
-    
 </body>
-</html>
+</html>	
