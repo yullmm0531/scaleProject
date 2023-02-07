@@ -73,7 +73,7 @@
                     </tr>
                 </table>
                 <input type="hidden" name="noticeWriter" value="<%=adminUser.getUserNo()%>">
-                <button type="submit" class="btn btn-dark">등록</button>
+                <button type="submit" class="btn btn-dark" onclick="return validate();">등록</button>
             </form>
             <br><br>
         	</div>
@@ -97,6 +97,20 @@
     $(function() {
 	    $('#summernote').summernote();
 	});
+
+    function validate(){
+        if($("input[name=title]").val() == ""){
+            alert("제목을 입력하세요.");
+            $("input[name=title]").focus();
+            return false;
+        }
+
+        if($("textarea").val() == ""){
+            alert("내용을 입력하세요.");
+            $("textarea").focus();
+            return false;
+        }
+    }
 </script>
 
 </body>
