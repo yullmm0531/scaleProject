@@ -78,6 +78,8 @@
                             <th width="300px">제목</th>
                             <th width="20px">조회수</th>
                             <th width="60px">작성일</th>
+                            <th width="30px">작성자</th>
+                            <th width="20px">공개</th>
                         </tr>
                     </thead>
                         <% if(list.isEmpty()) { %>
@@ -93,6 +95,8 @@
                                     <td><%= n.getNoticeTitle() %></td>
                                     <td><%= n.getCount() %></td>
                                     <td><%= n.getCreateDate() %></td>
+                                    <td><%= n.getNoticeWriter() %></td>
+                                    <td><%= n.getDisplayStatus() %></td>
                                 </tr>
                             <% } %>
                         <% } %>

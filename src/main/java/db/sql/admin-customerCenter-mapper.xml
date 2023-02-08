@@ -245,6 +245,7 @@
                              , FAQ_ANSWER
                              , CATEGORY
                              , USER_NAME "FAQ_WRITER"
+                             , TO_CHAR(MODIFY_DATE, 'YYYY.MM.DD') "MODIFY_DATE"
 		                  FROM TB_FAQ T
 		                  JOIN TB_USER ON(FAQ_WRITER = USER_NO)
 		                 WHERE T.STATUS = 'Y'

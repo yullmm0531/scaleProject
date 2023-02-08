@@ -532,6 +532,7 @@ private Properties prop = new Properties();
 					list.add(new Faq(rset.getInt("faq_no"),
 									 rset.getString("faq_question"),
 									 rset.getString("faq_answer"),
+									 rset.getString("modify_date"),
 									 rset.getString("category"),
 									 rset.getString("faq_writer")
 							));

@@ -288,8 +288,8 @@
                             value += "<option value='common'>공통</option>";
                             value += "<option value='buy'>구매</option>";
                             value += "<option value='sell'>판매</option>";
-                            value += "</select><br><br><br>* 질문 : <br><input type='text' style='width:750px' name='question' value='" + list[i].faqQuestion + "' required><br><br>"        
-                            value += "* 답변 : <br><textarea name='answer' cols='115' rows='10' style='resize:none' required>" + list[i].faqAnswer  + "</textarea></div>";
+                            value += "</select><br><br><br>* 질문 : <br><input type='text' style='width:650px' name='question' value='" + list[i].faqQuestion + "' required><br><br>"        
+                            value += "* 답변 : <br><textarea name='answer' cols='90' rows='10' style='resize:none' required>" + list[i].faqAnswer  + "</textarea></div>";
                             value += "<input type='hidden' name='faqNo' value='" + list[i].faqNo + "'>";
                                 
                             // 모달 푸터
@@ -366,8 +366,8 @@
                         value += "<option value='common'>공통</option>";
                         value += "<option value='buy'>구매</option>";
                         value += "<option value='sell'>판매</option>";
-                        value += "</select><br><br><br>* 질문 : <br><input type='text' style='width:750px' name='question' value='" + list[j].faqQuestion + "' required><br><br>"        
-                        value += "* 답변 : <br><textarea name='answer' cols='115' rows='10' style='resize:none' required>" + list[j].faqAnswer  + "</textarea></div>";
+                        value += "</select><br><br><br>* 질문 : <br><input type='text' style='width:650px' name='question' value='" + list[j].faqQuestion + "' required><br><br>"        
+                        value += "* 답변 : <br><textarea name='answer' cols='90' rows='10' style='resize:none' required>" + list[j].faqAnswer  + "</textarea></div>";
                         value += "<input type='hidden' name='faqNo' value='" + list[j].faqNo + "'>";
                             
                         // 모달 푸터
@@ -456,8 +456,8 @@
                             value += "<option value='common'>공통</option>";
                             value += "<option value='buy'>구매</option>";
                             value += "<option value='sell'>판매</option>";
-                            value += "</select><br><br><br>* 질문 : <br><input type='text' style='width:750px' name='question' value='" + searchList[i].faqQuestion + "' required><br><br>"        
-                            value += "* 답변 : <br><textarea name='answer' cols='115' rows='10' style='resize:none' required>" + searchList[i].faqAnswer  + "</textarea></div>";
+                            value += "</select><br><br><br>* 질문 : <br><input type='text' style='width:650px' name='question' value='" + searchList[i].faqQuestion + "' required><br><br>"        
+                            value += "* 답변 : <br><textarea name='answer' cols='90' rows='10' style='resize:none' required>" + searchList[i].faqAnswer  + "</textarea></div>";
                             value += "<input type='hidden' name='faqNo' value='" + searchList[i].faqNo + "'>";
                                 
                             // 모달 푸터
@@ -543,8 +543,8 @@
                             value += "<option value='common'>공통</option>";
                             value += "<option value='buy'>구매</option>";
                             value += "<option value='sell'>판매</option>";
-                            value += "</select><br><br><br>* 질문 : <br><input type='text' style='width:750px' name='question' value='" + searchList[j].faqQuestion + "' required><br><br>"        
-                            value += "* 답변 : <br><textarea name='answer' cols='115' rows='10' style='resize:none' required>" + searchList[j].faqAnswer  + "</textarea></div>";
+                            value += "</select><br><br><br>* 질문 : <br><input type='text' style='width:650px' name='question' value='" + searchList[j].faqQuestion + "' required><br><br>"        
+                            value += "* 답변 : <br><textarea name='answer' cols='90' rows='10' style='resize:none' required>" + searchList[j].faqAnswer  + "</textarea></div>";
                             value += "<input type='hidden' name='faqNo' value='" + searchList[j].faqNo + "'>";
                                 
                             // 모달 푸터

@@ -53,7 +53,7 @@
         <br><br><br>        
         
             <div class="title">
-                <h2><b>거래 리스트</b></h2>
+                <h2><b>입찰 리스트</b></h2>
                 <br>
             </div>
             <div class="outer-2">

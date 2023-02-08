@@ -75,6 +75,7 @@ public class Faq {
 		this.category = category;
 		this.faqWriter = faqWriter;
 	}
+	
 
 	public int getFaqNo() {
 		return faqNo;

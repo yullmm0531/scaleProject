@@ -52,7 +52,7 @@
         <br><br><br>        
         
             <div class="title">
-                <h2><b>거래 리스트</b></h2>
+                <h2><b>입찰 리스트</b></h2>
                 <br>
             </div>
             <div class="outer-2">
@@ -159,11 +159,11 @@
             return num.toLocaleString('ko-KR');
         }	
         
-        $(function(){
-            $(".rowNum").click(function(){
-                location.href = "<%=contextPath%>/detail.th?no=" + $(this).children('input').val();
-            })
-        })
+        // $(function(){
+        //     $(".rowNum").click(function(){
+        //         location.href = "<%=contextPath%>/detail.th?no=" + $(this).children('input').val();
+        //     })
+        // })
 
         
     </script>
