@@ -15,6 +15,10 @@
     - [판매 - 사이즈 선택](#pushpin-판매-사이즈선택)
     - [판매가 설정](#pushpin-판매가-설정)
     - [계좌 설정](#pushpin-계좌-설정)
+    - [판매](#pushpin-계좌-설정)
+    - [관리자:입찰리스트](#pushpin-관리자:입찰리스트)
+    - [관리자:거래리스트](#pushpin-관리자:거래리스트)
+    - [shop차단](#pushpin-shop차단)
 
 4. [Document](#star-document)
 
@@ -73,7 +77,7 @@
 - 구현 기능 설명
    - 판매입찰가가 있는 사이즈를 선택한 경우 즉시 구매가 확인
    - 구매 입찰을 눌러 입찰가 설정 가능
-   - 입력학 구매 입찰가가 즉시 구매가보다 높다면 자동으로 즉시 구매로 이동
+   - 입력한 구매 입찰가가 즉시 구매가보다 높다면 자동으로 즉시 구매로 이동
    - 판매 입찰이 없는 사이즈를 선택한 경우 구매 입찰만 가능(즉시 구매 불가능)
  <br><br>
   
@@ -105,20 +109,73 @@
 <br><br>
   
 ### :pushpin: 판매 사이즈선택
+![판매사이즈선택](https://user-images.githubusercontent.com/115603858/222155047-4643ff68-329b-47b3-8960-a7e30480ebd6.gif)
+- 구현 기능 설명
+   - 판매하기 클릭 시 사이즈별 구매 입찰가의 최대가 확인 가능
+   - 구매 입찰이 없는 사이즈의 경우 판매 입찰 표시
+<br><br>
 
-  
 ### :pushpin: 판매가 설정
-
+![판매가설정](https://user-images.githubusercontent.com/115603858/222155900-cb5b8e4d-00d8-4048-a0be-1aff77f96a5c.gif)
+- 구현 기능 설명
+   - 구매 입찰가가 있는 사이즈를 선택한 경우 즉시 판매가 확인
+   - 판매 입찰을 눌러 입찰가 설정 가능
+   - 입력한 판매 입찰가가 즉시 판매가보다 낮다면 자동으로 즉시 판매로 이동
+   - 구매 입찰이 없는 사이즈를 선택한 경우 판매 입찰만 가능(즉시 판매 불가능)
+ <br><br>
   
 ### :pushpin: 계좌 설정
+![계좌정보설정](https://user-images.githubusercontent.com/115603858/222156892-975736bc-230a-47fc-a32b-b12af686390e.gif)
+- 구현 기능 설명
+   - 변경 클릭 시 기존 정보 조회 가능
+   - 예금주가 회원의 이름과 일치하지 않는 경우 등록 불가능
+   - 변경 클릭 시 ajax를 사용하여 DB에 update 후 주문서에 해당 정보를 불러오는 기능 구현 
+ <br><br>
 
+### :pushpin: 판매
+![판매](https://user-images.githubusercontent.com/115603858/222161374-bae47f24-b370-4e8f-bf46-eb5b676a8edd.gif)
+- 구현 기능 설명
+   - 모든 판매 약관 동의 시 다음단계로 진행 가능
+   - 판매유형에 따라 즉시판매|판매입찰 성공 페이지로 이동
+
+#### 📍 즉시 판매 성공
+<img width="1113" alt="즉시판매성공" src="https://user-images.githubusercontent.com/115603858/222162136-94aef4ab-064d-4b10-bd8f-31e7ab9822d6.png"><br>
+- 체결 거래 목록에서 확인 가능
+<br><br>
+
+### :pushpin: 관리자:입찰리스트
+![입찰리스트](https://user-images.githubusercontent.com/115603858/222166544-7fd3d521-6817-4bc8-82e7-3e18c3a886af.gif)
+- 구현 기능 설명
+   - 입찰번호, 상품번호, 상품명, 사이즈, 입찰종류, 아이디, 입찰금액, 입찰일시, 입찰상태 조회
+   - 입찰 유형에 따라 버튼 눌러서 조회 가능
+   - 페이징 처리
+<br><br>
+
+### :pushpin: 관리자:거래리스트
+![거래리스트](https://user-images.githubusercontent.com/115603858/222168729-568743f6-ad4b-4fd7-a6bf-c85a45a0cfee.gif)
+- 구현 기능 설명
+   - 입찰번호, 상품번호, 상품명, 판매자, 구매자, 입고완료일, 검수완료일, 출고일, 진행상태 조회
+   - 변경 버튼 눌러서 진행상태 변경 가능
+   - 입고완료 | 검수완료 or 검수미통과 | 출고완료 로 상태 변경시 ajax를 사용하여 해당 날짜 업데이트 후 리스트에서 확인 가능
+<br><br>
+
+### :pushpin: shop차단
+![shop차단](https://user-images.githubusercontent.com/115603858/222170541-d3a4dab9-540f-4a28-88c1-41655d9a6cc9.gif)
+- 구현 기능 설명
+   - 관리자 페이지에서 판매자의 검수미통과가 세번 되는 순간 트리거를 이용해 해당 회원 shop 차단 기능 구현
+<br><br>
 
 ***
 # :star: Document
 
-## 개발 일정 <br><br>
+## 개발 일정 <br>
+<img width="1519" alt="scale일정" src="https://user-images.githubusercontent.com/115603858/222172225-fb978526-b900-47b5-9c14-766c87c00b10.png">
+<br>
 
+## 유스케이스 <br>
+![use_case](https://user-images.githubusercontent.com/115603858/222172313-c7e3f1ed-f061-4595-a0a1-f9c745f5fafb.jpg)
+<br>
 
-## 유스케이스 <br><br>
-
-## DB 설계 <br><br>
+## DB 설계 <br>
+<img width="1436" alt="scaleDB" src="https://user-images.githubusercontent.com/115603858/222171803-047a9066-7e0b-43b2-9aba-f943b4fd83cd.png">
+<br>
